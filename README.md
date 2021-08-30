@@ -1,4 +1,12 @@
 # ShapeInversion
+
+## Modified Version of Code (Please see description below.)
+Nanyang Technological University Final Year Project: SCSE21-0204.
+Title (Tentative): Multiclass Integration into ShapeInversion Multimodal Framework.
+Student: Lee Wei Zheng Benedict
+Supervisor: Associate Professor Chen Change Loy
+Co-supervisor: Mr. Zhang Junzhe
+
 ## Paper
 Junzhe Zhang, Xinyi Chen, Zhongang Cai, Liang Pan, Haiyu Zhao, Shuai Yi, Chai Kiat Yeo, Bo Dai, Chen Change Loy "Unsupervised 3D Shape Completion through GAN Inversion" CVPR 2021
 * Project page: [link](https://junzhezhang.github.io/projects/ShapeInversion/)
