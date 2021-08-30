@@ -1,0 +1,75 @@
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_benchmark]$ python main.py --mode 1 --model_name pcn --load_mode
+l /mnt/lustre/zhangjunzhe/pcd_lib/pcd_benchmark/pretrained_models/pcn/best_cd_t_network.pth
+Input_size:  torch.Size([20, 8192, 3])
+Runtime: 0.532037s
+EMD: 0.046393
+|set(assignment)|: 8192
+Verified EMD: 0.046393
+Jitting Chamfer 3D
+/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/utils/cpp_extension.py:171: Us
+erWarning:
+
+                               !! WARNING !!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Your compiler (c++) is not compatible with the compiler Pytorch was
+built with for this platform, which is g++ on linux. Please
+use g++ to to compile your extension. Alternatively, you may
+compile PyTorch from source using c++, and then you can also use
+c++ to compile your extension.
+
+See https://github.com/pytorch/pytorch/blob/master/CONTRIBUTING.md for help
+with compiling PyTorch from source.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+                              !! WARNING !!
+
+  platform=sys.platform))
+Loaded JIT 3D CUDA chamfer distance
+best_emd_network.pth
+pcn's weight loaded.
+Testing...
+test [0/150]
+test [100/150]
+CD_p: 98.234749, CD_t: 3.451164, EMD: 401.570129 F1: 0.969549
+CD_p: 196.084824, CD_t: 11.316511, EMD: 918.158386 F1: 0.878573
+CD_p: 154.452148, CD_t: 6.361337, EMD: 374.329498 F1: 0.949836
+CD_p: 188.225571, CD_t: 11.024692, EMD: 790.571655 F1: 0.876372
+CD_p: 184.362061, CD_t: 11.573079, EMD: 1657.726318 F1: 0.861837
+CD_p: 200.612152, CD_t: 11.521388, EMD: 644.697083 F1: 0.871565
+CD_p: 171.024506, CD_t: 10.374714, EMD: 661.160950 F1: 0.905404
+CD_p: 152.560226, CD_t: 7.413433, EMD: 522.905823 F1: 0.927318
+Overview results:
+CD_p: 0.016819, CD_t: 0.000913, EMD: 0.074639 F1: 0.905057
+best_cd_p_network.pth
+pcn's weight loaded.
+Testing...
+test [0/150]
+test [100/150]
+CD_p: 98.234749, CD_t: 3.451164, EMD: 401.583984 F1: 0.969549
+CD_p: 196.084824, CD_t: 11.316511, EMD: 918.505615 F1: 0.878573
+CD_p: 154.452148, CD_t: 6.361337, EMD: 374.368256 F1: 0.949836
+CD_p: 188.225571, CD_t: 11.024692, EMD: 790.382690 F1: 0.876372
+CD_p: 184.362061, CD_t: 11.573079, EMD: 1657.517700 F1: 0.861837
+CD_p: 200.612152, CD_t: 11.521388, EMD: 644.641418 F1: 0.871565
+CD_p: 171.024506, CD_t: 10.374714, EMD: 661.156128 F1: 0.905404
+CD_p: 152.560226, CD_t: 7.413433, EMD: 523.123047 F1: 0.927318
+Overview results:
+CD_p: 0.016819, CD_t: 0.000913, EMD: 0.074641 F1: 0.905057
+best_cd_t_network.pth
+pcn's weight loaded.
+Testing...
+test [0/150]
+test [100/150]
+CD_p: 98.234749, CD_t: 3.451164, EMD: 401.535339 F1: 0.969549
+CD_p: 196.084824, CD_t: 11.316511, EMD: 918.302734 F1: 0.878573
+CD_p: 154.452148, CD_t: 6.361337, EMD: 374.359253 F1: 0.949836
+CD_p: 188.225571, CD_t: 11.024692, EMD: 790.503967 F1: 0.876372
+CD_p: 184.362061, CD_t: 11.573079, EMD: 1657.398804 F1: 0.861837
+CD_p: 200.612152, CD_t: 11.521388, EMD: 644.599060 F1: 0.871565
+CD_p: 171.024506, CD_t: 10.374714, EMD: 661.129272 F1: 0.905404
+CD_p: 152.560226, CD_t: 7.413433, EMD: 523.039612 F1: 0.927318
+Overview results:
+CD_p: 0.016819, CD_t: 0.000913, EMD: 0.074636 F1: 0.905057
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_benchmark]$
+

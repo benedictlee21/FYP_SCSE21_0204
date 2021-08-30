@@ -1,0 +1,881 @@
+[zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ tmux ;s
+sessions should be nested with care, unset $TMUX to force
+-bash: s: 未找到命令
+[zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda env list
+# conda environments:
+#
+base                  *  /mnt/lustre/zhangjunzhe/anaconda3
+20jul                    /mnt/lustre/zhangjunzhe/anaconda3/envs/20jul
+McDALF                   /mnt/lustre/zhangjunzhe/anaconda3/envs/McDALF
+PointFlow                /mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow
+jul                      /mnt/lustre/zhangjunzhe/anaconda3/envs/jul
+mt                       /mnt/lustre/zhangjunzhe/anaconda3/envs/mt
+mt2                      /mnt/lustre/zhangjunzhe/anaconda3/envs/mt2
+pc                       /mnt/lustre/zhangjunzhe/anaconda3/envs/pc
+pcd                      /mnt/lustre/zhangjunzhe/anaconda3/envs/pcd
+
+[zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda create -n msn python==3.7
+Collecting package metadata (current_repodata.json): done
+Solving environment: failed with current_repodata.json, will retry with next repodata source.
+Collecting package metadata (repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 4.7.10
+  latest version: 4.8.3
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: /mnt/lustre/zhangjunzhe/anaconda3/envs/msn
+
+  added / updated specs:
+    - python==3.7
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    ca-certificates-2020.6.24  |                0         125 KB
+    certifi-2020.6.20          |           py37_0         156 KB
+    libstdcxx-ng-9.1.0         |       hdf63c60_0         3.1 MB
+    ------------------------------------------------------------
+                                           Total:         3.4 MB
+
+The following NEW packages will be INSTALLED:
+
+  _libgcc_mutex      pkgs/main/linux-64::_libgcc_mutex-0.1-main
+  ca-certificates    pkgs/main/linux-64::ca-certificates-2020.6.24-0
+  certifi            pkgs/main/linux-64::certifi-2020.6.20-py37_0
+  libedit            pkgs/main/linux-64::libedit-3.1.20191231-h14c3975_1
+  libffi             pkgs/main/linux-64::libffi-3.2.1-hd88cf55_4
+  libgcc-ng          pkgs/main/linux-64::libgcc-ng-9.1.0-hdf63c60_0
+  libstdcxx-ng       pkgs/main/linux-64::libstdcxx-ng-9.1.0-hdf63c60_0
+  ncurses            pkgs/main/linux-64::ncurses-6.2-he6710b0_1
+  openssl            pkgs/main/linux-64::openssl-1.0.2u-h7b6447c_0
+  pip                pkgs/main/linux-64::pip-20.1.1-py37_1
+  python             pkgs/main/linux-64::python-3.7.0-h6e4f718_3
+  readline           pkgs/main/linux-64::readline-7.0-h7b6447c_5
+  setuptools         pkgs/main/linux-64::setuptools-49.2.0-py37_0
+  sqlite             pkgs/main/linux-64::sqlite-3.32.3-h62c20be_0
+  tk                 pkgs/main/linux-64::tk-8.6.10-hbc83047_0
+  wheel              pkgs/main/linux-64::wheel-0.34.2-py37_0
+  xz                 pkgs/main/linux-64::xz-5.2.5-h7b6447c_0
+  zlib               pkgs/main/linux-64::zlib-1.2.11-h7b6447c_3
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages
+ca-certificates-2020 | 125 KB    | ###########################################################################################################################################
+############################ | 100%
+certifi-2020.6.20    | 156 KB    | ###########################################################################################################################################
+############################ | 100%
+libstdcxx-ng-9.1.0   | 3.1 MB    | ###########################################################################################################################################
+############################ | 100%
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+#
+# To activate this environment, use
+#
+#     $ conda activate msn
+#
+# To deactivate an active environment, use
+#
+#     $ conda deactivate
+
+[zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda export
+
+CommandNotFoundError: No command 'conda export'.
+
+[zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ env export
+env: export: No such file or directory
+[zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda env export
+
+CondaEnvException: Unable to determine environment
+
+Please re-run this command with one of the following options:
+
+* Provide an environment name via --name or -n
+* Re-run this command inside an activated conda environment.
+
+[zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda activate msn
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda env export
+name: msn
+channels:
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - ca-certificates=2020.6.24=0
+  - certifi=2020.6.20=py37_0
+  - libedit=3.1.20191231=h14c3975_1
+  - libffi=3.2.1=hd88cf55_4
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - ncurses=6.2=he6710b0_1
+  - openssl=1.0.2u=h7b6447c_0
+  - pip=20.1.1=py37_1
+  - python=3.7.0=h6e4f718_3
+  - readline=7.0=h7b6447c_5
+  - setuptools=49.2.0=py37_0
+  - sqlite=3.32.3=h62c20be_0
+  - tk=8.6.10=hbc83047_0
+  - wheel=0.34.2=py37_0
+  - xz=5.2.5=h7b6447c_0
+  - zlib=1.2.11=h7b6447c_3
+prefix: /mnt/lustre/zhangjunzhe/anaconda3/envs/msn
+
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ pip install torch==1.2.0 torchvision==0.4.0
+Collecting torch==1.2.0
+  Using cached torch-1.2.0-cp37-cp37m-manylinux1_x86_64.whl (748.9 MB)
+Collecting torchvision==0.4.0
+  Using cached torchvision-0.4.0-cp37-cp37m-manylinux1_x86_64.whl (8.8 MB)
+Collecting numpy
+  Downloading numpy-1.19.1-cp37-cp37m-manylinux2010_x86_64.whl (14.5 MB)
+     |████████████████████████████████| 14.5 MB 7.4 MB/s
+Collecting pillow>=4.1.1
+  Using cached Pillow-7.2.0-cp37-cp37m-manylinux1_x86_64.whl (2.2 MB)
+Collecting six
+  Using cached six-1.15.0-py2.py3-none-any.whl (10 kB)
+ERROR: visdom 0.1.8.9 requires pyzmq, which is not installed.
+ERROR: visdom 0.1.8.9 requires requests, which is not installed.
+ERROR: visdom 0.1.8.9 requires scipy, which is not installed.
+ERROR: visdom 0.1.8.9 requires tornado, which is not installed.
+Installing collected packages: numpy, torch, pillow, six, torchvision
+Successfully installed numpy-1.19.1 pillow-7.2.0 six-1.15.0 torch-1.2.0 torchvision-0.4.0
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda install -c psi4 gcc-5
+Collecting package metadata (current_repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 4.7.10
+  latest version: 4.8.3
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: /mnt/lustre/zhangjunzhe/anaconda3/envs/msn
+
+  added / updated specs:
+    - gcc-5
+
+
+The following NEW packages will be INSTALLED:
+
+  cloog              pkgs/main/linux-64::cloog-0.18.0-0
+  gcc-5              psi4/linux-64::gcc-5-5.2.0-1
+  gmp                pkgs/main/linux-64::gmp-6.1.2-h6c8ec71_1
+  isl                pkgs/main/linux-64::isl-0.12.2-0
+  mpc                pkgs/main/linux-64::mpc-1.1.0-h10f8cd9_1
+  mpfr               pkgs/main/linux-64::mpfr-4.0.2-hb69a4c5_1
+
+
+Proceed ([y]/n)? y
+
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda install -c anaconda libgcc
+Collecting package metadata (current_repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 4.7.10
+  latest version: 4.8.3
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: /mnt/lustre/zhangjunzhe/anaconda3/envs/msn
+
+  added / updated specs:
+    - libgcc
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    ca-certificates-2020.6.24  |                0         133 KB  anaconda
+    certifi-2020.6.20          |           py37_0         159 KB  anaconda
+    openssl-1.0.2u             |       h7b6447c_0         3.1 MB  anaconda
+    ------------------------------------------------------------
+                                           Total:         3.4 MB
+
+The following NEW packages will be INSTALLED:
+
+  libgcc             anaconda/linux-64::libgcc-7.2.0-h69d50b8_2
+
+The following packages will be SUPERSEDED by a higher-priority channel:
+
+  ca-certificates                                 pkgs/main --> anaconda
+  certifi                                         pkgs/main --> anaconda
+  openssl                                         pkgs/main --> anaconda
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages
+openssl-1.0.2u       | 3.1 MB    | ###########################################################################################################################################
+############################ | 100%
+certifi-2020.6.20    | 159 KB    | ###########################################################################################################################################
+############################ | 100%
+ca-certificates-2020 | 133 KB    | ###########################################################################################################################################
+############################ | 100%
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ conda install -c anaconda libstdcxx-ng
+Collecting package metadata (current_repodata.json): done
+Solving environment: done
+
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 4.7.10
+  latest version: 4.8.3
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+
+## Package Plan ##
+
+  environment location: /mnt/lustre/zhangjunzhe/anaconda3/envs/msn
+
+  added / updated specs:
+    - libstdcxx-ng
+
+
+The following packages will be downloaded:
+
+    package                    |            build
+    ---------------------------|-----------------
+    libstdcxx-ng-9.1.0         |       hdf63c60_0         4.0 MB  anaconda
+    ------------------------------------------------------------
+                                           Total:         4.0 MB
+
+The following packages will be SUPERSEDED by a higher-priority channel:
+
+  libstdcxx-ng                                    pkgs/main --> anaconda
+
+
+Proceed ([y]/n)? y
+
+
+Downloading and Extracting Packages
+libstdcxx-ng-9.1.0   | 4.0 MB    | ###########################################################################################################################################
+############################ | 100%
+Preparing transaction: done
+Verifying transaction: done
+Executing transaction: done
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ export PATH=/mnt/lustre/share/cuda-10.0/bin:$PATH
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ export LD_LIBRARY_PATH=/mnt/lustre/share/cuda-10.0/lib64:$LD_LIBRARY_PATH
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ export PATH=/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/bin:$PATH
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ export LD_LIBRARY_PATH=/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib:$LD_LIBRARY_PATH
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ ls ~/.local/lib/python3.7/site-packages
+__pycache__       jsonpatch-1.26.dist-info  jsonpointer-2.0.dist-info  plyfile-0.7.2.dist-info  torchfile-0.1.0.dist-info  visdom                    websocket
+easy-install.pth  jsonpatch.py              jsonpointer.py             plyfile.py               torchfile.py               visdom-0.1.8.9.dist-info  websocket_client-0.57.0.d
+ist-info
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ ls
+ActivityNet  McDALF  PointFlow  SinGAN  TreeGAN  anaconda3  cmr  cuda_extension  dgp  example.py  inc.cu  messytable  mmdetection  pcd_lib  pf_net  pointcloud_binarization  t
+emp  temp_cd  tmux_log  tools
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ cd pcd_lib/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  data                    dgp.py       gi_train.py          loss.py     notes.txt        results       saved_samples
+train.py            utils
+LICENSE                 __pycache__   chamfer        dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  plots            run.sh        scripts
+train_cgan.py
+PyTorchEMD              arguments.py  cus_loses.tar  datasets.py             evaluation   layers               model       remove_files.py  saved_models  test_input_data.py
+train_cgan_copy.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls PyTorchEMD/
+README.md  __init__.py  __pycache__  build  cuda  dist  emd.py  emd_ext.egg-info  setup.py  test_emd_loss.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ vi test_input_data.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  data                    dgp.py       gi_train.py          loss.py     notes.txt        results       saved_samples
+train.py            utils
+LICENSE                 __pycache__   chamfer        dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  plots            run.sh        scripts
+train_cgan.py
+PyTorchEMD              arguments.py  cus_loses.tar  datasets.py             evaluation   layers               model       remove_files.py  saved_models  test_input_data.py
+train_cgan_copy.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  data                    dgp.py       gi_train.py          loss.py     notes.txt        results       saved_samples
+train.py            utils
+LICENSE                 __pycache__   chamfer        dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  plots            run.sh        scripts
+train_cgan.py
+PyTorchEMD              arguments.py  cus_loses.tar  datasets.py             evaluation   layers               model       remove_files.py  saved_models  test_input_data.py
+train_cgan_copy.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ rm *.tar
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  plots            run.sh         scripts
+ train_cgan.py
+LICENSE                 __pycache__   chamfer        datasets.py             evaluation   layers               model       remove_files.py  saved_models   test_input_data.py
+ train_cgan_copy.py
+PyTorchEMD              arguments.py  data           dgp.py                  gi_train.py  loss.py              notes.txt   results          saved_samples  train.py
+ utils
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ cd chamfer/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ ls
+build  chamfer.cu  chamfer.egg-info  chamfer_cuda.cpp  dist  dist_chamfer.py  setup.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ rm -r build/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ rm chamfer.egg-info/
+rm: cannot remove 'chamfer.egg-info/': Is a directory
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ rm -r chamfer.egg-info/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ rm -r dist
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ ls
+chamfer.cu  chamfer_cuda.cpp  dist_chamfer.py  setup.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ python setup.py install
+running install
+running bdist_egg
+running egg_info
+creating chamfer.egg-info
+writing chamfer.egg-info/PKG-INFO
+writing dependency_links to chamfer.egg-info/dependency_links.txt
+writing top-level names to chamfer.egg-info/top_level.txt
+writing manifest file 'chamfer.egg-info/SOURCES.txt'
+reading manifest file 'chamfer.egg-info/SOURCES.txt'
+writing manifest file 'chamfer.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_ext
+building 'chamfer' extension
+creating build
+creating build/temp.linux-x86_64-3.7
+gcc -pthread -B /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/mnt/lustr
+e/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/torch/csrc/a
+pi/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/TH -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/
+torch/include/THC -I/mnt/lustre/share/cuda-10.0/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/include/python3.7m -c chamfer_cuda.cpp -o build/temp.linux-x86_64-3.7/cha
+mfer_cuda.o -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=chamfer -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++11
+cc1plus: ??:command line option '-Wstrict-prototypes' is valid for C/ObjC but not for C++
+In file included from chamfer_cuda.cpp:1:0:
+/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/torch/csrc/api/include/torch/torch.h:11:4: ??:#warning "Including torch/torch.h for C++ e
+xtensions is deprecated. Please include torch/extension.h" [-Wcpp]
+ #  warning "Including torch/torch.h for C++ extensions is deprecated. Please include torch/extension.h"
+    ^
+/mnt/lustre/share/cuda-10.0/bin/nvcc -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/p
+ython3.7/site-packages/torch/include/torch/csrc/api/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/TH -I/mnt/lustre/zhangjunzh
+e/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/THC -I/mnt/lustre/share/cuda-10.0/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/include/python3.7m -c ch
+amfer.cu -o build/temp.linux-x86_64-3.7/chamfer.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compile
+r-options '-fPIC' -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=chamfer -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++11
+<built-in>(1): warning: support for trigraphs is disabled
+
+<built-in>(1): warning: support for trigraphs is disabled
+
+creating build/lib.linux-x86_64-3.7
+g++ -pthread -shared -B /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/compiler_compat -L/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib -Wl,-rpath=/mnt/lustre/zhangjunzhe/anacond
+a3/envs/msn/lib -Wl,--no-as-needed -Wl,--sysroot=/ build/temp.linux-x86_64-3.7/chamfer_cuda.o build/temp.linux-x86_64-3.7/chamfer.o -L/mnt/lustre/share/cuda-10.0/lib64 -lcuda
+rt -o build/lib.linux-x86_64-3.7/chamfer.cpython-37m-x86_64-linux-gnu.so
+creating build/bdist.linux-x86_64
+creating build/bdist.linux-x86_64/egg
+copying build/lib.linux-x86_64-3.7/chamfer.cpython-37m-x86_64-linux-gnu.so -> build/bdist.linux-x86_64/egg
+creating stub loader for chamfer.cpython-37m-x86_64-linux-gnu.so
+byte-compiling build/bdist.linux-x86_64/egg/chamfer.py to chamfer.cpython-37.pyc
+creating build/bdist.linux-x86_64/egg/EGG-INFO
+copying chamfer.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying chamfer.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying chamfer.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying chamfer.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+writing build/bdist.linux-x86_64/egg/EGG-INFO/native_libs.txt
+zip_safe flag not set; analyzing archive contents...
+__pycache__.chamfer.cpython-37: module references __file__
+creating dist
+creating 'dist/chamfer-0.0.0-py3.7-linux-x86_64.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing chamfer-0.0.0-py3.7-linux-x86_64.egg
+creating /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/chamfer-0.0.0-py3.7-linux-x86_64.egg
+Extracting chamfer-0.0.0-py3.7-linux-x86_64.egg to /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages
+Adding chamfer 0.0.0 to easy-install.pth file
+
+Installed /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/chamfer-0.0.0-py3.7-linux-x86_64.egg
+Processing dependencies for chamfer==0.0.0
+Finished processing dependencies for chamfer==0.0.0
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ ls
+build  chamfer.cu  chamfer.egg-info  chamfer_cuda.cpp  dist  dist_chamfer.py  setup.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ cd ..
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ cd dist_c
+-bash: cd: dist_c: 没有那个文件或目录
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ cd chamfer/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ ls
+build  chamfer.cu  chamfer.egg-info  chamfer_cuda.cpp  dist  dist_chamfer.py  setup.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ vi dist_chamfer.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ python dist_chamfer.py
+dist_chamfer.py:7: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated, and in 3.8 it will stop working
+  from collections import Set, Mapping, deque
+Input_size:  torch.Size([20, 8192, 3])
+Runtime: 0.092876s
+shape of dist1 and dist2 torch.Size([20, 8192]) torch.Size([20, 8192])
+torch.Size([20])
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 chamfer]$ cd ..
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  plots            run.sh         scripts
+ train_cgan.py
+LICENSE                 __pycache__   chamfer        datasets.py             evaluation   layers               model       remove_files.py  saved_models   test_input_data.py
+ train_cgan_copy.py
+PyTorchEMD              arguments.py  data           dgp.py                  gi_train.py  loss.py              notes.txt   results          saved_samples  train.py
+ utils
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  plots            run.sh         scripts
+ train_cgan.py
+LICENSE                 __pycache__   chamfer        datasets.py             evaluation   layers               model       remove_files.py  saved_models   test_input_data.py
+ train_cgan_copy.py
+PyTorchEMD              arguments.py  data           dgp.py                  gi_train.py  loss.py              notes.txt   results          saved_samples  train.py
+ utils
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  pcd_benchmark    results       saved_samples
+train.py            utils
+LICENSE                 __pycache__   chamfer        datasets.py             evaluation   layers               model       plots            run.sh        scripts
+train_cgan.py
+PyTorchEMD              arguments.py  data           dgp.py                  gi_train.py  loss.py              notes.txt   remove_files.py  saved_models  test_input_data.py
+train_cgan_copy.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ cd pcd_benchmark/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_benchmark]$ ls
+data  main.py  models  run.sh  test.py  train  utils
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_benchmark]$ cd utils/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 utils]$ l;s
+-bash: l: 未找到命令
+-bash: s: 未找到命令
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 utils]$ ls
+ChamferDistancePytorch  MDS  Pointnet2.PyTorch  __init__.py  emd  expansion_penalty  generate_excel_results.py  utils.py  vis_pcd.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 utils]$ cd emd/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ ls
+CDEMD.png  README.md  build  clean.sh  dist  emd.cpp  emd.egg-info  emd_cuda.cu  emd_module.py  run_compile.sh  setup.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ rm -r build/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ rm -r dist
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ rm -r emd.egg-info/
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ ls
+CDEMD.png  README.md  clean.sh  emd.cpp  emd_cuda.cu  emd_module.py  run_compile.sh  setup.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ python setup.py install
+running install
+running bdist_egg
+running egg_info
+creating emd.egg-info
+writing emd.egg-info/PKG-INFO
+writing dependency_links to emd.egg-info/dependency_links.txt
+writing top-level names to emd.egg-info/top_level.txt
+writing manifest file 'emd.egg-info/SOURCES.txt'
+reading manifest file 'emd.egg-info/SOURCES.txt'
+writing manifest file 'emd.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_ext
+building 'emd' extension
+creating build
+creating build/temp.linux-x86_64-3.7
+gcc -pthread -B /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/compiler_compat -Wl,--sysroot=/ -Wsign-compare -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -fPIC -I/mnt/lustr
+e/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/torch/csrc/a
+pi/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/TH -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/
+torch/include/THC -I/mnt/lustre/share/cuda-10.0/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/include/python3.7m -c emd.cpp -o build/temp.linux-x86_64-3.7/emd.o -DTORC
+H_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=emd -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++11
+cc1plus: ??:command line option '-Wstrict-prototypes' is valid for C/ObjC but not for C++
+/mnt/lustre/share/cuda-10.0/bin/nvcc -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/p
+ython3.7/site-packages/torch/include/torch/csrc/api/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/TH -I/mnt/lustre/zhangjunzh
+e/anaconda3/envs/msn/lib/python3.7/site-packages/torch/include/THC -I/mnt/lustre/share/cuda-10.0/include -I/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/include/python3.7m -c em
+d_cuda.cu -o build/temp.linux-x86_64-3.7/emd_cuda.o -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr --compi
+ler-options '-fPIC' -DTORCH_API_INCLUDE_EXTENSION_H -DTORCH_EXTENSION_NAME=emd -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++11
+<built-in>(1): warning: support for trigraphs is disabled
+
+<built-in>(1): warning: support for trigraphs is disabled
+
+creating build/lib.linux-x86_64-3.7
+g++ -pthread -shared -B /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/compiler_compat -L/mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib -Wl,-rpath=/mnt/lustre/zhangjunzhe/anacond
+a3/envs/msn/lib -Wl,--no-as-needed -Wl,--sysroot=/ build/temp.linux-x86_64-3.7/emd.o build/temp.linux-x86_64-3.7/emd_cuda.o -L/mnt/lustre/share/cuda-10.0/lib64 -lcudart -o bu
+ild/lib.linux-x86_64-3.7/emd.cpython-37m-x86_64-linux-gnu.so
+creating build/bdist.linux-x86_64
+creating build/bdist.linux-x86_64/egg
+copying build/lib.linux-x86_64-3.7/emd.cpython-37m-x86_64-linux-gnu.so -> build/bdist.linux-x86_64/egg
+creating stub loader for emd.cpython-37m-x86_64-linux-gnu.so
+byte-compiling build/bdist.linux-x86_64/egg/emd.py to emd.cpython-37.pyc
+creating build/bdist.linux-x86_64/egg/EGG-INFO
+copying emd.egg-info/PKG-INFO -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying emd.egg-info/SOURCES.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying emd.egg-info/dependency_links.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+copying emd.egg-info/top_level.txt -> build/bdist.linux-x86_64/egg/EGG-INFO
+writing build/bdist.linux-x86_64/egg/EGG-INFO/native_libs.txt
+zip_safe flag not set; analyzing archive contents...
+__pycache__.emd.cpython-37: module references __file__
+creating dist
+creating 'dist/emd-0.0.0-py3.7-linux-x86_64.egg' and adding 'build/bdist.linux-x86_64/egg' to it
+removing 'build/bdist.linux-x86_64/egg' (and everything under it)
+Processing emd-0.0.0-py3.7-linux-x86_64.egg
+creating /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/emd-0.0.0-py3.7-linux-x86_64.egg
+Extracting emd-0.0.0-py3.7-linux-x86_64.egg to /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages
+Adding emd 0.0.0 to easy-install.pth file
+
+Installed /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages/emd-0.0.0-py3.7-linux-x86_64.egg
+Processing dependencies for emd==0.0.0
+Finished processing dependencies for emd==0.0.0
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ ls
+CDEMD.png  README.md  build  clean.sh  dist  emd.cpp  emd.egg-info  emd_cuda.cu  emd_module.py  run_compile.sh  setup.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ vi emd_module.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ vi emd_module.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ python emd_module.py
+Input_size:  torch.Size([20, 8192, 3])
+Runtime: 0.288492s
+EMD: 0.046574
+|set(assignment)|: 8192
+Verified EMD: 0.046574
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 emd]$ cd ..
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 utils]$ ls
+ChamferDistancePytorch  MDS  Pointnet2.PyTorch  __init__.py  emd  expansion_penalty  generate_excel_results.py  utils.py  vis_pcd.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 utils]$ ls
+ChamferDistancePytorch  MDS  Pointnet2.PyTorch  __init__.py  emd  expansion_penalty  generate_excel_results.py  utils.py  vis_pcd.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 utils]$ cd ..
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_benchmark]$ cd ..
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ l;s
+-bash: l: 未找到命令
+-bash: s: 未找到命令
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  pcd_benchmark    results       saved_samples
+train.py            utils
+LICENSE                 __pycache__   chamfer        datasets.py             evaluation   layers               model       plots            run.sh        scripts
+train_cgan.py
+PyTorchEMD              arguments.py  data           dgp.py                  gi_train.py  loss.py              notes.txt   remove_files.py  saved_models  test_input_data.py
+train_cgan_copy.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  pcd_benchmark    results       saved_samples
+train.py            utils
+LICENSE                 __pycache__   chamfer        datasets.py             evaluation   layers               model       plots            run.sh        scripts
+train_cgan.py
+PyTorchEMD              arguments.py  data           dgp.py                  gi_train.py  loss.py              notes.txt   remove_files.py  saved_models  test_input_data.py
+train_cgan_copy.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ squeue
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+            416260 Sensetime primitiv lijiaton  R       0:03      1 SG-IDC1-10-51-0-30
+            416259 Sensetime      pcb zhangmin  R       0:34      1 SG-IDC1-10-51-0-30
+            416254 Sensetime      pcb caizhong  R       0:35      1 SG-IDC1-10-51-0-33
+            416256 Sensetime vrd-vgg1 jindaish  R       0:35      1 SG-IDC1-10-51-0-36
+            416253 Sensetime      pcb caizhong  R      12:26      1 SG-IDC1-10-51-0-45
+            416217 Sensetime      pcb caizhong  R   12:18:15      1 SG-IDC1-10-51-0-35
+            416216 Sensetime      pcb caizhong  R   12:19:46      1 SG-IDC1-10-51-0-39
+            416215 Sensetime      pcb zhangmin  R   12:49:38      1 SG-IDC1-10-51-0-38
+            416209 Sensetime mask-rcn yucunjun  R   13:30:08      1 SG-IDC1-10-51-0-30
+            416198 Sensetime  PartA^2 yucunjun  R   14:00:12      6 SG-IDC1-10-51-0-[32,40-44]
+            415870 Sensetime le1shake   ganxin  R 3-21:20:26      1 SG-IDC1-10-51-0-30
+            415837 Sensetime le1shake   ganxin  R 3-22:21:01      1 SG-IDC1-10-51-0-30
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ seninfo
+HostList                used/total      State           Partition
+SG-IDC1-10-51-0-30      7/8             mix             Sensetime*
+
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ srun -u --partition=Sensetime -n1 --gres=gpu:1 --ntasks-per-node=1 -x SG-IDC1-10-51-0-34 \
+>         --job-name=knn6m \
+>         python train.py \
+>         --class_choice Chair --epochs 2000   --batch_size 64  \
+>         --FPD_path ./evaluation/pre_statistics_chair.npz \
+>         --ckpt_path ./model/knn6m/ \
+>         --n_samples_train 1000 \
+>         --eval_every_n_epoch 10 \
+>         --knn_loss True \
+>         --knn_n_seeds 100 \
+>         --knn_k 30 \
+>         --knn_scalar 0.2\
+> /
+Traceback (most recent call last):
+  File "train.py", line 9, in <module>
+    from evaluation.FPD import calculate_fpd
+  File "/mnt/lustre/zhangjunzhe/pcd_lib/evaluation/FPD.py", line 7, in <module>
+    from scipy.linalg import sqrtm
+ModuleNotFoundError: No module named 'scipy'
+srun: error: SG-IDC1-10-51-0-30: task 0: Exited with exit code 1
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ ls
+ChamferDistancePytorch  README.md     basenames.txt  dataset_preparation.py  eval_GAN.py  gi_train_partial.py  metrics.py  pcd_benchmark    results       saved_samples
+train.py            utils
+LICENSE                 __pycache__   chamfer        datasets.py             evaluation   layers               model       plots            run.sh        scripts
+train_cgan.py
+PyTorchEMD              arguments.py  data           dgp.py                  gi_train.py  loss.py              notes.txt   remove_files.py  saved_models  test_input_data.py
+train_cgan_copy.py
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ pip install --user plyfile
+
+Requirement already satisfied: plyfile in /mnt/lustre/zhangjunzhe/.local/lib/python3.7/site-packages (0.7.2)
+Requirement already satisfied: numpy>=1.8 in /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages (from plyfile) (1.19.1)
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ pip install --user visdom
+Requirement already satisfied: visdom in /mnt/lustre/zhangjunzhe/.local/lib/python3.7/site-packages (0.1.8.9)
+Collecting requests
+  Downloading requests-2.24.0-py2.py3-none-any.whl (61 kB)
+     |████████████████████████████████| 61 kB 94 kB/s
+Requirement already satisfied: websocket-client in /mnt/lustre/zhangjunzhe/.local/lib/python3.7/site-packages (from visdom) (0.57.0)
+Requirement already satisfied: jsonpatch in /mnt/lustre/zhangjunzhe/.local/lib/python3.7/site-packages (from visdom) (1.26)
+Collecting pyzmq
+  Downloading pyzmq-19.0.1-cp37-cp37m-manylinux1_x86_64.whl (1.1 MB)
+     |████████████████████████████████| 1.1 MB 1.3 MB/s
+Processing /mnt/lustre/zhangjunzhe/.cache/pip/wheels/7d/14/fa/d88fb5da77d813ea0ffca38a2ab2a052874e9e1142bad0b348/tornado-6.0.4-cp37-cp37m-linux_x86_64.whl
+Collecting scipy
+  Downloading scipy-1.5.2-cp37-cp37m-manylinux1_x86_64.whl (25.9 MB)
+     |████████████████████████████████| 25.9 MB 3.4 MB/s
+Requirement already satisfied: six in /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages (from visdom) (1.15.0)
+Requirement already satisfied: numpy>=1.8 in /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages (from visdom) (1.19.1)
+Requirement already satisfied: pillow in /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages (from visdom) (7.2.0)
+Requirement already satisfied: torchfile in /mnt/lustre/zhangjunzhe/.local/lib/python3.7/site-packages (from visdom) (0.1.0)
+Requirement already satisfied: certifi>=2017.4.17 in /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages (from requests->visdom) (2020.6.20)
+Collecting chardet<4,>=3.0.2
+  Using cached chardet-3.0.4-py2.py3-none-any.whl (133 kB)
+Collecting idna<3,>=2.5
+  Downloading idna-2.10-py2.py3-none-any.whl (58 kB)
+     |████████████████████████████████| 58 kB 2.5 MB/s
+Collecting urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1
+  Downloading urllib3-1.25.10-py2.py3-none-any.whl (127 kB)
+     |████████████████████████████████| 127 kB 3.7 MB/s
+Requirement already satisfied: jsonpointer>=1.9 in /mnt/lustre/zhangjunzhe/.local/lib/python3.7/site-packages (from jsonpatch->visdom) (2.0)
+Installing collected packages: chardet, idna, urllib3, requests, pyzmq, tornado, scipy
+Successfully installed chardet-3.0.4 idna-2.10 pyzmq-19.0.1 requests-2.24.0 scipy-1.5.2 tornado-6.0.4 urllib3-1.25.10
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ pip install --user scipy==1.1.0
+Collecting scipy==1.1.0
+  Using cached scipy-1.1.0-cp37-cp37m-manylinux1_x86_64.whl (31.2 MB)
+Requirement already satisfied: numpy>=1.8.2 in /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages (from scipy==1.1.0) (1.19.1)
+Installing collected packages: scipy
+  Attempting uninstall: scipy
+    Found existing installation: scipy 1.5.2
+    Uninstalling scipy-1.5.2:
+      Successfully uninstalled scipy-1.5.2
+Successfully installed scipy-1.1.0
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ pip install --user sklearn
+Processing /mnt/lustre/zhangjunzhe/.cache/pip/wheels/76/03/bb/589d421d27431bcd2c6da284d5f2286c8e3b2ea3cf1594c074/sklearn-0.0-py2.py3-none-any.whl
+Collecting scikit-learn
+  Downloading scikit_learn-0.23.1-cp37-cp37m-manylinux1_x86_64.whl (6.8 MB)
+     |████████████████████████████████| 6.8 MB 3.3 MB/s
+Collecting threadpoolctl>=2.0.0
+  Downloading threadpoolctl-2.1.0-py3-none-any.whl (12 kB)
+Collecting joblib>=0.11
+  Downloading joblib-0.16.0-py3-none-any.whl (300 kB)
+     |████████████████████████████████| 300 kB 6.5 MB/s
+Requirement already satisfied: scipy>=0.19.1 in /mnt/lustre/zhangjunzhe/.local/lib/python3.7/site-packages (from scikit-learn->sklearn) (1.1.0)
+Requirement already satisfied: numpy>=1.13.3 in /mnt/lustre/zhangjunzhe/anaconda3/envs/msn/lib/python3.7/site-packages (from scikit-learn->sklearn) (1.19.1)
+Installing collected packages: threadpoolctl, joblib, scikit-learn, sklearn
+Successfully installed joblib-0.16.0 scikit-learn-0.23.1 sklearn-0.0 threadpoolctl-2.1.0
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ srun -u --partition=Sensetime -n1 --gres=gpu:1 --ntasks-per-node=1 -x SG-IDC1-10-51-0-34 \
+>         --job-name=knn6m \
+>         python train.py \
+>         --class_choice Chair --epochs 2000   --batch_size 64  \
+>         --FPD_path ./evaluation/pre_statistics_chair.npz \
+>         --ckpt_path ./model/knn6m/ \
+>         --n_samples_train 1000 \
+>         --eval_every_n_epoch 10 \
+>         --knn_loss True \
+>         --knn_n_seeds 100 \
+>         --knn_k 30 \
+>         --knn_scalar 0.2
+no expansion penality module
+no EMD module
+Namespace(DEGREE=[1, 2, 2, 2, 2, 2, 64], D_FEAT=[3, 64, 128, 256, 256, 512], D_iter=5, FPD_path='./evaluation/pre_statistics_chair.npz', G_FEAT=[96, 256, 256, 256, 128, 128,
+128, 3], batch_size=64, cgan_version=0, ckpt_load=None, ckpt_path='./model/knn6m/', ckpt_save='tree_ckpt_', class_choice='Chair', conditional=False, dataset='BenchmarkDataset
+', dataset_path='/mnt/lustre/share/zhangjunzhe/shapenetcore_partanno_segmentation_benchmark_v0', degrees_opt='default', device=device(type='cuda', index=0), epochs=2000, eval
+_every_n_epoch=10, expan_alpha=1.5, expan_primitive_size=64, expan_scalar=0.1, expansion_penality=False, gpu=0, knn_k=30, knn_loss=True, knn_n_seeds=100, knn_scalar=0.2, krep
+ul_h=0.01, krepul_k=10, krepul_loss=False, krepul_n_seeds=20, krepul_scalar=1, lambdaGP=10, loop_non_linear=False, lr=0.0001, n_classes=16, n_samples_train=1000, n_sigma=1, p
+atch_repulsion_loss=False, point_num=2048, radius_version='0', ratio_base=500, result_path='./model/generated2/', result_save='tree_pc_', support=10, uniform_loss='None', uni
+form_loss_max=False, uniform_loss_n_seeds=20, uniform_loss_no_scale=False, uniform_loss_offset=0, uniform_loss_radius=0.05, uniform_loss_scalar=20, uniform_loss_warmup_mode=1
+, uniform_loss_warmup_till=0, visdom_color=4, visdom_port=8097)
+self.cat: {'Chair': '03001627'}
+{'Chair': 0}
+Training Dataset : 1000 prepared.
+if conditional: False
+network types <class 'model.gan_network.Generator'> <class 'model.gan_network.Discriminator'>
+Network prepared.
+[Epoch]    0 [ D_Loss ]   0.445955 [ G_Loss ]  -0.785540 [ Time ]  24.61s
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+---------------------------[   0 Epoch] Frechet Pointcloud Distance <<< 143988287.68 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 0 7 175
+[Epoch]    1 [ D_Loss ]   0.601129 [ G_Loss ]  -0.631103 [ Time ]  23.93s
+[Epoch]    2 [ D_Loss ]   0.581593 [ G_Loss ]  -0.567410 [ Time ]  23.66s
+[Epoch]    3 [ D_Loss ]   0.564267 [ G_Loss ]  -0.651013 [ Time ]  23.77s
+[Epoch]    4 [ D_Loss ]   0.453220 [ G_Loss ]  -0.723186 [ Time ]  23.58s
+[Epoch]    5 [ D_Loss ]   0.549905 [ G_Loss ]  -0.629162 [ Time ]  23.74s
+[Epoch]    6 [ D_Loss ]   0.470057 [ G_Loss ]  -0.680245 [ Time ]  23.91s
+[Epoch]    7 [ D_Loss ]   0.525346 [ G_Loss ]  -0.702537 [ Time ]  23.60s
+[Epoch]    8 [ D_Loss ]   0.587178 [ G_Loss ]  -0.633093 [ Time ]  23.72s
+[Epoch]    9 [ D_Loss ]   0.588847 [ G_Loss ]  -0.599914 [ Time ]  23.44s
+[Epoch]   10 [ D_Loss ]   0.529492 [ G_Loss ]  -0.532031 [ Time ]  23.80s
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+---------------------------[  10 Epoch] Frechet Pointcloud Distance <<< 1565459215074.15 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 0 0 2
+[Epoch]   11 [ D_Loss ]   0.393427 [ G_Loss ]  -0.495114 [ Time ]  23.68s
+[Epoch]   12 [ D_Loss ]   0.059570 [ G_Loss ]  -0.131185 [ Time ]  23.77s
+[Epoch]   13 [ D_Loss ]  -0.037746 [ G_Loss ]  -0.065798 [ Time ]  23.61s
+[Epoch]   14 [ D_Loss ]   0.479822 [ G_Loss ]  -0.617407 [ Time ]  23.56s
+[Epoch]   15 [ D_Loss ]   0.436453 [ G_Loss ]  -0.644431 [ Time ]  23.36s
+[Epoch]   16 [ D_Loss ]   0.485858 [ G_Loss ]  -0.563851 [ Time ]  23.64s
+[Epoch]   17 [ D_Loss ]   0.492572 [ G_Loss ]  -0.538452 [ Time ]  23.65s
+[Epoch]   18 [ D_Loss ]   0.333079 [ G_Loss ]  -0.437525 [ Time ]  23.89s
+[Epoch]   19 [ D_Loss ]   0.550971 [ G_Loss ]  -0.611322 [ Time ]  23.98s
+[Epoch]   20 [ D_Loss ]   0.455520 [ G_Loss ]  -0.410765 [ Time ]  23.93s
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+x shape torch.Size([100, 3, 2048])
+Traceback (most recent call last):
+  File "train.py", line 517, in <module>
+    model.run(save_ckpt=SAVE_CHECKPOINT, load_ckpt=LOAD_CHECKPOINT, result_path=RESULT_PATH)
+  File "train.py", line 455, in run
+    fpd = calculate_fpd(fake_pointclouds, statistic_save_path=self.args.FPD_path, batch_size=100, dims=1808, device=self.args.device)
+  File "/mnt/lustre/zhangjunzhe/pcd_lib/evaluation/FPD.py", line 200, in calculate_fpd
+    fid_value = calculate_frechet_distance(m1, s1, m2, s2)
+  File "/mnt/lustre/zhangjunzhe/pcd_lib/evaluation/FPD.py", line 126, in calculate_frechet_distance
+    raise ValueError('Imaginary component {}'.format(m))
+ValueError: Imaginary component 1122985.2792272822
+srun: error: SG-IDC1-10-51-0-30: task 0: Exited with exit code 1
+(msn) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$

@@ -1,0 +1,692 @@
+[zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ conda activate PointFlow
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ cate="airplane"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ dims="512-512-512"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ latent_dims="256-256"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ num_blocks=1
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ latent_num_blocks=1
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ zdim=128
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ batch_size=256
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ lr=2e-3
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ epochs=4000
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ds=shapenet15k
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ log_name="ae/${ds}-cate${cate}"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ data_dir="data/ShapeNetCore.v2.PC15k"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ python train.py \
+>     --log_name ${log_name} \
+>     --lr ${lr} \
+>     --dataset_type ${ds} \
+>     --data_dir ${data_dir} \
+>     --cates ${cate} \
+>     --dims ${dims} \
+>     --latent_dims ${latent_dims} \
+>     --num_blocks ${num_blocks} \
+>     --latent_num_blocks ${latent_num_blocks} \
+>     --batch_size ${batch_size} \
+>     --zdim ${zdim} \
+>     --epochs ${epochs} \
+>     --save_freq 50 \
+>     --viz_freq 1 \
+>     --log_freq 1 \
+>     --val_freq 10 \
+>     --distributed \
+>     --use_deterministic_encoder \
+>     --prior_weight 0 \
+>     --entropy_weight 0
+Arguments:
+Namespace(atol=1e-05, batch_norm=True, batch_size=256, beta1=0.9, beta2=0.999, bn_lag=0, cates=['airplane'], data_dir='data/ShapeNetCore.v2.PC15k', dataset_scale=1.0, dataset
+_type='shapenet15k', dims='512-512-512', dist_backend='nccl', dist_url='tcp://127.0.0.1:9991', distributed=True, entropy_weight=0.0, epochs=4000, eval_classification=False, e
+valuate_recon=False, exp_decay=1.0, exp_decay_freq=1, gpu=None, input_dim=3, latent_dims='256-256', latent_num_blocks=1, layer_type='concatsquash', log_freq=1, log_name='ae/s
+hapenet15k-cateairplane', lr=0.002, max_validate_shapes=None, mn10_data_dir='data/ModelNet10.PC15k', mn40_data_dir='data/ModelNet40.PC15k', momentum=0.9, no_eval_sampling=Fal
+se, no_validation=False, nonlinearity='tanh', normalize_per_shape=False, normalize_std_per_axis=False, num_blocks=1, num_sample_points=2048, num_sample_shapes=10, num_workers
+=4, optimizer='adam', prior_weight=0.0, random_rotate=False, rank=0, recon_weight=1.0, resume_checkpoint=None, resume_dataset_mean=None, resume_dataset_std=None, resume_non_s
+trict=False, resume_optimizer=False, rtol=1e-05, save_freq=50, save_val_results=False, scheduler='linear', seed=732923, solver='dopri5', sync_bn=False, te_max_sample_points=2
+048, time_length=0.5, tr_max_sample_points=2048, train_T=True, use_adjoint=True, use_deterministic_encoder=True, use_latent_flow=False, val_freq=10, viz_freq=1, weight_decay=
+0.0, world_size=1, zdim=128)
+Use GPU: 0 for training
+Number of trainable parameters of Point CNF: 927513
+Directory missing : data/ShapeNetCore.v2.PC15k/02691156/train
+Traceback (most recent call last):
+  File "train.py", line 272, in <module>
+    main()
+  File "train.py", line 266, in main
+    mp.spawn(main_worker, nprocs=ngpus_per_node, args=(save_dir, ngpus_per_node, args))
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/multiprocessing/spawn.py", line 167, in spawn
+    while not spawn_context.join():
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/multiprocessing/spawn.py", line 114, in join
+    raise Exception(msg)
+Exception:
+
+-- Process 0 terminated with the following error:
+Traceback (most recent call last):
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/multiprocessing/spawn.py", line 19, in _wrap
+    fn(i, *args)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/train.py", line 93, in main_worker
+    tr_dataset, te_dataset = get_datasets(args)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/datasets.py", line 333, in get_datasets
+    random_subsample=True)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/datasets.py", line 271, in __init__
+    input_dim=3)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/datasets.py", line 89, in __init__
+    self.all_points = np.concatenate(self.all_points)  # (N, 15000, 3)
+  File "<__array_function__ internals>", line 6, in concatenate
+ValueError: need at least one array to concatenate
+
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls
+ShapeNetCore.v2.PC15k  __pycache__  args.py  checkpoints  data  datasets.py  demo.py  install.sh  metrics  models  pretrained_models  runs  saved_models  scripts  test.py  to
+rchdiffeq  train.py  utils.py
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ python train.py     --log_name ${log_name}     --lr ${lr}     --dataset_type ${ds}     --data_dir ${data_dir}     --c
+ates ${cate}     --dims ${dims}     --latent_dims ${latent_dims}     --num_blocks ${num_blocks}     --latent_num_blocks ${latent_num_blocks}     --batch_size ${batch_size}
+  --zdim ${zdim}     --epochs ${epochs}     --save_freq 50     --viz_freq 1     --log_freq 1     --val_freq 10     --distributed     --use_deterministic_encoder     --prior_w
+eight 0     --entropy_weight 0
+Arguments:
+Namespace(atol=1e-05, batch_norm=True, batch_size=256, beta1=0.9, beta2=0.999, bn_lag=0, cates=['airplane'], data_dir='data/ShapeNetCore.v2.PC15k', dataset_scale=1.0, dataset
+_type='shapenet15k', dims='512-512-512', dist_backend='nccl', dist_url='tcp://127.0.0.1:9991', distributed=True, entropy_weight=0.0, epochs=4000, eval_classification=False, e
+valuate_recon=False, exp_decay=1.0, exp_decay_freq=1, gpu=None, input_dim=3, latent_dims='256-256', latent_num_blocks=1, layer_type='concatsquash', log_freq=1, log_name='ae/s
+hapenet15k-cateairplane', lr=0.002, max_validate_shapes=None, mn10_data_dir='data/ModelNet10.PC15k', mn40_data_dir='data/ModelNet40.PC15k', momentum=0.9, no_eval_sampling=Fal
+se, no_validation=False, nonlinearity='tanh', normalize_per_shape=False, normalize_std_per_axis=False, num_blocks=1, num_sample_points=2048, num_sample_shapes=10, num_workers
+=4, optimizer='adam', prior_weight=0.0, random_rotate=False, rank=0, recon_weight=1.0, resume_checkpoint=None, resume_dataset_mean=None, resume_dataset_std=None, resume_non_s
+trict=False, resume_optimizer=False, rtol=1e-05, save_freq=50, save_val_results=False, scheduler='linear', seed=37833, solver='dopri5', sync_bn=False, te_max_sample_points=20
+48, time_length=0.5, tr_max_sample_points=2048, train_T=True, use_adjoint=True, use_deterministic_encoder=True, use_latent_flow=False, val_freq=10, viz_freq=1, weight_decay=0
+.0, world_size=1, zdim=128)
+Use GPU: 0 for training
+Number of trainable parameters of Point CNF: 927513
+Total number of data:2832
+Min number of points: (train)2048 (test)2048
+Total number of data:405
+Min number of points: (train)2048 (test)2048
+[Rank 0] World size : 1
+Start epoch: 0 End epoch: 4000
+Traceback (most recent call last):
+  File "train.py", line 272, in <module>
+    main()
+  File "train.py", line 266, in main
+    mp.spawn(main_worker, nprocs=ngpus_per_node, args=(save_dir, ngpus_per_node, args))
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/multiprocessing/spawn.py", line 167, in spawn
+    while not spawn_context.join():
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/multiprocessing/spawn.py", line 114, in join
+    raise Exception(msg)
+Exception:
+
+-- Process 0 terminated with the following error:
+Traceback (most recent call last):
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/multiprocessing/spawn.py", line 19, in _wrap
+    fn(i, *args)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/train.py", line 176, in main_worker
+    out = model(inputs, optimizer, step, writer)
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/models/networks.py", line 157, in forward
+    y, delta_log_py = self.point_cnf(x, z_new, torch.zeros(batch_size, num_points, 1).to(x))
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/nn/parallel/distributed.py", line 357, in forward
+    return self.module(*inputs[0], **kwargs[0])
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/models/cnf.py", line 29, in forward
+    x, logpx = self.chain[i](x, context, logpx, integration_times, reverse)
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/models/cnf.py", line 93, in forward
+    options=self.solver_options,
+  File "/mnt/lustre/zhangjunzhe/PointFlow/torchdiffeq/torchdiffeq/_impl/adjoint.py", line 143, in odeint_adjoint
+    adjoint_method, adjoint_options)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/torchdiffeq/torchdiffeq/_impl/adjoint.py", line 20, in forward
+    ans = odeint(func, y0, t, rtol=rtol, atol=atol, method=method, options=options)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/torchdiffeq/torchdiffeq/_impl/odeint.py", line 79, in odeint
+    solution = solver.integrate(t)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/torchdiffeq/torchdiffeq/_impl/solvers.py", line 29, in integrate
+    self.before_integrate(t)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/torchdiffeq/torchdiffeq/_impl/dopri5.py", line 80, in before_integrate
+    first_step = _select_initial_step(self.func, t[0], self.y0, 4, self.rtol[0], self.atol[0], f0=f0).to(t)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/torchdiffeq/torchdiffeq/_impl/misc.py", line 134, in _select_initial_step
+    f1 = fun(t0 + h0, y1)
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/models/odefunc.py", line 130, in forward
+    divergence = self.divergence_fn(dy, y, e=self._e).unsqueeze(-1)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/models/odefunc.py", line 10, in divergence_approx
+    e_dzdx = torch.autograd.grad(f, y, e, create_graph=True)[0]
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/autograd/__init__.py", line 145, in grad
+    inputs, allow_unused)
+RuntimeError: CUDA out of memory. Tried to allocate 1024.00 MiB (GPU 0; 31.72 GiB total capacity; 29.11 GiB already allocated; 749.50 MiB free; 933.57 MiB cached)
+
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ cate="airplane"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ dims="512-512-512"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ latent_dims="256-256"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ num_blocks=1
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ latent_num_blocks=1
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ zdim=128
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ batch_size=16
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ lr=2e-3
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ epochs=4000
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ds=shapenet15k
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ log_name="ae/${ds}-cate${cate}"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ data_dir="data/ShapeNetCore.v2.PC15k"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ python train.py \
+>     --log_name ${log_name} \
+>     --lr ${lr} \
+>     --dataset_type ${ds} \
+>     --data_dir ${data_dir} \
+>     --cates ${cate} \
+>     --dims ${dims} \
+>     --latent_dims ${latent_dims} \
+>     --num_blocks ${num_blocks} \
+>     --latent_num_blocks ${latent_num_blocks} \
+>     --batch_size ${batch_size} \
+>     --zdim ${zdim} \
+>     --epochs ${epochs} \
+>     --save_freq 50 \
+>     --viz_freq 1 \
+>     --log_freq 1 \
+>     --val_freq 10 \
+>     --use_deterministic_encoder \
+>     --prior_weight 0 \
+>     --entropy_weight 0
+Arguments:
+Namespace(atol=1e-05, batch_norm=True, batch_size=16, beta1=0.9, beta2=0.999, bn_lag=0, cates=['airplane'], data_dir='data/ShapeNetCore.v2.PC15k', dataset_scale=1.0, dataset_
+type='shapenet15k', dims='512-512-512', dist_backend='nccl', dist_url='tcp://127.0.0.1:9991', distributed=False, entropy_weight=0.0, epochs=4000, eval_classification=False, e
+valuate_recon=False, exp_decay=1.0, exp_decay_freq=1, gpu=None, input_dim=3, latent_dims='256-256', latent_num_blocks=1, layer_type='concatsquash', log_freq=1, log_name='ae/s
+hapenet15k-cateairplane', lr=0.002, max_validate_shapes=None, mn10_data_dir='data/ModelNet10.PC15k', mn40_data_dir='data/ModelNet40.PC15k', momentum=0.9, no_eval_sampling=Fal
+se, no_validation=False, nonlinearity='tanh', normalize_per_shape=False, normalize_std_per_axis=False, num_blocks=1, num_sample_points=2048, num_sample_shapes=10, num_workers
+=4, optimizer='adam', prior_weight=0.0, random_rotate=False, rank=0, recon_weight=1.0, resume_checkpoint=None, resume_dataset_mean=None, resume_dataset_std=None, resume_non_s
+trict=False, resume_optimizer=False, rtol=1e-05, save_freq=50, save_val_results=False, scheduler='linear', seed=705019, solver='dopri5', sync_bn=False, te_max_sample_points=2
+048, time_length=0.5, tr_max_sample_points=2048, train_T=True, use_adjoint=True, use_deterministic_encoder=True, use_latent_flow=False, val_freq=10, viz_freq=1, weight_decay=
+0.0, world_size=1, zdim=128)
+Number of trainable parameters of Point CNF: 927513
+Total number of data:2832
+Min number of points: (train)2048 (test)2048
+Total number of data:405
+Min number of points: (train)2048 (test)2048
+Start epoch: 0 End epoch: 4000
+[Rank 0] Epoch 0 Batch [ 0/177] Time [1.75s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.25388
+[Rank 0] Epoch 0 Batch [ 1/177] Time [1.14s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.20586
+[Rank 0] Epoch 0 Batch [ 2/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.17554
+[Rank 0] Epoch 0 Batch [ 3/177] Time [1.12s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.13943
+[Rank 0] Epoch 0 Batch [ 4/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.09796
+[Rank 0] Epoch 0 Batch [ 5/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.06989
+[Rank 0] Epoch 0 Batch [ 6/177] Time [1.88s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.08371
+[Rank 0] Epoch 0 Batch [ 7/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.06537
+[Rank 0] Epoch 0 Batch [ 8/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.06226
+[Rank 0] Epoch 0 Batch [ 9/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.05569
+[Rank 0] Epoch 0 Batch [10/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.04911
+[Rank 0] Epoch 0 Batch [11/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.04823
+[Rank 0] Epoch 0 Batch [12/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.04438
+[Rank 0] Epoch 0 Batch [13/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.04089
+[Rank 0] Epoch 0 Batch [14/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.03749
+[Rank 0] Epoch 0 Batch [15/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.03204
+[Rank 0] Epoch 0 Batch [16/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.02565
+[Rank 0] Epoch 0 Batch [17/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.01581
+[Rank 0] Epoch 0 Batch [18/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.01002
+[Rank 0] Epoch 0 Batch [19/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.00542
+[Rank 0] Epoch 0 Batch [20/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 3.00294
+[Rank 0] Epoch 0 Batch [21/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.99785
+[Rank 0] Epoch 0 Batch [22/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.99938
+[Rank 0] Epoch 0 Batch [23/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.99512
+[Rank 0] Epoch 0 Batch [24/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.99058
+[Rank 0] Epoch 0 Batch [25/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.98648
+[Rank 0] Epoch 0 Batch [26/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.98255
+[Rank 0] Epoch 0 Batch [27/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.98230
+[Rank 0] Epoch 0 Batch [28/177] Time [1.34s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.97821
+[Rank 0] Epoch 0 Batch [29/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.97595
+[Rank 0] Epoch 0 Batch [30/177] Time [1.11s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.97296
+[Rank 0] Epoch 0 Batch [31/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.96973
+[Rank 0] Epoch 0 Batch [32/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.96778
+[Rank 0] Epoch 0 Batch [33/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.96604
+[Rank 0] Epoch 0 Batch [34/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.96350
+[Rank 0] Epoch 0 Batch [35/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.96003
+[Rank 0] Epoch 0 Batch [36/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.95656
+[Rank 0] Epoch 0 Batch [37/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.95305
+[Rank 0] Epoch 0 Batch [38/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.95052
+[Rank 0] Epoch 0 Batch [39/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.94840
+[Rank 0] Epoch 0 Batch [40/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.94530
+[Rank 0] Epoch 0 Batch [41/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.94224
+[Rank 0] Epoch 0 Batch [42/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.94023
+[Rank 0] Epoch 0 Batch [43/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.93981
+[Rank 0] Epoch 0 Batch [44/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.93749
+[Rank 0] Epoch 0 Batch [45/177] Time [1.44s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.93606
+[Rank 0] Epoch 0 Batch [46/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.93416
+[Rank 0] Epoch 0 Batch [47/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.93173
+[Rank 0] Epoch 0 Batch [48/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.92916
+[Rank 0] Epoch 0 Batch [49/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.92767
+[Rank 0] Epoch 0 Batch [50/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.92548
+[Rank 0] Epoch 0 Batch [51/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.92351
+[Rank 0] Epoch 0 Batch [52/177] Time [1.44s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.92227
+[Rank 0] Epoch 0 Batch [53/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.92063
+[Rank 0] Epoch 0 Batch [54/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.91819
+[Rank 0] Epoch 0 Batch [55/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.91779
+[Rank 0] Epoch 0 Batch [56/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.91575
+[Rank 0] Epoch 0 Batch [57/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.91417
+[Rank 0] Epoch 0 Batch [58/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.91329
+[Rank 0] Epoch 0 Batch [59/177] Time [1.44s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.91217
+[Rank 0] Epoch 0 Batch [60/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.91074
+[Rank 0] Epoch 0 Batch [61/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.90967
+[Rank 0] Epoch 0 Batch [62/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.90856
+[Rank 0] Epoch 0 Batch [63/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.90694
+[Rank 0] Epoch 0 Batch [64/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.90496
+[Rank 0] Epoch 0 Batch [65/177] Time [1.43s] Entropy 0.00000 LatentNats 0.00000 PointNats 2.90333
+^C^CTraceback (most recent call last):
+  File "train.py", line 272, in <module>
+    main()
+  File "train.py", line 268, in main
+    main_worker(args.gpu, save_dir, ngpus_per_node, args)
+  File "train.py", line 176, in main_worker
+    out = model(inputs, optimizer, step, writer)
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/nn/modules/module.py", line 489, in __call__
+    result = self.forward(*input, **kwargs)
+  File "/mnt/lustre/zhangjunzhe/PointFlow/models/networks.py", line 167, in forward
+    loss.backward()
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/tensor.py", line 102, in backward
+    torch.autograd.backward(self, gradient, retain_graph, create_graph)
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/autograd/__init__.py", line 90, in backward
+    allow_unreachable=True)  # allow_unreachable flag
+KeyboardInterrupt
+^C^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ grep -r 'args.cates'
+datasets.py:            categories=args.cates, split='train',
+datasets.py:            categories=args.cates, split='val',
+test.py:    if 'all' in args.cates:
+test.py:        cates = args.cates
+test.py:        args.cates = [cate]
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls
+__pycache__  args.py  checkpoints  data  datasets.py  demo.py  install.sh  metrics  models  pretrained_models  runs  saved_models  scripts  test.py  torchdiffeq  train.py  ut
+ils.py
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls
+__pycache__  args.py  checkpoints  data  datasets.py  demo.py  install.sh  metrics  models  pretrained_models  runs  saved_models  scripts  test.py  torchdiffeq  train.py  ut
+ils.py
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls saved_models/
+pointflow_model.zip
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls
+__pycache__  args.py  checkpoints  data  datasets.py  demo.py  install.sh  metrics  models  pretrained_models  runs  saved_models  scripts  test.py  torchdiffeq  train.py  ut
+ils.py
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls checkpoints/
+ae
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls checkpoints/ae
+shapenet15k-cateairplane
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls pretrained_models/
+ae  gen
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls pretrained_models/ae
+airplane  all  car  chair
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls pretrained_models/ae/all
+checkpoint.pt  train_set_mean.npy  train_set_std.npy  val_set_mean.npy  val_set_std.npy
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls pretrained_models/ae/ls
+ls: cannot access pretrained_models/ae/ls: No such file or directory
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ls pretrained_models/gen
+airplane  car  chair
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ cate="airplane"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ dims="512-512-512"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ latent_dims="256-256"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ num_blocks=1
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ latent_num_blocks=1
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ zdim=128
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ batch_size=16
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ lr=2e-3
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ epochs=4000
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ds=shapenet15k
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ log_name="gen/${ds}-cate${cate}"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ data_dir="data/ShapeNetCore.v2.PC15k"
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ python train.py \
+>     --log_name ${log_name} \
+>     --lr ${lr} \
+>     --dataset_type ${ds} \
+>     --data_dir ${data_dir} \
+>     --cates ${cate} \
+>     --dims ${dims} \
+>     --latent_dims ${latent_dims} \
+>     --num_blocks ${num_blocks} \
+>     --latent_num_blocks ${latent_num_blocks} \
+>     --batch_size ${batch_size} \
+>     --zdim ${zdim} \
+>     --epochs ${epochs} \
+>     --save_freq 50 \
+>     --viz_freq 1 \
+>     --log_freq 1 \
+>     --val_freq 10 \
+>     --use_latent_flow
+Arguments:
+Namespace(atol=1e-05, batch_norm=True, batch_size=16, beta1=0.9, beta2=0.999, bn_lag=0, cates=['airplane'], data_dir='data/ShapeNetCore.v2.PC15k', dataset_scale=1.0, dataset_
+type='shapenet15k', dims='512-512-512', dist_backend='nccl', dist_url='tcp://127.0.0.1:9991', distributed=False, entropy_weight=1.0, epochs=4000, eval_classification=False, e
+valuate_recon=False, exp_decay=1.0, exp_decay_freq=1, gpu=None, input_dim=3, latent_dims='256-256', latent_num_blocks=1, layer_type='concatsquash', log_freq=1, log_name='gen/
+shapenet15k-cateairplane', lr=0.002, max_validate_shapes=None, mn10_data_dir='data/ModelNet10.PC15k', mn40_data_dir='data/ModelNet40.PC15k', momentum=0.9, no_eval_sampling=Fa
+lse, no_validation=False, nonlinearity='tanh', normalize_per_shape=False, normalize_std_per_axis=False, num_blocks=1, num_sample_points=2048, num_sample_shapes=10, num_worker
+s=4, optimizer='adam', prior_weight=1.0, random_rotate=False, rank=0, recon_weight=1.0, resume_checkpoint=None, resume_dataset_mean=None, resume_dataset_std=None, resume_non_
+strict=False, resume_optimizer=False, rtol=1e-05, save_freq=50, save_val_results=False, scheduler='linear', seed=860372, solver='dopri5', sync_bn=False, te_max_sample_points=
+2048, time_length=0.5, tr_max_sample_points=2048, train_T=True, use_adjoint=True, use_deterministic_encoder=False, use_latent_flow=True, val_freq=10, viz_freq=1, weight_decay
+=0.0, world_size=1, zdim=128)
+Number of trainable parameters of Point CNF: 927513
+Number of trainable parameters of Latent CNF: 134145
+Total number of data:2832
+Min number of points: (train)2048 (test)2048
+Total number of data:405
+Min number of points: (train)2048 (test)2048
+Start epoch: 0 End epoch: 4000
+[Rank 0] Epoch 0 Batch [ 0/177] Time [2.03s] Entropy 182.12512 LatentNats 118.18709 PointNats 3.25905
+[Rank 0] Epoch 0 Batch [ 1/177] Time [1.25s] Entropy 181.91184 LatentNats 118.19219 PointNats 3.25495
+[Rank 0] Epoch 0 Batch [ 2/177] Time [1.24s] Entropy 181.54806 LatentNats 118.18108 PointNats 3.24898
+[Rank 0] Epoch 0 Batch [ 3/177] Time [1.23s] Entropy 181.13893 LatentNats 118.17921 PointNats 3.23094
+[Rank 0] Epoch 0 Batch [ 4/177] Time [1.23s] Entropy 180.66727 LatentNats 118.17982 PointNats 3.22068
+[Rank 0] Epoch 0 Batch [ 5/177] Time [1.23s] Entropy 180.15738 LatentNats 118.17198 PointNats 3.20283
+[Rank 0] Epoch 0 Batch [ 6/177] Time [1.23s] Entropy 179.62839 LatentNats 118.16974 PointNats 3.18691
+[Rank 0] Epoch 0 Batch [ 7/177] Time [1.23s] Entropy 179.01811 LatentNats 118.16470 PointNats 3.16890
+[Rank 0] Epoch 0 Batch [ 8/177] Time [1.55s] Entropy 178.42849 LatentNats 118.15998 PointNats 3.16139
+[Rank 0] Epoch 0 Batch [ 9/177] Time [1.55s] Entropy 177.84514 LatentNats 118.15415 PointNats 3.14787
+[Rank 0] Epoch 0 Batch [10/177] Time [1.46s] Entropy 177.34900 LatentNats 118.14919 PointNats 3.14076
+[Rank 0] Epoch 0 Batch [11/177] Time [1.77s] Entropy 176.82629 LatentNats 118.14453 PointNats 3.14026
+[Rank 0] Epoch 0 Batch [12/177] Time [1.50s] Entropy 176.36134 LatentNats 118.14045 PointNats 3.13115
+[Rank 0] Epoch 0 Batch [13/177] Time [1.22s] Entropy 175.96965 LatentNats 118.14034 PointNats 3.12447
+[Rank 0] Epoch 0 Batch [14/177] Time [1.22s] Entropy 175.52158 LatentNats 118.13567 PointNats 3.11539
+[Rank 0] Epoch 0 Batch [15/177] Time [1.22s] Entropy 175.09686 LatentNats 118.13071 PointNats 3.10802
+[Rank 0] Epoch 0 Batch [16/177] Time [1.22s] Entropy 174.72583 LatentNats 118.12812 PointNats 3.10513
+[Rank 0] Epoch 0 Batch [17/177] Time [1.22s] Entropy 174.35732 LatentNats 118.12389 PointNats 3.10667
+[Rank 0] Epoch 0 Batch [18/177] Time [1.23s] Entropy 173.97138 LatentNats 118.12031 PointNats 3.10099
+[Rank 0] Epoch 0 Batch [19/177] Time [1.22s] Entropy 173.58509 LatentNats 118.11825 PointNats 3.09720
+[Rank 0] Epoch 0 Batch [20/177] Time [1.22s] Entropy 173.21190 LatentNats 118.11619 PointNats 3.09297
+[Rank 0] Epoch 0 Batch [21/177] Time [1.22s] Entropy 172.86547 LatentNats 118.11243 PointNats 3.09020
+[Rank 0] Epoch 0 Batch [22/177] Time [1.22s] Entropy 172.54402 LatentNats 118.11014 PointNats 3.08742
+[Rank 0] Epoch 0 Batch [23/177] Time [1.22s] Entropy 172.19307 LatentNats 118.10672 PointNats 3.08519
+[Rank 0] Epoch 0 Batch [24/177] Time [1.44s] Entropy 171.80031 LatentNats 118.10367 PointNats 3.08433
+[Rank 0] Epoch 0 Batch [25/177] Time [1.22s] Entropy 171.43270 LatentNats 118.10094 PointNats 3.08155
+[Rank 0] Epoch 0 Batch [26/177] Time [1.68s] Entropy 171.04740 LatentNats 118.09805 PointNats 3.08157
+[Rank 0] Epoch 0 Batch [27/177] Time [1.45s] Entropy 170.64032 LatentNats 118.09465 PointNats 3.07774
+[Rank 0] Epoch 0 Batch [28/177] Time [1.22s] Entropy 170.26480 LatentNats 118.09289 PointNats 3.07677
+[Rank 0] Epoch 0 Batch [29/177] Time [1.22s] Entropy 169.89764 LatentNats 118.09107 PointNats 3.07530
+[Rank 0] Epoch 0 Batch [30/177] Time [1.22s] Entropy 169.48644 LatentNats 118.08835 PointNats 3.07353
+[Rank 0] Epoch 0 Batch [31/177] Time [1.22s] Entropy 169.10724 LatentNats 118.08482 PointNats 3.06980
+[Rank 0] Epoch 0 Batch [32/177] Time [1.22s] Entropy 168.73598 LatentNats 118.08179 PointNats 3.06795
+[Rank 0] Epoch 0 Batch [33/177] Time [1.22s] Entropy 168.38297 LatentNats 118.07937 PointNats 3.06580
+[Rank 0] Epoch 0 Batch [34/177] Time [1.23s] Entropy 168.04971 LatentNats 118.07690 PointNats 3.06490
+[Rank 0] Epoch 0 Batch [35/177] Time [1.22s] Entropy 167.67195 LatentNats 118.07372 PointNats 3.06367
+[Rank 0] Epoch 0 Batch [36/177] Time [1.22s] Entropy 167.26601 LatentNats 118.07095 PointNats 3.06027
+[Rank 0] Epoch 0 Batch [37/177] Time [1.22s] Entropy 166.87632 LatentNats 118.06815 PointNats 3.05727
+[Rank 0] Epoch 0 Batch [38/177] Time [1.22s] Entropy 166.48336 LatentNats 118.06547 PointNats 3.05512
+[Rank 0] Epoch 0 Batch [39/177] Time [1.31s] Entropy 166.09431 LatentNats 118.06297 PointNats 3.05131
+[Rank 0] Epoch 0 Batch [40/177] Time [1.22s] Entropy 165.81125 LatentNats 118.06146 PointNats 3.04993
+[Rank 0] Epoch 0 Batch [41/177] Time [1.23s] Entropy 165.42506 LatentNats 118.05897 PointNats 3.04737
+[Rank 0] Epoch 0 Batch [42/177] Time [1.23s] Entropy 165.02842 LatentNats 118.05592 PointNats 3.04481
+[Rank 0] Epoch 0 Batch [43/177] Time [1.45s] Entropy 164.64764 LatentNats 118.05312 PointNats 3.04106
+[Rank 0] Epoch 0 Batch [44/177] Time [1.22s] Entropy 164.25408 LatentNats 118.05041 PointNats 3.03821
+[Rank 0] Epoch 0 Batch [45/177] Time [1.22s] Entropy 163.87294 LatentNats 118.04720 PointNats 3.03683
+[Rank 0] Epoch 0 Batch [46/177] Time [1.31s] Entropy 163.48835 LatentNats 118.04401 PointNats 3.03593
+[Rank 0] Epoch 0 Batch [47/177] Time [1.22s] Entropy 163.11107 LatentNats 118.04095 PointNats 3.03420
+[Rank 0] Epoch 0 Batch [48/177] Time [1.22s] Entropy 162.71817 LatentNats 118.03802 PointNats 3.03223
+[Rank 0] Epoch 0 Batch [49/177] Time [1.22s] Entropy 162.34864 LatentNats 118.03538 PointNats 3.02986
+[Rank 0] Epoch 0 Batch [50/177] Time [1.22s] Entropy 161.97990 LatentNats 118.03277 PointNats 3.02732
+[Rank 0] Epoch 0 Batch [51/177] Time [1.22s] Entropy 161.58085 LatentNats 118.02988 PointNats 3.02489
+[Rank 0] Epoch 0 Batch [52/177] Time [1.22s] Entropy 161.20975 LatentNats 118.02728 PointNats 3.02349
+[Rank 0] Epoch 0 Batch [53/177] Time [1.23s] Entropy 160.80726 LatentNats 118.02425 PointNats 3.02161
+[Rank 0] Epoch 0 Batch [54/177] Time [1.23s] Entropy 160.42236 LatentNats 118.02133 PointNats 3.02086
+[Rank 0] Epoch 0 Batch [55/177] Time [1.26s] Entropy 159.99850 LatentNats 118.01826 PointNats 3.01876
+[Rank 0] Epoch 0 Batch [56/177] Time [1.26s] Entropy 159.59422 LatentNats 118.01512 PointNats 3.01701
+[Rank 0] Epoch 0 Batch [57/177] Time [1.26s] Entropy 159.19270 LatentNats 118.01270 PointNats 3.01384
+[Rank 0] Epoch 0 Batch [58/177] Time [1.27s] Entropy 158.77091 LatentNats 118.00936 PointNats 3.01099
+[Rank 0] Epoch 0 Batch [59/177] Time [1.26s] Entropy 158.39344 LatentNats 118.00708 PointNats 3.00884
+[Rank 0] Epoch 0 Batch [60/177] Time [1.26s] Entropy 158.02229 LatentNats 118.00447 PointNats 3.00636
+[Rank 0] Epoch 0 Batch [61/177] Time [1.35s] Entropy 157.59028 LatentNats 118.00139 PointNats 3.00465
+[Rank 0] Epoch 0 Batch [62/177] Time [1.36s] Entropy 157.20040 LatentNats 117.99877 PointNats 3.00209
+[Rank 0] Epoch 0 Batch [63/177] Time [1.58s] Entropy 156.82273 LatentNats 117.99612 PointNats 3.00065
+[Rank 0] Epoch 0 Batch [64/177] Time [1.58s] Entropy 156.40600 LatentNats 117.99343 PointNats 2.99954
+[Rank 0] Epoch 0 Batch [65/177] Time [1.36s] Entropy 155.99005 LatentNats 117.99072 PointNats 2.99792
+[Rank 0] Epoch 0 Batch [66/177] Time [1.35s] Entropy 155.58166 LatentNats 117.98765 PointNats 2.99546
+[Rank 0] Epoch 0 Batch [67/177] Time [1.35s] Entropy 155.19640 LatentNats 117.98516 PointNats 2.99363
+[Rank 0] Epoch 0 Batch [68/177] Time [1.35s] Entropy 154.78513 LatentNats 117.98235 PointNats 2.99169
+[Rank 0] Epoch 0 Batch [69/177] Time [1.58s] Entropy 154.37847 LatentNats 117.97951 PointNats 2.98989
+[Rank 0] Epoch 0 Batch [70/177] Time [1.35s] Entropy 153.97415 LatentNats 117.97662 PointNats 2.98780
+[Rank 0] Epoch 0 Batch [71/177] Time [1.58s] Entropy 153.57904 LatentNats 117.97403 PointNats 2.98664
+[Rank 0] Epoch 0 Batch [72/177] Time [1.27s] Entropy 153.16309 LatentNats 117.97110 PointNats 2.98523
+[Rank 0] Epoch 0 Batch [73/177] Time [1.59s] Entropy 152.75654 LatentNats 117.96815 PointNats 2.98315
+[Rank 0] Epoch 0 Batch [74/177] Time [1.61s] Entropy 152.34175 LatentNats 117.96488 PointNats 2.98220
+[Rank 0] Epoch 0 Batch [75/177] Time [1.61s] Entropy 151.92054 LatentNats 117.96229 PointNats 2.97966
+[Rank 0] Epoch 0 Batch [76/177] Time [1.61s] Entropy 151.51269 LatentNats 117.95929 PointNats 2.97781
+[Rank 0] Epoch 0 Batch [77/177] Time [1.61s] Entropy 151.08917 LatentNats 117.95657 PointNats 2.97559
+[Rank 0] Epoch 0 Batch [78/177] Time [1.83s] Entropy 150.68527 LatentNats 117.95390 PointNats 2.97421
+[Rank 0] Epoch 0 Batch [79/177] Time [1.62s] Entropy 150.25222 LatentNats 117.95093 PointNats 2.97237
+[Rank 0] Epoch 0 Batch [80/177] Time [1.83s] Entropy 149.87265 LatentNats 117.94811 PointNats 2.96993
+[Rank 0] Epoch 0 Batch [81/177] Time [1.61s] Entropy 149.46636 LatentNats 117.94536 PointNats 2.96784
+[Rank 0] Epoch 0 Batch [82/177] Time [1.61s] Entropy 149.08950 LatentNats 117.94266 PointNats 2.96609
+[Rank 0] Epoch 0 Batch [83/177] Time [1.61s] Entropy 148.70063 LatentNats 117.94006 PointNats 2.96495
+[Rank 0] Epoch 0 Batch [84/177] Time [1.61s] Entropy 148.29957 LatentNats 117.93732 PointNats 2.96299
+[Rank 0] Epoch 0 Batch [85/177] Time [1.62s] Entropy 147.86870 LatentNats 117.93411 PointNats 2.96079
+[Rank 0] Epoch 0 Batch [86/177] Time [1.61s] Entropy 147.43954 LatentNats 117.93124 PointNats 2.96017
+[Rank 0] Epoch 0 Batch [87/177] Time [1.64s] Entropy 147.01956 LatentNats 117.92826 PointNats 2.95868
+[Rank 0] Epoch 0 Batch [88/177] Time [1.67s] Entropy 146.59633 LatentNats 117.92537 PointNats 2.95783
+[Rank 0] Epoch 0 Batch [89/177] Time [1.67s] Entropy 146.19656 LatentNats 117.92267 PointNats 2.95595
+[Rank 0] Epoch 0 Batch [90/177] Time [1.81s] Entropy 145.78783 LatentNats 117.91991 PointNats 2.95487
+[Rank 0] Epoch 0 Batch [91/177] Time [1.73s] Entropy 145.37989 LatentNats 117.91723 PointNats 2.95285
+[Rank 0] Epoch 0 Batch [92/177] Time [1.91s] Entropy 144.94713 LatentNats 117.91420 PointNats 2.95071
+[Rank 0] Epoch 0 Batch [93/177] Time [2.21s] Entropy 144.54769 LatentNats 117.91180 PointNats 2.94868
+[Rank 0] Epoch 0 Batch [94/177] Time [2.18s] Entropy 144.13208 LatentNats 117.90881 PointNats 2.94666
+[Rank 0] Epoch 0 Batch [95/177] Time [1.90s] Entropy 143.70496 LatentNats 117.90603 PointNats 2.94566
+[Rank 0] Epoch 0 Batch [96/177] Time [1.97s] Entropy 143.25267 LatentNats 117.90304 PointNats 2.94411
+[Rank 0] Epoch 0 Batch [97/177] Time [2.23s] Entropy 142.81095 LatentNats 117.90011 PointNats 2.94244
+[Rank 0] Epoch 0 Batch [98/177] Time [2.34s] Entropy 142.39562 LatentNats 117.89762 PointNats 2.94226
+[Rank 0] Epoch 0 Batch [99/177] Time [2.39s] Entropy 141.97225 LatentNats 117.89483 PointNats 2.94068
+[Rank 0] Epoch 0 Batch [100/177] Time [2.92s] Entropy 141.53145 LatentNats 117.89182 PointNats 2.93928
+[Rank 0] Epoch 0 Batch [101/177] Time [2.36s] Entropy 141.11050 LatentNats 117.88902 PointNats 2.93805
+[Rank 0] Epoch 0 Batch [102/177] Time [2.47s] Entropy 140.66239 LatentNats 117.88601 PointNats 2.93646
+[Rank 0] Epoch 0 Batch [103/177] Time [2.83s] Entropy 140.20469 LatentNats 117.88333 PointNats 2.93444
+[Rank 0] Epoch 0 Batch [104/177] Time [2.74s] Entropy 139.76588 LatentNats 117.88084 PointNats 2.93301
+[Rank 0] Epoch 0 Batch [105/177] Time [2.73s] Entropy 139.32080 LatentNats 117.87789 PointNats 2.93128
+[Rank 0] Epoch 0 Batch [106/177] Time [2.51s] Entropy 138.87208 LatentNats 117.87479 PointNats 2.92992
+[Rank 0] Epoch 0 Batch [107/177] Time [3.25s] Entropy 138.44347 LatentNats 117.87217 PointNats 2.92857
+[Rank 0] Epoch 0 Batch [108/177] Time [2.63s] Entropy 137.99048 LatentNats 117.86894 PointNats 2.92713
+[Rank 0] Epoch 0 Batch [109/177] Time [3.69s] Entropy 137.53528 LatentNats 117.86602 PointNats 2.92545
+[Rank 0] Epoch 0 Batch [110/177] Time [3.15s] Entropy 137.11101 LatentNats 117.86334 PointNats 2.92339
+[Rank 0] Epoch 0 Batch [111/177] Time [3.94s] Entropy 136.67439 LatentNats 117.86042 PointNats 2.92149
+[Rank 0] Epoch 0 Batch [112/177] Time [3.20s] Entropy 136.22736 LatentNats 117.85753 PointNats 2.92024
+[Rank 0] Epoch 0 Batch [113/177] Time [3.43s] Entropy 135.77817 LatentNats 117.85491 PointNats 2.91883
+[Rank 0] Epoch 0 Batch [114/177] Time [3.56s] Entropy 135.32652 LatentNats 117.85254 PointNats 2.91753
+[Rank 0] Epoch 0 Batch [115/177] Time [3.00s] Entropy 134.87618 LatentNats 117.84978 PointNats 2.91620
+[Rank 0] Epoch 0 Batch [116/177] Time [2.57s] Entropy 134.43034 LatentNats 117.84708 PointNats 2.91542
+[Rank 0] Epoch 0 Batch [117/177] Time [2.83s] Entropy 133.97168 LatentNats 117.84441 PointNats 2.91455
+^CTraceback (most recent call last):
+  File "train.py", line 272, in <module>
+    main()
+  File "train.py", line 268, in main
+    main_worker(args.gpu, save_dir, ngpus_per_node, args)
+  File "train.py", line 168, in main_worker
+    for bidx, data in enumerate(train_loader):
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/utils/data/dataloader.py", line 615, in __next__
+    batch = self.collate_fn([self.dataset[i] for i in indices])
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/utils/data/dataloader.py", line 229, in default_collate
+    return {key: default_collate([d[key] for d in batch]) for key in batch[0]}
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/utils/data/dataloader.py", line 229, in <dictcomp>
+    return {key: default_collate([d[key] for d in batch]) for key in batch[0]}
+  File "/mnt/lustre/zhangjunzhe/anaconda3/envs/PointFlow/lib/python3.6/site-packages/torch/utils/data/dataloader.py", line 209, in default_collate
+    return torch.stack(batch, 0, out=out)
+KeyboardInterrupt
+^C^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ grep -r "zdim" *.py
+args.py:    parser.add_argument('--zdim', type=int, default=128,
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ grep -r "zdim" */*.py
+models/flow.py:    model = build_model(args, args.input_dim, dims, args.zdim, args.num_blocks, True).cuda()
+models/flow.py:    model = build_model(args, args.zdim, dims, 0, args.latent_num_blocks, False).cuda()
+models/networks.py:    def __init__(self, zdim, input_dim=3, use_deterministic_encoder=False):
+models/networks.py:        self.zdim = zdim
+models/networks.py:            self.fc3 = nn.Linear(128, zdim)
+models/networks.py:            self.fc3_m = nn.Linear(128, zdim)
+models/networks.py:            self.fc3_v = nn.Linear(128, zdim)
+models/networks.py:        self.zdim = args.zdim
+models/networks.py:                zdim=args.zdim, input_dim=args.input_dim,
+models/networks.py:        prior_nats = prior / float(self.zdim)
+models/networks.py:        w = self.sample_gaussian((batch_size, self.zdim), truncate_std_latent, gpu=gpu)
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ squeue
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+             82274 Sensetime primitiv rendaxua  R      11:30      1 SG-IDC1-10-51-0-35
+             82262 Sensetime   python zhaohaiy  R    1:50:35      1 SG-IDC1-10-51-0-30
+             82260 Sensetime  PartA^2 yucunjun  R    2:14:03      6 SG-IDC1-10-51-0-[36,38-42]
+             82133 Sensetime  krepul7 zhangjun  R    7:34:22      1 SG-IDC1-10-51-0-30
+             82132 Sensetime  krepul6 zhangjun  R    7:34:37      1 SG-IDC1-10-51-0-30
+             82128 Sensetime   expan6 zhangjun  R    7:35:55      1 SG-IDC1-10-51-0-43
+             82126 Sensetime   expan5 zhangjun  R    7:36:49      1 SG-IDC1-10-51-0-33
+             82124 Sensetime   expan6 zhangjun  R    7:40:01      1 SG-IDC1-10-51-0-33
+             82119 Sensetime     knn8 zhangjun  R    8:07:20      1 SG-IDC1-10-51-0-32
+             82118 Sensetime     knn7 zhangjun  R    8:07:51      1 SG-IDC1-10-51-0-32
+             82117 Sensetime     knn6 zhangjun  R    8:08:29      1 SG-IDC1-10-51-0-35
+             82116 Sensetime     knn5 zhangjun  R    8:08:48      1 SG-IDC1-10-51-0-30
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ seninfo
+HostList                used/total      State           Partition
+SG-IDC1-10-51-0-30      7/8             mix             Sensetime*
+SG-IDC1-10-51-0-43      4/8             mix             Sensetime*
+SG-IDC1-10-51-0-44      0/8             idle            Sensetime*
+SG-IDC1-10-51-0-45      0/8             idle            Sensetime*
+
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ python train.py     --log_name ${log_name}     --lr ${lr}     --dataset_type ${ds}     --data_dir ${data_dir}     --c
+ates ${cate}     --dims ${dims}     --latent_dims ${latent_dims}     --num_blocks ${num_blocks}     --latent_num_blocks ${latent_num_blocks}     --batch_size ${batch_size}
+  --zdim ${zdim}     --epochs ${epochs}     --save_freq 50     --viz_freq 1     --log_freq 1     --val_freq 10     --use_latent_flow
+Arguments:
+Namespace(atol=1e-05, batch_norm=True, batch_size=16, beta1=0.9, beta2=0.999, bn_lag=0, cates=['airplane'], data_dir='data/ShapeNetCore.v2.PC15k', dataset_scale=1.0, dataset_
+type='shapenet15k', dims='512-512-512', dist_backend='nccl', dist_url='tcp://127.0.0.1:9991', distributed=False, entropy_weight=1.0, epochs=4000, eval_classification=False, e
+valuate_recon=False, exp_decay=1.0, exp_decay_freq=1, gpu=None, input_dim=3, latent_dims='256-256', latent_num_blocks=1, layer_type='concatsquash', log_freq=1, log_name='gen/
+shapenet15k-cateairplane', lr=0.002, max_validate_shapes=None, mn10_data_dir='data/ModelNet10.PC15k', mn40_data_dir='data/ModelNet40.PC15k', momentum=0.9, no_eval_sampling=Fa
+lse, no_validation=False, nonlinearity='tanh', normalize_per_shape=False, normalize_std_per_axis=False, num_blocks=1, num_sample_points=2048, num_sample_shapes=10, num_worker
+s=4, optimizer='adam', prior_weight=1.0, random_rotate=False, rank=0, recon_weight=1.0, resume_checkpoint=None, resume_dataset_mean=None, resume_dataset_std=None, resume_non_
+strict=False, resume_optimizer=False, rtol=1e-05, save_freq=50, save_val_results=False, scheduler='linear', seed=524338, solver='dopri5', sync_bn=False, te_max_sample_points=
+2048, time_length=0.5, tr_max_sample_points=2048, train_T=True, use_adjoint=True, use_deterministic_encoder=False, use_latent_flow=True, val_freq=10, viz_freq=1, weight_decay
+=0.0, world_size=1, zdim=128)
+Number of trainable parameters of Point CNF: 927513
+Number of trainable parameters of Latent CNF: 134145
+Total number of data:2832
+Min number of points: (train)2048 (test)2048
+Total number of data:405
+Min number of points: (train)2048 (test)2048
+Start epoch: 0 End epoch: 4000
+[Rank 0] Epoch 0 Batch [ 0/177] Time [2.45s] Entropy 181.72350 LatentNats 118.18484 PointNats 3.28813
+[Rank 0] Epoch 0 Batch [ 1/177] Time [1.24s] Entropy 181.34151 LatentNats 118.17390 PointNats 3.27381
+[Rank 0] Epoch 0 Batch [ 2/177] Time [1.22s] Entropy 180.97813 LatentNats 118.17056 PointNats 3.26069
+[Rank 0] Epoch 0 Batch [ 3/177] Time [1.22s] Entropy 180.55897 LatentNats 118.16483 PointNats 3.24052
+[Rank 0] Epoch 0 Batch [ 4/177] Time [1.22s] Entropy 180.07194 LatentNats 118.15796 PointNats 3.22115
+[Rank 0] Epoch 0 Batch [ 5/177] Time [1.23s] Entropy 179.53976 LatentNats 118.15442 PointNats 3.20269
+[Rank 0] Epoch 0 Batch [ 6/177] Time [1.23s] Entropy 179.04263 LatentNats 118.14695 PointNats 3.17888
+[Rank 0] Epoch 0 Batch [ 7/177] Time [1.59s] Entropy 178.48226 LatentNats 118.14471 PointNats 3.15988
+[Rank 0] Epoch 0 Batch [ 8/177] Time [1.55s] Entropy 177.97806 LatentNats 118.14235 PointNats 3.15084
+[Rank 0] Epoch 0 Batch [ 9/177] Time [1.58s] Entropy 177.44437 LatentNats 118.13700 PointNats 3.14438
+[Rank 0] Epoch 0 Batch [10/177] Time [1.77s] Entropy 177.05505 LatentNats 118.13373 PointNats 3.14376
+[Rank 0] Epoch 0 Batch [11/177] Time [1.46s] Entropy 176.69278 LatentNats 118.13016 PointNats 3.13289
+[Rank 0] Epoch 0 Batch [12/177] Time [1.54s] Entropy 176.34168 LatentNats 118.12691 PointNats 3.12922
+[Rank 0] Epoch 0 Batch [13/177] Time [1.22s] Entropy 176.02422 LatentNats 118.12443 PointNats 3.12516
+[Rank 0] Epoch 0 Batch [14/177] Time [1.22s] Entropy 175.71933 LatentNats 118.12549 PointNats 3.12363
+[Rank 0] Epoch 0 Batch [15/177] Time [1.22s] Entropy 175.42777 LatentNats 118.12434 PointNats 3.12163
+[Rank 0] Epoch 0 Batch [16/177] Time [1.22s] Entropy 175.18570 LatentNats 118.12336 PointNats 3.11973
+[Rank 0] Epoch 0 Batch [17/177] Time [1.22s] Entropy 174.92629 LatentNats 118.12106 PointNats 3.11986
+[Rank 0] Epoch 0 Batch [18/177] Time [1.22s] Entropy 174.65679 LatentNats 118.11908 PointNats 3.11924
+[Rank 0] Epoch 0 Batch [19/177] Time [1.21s] Entropy 174.42564 LatentNats 118.11749 PointNats 3.11640
+[Rank 0] Epoch 0 Batch [20/177] Time [1.21s] Entropy 174.17463 LatentNats 118.11530 PointNats 3.11516
+[Rank 0] Epoch 0 Batch [21/177] Time [1.21s] Entropy 173.92467 LatentNats 118.11339 PointNats 3.11293
+[Rank 0] Epoch 0 Batch [22/177] Time [1.22s] Entropy 173.73213 LatentNats 118.11292 PointNats 3.10965
+[Rank 0] Epoch 0 Batch [23/177] Time [1.22s] Entropy 173.49449 LatentNats 118.11171 PointNats 3.10777
+[Rank 0] Epoch 0 Batch [24/177] Time [1.21s] Entropy 173.24225 LatentNats 118.10934 PointNats 3.10655
+[Rank 0] Epoch 0 Batch [25/177] Time [1.22s] Entropy 172.98486 LatentNats 118.10715 PointNats 3.10528
+[Rank 0] Epoch 0 Batch [26/177] Time [1.22s] Entropy 172.79620 LatentNats 118.10532 PointNats 3.10338
+[Rank 0] Epoch 0 Batch [27/177] Time [1.21s] Entropy 172.55613 LatentNats 118.10371 PointNats 3.09872
+[Rank 0] Epoch 0 Batch [28/177] Time [1.21s] Entropy 172.28225 LatentNats 118.10215 PointNats 3.09845
+[Rank 0] Epoch 0 Batch [29/177] Time [1.22s] Entropy 172.01796 LatentNats 118.10060 PointNats 3.09446
+[Rank 0] Epoch 0 Batch [30/177] Time [1.23s] Entropy 171.77668 LatentNats 118.09830 PointNats 3.09166
+[Rank 0] Epoch 0 Batch [31/177] Time [1.22s] Entropy 171.50652 LatentNats 118.09611 PointNats 3.08966
+[Rank 0] Epoch 0 Batch [32/177] Time [1.22s] Entropy 171.23483 LatentNats 118.09383 PointNats 3.08696
+[Rank 0] Epoch 0 Batch [33/177] Time [1.22s] Entropy 170.95909 LatentNats 118.09172 PointNats 3.08320
+[Rank 0] Epoch 0 Batch [34/177] Time [1.22s] Entropy 170.70036 LatentNats 118.09025 PointNats 3.07979
+[Rank 0] Epoch 0 Batch [35/177] Time [1.21s] Entropy 170.42079 LatentNats 118.08775 PointNats 3.07792
+[Rank 0] Epoch 0 Batch [36/177] Time [1.21s] Entropy 170.15916 LatentNats 118.08636 PointNats 3.07484
+[Rank 0] Epoch 0 Batch [37/177] Time [1.21s] Entropy 169.87628 LatentNats 118.08406 PointNats 3.07261
+[Rank 0] Epoch 0 Batch [38/177] Time [1.22s] Entropy 169.57767 LatentNats 118.08142 PointNats 3.07064
+[Rank 0] Epoch 0 Batch [39/177] Time [1.22s] Entropy 169.31796 LatentNats 118.08035 PointNats 3.06778
+[Rank 0] Epoch 0 Batch [40/177] Time [1.21s] Entropy 169.02958 LatentNats 118.07809 PointNats 3.06458
+[Rank 0] Epoch 0 Batch [41/177] Time [1.22s] Entropy 168.75564 LatentNats 118.07637 PointNats 3.06292
+[Rank 0] Epoch 0 Batch [42/177] Time [1.22s] Entropy 168.48200 LatentNats 118.07389 PointNats 3.06239
+[Rank 0] Epoch 0 Batch [43/177] Time [1.44s] Entropy 168.20236 LatentNats 118.07194 PointNats 3.06100
+[Rank 0] Epoch 0 Batch [44/177] Time [1.21s] Entropy 167.96703 LatentNats 118.07020 PointNats 3.05784
+[Rank 0] Epoch 0 Batch [45/177] Time [1.21s] Entropy 167.65915 LatentNats 118.06802 PointNats 3.05587
+[Rank 0] Epoch 0 Batch [46/177] Time [1.22s] Entropy 167.40906 LatentNats 118.06583 PointNats 3.05427
+[Rank 0] Epoch 0 Batch [47/177] Time [1.22s] Entropy 167.11327 LatentNats 118.06383 PointNats 3.05209
+[Rank 0] Epoch 0 Batch [48/177] Time [1.22s] Entropy 166.82180 LatentNats 118.06187 PointNats 3.04952
+[Rank 0] Epoch 0 Batch [49/177] Time [1.21s] Entropy 166.52908 LatentNats 118.06036 PointNats 3.04751
+[Rank 0] Epoch 0 Batch [50/177] Time [1.22s] Entropy 166.22309 LatentNats 118.05877 PointNats 3.04542
+[Rank 0] Epoch 0 Batch [51/177] Time [1.22s] Entropy 165.90430 LatentNats 118.05614 PointNats 3.04413
+[Rank 0] Epoch 0 Batch [52/177] Time [1.31s] Entropy 165.61195 LatentNats 118.05398 PointNats 3.04149
+[Rank 0] Epoch 0 Batch [53/177] Time [1.21s] Entropy 165.29972 LatentNats 118.05138 PointNats 3.03951
+[Rank 0] Epoch 0 Batch [54/177] Time [1.54s] Entropy 164.99240 LatentNats 118.04894 PointNats 3.03734
+[Rank 0] Epoch 0 Batch [55/177] Time [1.22s] Entropy 164.66885 LatentNats 118.04694 PointNats 3.03515
+[Rank 0] Epoch 0 Batch [56/177] Time [1.21s] Entropy 164.36970 LatentNats 118.04424 PointNats 3.03409
+[Rank 0] Epoch 0 Batch [57/177] Time [1.53s] Entropy 164.04506 LatentNats 118.04240 PointNats 3.03230
+[Rank 0] Epoch 0 Batch [58/177] Time [1.23s] Entropy 163.72858 LatentNats 118.04050 PointNats 3.03031
+[Rank 0] Epoch 0 Batch [59/177] Time [1.55s] Entropy 163.42098 LatentNats 118.03899 PointNats 3.02874
+[Rank 0] Epoch 0 Batch [60/177] Time [1.23s] Entropy 163.12049 LatentNats 118.03696 PointNats 3.02636
+[Rank 0] Epoch 0 Batch [61/177] Time [1.32s] Entropy 162.80746 LatentNats 118.03454 PointNats 3.02420
+[Rank 0] Epoch 0 Batch [62/177] Time [1.36s] Entropy 162.52584 LatentNats 118.03230 PointNats 3.02245
+[Rank 0] Epoch 0 Batch [63/177] Time [1.35s] Entropy 162.21937 LatentNats 118.03033 PointNats 3.02204
+[Rank 0] Epoch 0 Batch [64/177] Time [1.26s] Entropy 161.92467 LatentNats 118.02814 PointNats 3.02015
+[Rank 0] Epoch 0 Batch [65/177] Time [1.26s] Entropy 161.61243 LatentNats 118.02621 PointNats 3.01823
+[Rank 0] Epoch 0 Batch [66/177] Time [1.26s] Entropy 161.29351 LatentNats 118.02399 PointNats 3.01675
+[Rank 0] Epoch 0 Batch [67/177] Time [1.26s] Entropy 161.03152 LatentNats 118.02257 PointNats 3.01484
+[Rank 0] Epoch 0 Batch [68/177] Time [1.80s] Entropy 160.71855 LatentNats 118.02077 PointNats 3.01338
+[Rank 0] Epoch 0 Batch [69/177] Time [1.58s] Entropy 160.38630 LatentNats 118.01829 PointNats 3.01143
+[Rank 0] Epoch 0 Batch [70/177] Time [1.26s] Entropy 160.06318 LatentNats 118.01609 PointNats 3.01007
+[Rank 0] Epoch 0 Batch [71/177] Time [1.26s] Entropy 159.74769 LatentNats 118.01390 PointNats 3.00846
+[Rank 0] Epoch 0 Batch [72/177] Time [1.26s] Entropy 159.41585 LatentNats 118.01174 PointNats 3.00597
+[Rank 0] Epoch 0 Batch [73/177] Time [1.35s] Entropy 159.11501 LatentNats 118.00954 PointNats 3.00425
+[Rank 0] Epoch 0 Batch [74/177] Time [1.58s] Entropy 158.80033 LatentNats 118.00724 PointNats 3.00249
+[Rank 0] Epoch 0 Batch [75/177] Time [1.26s] Entropy 158.46740 LatentNats 118.00487 PointNats 3.00137
+[Rank 0] Epoch 0 Batch [76/177] Time [1.35s] Entropy 158.12935 LatentNats 118.00231 PointNats 2.99999
+[Rank 0] Epoch 0 Batch [77/177] Time [1.58s] Entropy 157.80819 LatentNats 118.00008 PointNats 2.99855
+[Rank 0] Epoch 0 Batch [78/177] Time [1.58s] Entropy 157.46168 LatentNats 117.99788 PointNats 2.99645
+[Rank 0] Epoch 0 Batch [79/177] Time [1.58s] Entropy 157.14047 LatentNats 117.99587 PointNats 2.99467
+[Rank 0] Epoch 0 Batch [80/177] Time [1.58s] Entropy 156.81652 LatentNats 117.99353 PointNats 2.99244
+[Rank 0] Epoch 0 Batch [81/177] Time [1.58s] Entropy 156.47322 LatentNats 117.99116 PointNats 2.99113
+[Rank 0] Epoch 0 Batch [82/177] Time [1.58s] Entropy 156.13150 LatentNats 117.98889 PointNats 2.99031
+[Rank 0] Epoch 0 Batch [83/177] Time [1.68s] Entropy 155.81058 LatentNats 117.98682 PointNats 2.98946
+[Rank 0] Epoch 0 Batch [84/177] Time [1.58s] Entropy 155.47810 LatentNats 117.98451 PointNats 2.98783
+[Rank 0] Epoch 0 Batch [85/177] Time [1.58s] Entropy 155.13002 LatentNats 117.98235 PointNats 2.98659
+[Rank 0] Epoch 0 Batch [86/177] Time [1.58s] Entropy 154.77641 LatentNats 117.97990 PointNats 2.98547
+[Rank 0] Epoch 0 Batch [87/177] Time [1.58s] Entropy 154.43641 LatentNats 117.97755 PointNats 2.98380
+[Rank 0] Epoch 0 Batch [88/177] Time [1.58s] Entropy 154.09499 LatentNats 117.97529 PointNats 2.98222
+[Rank 0] Epoch 0 Batch [89/177] Time [1.60s] Entropy 153.75240 LatentNats 117.97307 PointNats 2.98023
+[Rank 0] Epoch 0 Batch [90/177] Time [1.71s] Entropy 153.41095 LatentNats 117.97099 PointNats 2.97860
+[Rank 0] Epoch 0 Batch [91/177] Time [1.65s] Entropy 153.05694 LatentNats 117.96869 PointNats 2.97722
+[Rank 0] Epoch 0 Batch [92/177] Time [1.66s] Entropy 152.71767 LatentNats 117.96654 PointNats 2.97502
+[Rank 0] Epoch 0 Batch [93/177] Time [1.69s] Entropy 152.38122 LatentNats 117.96423 PointNats 2.97308
+[Rank 0] Epoch 0 Batch [94/177] Time [1.77s] Entropy 152.01539 LatentNats 117.96172 PointNats 2.97128
+[Rank 0] Epoch 0 Batch [95/177] Time [1.81s] Entropy 151.66244 LatentNats 117.95904 PointNats 2.96966
+[Rank 0] Epoch 0 Batch [96/177] Time [1.77s] Entropy 151.28973 LatentNats 117.95669 PointNats 2.96791
+[Rank 0] Epoch 0 Batch [97/177] Time [1.86s] Entropy 150.91770 LatentNats 117.95411 PointNats 2.96620
+[Rank 0] Epoch 0 Batch [98/177] Time [2.24s] Entropy 150.56131 LatentNats 117.95151 PointNats 2.96491
+^C^C^C^C
+^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ ^C
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$ nvidia-smi
+Mon Jun 29 23:52:44 2020
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 418.67       Driver Version: 418.67       CUDA Version: 10.1     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Tesla V100-PCIE...  On   | 00000000:AF:00.0 Off |                    0 |
+| N/A   74C    P0    42W / 250W |      0MiB / 32480MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+
++-----------------------------------------------------------------------------+
+| Processes:                                                       GPU Memory |
+|  GPU       PID   Type   Process name                             Usage      |
+|=============================================================================|
+|  No running processes found                                                 |
++-----------------------------------------------------------------------------+
+(PointFlow) [zhangjunzhe@SG-IDC1-10-51-0-103 PointFlow]$

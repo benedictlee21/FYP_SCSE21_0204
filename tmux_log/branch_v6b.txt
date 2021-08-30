@@ -1,0 +1,1857 @@
+[Epoch]  683 [ D_Loss ]  -0.055315 [ G_Loss ]   45.260726 [ Time ]  90.36s
+[Epoch]  684 [ D_Loss ]  -0.053579 [ G_Loss ]   44.373604 [ Time ]  90.28s
+[Epoch]  685 [ D_Loss ]  -0.054787 [ G_Loss ]   44.991935 [ Time ]  90.15s
+---------------------------[ 685 Epoch] Frechet Pointcloud Distance <<< 1.11 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 111 4951
+[Epoch]  686 [ D_Loss ]  -0.053906 [ G_Loss ]   45.292728 [ Time ]  93.93s
+[Epoch]  687 [ D_Loss ]  -0.054301 [ G_Loss ]   45.743147 [ Time ]  90.28s
+[Epoch]  688 [ D_Loss ]  -0.053547 [ G_Loss ]   45.840436 [ Time ]  90.35s
+[Epoch]  689 [ D_Loss ]  -0.054786 [ G_Loss ]   45.375304 [ Time ]  90.33s
+[Epoch]  690 [ D_Loss ]  -0.053075 [ G_Loss ]   44.127524 [ Time ]  90.44s
+---------------------------[ 690 Epoch] Frechet Pointcloud Distance <<< 1.45 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 102 4869
+[Epoch]  691 [ D_Loss ]  -0.053479 [ G_Loss ]   44.181265 [ Time ]  93.90s
+[Epoch]  692 [ D_Loss ]  -0.054811 [ G_Loss ]   45.597566 [ Time ]  90.56s
+[Epoch]  693 [ D_Loss ]  -0.052071 [ G_Loss ]   45.727241 [ Time ]  90.56s
+[Epoch]  694 [ D_Loss ]  -0.052461 [ G_Loss ]   45.097928 [ Time ]  90.43s
+[Epoch]  695 [ D_Loss ]  -0.053903 [ G_Loss ]   45.288076 [ Time ]  90.29s
+---------------------------[ 695 Epoch] Frechet Pointcloud Distance <<< 2.24 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 132 5859
+[Epoch]  696 [ D_Loss ]  -0.054636 [ G_Loss ]   45.507048 [ Time ]  94.96s
+[Epoch]  697 [ D_Loss ]  -0.055779 [ G_Loss ]   45.840896 [ Time ]  90.94s
+[Epoch]  698 [ D_Loss ]  -0.054979 [ G_Loss ]   45.261432 [ Time ]  90.37s
+[Epoch]  699 [ D_Loss ]  -0.055728 [ G_Loss ]   45.271138 [ Time ]  91.25s
+[Epoch]  700 [ D_Loss ]  -0.052067 [ G_Loss ]   44.846464 [ Time ]  90.48s
+---------------------------[ 700 Epoch] Frechet Pointcloud Distance <<< 1.70 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 103 4859
+[Epoch]  701 [ D_Loss ]  -0.054591 [ G_Loss ]   44.744603 [ Time ]  90.85s
+[Epoch]  702 [ D_Loss ]  -0.052265 [ G_Loss ]   44.513249 [ Time ]  90.88s
+[Epoch]  703 [ D_Loss ]  -0.055040 [ G_Loss ]   43.908597 [ Time ]  90.43s
+[Epoch]  704 [ D_Loss ]  -0.053167 [ G_Loss ]   44.130576 [ Time ]  90.32s
+[Epoch]  705 [ D_Loss ]  -0.052013 [ G_Loss ]   44.585588 [ Time ]  91.97s
+---------------------------[ 705 Epoch] Frechet Pointcloud Distance <<< 2.90 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 94 4589
+[Epoch]  706 [ D_Loss ]  -0.054469 [ G_Loss ]   45.357681 [ Time ]  90.37s
+[Epoch]  707 [ D_Loss ]  -0.052783 [ G_Loss ]   44.526043 [ Time ]  90.18s
+[Epoch]  708 [ D_Loss ]  -0.052638 [ G_Loss ]   44.424228 [ Time ]  90.36s
+[Epoch]  709 [ D_Loss ]  -0.053717 [ G_Loss ]   43.229387 [ Time ]  90.46s
+[Epoch]  710 [ D_Loss ]  -0.055353 [ G_Loss ]   44.104032 [ Time ]  93.96s
+---------------------------[ 710 Epoch] Frechet Pointcloud Distance <<< 1.94 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 112 4968
+[Epoch]  711 [ D_Loss ]  -0.053146 [ G_Loss ]   44.779140 [ Time ]  90.32s
+[Epoch]  712 [ D_Loss ]  -0.053517 [ G_Loss ]   44.978913 [ Time ]  90.06s
+[Epoch]  713 [ D_Loss ]  -0.054252 [ G_Loss ]   44.324250 [ Time ]  90.19s
+[Epoch]  714 [ D_Loss ]  -0.053706 [ G_Loss ]   43.995530 [ Time ]  90.05s
+[Epoch]  715 [ D_Loss ]  -0.051789 [ G_Loss ]   44.221887 [ Time ]  93.82s
+---------------------------[ 715 Epoch] Frechet Pointcloud Distance <<< 1.95 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 112 5029
+[Epoch]  716 [ D_Loss ]  -0.052057 [ G_Loss ]   44.960776 [ Time ]  90.40s
+[Epoch]  717 [ D_Loss ]  -0.054511 [ G_Loss ]   44.794646 [ Time ]  90.55s
+[Epoch]  718 [ D_Loss ]  -0.054624 [ G_Loss ]   44.833813 [ Time ]  90.11s
+[Epoch]  719 [ D_Loss ]  -0.052477 [ G_Loss ]   43.972866 [ Time ]  90.17s
+[Epoch]  720 [ D_Loss ]  -0.052931 [ G_Loss ]   44.109993 [ Time ]  96.56s
+---------------------------[ 720 Epoch] Frechet Pointcloud Distance <<< 1.93 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 105 4778
+[Epoch]  721 [ D_Loss ]  -0.054343 [ G_Loss ]   43.589832 [ Time ]  90.37s
+[Epoch]  722 [ D_Loss ]  -0.053235 [ G_Loss ]   43.382270 [ Time ]  90.31s
+[Epoch]  723 [ D_Loss ]  -0.052262 [ G_Loss ]   43.034447 [ Time ]  90.31s
+[Epoch]  724 [ D_Loss ]  -0.050499 [ G_Loss ]   43.843807 [ Time ]  92.39s
+[Epoch]  725 [ D_Loss ]  -0.055885 [ G_Loss ]   44.506099 [ Time ]  91.82s
+---------------------------[ 725 Epoch] Frechet Pointcloud Distance <<< 1.39 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 108 4576
+[Epoch]  726 [ D_Loss ]  -0.054889 [ G_Loss ]   43.345461 [ Time ]  90.26s
+[Epoch]  727 [ D_Loss ]  -0.053101 [ G_Loss ]   43.791720 [ Time ]  90.54s
+[Epoch]  728 [ D_Loss ]  -0.052647 [ G_Loss ]   44.595007 [ Time ]  90.35s
+[Epoch]  729 [ D_Loss ]  -0.052941 [ G_Loss ]   44.418421 [ Time ]  93.92s
+[Epoch]  730 [ D_Loss ]  -0.052261 [ G_Loss ]   44.668525 [ Time ]  90.09s
+---------------------------[ 730 Epoch] Frechet Pointcloud Distance <<< 2.54 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 116 4941
+[Epoch]  731 [ D_Loss ]  -0.052322 [ G_Loss ]   44.479681 [ Time ]  90.86s
+[Epoch]  732 [ D_Loss ]  -0.052370 [ G_Loss ]   44.375968 [ Time ]  90.55s
+[Epoch]  733 [ D_Loss ]  -0.052822 [ G_Loss ]   43.719983 [ Time ]  90.59s
+[Epoch]  734 [ D_Loss ]  -0.052133 [ G_Loss ]   44.747345 [ Time ]  93.96s
+[Epoch]  735 [ D_Loss ]  -0.052216 [ G_Loss ]   44.372285 [ Time ]  91.02s
+---------------------------[ 735 Epoch] Frechet Pointcloud Distance <<< 1.16 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 120 4972
+[Epoch]  736 [ D_Loss ]  -0.051061 [ G_Loss ]   43.474497 [ Time ]  90.80s
+[Epoch]  737 [ D_Loss ]  -0.053864 [ G_Loss ]   43.323095 [ Time ]  91.54s
+[Epoch]  738 [ D_Loss ]  -0.050780 [ G_Loss ]   43.132763 [ Time ]  91.54s
+[Epoch]  739 [ D_Loss ]  -0.051836 [ G_Loss ]   43.408440 [ Time ]  97.53s
+[Epoch]  740 [ D_Loss ]  -0.051875 [ G_Loss ]   42.832897 [ Time ]  90.49s
+---------------------------[ 740 Epoch] Frechet Pointcloud Distance <<< 3.46 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 107 4802
+[Epoch]  741 [ D_Loss ]  -0.053800 [ G_Loss ]   42.939213 [ Time ]  90.91s
+[Epoch]  742 [ D_Loss ]  -0.050553 [ G_Loss ]   43.090845 [ Time ]  90.24s
+[Epoch]  743 [ D_Loss ]  -0.052520 [ G_Loss ]   43.184791 [ Time ]  93.39s
+[Epoch]  744 [ D_Loss ]  -0.052621 [ G_Loss ]   44.593074 [ Time ]  91.20s
+[Epoch]  745 [ D_Loss ]  -0.052809 [ G_Loss ]   43.422804 [ Time ]  91.14s
+---------------------------[ 745 Epoch] Frechet Pointcloud Distance <<< 3.16 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 103 4585
+[Epoch]  746 [ D_Loss ]  -0.052847 [ G_Loss ]   43.952211 [ Time ]  90.51s
+[Epoch]  747 [ D_Loss ]  -0.051674 [ G_Loss ]   43.537105 [ Time ]  90.68s
+[Epoch]  748 [ D_Loss ]  -0.051093 [ G_Loss ]   43.014499 [ Time ]  93.35s
+[Epoch]  749 [ D_Loss ]  -0.052239 [ G_Loss ]   43.543099 [ Time ]  91.08s
+[Epoch]  750 [ D_Loss ]  -0.050851 [ G_Loss ]   43.436869 [ Time ]  90.17s
+---------------------------[ 750 Epoch] Frechet Pointcloud Distance <<< 2.43 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 111 4657
+[Epoch]  751 [ D_Loss ]  -0.052740 [ G_Loss ]   42.916938 [ Time ]  90.43s
+[Epoch]  752 [ D_Loss ]  -0.051759 [ G_Loss ]   42.643638 [ Time ]  90.32s
+[Epoch]  753 [ D_Loss ]  -0.051120 [ G_Loss ]   43.237544 [ Time ]  94.38s
+[Epoch]  754 [ D_Loss ]  -0.052009 [ G_Loss ]   43.297525 [ Time ]  90.45s
+[Epoch]  755 [ D_Loss ]  -0.051822 [ G_Loss ]   41.773989 [ Time ]  90.66s
+---------------------------[ 755 Epoch] Frechet Pointcloud Distance <<< 1.22 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 111 4893
+[Epoch]  756 [ D_Loss ]  -0.051236 [ G_Loss ]   42.045446 [ Time ]  90.81s
+[Epoch]  757 [ D_Loss ]  -0.053612 [ G_Loss ]   41.573278 [ Time ]  92.74s
+[Epoch]  758 [ D_Loss ]  -0.051892 [ G_Loss ]   41.398211 [ Time ]  93.28s
+[Epoch]  759 [ D_Loss ]  -0.055276 [ G_Loss ]   42.469790 [ Time ]  90.39s
+[Epoch]  760 [ D_Loss ]  -0.051830 [ G_Loss ]   42.267096 [ Time ]  90.41s
+---------------------------[ 760 Epoch] Frechet Pointcloud Distance <<< 1.56 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 97 4345
+[Epoch]  761 [ D_Loss ]  -0.050720 [ G_Loss ]   42.840569 [ Time ]  90.61s
+[Epoch]  762 [ D_Loss ]  -0.052540 [ G_Loss ]   42.990882 [ Time ]  93.17s
+[Epoch]  763 [ D_Loss ]  -0.053374 [ G_Loss ]   42.447612 [ Time ]  91.85s
+[Epoch]  764 [ D_Loss ]  -0.050611 [ G_Loss ]   42.599931 [ Time ]  90.38s
+[Epoch]  765 [ D_Loss ]  -0.049510 [ G_Loss ]   42.428876 [ Time ]  90.97s
+---------------------------[ 765 Epoch] Frechet Pointcloud Distance <<< 2.02 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 102 4525
+[Epoch]  766 [ D_Loss ]  -0.034113 [ G_Loss ]   40.792150 [ Time ]  89.97s
+[Epoch]  767 [ D_Loss ]  -0.050533 [ G_Loss ]   42.142934 [ Time ]  93.74s
+[Epoch]  768 [ D_Loss ]  -0.051794 [ G_Loss ]   41.817929 [ Time ]  90.13s
+[Epoch]  769 [ D_Loss ]  -0.052446 [ G_Loss ]   40.657772 [ Time ]  89.95s
+[Epoch]  770 [ D_Loss ]  -0.051139 [ G_Loss ]   42.154555 [ Time ]  90.34s
+---------------------------[ 770 Epoch] Frechet Pointcloud Distance <<< 1.99 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 112 4901
+[Epoch]  771 [ D_Loss ]  -0.051029 [ G_Loss ]   42.189220 [ Time ]  90.24s
+[Epoch]  772 [ D_Loss ]  -0.052121 [ G_Loss ]   41.827939 [ Time ]  94.00s
+[Epoch]  773 [ D_Loss ]  -0.050585 [ G_Loss ]   41.946993 [ Time ]  90.65s
+[Epoch]  774 [ D_Loss ]  -0.051856 [ G_Loss ]   42.180903 [ Time ]  90.39s
+[Epoch]  775 [ D_Loss ]  -0.049999 [ G_Loss ]   43.089308 [ Time ]  90.21s
+---------------------------[ 775 Epoch] Frechet Pointcloud Distance <<< 1.27 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 105 4485
+[Epoch]  776 [ D_Loss ]  -0.050997 [ G_Loss ]   42.652278 [ Time ]  92.06s
+[Epoch]  777 [ D_Loss ]  -0.052405 [ G_Loss ]   42.781648 [ Time ]  92.54s
+[Epoch]  778 [ D_Loss ]  -0.051625 [ G_Loss ]   42.749832 [ Time ]  90.32s
+[Epoch]  779 [ D_Loss ]  -0.050689 [ G_Loss ]   42.501645 [ Time ]  90.50s
+[Epoch]  780 [ D_Loss ]  -0.049984 [ G_Loss ]   44.177054 [ Time ]  90.84s
+---------------------------[ 780 Epoch] Frechet Pointcloud Distance <<< 2.87 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 109 4542
+[Epoch]  781 [ D_Loss ]  -0.048631 [ G_Loss ]   44.242268 [ Time ]  93.43s
+[Epoch]  782 [ D_Loss ]  -0.051354 [ G_Loss ]   43.185172 [ Time ]  90.10s
+[Epoch]  783 [ D_Loss ]  -0.050372 [ G_Loss ]   43.360994 [ Time ]  90.21s
+[Epoch]  784 [ D_Loss ]  -0.049214 [ G_Loss ]   42.872107 [ Time ]  90.19s
+[Epoch]  785 [ D_Loss ]  -0.051268 [ G_Loss ]   42.360312 [ Time ]  90.18s
+---------------------------[ 785 Epoch] Frechet Pointcloud Distance <<< 1.42 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 103 4562
+[Epoch]  786 [ D_Loss ]  -0.050901 [ G_Loss ]   42.406863 [ Time ]  93.34s
+[Epoch]  787 [ D_Loss ]  -0.051832 [ G_Loss ]   41.690049 [ Time ]  90.09s
+[Epoch]  788 [ D_Loss ]  -0.052028 [ G_Loss ]   43.202400 [ Time ]  90.04s
+[Epoch]  789 [ D_Loss ]  -0.050855 [ G_Loss ]   43.901594 [ Time ]  90.23s
+[Epoch]  790 [ D_Loss ]  -0.047835 [ G_Loss ]   41.865855 [ Time ]  90.16s
+---------------------------[ 790 Epoch] Frechet Pointcloud Distance <<< 2.23 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 115 4759
+[Epoch]  791 [ D_Loss ]  -0.050696 [ G_Loss ]   42.859328 [ Time ]  96.51s
+[Epoch]  792 [ D_Loss ]  -0.051285 [ G_Loss ]   43.576080 [ Time ]  90.24s
+[Epoch]  793 [ D_Loss ]  -0.049840 [ G_Loss ]   42.937351 [ Time ]  90.05s
+[Epoch]  794 [ D_Loss ]  -0.050114 [ G_Loss ]   41.836520 [ Time ]  90.05s
+[Epoch]  795 [ D_Loss ]  -0.047619 [ G_Loss ]   41.968728 [ Time ]  90.10s
+---------------------------[ 795 Epoch] Frechet Pointcloud Distance <<< 1.84 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 96 4196
+[Epoch]  796 [ D_Loss ]  -0.050224 [ G_Loss ]   42.612074 [ Time ]  92.62s
+[Epoch]  797 [ D_Loss ]  -0.050733 [ G_Loss ]   42.238845 [ Time ]  90.14s
+[Epoch]  798 [ D_Loss ]  -0.050316 [ G_Loss ]   42.455787 [ Time ]  90.09s
+[Epoch]  799 [ D_Loss ]  -0.049229 [ G_Loss ]   41.861822 [ Time ]  90.33s
+[Epoch]  800 [ D_Loss ]  -0.051521 [ G_Loss ]   41.542143 [ Time ]  90.26s
+---------------------------[ 800 Epoch] Frechet Pointcloud Distance <<< 2.01 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 99 4250
+[Epoch]  801 [ D_Loss ]  -0.049431 [ G_Loss ]   41.827937 [ Time ]  91.46s
+[Epoch]  802 [ D_Loss ]  -0.048575 [ G_Loss ]   42.122233 [ Time ]  90.50s
+[Epoch]  803 [ D_Loss ]  -0.048456 [ G_Loss ]   42.968376 [ Time ]  90.53s
+[Epoch]  804 [ D_Loss ]  -0.050330 [ G_Loss ]   44.208888 [ Time ]  90.45s
+[Epoch]  805 [ D_Loss ]  -0.048893 [ G_Loss ]   43.744928 [ Time ]  92.20s
+---------------------------[ 805 Epoch] Frechet Pointcloud Distance <<< 2.25 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 98 4365
+[Epoch]  806 [ D_Loss ]  -0.050853 [ G_Loss ]   43.200132 [ Time ]  90.06s
+[Epoch]  807 [ D_Loss ]  -0.050965 [ G_Loss ]   42.460879 [ Time ]  90.62s
+[Epoch]  808 [ D_Loss ]  -0.049971 [ G_Loss ]   42.758380 [ Time ]  90.24s
+[Epoch]  809 [ D_Loss ]  -0.050178 [ G_Loss ]   42.664589 [ Time ]  90.14s
+[Epoch]  810 [ D_Loss ]  -0.048616 [ G_Loss ]   42.315332 [ Time ]  93.18s
+---------------------------[ 810 Epoch] Frechet Pointcloud Distance <<< 2.01 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 104 4402
+[Epoch]  811 [ D_Loss ]  -0.050063 [ G_Loss ]   42.204041 [ Time ]  90.22s
+[Epoch]  812 [ D_Loss ]  -0.050253 [ G_Loss ]   42.244668 [ Time ]  89.86s
+[Epoch]  813 [ D_Loss ]  -0.049952 [ G_Loss ]   41.286725 [ Time ]  90.14s
+[Epoch]  814 [ D_Loss ]  -0.049124 [ G_Loss ]   40.879791 [ Time ]  90.03s
+[Epoch]  815 [ D_Loss ]  -0.049391 [ G_Loss ]   41.785926 [ Time ]  94.22s
+---------------------------[ 815 Epoch] Frechet Pointcloud Distance <<< 1.90 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 105 4512
+[Epoch]  816 [ D_Loss ]  -0.049186 [ G_Loss ]   42.059944 [ Time ]  90.69s
+[Epoch]  817 [ D_Loss ]  -0.048230 [ G_Loss ]   42.108859 [ Time ]  90.42s
+[Epoch]  818 [ D_Loss ]  -0.048286 [ G_Loss ]   42.813688 [ Time ]  90.70s
+[Epoch]  819 [ D_Loss ]  -0.049703 [ G_Loss ]   42.392184 [ Time ]  90.85s
+[Epoch]  820 [ D_Loss ]  -0.048485 [ G_Loss ]   42.681750 [ Time ]  96.44s
+---------------------------[ 820 Epoch] Frechet Pointcloud Distance <<< 1.94 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 100 4291
+[Epoch]  821 [ D_Loss ]  -0.048373 [ G_Loss ]   41.844904 [ Time ]  90.45s
+[Epoch]  822 [ D_Loss ]  -0.042177 [ G_Loss ]   42.550776 [ Time ]  90.46s
+[Epoch]  823 [ D_Loss ]  -0.040132 [ G_Loss ]   42.093767 [ Time ]  90.24s
+[Epoch]  824 [ D_Loss ]  -0.048114 [ G_Loss ]   41.645610 [ Time ]  93.07s
+[Epoch]  825 [ D_Loss ]  -0.047672 [ G_Loss ]   42.351958 [ Time ]  91.24s
+---------------------------[ 825 Epoch] Frechet Pointcloud Distance <<< 0.98 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 105 4250
+[Epoch]  826 [ D_Loss ]  -0.048506 [ G_Loss ]   43.337672 [ Time ]  90.20s
+[Epoch]  827 [ D_Loss ]  -0.048545 [ G_Loss ]   43.421679 [ Time ]  90.44s
+[Epoch]  828 [ D_Loss ]  -0.048945 [ G_Loss ]   41.858831 [ Time ]  90.28s
+[Epoch]  829 [ D_Loss ]  -0.048838 [ G_Loss ]   41.174139 [ Time ]  93.56s
+[Epoch]  830 [ D_Loss ]  -0.046980 [ G_Loss ]   42.772108 [ Time ]  89.99s
+---------------------------[ 830 Epoch] Frechet Pointcloud Distance <<< 2.87 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 101 4322
+[Epoch]  831 [ D_Loss ]  -0.048827 [ G_Loss ]   42.833507 [ Time ]  90.00s
+[Epoch]  832 [ D_Loss ]  -0.047626 [ G_Loss ]   42.981887 [ Time ]  90.08s
+[Epoch]  833 [ D_Loss ]  -0.049617 [ G_Loss ]   43.421419 [ Time ]  90.28s
+[Epoch]  834 [ D_Loss ]  -0.046421 [ G_Loss ]   42.870352 [ Time ]  94.11s
+[Epoch]  835 [ D_Loss ]  -0.048381 [ G_Loss ]   43.377870 [ Time ]  90.81s
+---------------------------[ 835 Epoch] Frechet Pointcloud Distance <<< 2.73 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 98 4235
+[Epoch]  836 [ D_Loss ]  -0.049212 [ G_Loss ]   42.935345 [ Time ]  90.48s
+[Epoch]  837 [ D_Loss ]  -0.047383 [ G_Loss ]   42.749511 [ Time ]  90.95s
+[Epoch]  838 [ D_Loss ]  -0.047028 [ G_Loss ]   41.776531 [ Time ]  92.53s
+[Epoch]  839 [ D_Loss ]  -0.048802 [ G_Loss ]   41.629750 [ Time ]  93.23s
+[Epoch]  840 [ D_Loss ]  -0.048548 [ G_Loss ]   40.928876 [ Time ]  90.62s
+---------------------------[ 840 Epoch] Frechet Pointcloud Distance <<< 1.27 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 89 4069
+[Epoch]  841 [ D_Loss ]  -0.047594 [ G_Loss ]   40.973819 [ Time ]  91.00s
+[Epoch]  842 [ D_Loss ]  -0.049604 [ G_Loss ]   41.173254 [ Time ]  90.57s
+[Epoch]  843 [ D_Loss ]  -0.048434 [ G_Loss ]   42.126777 [ Time ]  94.37s
+[Epoch]  844 [ D_Loss ]  -0.049143 [ G_Loss ]   42.539944 [ Time ]  90.97s
+[Epoch]  845 [ D_Loss ]  -0.047357 [ G_Loss ]   42.569857 [ Time ]  91.51s
+---------------------------[ 845 Epoch] Frechet Pointcloud Distance <<< 2.19 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 114 4567
+[Epoch]  846 [ D_Loss ]  -0.049484 [ G_Loss ]   42.903400 [ Time ]  90.64s
+[Epoch]  847 [ D_Loss ]  -0.048522 [ G_Loss ]   43.943857 [ Time ]  90.74s
+[Epoch]  848 [ D_Loss ]  -0.048475 [ G_Loss ]   44.067257 [ Time ]  93.45s
+[Epoch]  849 [ D_Loss ]  -0.047386 [ G_Loss ]   43.729927 [ Time ]  91.53s
+[Epoch]  850 [ D_Loss ]  -0.048755 [ G_Loss ]   43.822520 [ Time ]  90.29s
+---------------------------[ 850 Epoch] Frechet Pointcloud Distance <<< 1.61 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 113 4505
+[Epoch]  851 [ D_Loss ]  -0.047713 [ G_Loss ]   43.980978 [ Time ]  90.72s
+[Epoch]  852 [ D_Loss ]  -0.047343 [ G_Loss ]   43.771691 [ Time ]  90.22s
+[Epoch]  853 [ D_Loss ]  -0.048497 [ G_Loss ]   43.170383 [ Time ]  94.21s
+[Epoch]  854 [ D_Loss ]  -0.045368 [ G_Loss ]   42.525618 [ Time ]  90.61s
+[Epoch]  855 [ D_Loss ]  -0.049960 [ G_Loss ]   42.931081 [ Time ]  93.72s
+---------------------------[ 855 Epoch] Frechet Pointcloud Distance <<< 3.10 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 100 4237
+[Epoch]  856 [ D_Loss ]  -0.048143 [ G_Loss ]   43.086251 [ Time ]  90.25s
+[Epoch]  857 [ D_Loss ]  -0.048668 [ G_Loss ]   43.027076 [ Time ]  93.08s
+[Epoch]  858 [ D_Loss ]  -0.047985 [ G_Loss ]   42.714268 [ Time ]  91.58s
+[Epoch]  859 [ D_Loss ]  -0.048774 [ G_Loss ]   43.302810 [ Time ]  90.85s
+[Epoch]  860 [ D_Loss ]  -0.048165 [ G_Loss ]   43.275345 [ Time ]  90.80s
+---------------------------[ 860 Epoch] Frechet Pointcloud Distance <<< 5.77 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 104 4173
+[Epoch]  861 [ D_Loss ]  -0.048005 [ G_Loss ]   42.577208 [ Time ]  91.16s
+[Epoch]  862 [ D_Loss ]  -0.045103 [ G_Loss ]   42.695166 [ Time ]  93.71s
+[Epoch]  863 [ D_Loss ]  -0.046198 [ G_Loss ]   42.370839 [ Time ]  90.49s
+[Epoch]  864 [ D_Loss ]  -0.047959 [ G_Loss ]   42.637859 [ Time ]  90.26s
+[Epoch]  865 [ D_Loss ]  -0.048505 [ G_Loss ]   42.343853 [ Time ]  90.43s
+---------------------------[ 865 Epoch] Frechet Pointcloud Distance <<< 5.21 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 107 4284
+[Epoch]  866 [ D_Loss ]  -0.046891 [ G_Loss ]   42.263455 [ Time ]  90.49s
+[Epoch]  867 [ D_Loss ]  -0.048531 [ G_Loss ]   42.375447 [ Time ]  94.09s
+[Epoch]  868 [ D_Loss ]  -0.047681 [ G_Loss ]   41.704746 [ Time ]  90.71s
+[Epoch]  869 [ D_Loss ]  -0.033241 [ G_Loss ]   41.225329 [ Time ]  90.69s
+[Epoch]  870 [ D_Loss ]  -0.045305 [ G_Loss ]   42.249322 [ Time ]  90.62s
+---------------------------[ 870 Epoch] Frechet Pointcloud Distance <<< 1.92 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 100 4126
+[Epoch]  871 [ D_Loss ]  -0.048757 [ G_Loss ]   42.758214 [ Time ]  91.99s
+[Epoch]  872 [ D_Loss ]  -0.048473 [ G_Loss ]   42.858791 [ Time ]  95.69s
+[Epoch]  873 [ D_Loss ]  -0.046396 [ G_Loss ]   43.043667 [ Time ]  90.87s
+[Epoch]  874 [ D_Loss ]  -0.037168 [ G_Loss ]   41.978255 [ Time ]  90.47s
+[Epoch]  875 [ D_Loss ]  -0.047029 [ G_Loss ]   43.197033 [ Time ]  90.20s
+---------------------------[ 875 Epoch] Frechet Pointcloud Distance <<< 1.98 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 101 3929
+[Epoch]  876 [ D_Loss ]  -0.048015 [ G_Loss ]   42.119630 [ Time ]  93.34s
+[Epoch]  877 [ D_Loss ]  -0.045520 [ G_Loss ]   42.675661 [ Time ]  91.51s
+[Epoch]  878 [ D_Loss ]  -0.046508 [ G_Loss ]   42.342115 [ Time ]  90.33s
+[Epoch]  879 [ D_Loss ]  -0.046203 [ G_Loss ]   41.493719 [ Time ]  90.19s
+[Epoch]  880 [ D_Loss ]  -0.047593 [ G_Loss ]   41.495848 [ Time ]  90.39s
+---------------------------[ 880 Epoch] Frechet Pointcloud Distance <<< 1.78 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 95 3964
+[Epoch]  881 [ D_Loss ]  -0.045927 [ G_Loss ]   41.263305 [ Time ]  93.84s
+[Epoch]  882 [ D_Loss ]  -0.046664 [ G_Loss ]   41.262672 [ Time ]  90.19s
+[Epoch]  883 [ D_Loss ]  -0.047502 [ G_Loss ]   41.711744 [ Time ]  89.97s
+[Epoch]  884 [ D_Loss ]  -0.047077 [ G_Loss ]   42.236190 [ Time ]  90.27s
+[Epoch]  885 [ D_Loss ]  -0.045679 [ G_Loss ]   42.184813 [ Time ]  90.28s
+---------------------------[ 885 Epoch] Frechet Pointcloud Distance <<< 2.21 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 101 4030
+[Epoch]  886 [ D_Loss ]  -0.046985 [ G_Loss ]   41.348679 [ Time ]  93.62s
+[Epoch]  887 [ D_Loss ]  -0.047779 [ G_Loss ]   42.520883 [ Time ]  90.40s
+[Epoch]  888 [ D_Loss ]  -0.046290 [ G_Loss ]   42.221716 [ Time ]  90.43s
+[Epoch]  889 [ D_Loss ]  -0.046251 [ G_Loss ]   42.020603 [ Time ]  90.71s
+[Epoch]  890 [ D_Loss ]  -0.046517 [ G_Loss ]   41.236472 [ Time ]  90.30s
+---------------------------[ 890 Epoch] Frechet Pointcloud Distance <<< 1.58 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 99 3977
+[Epoch]  891 [ D_Loss ]  -0.048987 [ G_Loss ]   41.684948 [ Time ]  95.18s
+[Epoch]  892 [ D_Loss ]  -0.047741 [ G_Loss ]   41.652783 [ Time ]  90.10s
+[Epoch]  893 [ D_Loss ]  -0.045825 [ G_Loss ]   40.996844 [ Time ]  90.34s
+[Epoch]  894 [ D_Loss ]  -0.047672 [ G_Loss ]   42.512428 [ Time ]  90.35s
+[Epoch]  895 [ D_Loss ]  -0.045299 [ G_Loss ]   42.631201 [ Time ]  90.49s
+---------------------------[ 895 Epoch] Frechet Pointcloud Distance <<< 0.98 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 106 4093
+[Epoch]  896 [ D_Loss ]  -0.046608 [ G_Loss ]   41.782004 [ Time ]  92.03s
+[Epoch]  897 [ D_Loss ]  -0.047794 [ G_Loss ]   40.783678 [ Time ]  90.30s
+[Epoch]  898 [ D_Loss ]  -0.046228 [ G_Loss ]   41.461474 [ Time ]  90.41s
+[Epoch]  899 [ D_Loss ]  -0.047074 [ G_Loss ]   41.339458 [ Time ]  90.66s
+[Epoch]  900 [ D_Loss ]  -0.048138 [ G_Loss ]   41.723351 [ Time ]  90.21s
+---------------------------[ 900 Epoch] Frechet Pointcloud Distance <<< 1.65 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 96 3867
+[Epoch]  901 [ D_Loss ]  -0.047872 [ G_Loss ]   42.235091 [ Time ]  90.36s
+[Epoch]  902 [ D_Loss ]  -0.040551 [ G_Loss ]   42.426411 [ Time ]  90.41s
+[Epoch]  903 [ D_Loss ]  -0.048371 [ G_Loss ]   43.317805 [ Time ]  90.28s
+[Epoch]  904 [ D_Loss ]  -0.046602 [ G_Loss ]   42.639627 [ Time ]  90.14s
+[Epoch]  905 [ D_Loss ]  -0.046996 [ G_Loss ]   43.338167 [ Time ]  93.23s
+---------------------------[ 905 Epoch] Frechet Pointcloud Distance <<< 3.48 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 100 3694
+[Epoch]  906 [ D_Loss ]  -0.046244 [ G_Loss ]   42.597945 [ Time ]  90.23s
+[Epoch]  907 [ D_Loss ]  -0.046384 [ G_Loss ]   42.818308 [ Time ]  90.47s
+[Epoch]  908 [ D_Loss ]  -0.045323 [ G_Loss ]   42.725982 [ Time ]  90.31s
+[Epoch]  909 [ D_Loss ]  -0.044560 [ G_Loss ]   42.659596 [ Time ]  90.38s
+[Epoch]  910 [ D_Loss ]  -0.046437 [ G_Loss ]   42.357691 [ Time ]  94.12s
+---------------------------[ 910 Epoch] Frechet Pointcloud Distance <<< 2.62 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 109 4257
+[Epoch]  911 [ D_Loss ]  -0.047122 [ G_Loss ]   41.981158 [ Time ]  90.34s
+[Epoch]  912 [ D_Loss ]  -0.046583 [ G_Loss ]   41.863074 [ Time ]  90.22s
+[Epoch]  913 [ D_Loss ]  -0.046827 [ G_Loss ]   41.309600 [ Time ]  90.31s
+[Epoch]  914 [ D_Loss ]  -0.046239 [ G_Loss ]   42.135076 [ Time ]  90.69s
+[Epoch]  915 [ D_Loss ]  -0.046984 [ G_Loss ]   41.828434 [ Time ]  93.91s
+---------------------------[ 915 Epoch] Frechet Pointcloud Distance <<< 1.84 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 96 3691
+[Epoch]  916 [ D_Loss ]  -0.047990 [ G_Loss ]   41.228999 [ Time ]  90.00s
+[Epoch]  917 [ D_Loss ]  -0.046892 [ G_Loss ]   42.539244 [ Time ]  90.23s
+[Epoch]  918 [ D_Loss ]  -0.046280 [ G_Loss ]   41.714580 [ Time ]  90.31s
+[Epoch]  919 [ D_Loss ]  -0.048280 [ G_Loss ]   40.750667 [ Time ]  92.58s
+[Epoch]  920 [ D_Loss ]  -0.046986 [ G_Loss ]   41.090707 [ Time ]  92.57s
+---------------------------[ 920 Epoch] Frechet Pointcloud Distance <<< 1.49 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 96 3838
+[Epoch]  921 [ D_Loss ]  -0.046362 [ G_Loss ]   41.282800 [ Time ]  90.31s
+[Epoch]  922 [ D_Loss ]  -0.048183 [ G_Loss ]   41.034345 [ Time ]  90.15s
+[Epoch]  923 [ D_Loss ]  -0.045621 [ G_Loss ]   41.369828 [ Time ]  90.44s
+[Epoch]  924 [ D_Loss ]  -0.047268 [ G_Loss ]   41.690588 [ Time ]  93.23s
+[Epoch]  925 [ D_Loss ]  -0.045546 [ G_Loss ]   41.948024 [ Time ]  91.92s
+---------------------------[ 925 Epoch] Frechet Pointcloud Distance <<< 3.30 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 104 3975
+[Epoch]  926 [ D_Loss ]  -0.044553 [ G_Loss ]   41.736161 [ Time ]  90.16s
+[Epoch]  927 [ D_Loss ]  -0.047767 [ G_Loss ]   42.066231 [ Time ]  90.40s
+[Epoch]  928 [ D_Loss ]  -0.045707 [ G_Loss ]   42.251780 [ Time ]  90.24s
+[Epoch]  929 [ D_Loss ]  -0.048258 [ G_Loss ]   41.839926 [ Time ]  93.58s
+[Epoch]  930 [ D_Loss ]  -0.047759 [ G_Loss ]   41.712037 [ Time ]  89.93s
+---------------------------[ 930 Epoch] Frechet Pointcloud Distance <<< 2.74 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 98 3783
+[Epoch]  931 [ D_Loss ]  -0.048209 [ G_Loss ]   42.034473 [ Time ]  90.56s
+[Epoch]  932 [ D_Loss ]  -0.047092 [ G_Loss ]   42.859906 [ Time ]  90.24s
+[Epoch]  933 [ D_Loss ]  -0.046904 [ G_Loss ]   42.895627 [ Time ]  90.35s
+[Epoch]  934 [ D_Loss ]  -0.046688 [ G_Loss ]   42.512419 [ Time ]  94.10s
+[Epoch]  935 [ D_Loss ]  -0.047429 [ G_Loss ]   43.122645 [ Time ]  90.53s
+---------------------------[ 935 Epoch] Frechet Pointcloud Distance <<< 2.34 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 3762
+[Epoch]  936 [ D_Loss ]  -0.043922 [ G_Loss ]   43.184535 [ Time ]  90.40s
+[Epoch]  937 [ D_Loss ]  -0.045581 [ G_Loss ]   42.954208 [ Time ]  90.43s
+[Epoch]  938 [ D_Loss ]  -0.047122 [ G_Loss ]   42.084237 [ Time ]  92.26s
+[Epoch]  939 [ D_Loss ]  -0.045531 [ G_Loss ]   42.126578 [ Time ]  92.26s
+[Epoch]  940 [ D_Loss ]  -0.046648 [ G_Loss ]   43.116634 [ Time ]  90.07s
+---------------------------[ 940 Epoch] Frechet Pointcloud Distance <<< 1.71 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 108 3994
+[Epoch]  941 [ D_Loss ]  -0.044465 [ G_Loss ]   42.731003 [ Time ]  90.59s
+[Epoch]  942 [ D_Loss ]  -0.047252 [ G_Loss ]   42.147483 [ Time ]  90.50s
+[Epoch]  943 [ D_Loss ]  -0.046577 [ G_Loss ]   41.835560 [ Time ]  93.98s
+[Epoch]  944 [ D_Loss ]  -0.045673 [ G_Loss ]   42.770671 [ Time ]  91.49s
+[Epoch]  945 [ D_Loss ]  -0.046336 [ G_Loss ]   42.221031 [ Time ]  90.45s
+---------------------------[ 945 Epoch] Frechet Pointcloud Distance <<< 1.05 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 104 3939
+[Epoch]  946 [ D_Loss ]  -0.047757 [ G_Loss ]   42.952371 [ Time ]  90.42s
+[Epoch]  947 [ D_Loss ]  -0.046615 [ G_Loss ]   42.204551 [ Time ]  90.71s
+[Epoch]  948 [ D_Loss ]  -0.047848 [ G_Loss ]   42.348350 [ Time ]  94.81s
+[Epoch]  949 [ D_Loss ]  -0.045801 [ G_Loss ]   42.139356 [ Time ]  90.44s
+[Epoch]  950 [ D_Loss ]  -0.047744 [ G_Loss ]   42.264404 [ Time ]  90.53s
+---------------------------[ 950 Epoch] Frechet Pointcloud Distance <<< 1.66 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 108 3879
+[Epoch]  951 [ D_Loss ]  -0.047995 [ G_Loss ]   42.356283 [ Time ]  90.65s
+[Epoch]  952 [ D_Loss ]  -0.047558 [ G_Loss ]   43.123238 [ Time ]  90.73s
+[Epoch]  953 [ D_Loss ]  -0.047184 [ G_Loss ]   42.316873 [ Time ]  94.50s
+[Epoch]  954 [ D_Loss ]  -0.045618 [ G_Loss ]   42.113610 [ Time ]  90.68s
+[Epoch]  955 [ D_Loss ]  -0.045336 [ G_Loss ]   43.363443 [ Time ]  90.74s
+---------------------------[ 955 Epoch] Frechet Pointcloud Distance <<< 2.03 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 113 4047
+[Epoch]  956 [ D_Loss ]  -0.043791 [ G_Loss ]   43.431611 [ Time ]  90.98s
+[Epoch]  957 [ D_Loss ]  -0.047024 [ G_Loss ]   43.089728 [ Time ]  93.00s
+[Epoch]  958 [ D_Loss ]  -0.047533 [ G_Loss ]   42.780223 [ Time ]  92.68s
+[Epoch]  959 [ D_Loss ]  -0.045567 [ G_Loss ]   43.097650 [ Time ]  90.23s
+[Epoch]  960 [ D_Loss ]  -0.047150 [ G_Loss ]   42.881760 [ Time ]  90.89s
+---------------------------[ 960 Epoch] Frechet Pointcloud Distance <<< 1.89 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 96 3505
+[Epoch]  961 [ D_Loss ]  -0.046840 [ G_Loss ]   43.523416 [ Time ]  90.35s
+[Epoch]  962 [ D_Loss ]  -0.047553 [ G_Loss ]   43.482212 [ Time ]  94.10s
+[Epoch]  963 [ D_Loss ]  -0.047940 [ G_Loss ]   44.291548 [ Time ]  90.48s
+[Epoch]  964 [ D_Loss ]  -0.047598 [ G_Loss ]   44.513784 [ Time ]  91.00s
+[Epoch]  965 [ D_Loss ]  -0.046309 [ G_Loss ]   44.524388 [ Time ]  90.85s
+---------------------------[ 965 Epoch] Frechet Pointcloud Distance <<< 1.64 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 109 3717
+[Epoch]  966 [ D_Loss ]  -0.046300 [ G_Loss ]   43.975382 [ Time ]  91.11s
+[Epoch]  967 [ D_Loss ]  -0.045103 [ G_Loss ]   43.489742 [ Time ]  93.93s
+[Epoch]  968 [ D_Loss ]  -0.045869 [ G_Loss ]   42.360412 [ Time ]  90.98s
+[Epoch]  969 [ D_Loss ]  -0.045756 [ G_Loss ]   43.174506 [ Time ]  90.37s
+[Epoch]  970 [ D_Loss ]  -0.046684 [ G_Loss ]   42.292417 [ Time ]  90.66s
+---------------------------[ 970 Epoch] Frechet Pointcloud Distance <<< 1.40 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 93 3482
+[Epoch]  971 [ D_Loss ]  -0.046285 [ G_Loss ]   42.034073 [ Time ]  90.85s
+[Epoch]  972 [ D_Loss ]  -0.045630 [ G_Loss ]   41.300401 [ Time ]  97.01s
+[Epoch]  973 [ D_Loss ]  -0.046060 [ G_Loss ]   41.210274 [ Time ]  90.39s
+[Epoch]  974 [ D_Loss ]  -0.046103 [ G_Loss ]   40.925303 [ Time ]  91.16s
+[Epoch]  975 [ D_Loss ]  -0.045228 [ G_Loss ]   40.613421 [ Time ]  90.41s
+---------------------------[ 975 Epoch] Frechet Pointcloud Distance <<< 1.40 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 97 3568
+[Epoch]  976 [ D_Loss ]  -0.045469 [ G_Loss ]   41.473436 [ Time ]  93.30s
+[Epoch]  977 [ D_Loss ]  -0.048951 [ G_Loss ]   41.712260 [ Time ]  92.08s
+[Epoch]  978 [ D_Loss ]  -0.046919 [ G_Loss ]   40.054584 [ Time ]  91.19s
+[Epoch]  979 [ D_Loss ]  -0.044150 [ G_Loss ]   40.266557 [ Time ]  90.35s
+[Epoch]  980 [ D_Loss ]  -0.046790 [ G_Loss ]   41.251929 [ Time ]  90.42s
+---------------------------[ 980 Epoch] Frechet Pointcloud Distance <<< 1.30 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 105 3953
+[Epoch]  981 [ D_Loss ]  -0.047710 [ G_Loss ]   41.861902 [ Time ]  93.44s
+[Epoch]  982 [ D_Loss ]  -0.045947 [ G_Loss ]   42.582068 [ Time ]  90.53s
+[Epoch]  983 [ D_Loss ]  -0.046655 [ G_Loss ]   42.261365 [ Time ]  90.15s
+[Epoch]  984 [ D_Loss ]  -0.045339 [ G_Loss ]   43.914922 [ Time ]  90.81s
+[Epoch]  985 [ D_Loss ]  -0.046852 [ G_Loss ]   43.727058 [ Time ]  90.67s
+---------------------------[ 985 Epoch] Frechet Pointcloud Distance <<< 1.32 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 108 3699
+[Epoch]  986 [ D_Loss ]  -0.046216 [ G_Loss ]   43.170013 [ Time ]  93.84s
+[Epoch]  987 [ D_Loss ]  -0.044368 [ G_Loss ]   43.910826 [ Time ]  90.41s
+[Epoch]  988 [ D_Loss ]  -0.045236 [ G_Loss ]   43.167078 [ Time ]  90.39s
+[Epoch]  989 [ D_Loss ]  -0.046448 [ G_Loss ]   43.557641 [ Time ]  90.45s
+[Epoch]  990 [ D_Loss ]  -0.047431 [ G_Loss ]   42.924151 [ Time ]  91.18s
+---------------------------[ 990 Epoch] Frechet Pointcloud Distance <<< 1.56 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 109 3682
+[Epoch]  991 [ D_Loss ]  -0.047101 [ G_Loss ]   42.892085 [ Time ]  93.99s
+[Epoch]  992 [ D_Loss ]  -0.046329 [ G_Loss ]   43.054797 [ Time ]  90.48s
+[Epoch]  993 [ D_Loss ]  -0.046206 [ G_Loss ]   43.681417 [ Time ]  90.42s
+[Epoch]  994 [ D_Loss ]  -0.046492 [ G_Loss ]   42.507104 [ Time ]  90.12s
+[Epoch]  995 [ D_Loss ]  -0.047369 [ G_Loss ]   42.826184 [ Time ]  90.42s
+---------------------------[ 995 Epoch] Frechet Pointcloud Distance <<< 0.95 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 3504
+[Epoch]  996 [ D_Loss ]  -0.047566 [ G_Loss ]   43.205158 [ Time ]  91.46s
+[Epoch]  997 [ D_Loss ]  -0.047395 [ G_Loss ]   42.638130 [ Time ]  90.43s
+[Epoch]  998 [ D_Loss ]  -0.046206 [ G_Loss ]   43.679698 [ Time ]  90.52s
+[Epoch]  999 [ D_Loss ]  -0.045923 [ G_Loss ]   43.282709 [ Time ]  90.29s
+[Epoch]  1000 [ D_Loss ]  -0.045572 [ G_Loss ]   43.174940 [ Time ]  90.64s
+---------------------------[1000 Epoch] Frechet Pointcloud Distance <<< 1.80 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 105 3679
+[Epoch]  1001 [ D_Loss ]  -0.045519 [ G_Loss ]   42.816682 [ Time ]  89.97s
+[Epoch]  1002 [ D_Loss ]  -0.044394 [ G_Loss ]   42.571299 [ Time ]  90.07s
+[Epoch]  1003 [ D_Loss ]  -0.047327 [ G_Loss ]   42.935456 [ Time ]  90.31s
+[Epoch]  1004 [ D_Loss ]  -0.046216 [ G_Loss ]   43.347408 [ Time ]  90.35s
+[Epoch]  1005 [ D_Loss ]  -0.045066 [ G_Loss ]   42.898471 [ Time ]  93.37s
+---------------------------[1005 Epoch] Frechet Pointcloud Distance <<< 1.47 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 98 3408
+[Epoch]  1006 [ D_Loss ]  -0.046903 [ G_Loss ]   43.373045 [ Time ]  90.44s
+[Epoch]  1007 [ D_Loss ]  -0.045473 [ G_Loss ]   43.339146 [ Time ]  90.63s
+[Epoch]  1008 [ D_Loss ]  -0.044368 [ G_Loss ]   43.581764 [ Time ]  90.15s
+[Epoch]  1009 [ D_Loss ]  -0.045925 [ G_Loss ]   43.094536 [ Time ]  90.30s
+[Epoch]  1010 [ D_Loss ]  -0.045808 [ G_Loss ]   43.245361 [ Time ]  93.98s
+---------------------------[1010 Epoch] Frechet Pointcloud Distance <<< 1.38 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 104 3693
+[Epoch]  1011 [ D_Loss ]  -0.046097 [ G_Loss ]   42.151598 [ Time ]  90.05s
+[Epoch]  1012 [ D_Loss ]  -0.046271 [ G_Loss ]   41.877636 [ Time ]  90.30s
+[Epoch]  1013 [ D_Loss ]  -0.045758 [ G_Loss ]   42.274718 [ Time ]  90.27s
+[Epoch]  1014 [ D_Loss ]  -0.046110 [ G_Loss ]   42.905197 [ Time ]  90.37s
+[Epoch]  1015 [ D_Loss ]  -0.045647 [ G_Loss ]   42.991937 [ Time ]  94.29s
+---------------------------[1015 Epoch] Frechet Pointcloud Distance <<< 1.12 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 99 3428
+[Epoch]  1016 [ D_Loss ]  -0.045507 [ G_Loss ]   43.089650 [ Time ]  90.13s
+[Epoch]  1017 [ D_Loss ]  -0.046099 [ G_Loss ]   42.857126 [ Time ]  90.18s
+[Epoch]  1018 [ D_Loss ]  -0.045720 [ G_Loss ]   43.147041 [ Time ]  90.33s
+[Epoch]  1019 [ D_Loss ]  -0.046571 [ G_Loss ]   42.117216 [ Time ]  92.83s
+[Epoch]  1020 [ D_Loss ]  -0.029195 [ G_Loss ]   41.805237 [ Time ]  92.30s
+---------------------------[1020 Epoch] Frechet Pointcloud Distance <<< 1.24 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 90 3322
+[Epoch]  1021 [ D_Loss ]  -0.024630 [ G_Loss ]   40.700537 [ Time ]  90.41s
+[Epoch]  1022 [ D_Loss ]  -0.037599 [ G_Loss ]   41.771355 [ Time ]  90.46s
+[Epoch]  1023 [ D_Loss ]  -0.046762 [ G_Loss ]   42.184729 [ Time ]  90.64s
+[Epoch]  1024 [ D_Loss ]  -0.045476 [ G_Loss ]   42.751931 [ Time ]  94.23s
+[Epoch]  1025 [ D_Loss ]  -0.043810 [ G_Loss ]   42.746837 [ Time ]  90.43s
+---------------------------[1025 Epoch] Frechet Pointcloud Distance <<< 3.95 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 111 3749
+[Epoch]  1026 [ D_Loss ]  -0.046455 [ G_Loss ]   42.774542 [ Time ]  90.31s
+[Epoch]  1027 [ D_Loss ]  -0.045766 [ G_Loss ]   42.660295 [ Time ]  90.32s
+[Epoch]  1028 [ D_Loss ]  -0.025267 [ G_Loss ]   41.601073 [ Time ]  90.21s
+[Epoch]  1029 [ D_Loss ]  -0.026885 [ G_Loss ]   41.820706 [ Time ]  93.89s
+[Epoch]  1030 [ D_Loss ]  -0.027841 [ G_Loss ]   41.947793 [ Time ]  90.08s
+---------------------------[1030 Epoch] Frechet Pointcloud Distance <<< 2.29 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 93 3362
+[Epoch]  1031 [ D_Loss ]  -0.029361 [ G_Loss ]   41.591017 [ Time ]  90.29s
+[Epoch]  1032 [ D_Loss ]  -0.043901 [ G_Loss ]   43.398903 [ Time ]  90.28s
+[Epoch]  1033 [ D_Loss ]  -0.048070 [ G_Loss ]   42.585466 [ Time ]  91.21s
+[Epoch]  1034 [ D_Loss ]  -0.047344 [ G_Loss ]   43.198286 [ Time ]  95.63s
+[Epoch]  1035 [ D_Loss ]  -0.044842 [ G_Loss ]   43.883247 [ Time ]  90.60s
+---------------------------[1035 Epoch] Frechet Pointcloud Distance <<< 1.16 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 104 3565
+[Epoch]  1036 [ D_Loss ]  -0.044720 [ G_Loss ]   44.132773 [ Time ]  90.45s
+[Epoch]  1037 [ D_Loss ]  -0.045710 [ G_Loss ]   42.765061 [ Time ]  90.28s
+[Epoch]  1038 [ D_Loss ]  -0.035003 [ G_Loss ]   41.818170 [ Time ]  93.52s
+[Epoch]  1039 [ D_Loss ]  -0.025086 [ G_Loss ]   41.762077 [ Time ]  91.24s
+[Epoch]  1040 [ D_Loss ]  -0.029853 [ G_Loss ]   40.763446 [ Time ]  90.44s
+---------------------------[1040 Epoch] Frechet Pointcloud Distance <<< 1.62 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 95 3556
+[Epoch]  1041 [ D_Loss ]  -0.031386 [ G_Loss ]   40.427294 [ Time ]  90.26s
+[Epoch]  1042 [ D_Loss ]  -0.032092 [ G_Loss ]   40.236385 [ Time ]  90.62s
+[Epoch]  1043 [ D_Loss ]  -0.035807 [ G_Loss ]   40.864100 [ Time ]  93.78s
+[Epoch]  1044 [ D_Loss ]  -0.028557 [ G_Loss ]   40.731609 [ Time ]  90.33s
+[Epoch]  1045 [ D_Loss ]  -0.044792 [ G_Loss ]   41.271411 [ Time ]  90.19s
+---------------------------[1045 Epoch] Frechet Pointcloud Distance <<< 2.36 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 87 3032
+[Epoch]  1046 [ D_Loss ]  -0.045930 [ G_Loss ]   40.664907 [ Time ]  91.07s
+[Epoch]  1047 [ D_Loss ]  -0.045888 [ G_Loss ]   41.539766 [ Time ]  90.72s
+[Epoch]  1048 [ D_Loss ]  -0.032905 [ G_Loss ]   40.497515 [ Time ]  94.85s
+[Epoch]  1049 [ D_Loss ]  -0.031495 [ G_Loss ]   41.052740 [ Time ]  90.72s
+[Epoch]  1050 [ D_Loss ]  -0.032948 [ G_Loss ]   41.302156 [ Time ]  90.70s
+---------------------------[1050 Epoch] Frechet Pointcloud Distance <<< 1.83 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 101 3520
+[Epoch]  1051 [ D_Loss ]  -0.038103 [ G_Loss ]   40.986593 [ Time ]  90.85s
+[Epoch]  1052 [ D_Loss ]  -0.038448 [ G_Loss ]   40.703160 [ Time ]  92.89s
+[Epoch]  1053 [ D_Loss ]  -0.041828 [ G_Loss ]   40.481742 [ Time ]  93.01s
+[Epoch]  1054 [ D_Loss ]  -0.046860 [ G_Loss ]   41.891860 [ Time ]  90.65s
+[Epoch]  1055 [ D_Loss ]  -0.044761 [ G_Loss ]   42.427800 [ Time ]  90.79s
+---------------------------[1055 Epoch] Frechet Pointcloud Distance <<< 1.49 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 3233
+[Epoch]  1056 [ D_Loss ]  -0.046539 [ G_Loss ]   41.373592 [ Time ]  90.92s
+[Epoch]  1057 [ D_Loss ]  -0.044987 [ G_Loss ]   40.963305 [ Time ]  93.87s
+[Epoch]  1058 [ D_Loss ]  -0.044407 [ G_Loss ]   41.625942 [ Time ]  90.35s
+[Epoch]  1059 [ D_Loss ]  -0.046786 [ G_Loss ]   42.356619 [ Time ]  90.83s
+[Epoch]  1060 [ D_Loss ]  -0.043402 [ G_Loss ]   42.531648 [ Time ]  90.90s
+---------------------------[1060 Epoch] Frechet Pointcloud Distance <<< 1.21 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 93 3064
+[Epoch]  1061 [ D_Loss ]  -0.044395 [ G_Loss ]   42.943351 [ Time ]  90.84s
+[Epoch]  1062 [ D_Loss ]  -0.046780 [ G_Loss ]   42.225697 [ Time ]  94.82s
+[Epoch]  1063 [ D_Loss ]  -0.044746 [ G_Loss ]   42.878723 [ Time ]  90.56s
+[Epoch]  1064 [ D_Loss ]  -0.044420 [ G_Loss ]   42.722209 [ Time ]  90.59s
+[Epoch]  1065 [ D_Loss ]  -0.044048 [ G_Loss ]   42.994151 [ Time ]  90.99s
+---------------------------[1065 Epoch] Frechet Pointcloud Distance <<< 2.09 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 110 3703
+[Epoch]  1066 [ D_Loss ]  -0.045423 [ G_Loss ]   42.570072 [ Time ]  91.48s
+[Epoch]  1067 [ D_Loss ]  -0.044830 [ G_Loss ]   42.791039 [ Time ]  97.68s
+[Epoch]  1068 [ D_Loss ]  -0.044067 [ G_Loss ]   42.949806 [ Time ]  90.40s
+[Epoch]  1069 [ D_Loss ]  -0.043622 [ G_Loss ]   42.788941 [ Time ]  90.67s
+[Epoch]  1070 [ D_Loss ]  -0.045339 [ G_Loss ]   43.547818 [ Time ]  90.78s
+---------------------------[1070 Epoch] Frechet Pointcloud Distance <<< 0.77 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 106 3546
+[Epoch]  1071 [ D_Loss ]  -0.043573 [ G_Loss ]   43.393235 [ Time ]  93.52s
+[Epoch]  1072 [ D_Loss ]  -0.045101 [ G_Loss ]   44.031513 [ Time ]  92.18s
+[Epoch]  1073 [ D_Loss ]  -0.043317 [ G_Loss ]   43.655743 [ Time ]  90.77s
+[Epoch]  1074 [ D_Loss ]  -0.043365 [ G_Loss ]   43.812743 [ Time ]  90.79s
+[Epoch]  1075 [ D_Loss ]  -0.043320 [ G_Loss ]   44.368038 [ Time ]  90.89s
+---------------------------[1075 Epoch] Frechet Pointcloud Distance <<< 2.40 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 104 3477
+[Epoch]  1076 [ D_Loss ]  -0.044208 [ G_Loss ]   43.293569 [ Time ]  94.33s
+[Epoch]  1077 [ D_Loss ]  -0.042854 [ G_Loss ]   42.717715 [ Time ]  91.04s
+[Epoch]  1078 [ D_Loss ]  -0.043909 [ G_Loss ]   43.238496 [ Time ]  90.77s
+[Epoch]  1079 [ D_Loss ]  -0.044539 [ G_Loss ]   43.215547 [ Time ]  91.41s
+[Epoch]  1080 [ D_Loss ]  -0.044774 [ G_Loss ]   43.127385 [ Time ]  90.62s
+---------------------------[1080 Epoch] Frechet Pointcloud Distance <<< 1.44 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 101 3289
+[Epoch]  1081 [ D_Loss ]  -0.043797 [ G_Loss ]   42.988486 [ Time ]  95.58s
+[Epoch]  1082 [ D_Loss ]  -0.044687 [ G_Loss ]   43.115847 [ Time ]  90.04s
+[Epoch]  1083 [ D_Loss ]  -0.034137 [ G_Loss ]   42.548431 [ Time ]  89.90s
+[Epoch]  1084 [ D_Loss ]  -0.022380 [ G_Loss ]   41.072807 [ Time ]  90.17s
+[Epoch]  1085 [ D_Loss ]  -0.024641 [ G_Loss ]   40.798782 [ Time ]  90.23s
+---------------------------[1085 Epoch] Frechet Pointcloud Distance <<< 1.47 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 3435
+[Epoch]  1086 [ D_Loss ]  -0.037289 [ G_Loss ]   41.316789 [ Time ]  94.24s
+[Epoch]  1087 [ D_Loss ]  -0.043486 [ G_Loss ]   41.359371 [ Time ]  90.49s
+[Epoch]  1088 [ D_Loss ]  -0.044792 [ G_Loss ]   41.603022 [ Time ]  90.28s
+[Epoch]  1089 [ D_Loss ]  -0.042452 [ G_Loss ]   42.047629 [ Time ]  90.33s
+[Epoch]  1090 [ D_Loss ]  -0.041938 [ G_Loss ]   42.986417 [ Time ]  90.50s
+---------------------------[1090 Epoch] Frechet Pointcloud Distance <<< 1.20 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 5 112 3696
+[Epoch]  1091 [ D_Loss ]  -0.042410 [ G_Loss ]   42.689021 [ Time ]  91.02s
+[Epoch]  1092 [ D_Loss ]  -0.037689 [ G_Loss ]   42.560247 [ Time ]  90.70s
+[Epoch]  1093 [ D_Loss ]  -0.035917 [ G_Loss ]   41.606596 [ Time ]  90.29s
+[Epoch]  1094 [ D_Loss ]  -0.042874 [ G_Loss ]   41.174416 [ Time ]  90.59s
+[Epoch]  1095 [ D_Loss ]  -0.043185 [ G_Loss ]   40.560749 [ Time ]  91.67s
+---------------------------[1095 Epoch] Frechet Pointcloud Distance <<< 2.28 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 103 3719
+[Epoch]  1096 [ D_Loss ]  -0.043814 [ G_Loss ]   40.698488 [ Time ]  90.32s
+[Epoch]  1097 [ D_Loss ]  -0.044838 [ G_Loss ]   40.108881 [ Time ]  90.52s
+[Epoch]  1098 [ D_Loss ]  -0.042021 [ G_Loss ]   41.035697 [ Time ]  90.68s
+[Epoch]  1099 [ D_Loss ]  -0.043576 [ G_Loss ]   40.645646 [ Time ]  90.37s
+[Epoch]  1100 [ D_Loss ]  -0.043449 [ G_Loss ]   41.121931 [ Time ]  93.69s
+---------------------------[1100 Epoch] Frechet Pointcloud Distance <<< 1.26 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 102 3416
+[Epoch]  1101 [ D_Loss ]  -0.041972 [ G_Loss ]   40.935930 [ Time ]  90.52s
+[Epoch]  1102 [ D_Loss ]  -0.042429 [ G_Loss ]   41.012762 [ Time ]  90.54s
+[Epoch]  1103 [ D_Loss ]  -0.044193 [ G_Loss ]   40.977957 [ Time ]  90.15s
+[Epoch]  1104 [ D_Loss ]  -0.042844 [ G_Loss ]   40.725555 [ Time ]  90.11s
+[Epoch]  1105 [ D_Loss ]  -0.042042 [ G_Loss ]   40.748597 [ Time ]  93.32s
+---------------------------[1105 Epoch] Frechet Pointcloud Distance <<< 1.47 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 3104
+[Epoch]  1106 [ D_Loss ]  -0.042574 [ G_Loss ]   39.954088 [ Time ]  90.58s
+[Epoch]  1107 [ D_Loss ]  -0.043388 [ G_Loss ]   41.134570 [ Time ]  90.44s
+[Epoch]  1108 [ D_Loss ]  -0.041824 [ G_Loss ]   41.285773 [ Time ]  90.65s
+[Epoch]  1109 [ D_Loss ]  -0.042359 [ G_Loss ]   41.913049 [ Time ]  90.71s
+[Epoch]  1110 [ D_Loss ]  -0.042226 [ G_Loss ]   41.099190 [ Time ]  97.15s
+---------------------------[1110 Epoch] Frechet Pointcloud Distance <<< 1.04 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 96 3166
+[Epoch]  1111 [ D_Loss ]  -0.041542 [ G_Loss ]   41.068389 [ Time ]  90.24s
+[Epoch]  1112 [ D_Loss ]  -0.043094 [ G_Loss ]   40.608524 [ Time ]  90.19s
+[Epoch]  1113 [ D_Loss ]  -0.043749 [ G_Loss ]   40.618113 [ Time ]  90.39s
+[Epoch]  1114 [ D_Loss ]  -0.042272 [ G_Loss ]   41.682655 [ Time ]  93.28s
+[Epoch]  1115 [ D_Loss ]  -0.041575 [ G_Loss ]   41.021133 [ Time ]  91.24s
+---------------------------[1115 Epoch] Frechet Pointcloud Distance <<< 1.16 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 3093
+[Epoch]  1116 [ D_Loss ]  -0.042403 [ G_Loss ]   41.118586 [ Time ]  90.45s
+[Epoch]  1117 [ D_Loss ]  -0.042698 [ G_Loss ]   41.035756 [ Time ]  90.50s
+[Epoch]  1118 [ D_Loss ]  -0.042991 [ G_Loss ]   41.482770 [ Time ]  90.24s
+[Epoch]  1119 [ D_Loss ]  -0.042714 [ G_Loss ]   41.696664 [ Time ]  93.93s
+[Epoch]  1120 [ D_Loss ]  -0.042840 [ G_Loss ]   41.255401 [ Time ]  90.31s
+---------------------------[1120 Epoch] Frechet Pointcloud Distance <<< 2.29 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 102 3149
+[Epoch]  1121 [ D_Loss ]  -0.042370 [ G_Loss ]   41.687502 [ Time ]  90.52s
+[Epoch]  1122 [ D_Loss ]  -0.043232 [ G_Loss ]   41.139607 [ Time ]  90.20s
+[Epoch]  1123 [ D_Loss ]  -0.043866 [ G_Loss ]   41.451161 [ Time ]  90.32s
+[Epoch]  1124 [ D_Loss ]  -0.042559 [ G_Loss ]   41.663289 [ Time ]  93.98s
+[Epoch]  1125 [ D_Loss ]  -0.043018 [ G_Loss ]   41.227755 [ Time ]  91.13s
+---------------------------[1125 Epoch] Frechet Pointcloud Distance <<< 1.64 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 3000
+[Epoch]  1126 [ D_Loss ]  -0.042794 [ G_Loss ]   41.391754 [ Time ]  90.52s
+[Epoch]  1127 [ D_Loss ]  -0.041899 [ G_Loss ]   41.513000 [ Time ]  90.42s
+[Epoch]  1128 [ D_Loss ]  -0.043434 [ G_Loss ]   42.090982 [ Time ]  92.04s
+[Epoch]  1129 [ D_Loss ]  -0.031105 [ G_Loss ]   41.000179 [ Time ]  93.04s
+[Epoch]  1130 [ D_Loss ]  -0.022328 [ G_Loss ]   39.972681 [ Time ]  90.32s
+---------------------------[1130 Epoch] Frechet Pointcloud Distance <<< 1.51 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 102 3326
+[Epoch]  1131 [ D_Loss ]  -0.042680 [ G_Loss ]   40.569341 [ Time ]  90.71s
+[Epoch]  1132 [ D_Loss ]  -0.044079 [ G_Loss ]   40.898910 [ Time ]  90.27s
+[Epoch]  1133 [ D_Loss ]  -0.043157 [ G_Loss ]   40.320840 [ Time ]  93.32s
+[Epoch]  1134 [ D_Loss ]  -0.041691 [ G_Loss ]   40.480407 [ Time ]  90.56s
+[Epoch]  1135 [ D_Loss ]  -0.043171 [ G_Loss ]   41.050276 [ Time ]  94.66s
+---------------------------[1135 Epoch] Frechet Pointcloud Distance <<< 1.68 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 3195
+[Epoch]  1136 [ D_Loss ]  -0.043913 [ G_Loss ]   41.192998 [ Time ]  90.48s
+[Epoch]  1137 [ D_Loss ]  -0.043567 [ G_Loss ]   40.140708 [ Time ]  90.40s
+[Epoch]  1138 [ D_Loss ]  -0.041672 [ G_Loss ]   39.341812 [ Time ]  93.32s
+[Epoch]  1139 [ D_Loss ]  -0.043153 [ G_Loss ]   40.044176 [ Time ]  90.23s
+[Epoch]  1140 [ D_Loss ]  -0.041041 [ G_Loss ]   39.657389 [ Time ]  90.00s
+---------------------------[1140 Epoch] Frechet Pointcloud Distance <<< 1.04 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 102 3248
+[Epoch]  1141 [ D_Loss ]  -0.042556 [ G_Loss ]   40.092536 [ Time ]  90.55s
+[Epoch]  1142 [ D_Loss ]  -0.044337 [ G_Loss ]   39.284000 [ Time ]  90.35s
+[Epoch]  1143 [ D_Loss ]  -0.042196 [ G_Loss ]   39.244455 [ Time ]  94.61s
+[Epoch]  1144 [ D_Loss ]  -0.042653 [ G_Loss ]   40.062262 [ Time ]  90.25s
+[Epoch]  1145 [ D_Loss ]  -0.042147 [ G_Loss ]   40.278876 [ Time ]  90.33s
+---------------------------[1145 Epoch] Frechet Pointcloud Distance <<< 1.92 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 88 2901
+[Epoch]  1146 [ D_Loss ]  -0.041570 [ G_Loss ]   39.857887 [ Time ]  90.14s
+[Epoch]  1147 [ D_Loss ]  -0.042013 [ G_Loss ]   39.951263 [ Time ]  93.24s
+[Epoch]  1148 [ D_Loss ]  -0.042984 [ G_Loss ]   39.117993 [ Time ]  92.47s
+[Epoch]  1149 [ D_Loss ]  -0.043854 [ G_Loss ]   40.459646 [ Time ]  90.26s
+[Epoch]  1150 [ D_Loss ]  -0.042515 [ G_Loss ]   40.086238 [ Time ]  90.51s
+---------------------------[1150 Epoch] Frechet Pointcloud Distance <<< 0.90 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 96 3057
+[Epoch]  1151 [ D_Loss ]  -0.041228 [ G_Loss ]   39.916600 [ Time ]  90.86s
+[Epoch]  1152 [ D_Loss ]  -0.043446 [ G_Loss ]   40.460420 [ Time ]  93.38s
+[Epoch]  1153 [ D_Loss ]  -0.042594 [ G_Loss ]   40.043258 [ Time ]  90.85s
+[Epoch]  1154 [ D_Loss ]  -0.040571 [ G_Loss ]   39.899070 [ Time ]  90.52s
+[Epoch]  1155 [ D_Loss ]  -0.039332 [ G_Loss ]   40.738455 [ Time ]  90.92s
+---------------------------[1155 Epoch] Frechet Pointcloud Distance <<< 1.13 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 3169
+[Epoch]  1156 [ D_Loss ]  -0.040053 [ G_Loss ]   40.278910 [ Time ]  90.94s
+[Epoch]  1157 [ D_Loss ]  -0.041093 [ G_Loss ]   41.308915 [ Time ]  94.06s
+[Epoch]  1158 [ D_Loss ]  -0.040439 [ G_Loss ]   40.685724 [ Time ]  90.46s
+[Epoch]  1159 [ D_Loss ]  -0.041420 [ G_Loss ]   41.296673 [ Time ]  90.61s
+[Epoch]  1160 [ D_Loss ]  -0.038976 [ G_Loss ]   40.889920 [ Time ]  91.01s
+---------------------------[1160 Epoch] Frechet Pointcloud Distance <<< 1.17 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 103 3131
+[Epoch]  1161 [ D_Loss ]  -0.040635 [ G_Loss ]   40.863018 [ Time ]  91.34s
+[Epoch]  1162 [ D_Loss ]  -0.040127 [ G_Loss ]   41.065055 [ Time ]  96.79s
+[Epoch]  1163 [ D_Loss ]  -0.040114 [ G_Loss ]   40.539379 [ Time ]  90.76s
+[Epoch]  1164 [ D_Loss ]  -0.039368 [ G_Loss ]   40.297398 [ Time ]  90.58s
+[Epoch]  1165 [ D_Loss ]  -0.040551 [ G_Loss ]   40.182038 [ Time ]  90.47s
+---------------------------[1165 Epoch] Frechet Pointcloud Distance <<< 1.25 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 110 3425
+[Epoch]  1166 [ D_Loss ]  -0.039385 [ G_Loss ]   39.665765 [ Time ]  93.44s
+[Epoch]  1167 [ D_Loss ]  -0.038961 [ G_Loss ]   40.334393 [ Time ]  92.01s
+[Epoch]  1168 [ D_Loss ]  -0.039908 [ G_Loss ]   40.456264 [ Time ]  90.69s
+[Epoch]  1169 [ D_Loss ]  -0.040057 [ G_Loss ]   39.966176 [ Time ]  90.80s
+[Epoch]  1170 [ D_Loss ]  -0.039006 [ G_Loss ]   39.443139 [ Time ]  91.36s
+---------------------------[1170 Epoch] Frechet Pointcloud Distance <<< 1.40 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 92 2945
+[Epoch]  1171 [ D_Loss ]  -0.041305 [ G_Loss ]   39.279387 [ Time ]  93.64s
+[Epoch]  1172 [ D_Loss ]  -0.041249 [ G_Loss ]   39.432371 [ Time ]  90.82s
+[Epoch]  1173 [ D_Loss ]  -0.040013 [ G_Loss ]   39.821065 [ Time ]  90.59s
+[Epoch]  1174 [ D_Loss ]  -0.040513 [ G_Loss ]   39.975485 [ Time ]  90.68s
+[Epoch]  1175 [ D_Loss ]  -0.040684 [ G_Loss ]   40.049670 [ Time ]  90.98s
+---------------------------[1175 Epoch] Frechet Pointcloud Distance <<< 1.46 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 3032
+[Epoch]  1176 [ D_Loss ]  -0.039161 [ G_Loss ]   39.612645 [ Time ]  94.40s
+[Epoch]  1177 [ D_Loss ]  -0.041961 [ G_Loss ]   39.690808 [ Time ]  90.79s
+[Epoch]  1178 [ D_Loss ]  -0.039838 [ G_Loss ]   40.248194 [ Time ]  90.95s
+[Epoch]  1179 [ D_Loss ]  -0.038189 [ G_Loss ]   41.232256 [ Time ]  90.88s
+[Epoch]  1180 [ D_Loss ]  -0.038954 [ G_Loss ]   40.865381 [ Time ]  90.76s
+---------------------------[1180 Epoch] Frechet Pointcloud Distance <<< 1.87 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 96 3026
+[Epoch]  1181 [ D_Loss ]  -0.039347 [ G_Loss ]   40.617333 [ Time ]  94.69s
+[Epoch]  1182 [ D_Loss ]  -0.040453 [ G_Loss ]   40.381019 [ Time ]  90.93s
+[Epoch]  1183 [ D_Loss ]  -0.041422 [ G_Loss ]   40.900749 [ Time ]  90.79s
+[Epoch]  1184 [ D_Loss ]  -0.041045 [ G_Loss ]   40.490043 [ Time ]  90.94s
+[Epoch]  1185 [ D_Loss ]  -0.042382 [ G_Loss ]   40.407076 [ Time ]  90.67s
+---------------------------[1185 Epoch] Frechet Pointcloud Distance <<< 1.36 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 101 3228
+[Epoch]  1186 [ D_Loss ]  -0.040289 [ G_Loss ]   40.408827 [ Time ]  92.03s
+[Epoch]  1187 [ D_Loss ]  -0.041139 [ G_Loss ]   40.016001 [ Time ]  90.30s
+[Epoch]  1188 [ D_Loss ]  -0.037844 [ G_Loss ]   39.743101 [ Time ]  90.30s
+[Epoch]  1189 [ D_Loss ]  -0.039917 [ G_Loss ]   39.491180 [ Time ]  90.09s
+[Epoch]  1190 [ D_Loss ]  -0.038298 [ G_Loss ]   40.771738 [ Time ]  90.34s
+---------------------------[1190 Epoch] Frechet Pointcloud Distance <<< 1.60 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 5 107 3303
+[Epoch]  1191 [ D_Loss ]  -0.039115 [ G_Loss ]   39.633903 [ Time ]  90.47s
+[Epoch]  1192 [ D_Loss ]  -0.038994 [ G_Loss ]   40.152175 [ Time ]  90.37s
+[Epoch]  1193 [ D_Loss ]  -0.041747 [ G_Loss ]   40.087110 [ Time ]  90.62s
+[Epoch]  1194 [ D_Loss ]  -0.041079 [ G_Loss ]   40.455836 [ Time ]  90.41s
+[Epoch]  1195 [ D_Loss ]  -0.038750 [ G_Loss ]   39.863045 [ Time ]  92.07s
+---------------------------[1195 Epoch] Frechet Pointcloud Distance <<< 1.69 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 2903
+[Epoch]  1196 [ D_Loss ]  -0.039817 [ G_Loss ]   39.332117 [ Time ]  90.28s
+[Epoch]  1197 [ D_Loss ]  -0.039185 [ G_Loss ]   40.102598 [ Time ]  90.00s
+[Epoch]  1198 [ D_Loss ]  -0.039854 [ G_Loss ]   39.953486 [ Time ]  90.61s
+[Epoch]  1199 [ D_Loss ]  -0.040961 [ G_Loss ]   40.659898 [ Time ]  90.12s
+[Epoch]  1200 [ D_Loss ]  -0.039624 [ G_Loss ]   40.104093 [ Time ]  93.28s
+---------------------------[1200 Epoch] Frechet Pointcloud Distance <<< 2.01 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 93 2615
+[Epoch]  1201 [ D_Loss ]  -0.039147 [ G_Loss ]   38.952586 [ Time ]  90.51s
+[Epoch]  1202 [ D_Loss ]  -0.037603 [ G_Loss ]   40.468622 [ Time ]  90.59s
+[Epoch]  1203 [ D_Loss ]  -0.038436 [ G_Loss ]   39.979898 [ Time ]  90.62s
+[Epoch]  1204 [ D_Loss ]  -0.040830 [ G_Loss ]   39.816187 [ Time ]  90.64s
+[Epoch]  1205 [ D_Loss ]  -0.039314 [ G_Loss ]   39.542228 [ Time ]  93.73s
+---------------------------[1205 Epoch] Frechet Pointcloud Distance <<< 1.26 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 101 2865
+[Epoch]  1206 [ D_Loss ]  -0.039048 [ G_Loss ]   38.944879 [ Time ]  90.42s
+[Epoch]  1207 [ D_Loss ]  -0.039513 [ G_Loss ]   39.924545 [ Time ]  90.12s
+[Epoch]  1208 [ D_Loss ]  -0.040166 [ G_Loss ]   39.264473 [ Time ]  90.47s
+[Epoch]  1209 [ D_Loss ]  -0.039166 [ G_Loss ]   39.495078 [ Time ]  91.75s
+[Epoch]  1210 [ D_Loss ]  -0.039469 [ G_Loss ]   39.435458 [ Time ]  95.86s
+---------------------------[1210 Epoch] Frechet Pointcloud Distance <<< 1.44 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 2700
+[Epoch]  1211 [ D_Loss ]  -0.037062 [ G_Loss ]   39.532528 [ Time ]  90.43s
+[Epoch]  1212 [ D_Loss ]  -0.038778 [ G_Loss ]   40.136462 [ Time ]  90.45s
+[Epoch]  1213 [ D_Loss ]  -0.038963 [ G_Loss ]   40.237337 [ Time ]  90.40s
+[Epoch]  1214 [ D_Loss ]  -0.040119 [ G_Loss ]   39.840504 [ Time ]  93.16s
+[Epoch]  1215 [ D_Loss ]  -0.040211 [ G_Loss ]   39.551205 [ Time ]  91.07s
+---------------------------[1215 Epoch] Frechet Pointcloud Distance <<< 1.34 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 96 2728
+[Epoch]  1216 [ D_Loss ]  -0.038450 [ G_Loss ]   40.319621 [ Time ]  90.69s
+[Epoch]  1217 [ D_Loss ]  -0.040772 [ G_Loss ]   40.252802 [ Time ]  90.31s
+[Epoch]  1218 [ D_Loss ]  -0.038765 [ G_Loss ]   40.361168 [ Time ]  90.31s
+[Epoch]  1219 [ D_Loss ]  -0.038199 [ G_Loss ]   40.023686 [ Time ]  94.01s
+[Epoch]  1220 [ D_Loss ]  -0.040709 [ G_Loss ]   39.903932 [ Time ]  90.40s
+---------------------------[1220 Epoch] Frechet Pointcloud Distance <<< 2.28 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 2819
+[Epoch]  1221 [ D_Loss ]  -0.037854 [ G_Loss ]   40.835492 [ Time ]  90.43s
+[Epoch]  1222 [ D_Loss ]  -0.039189 [ G_Loss ]   41.181841 [ Time ]  90.45s
+[Epoch]  1223 [ D_Loss ]  -0.039420 [ G_Loss ]   40.863549 [ Time ]  90.44s
+[Epoch]  1224 [ D_Loss ]  -0.038072 [ G_Loss ]   40.511394 [ Time ]  95.14s
+[Epoch]  1225 [ D_Loss ]  -0.039865 [ G_Loss ]   40.683220 [ Time ]  90.02s
+---------------------------[1225 Epoch] Frechet Pointcloud Distance <<< 1.86 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 5 114 2969
+[Epoch]  1226 [ D_Loss ]  -0.040053 [ G_Loss ]   41.281173 [ Time ]  90.45s
+[Epoch]  1227 [ D_Loss ]  -0.038684 [ G_Loss ]   40.448512 [ Time ]  90.41s
+[Epoch]  1228 [ D_Loss ]  -0.038982 [ G_Loss ]   39.329308 [ Time ]  92.48s
+[Epoch]  1229 [ D_Loss ]  -0.038320 [ G_Loss ]   39.799670 [ Time ]  92.25s
+[Epoch]  1230 [ D_Loss ]  -0.040037 [ G_Loss ]   40.566278 [ Time ]  90.19s
+---------------------------[1230 Epoch] Frechet Pointcloud Distance <<< 2.01 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 95 2705
+[Epoch]  1231 [ D_Loss ]  -0.038381 [ G_Loss ]   39.769442 [ Time ]  90.57s
+[Epoch]  1232 [ D_Loss ]  -0.039438 [ G_Loss ]   39.086226 [ Time ]  90.48s
+[Epoch]  1233 [ D_Loss ]  -0.040035 [ G_Loss ]   39.057675 [ Time ]  94.29s
+[Epoch]  1234 [ D_Loss ]  -0.039447 [ G_Loss ]   39.759082 [ Time ]  90.21s
+[Epoch]  1235 [ D_Loss ]  -0.039993 [ G_Loss ]   39.410857 [ Time ]  90.23s
+---------------------------[1235 Epoch] Frechet Pointcloud Distance <<< 1.57 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 97 2921
+[Epoch]  1236 [ D_Loss ]  -0.038030 [ G_Loss ]   38.721089 [ Time ]  90.36s
+[Epoch]  1237 [ D_Loss ]  -0.038033 [ G_Loss ]   39.011728 [ Time ]  90.40s
+[Epoch]  1238 [ D_Loss ]  -0.037986 [ G_Loss ]   39.109228 [ Time ]  93.99s
+[Epoch]  1239 [ D_Loss ]  -0.038238 [ G_Loss ]   39.416321 [ Time ]  90.61s
+[Epoch]  1240 [ D_Loss ]  -0.040443 [ G_Loss ]   38.819686 [ Time ]  90.51s
+---------------------------[1240 Epoch] Frechet Pointcloud Distance <<< 1.63 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 2779
+[Epoch]  1241 [ D_Loss ]  -0.038191 [ G_Loss ]   39.025394 [ Time ]  90.67s
+[Epoch]  1242 [ D_Loss ]  -0.037906 [ G_Loss ]   38.983470 [ Time ]  90.49s
+[Epoch]  1243 [ D_Loss ]  -0.038230 [ G_Loss ]   39.340361 [ Time ]  97.74s
+[Epoch]  1244 [ D_Loss ]  -0.040169 [ G_Loss ]   38.625243 [ Time ]  90.35s
+[Epoch]  1245 [ D_Loss ]  -0.039412 [ G_Loss ]   37.188850 [ Time ]  90.23s
+---------------------------[1245 Epoch] Frechet Pointcloud Distance <<< 1.50 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 92 2874
+[Epoch]  1246 [ D_Loss ]  -0.039262 [ G_Loss ]   37.870937 [ Time ]  90.67s
+[Epoch]  1247 [ D_Loss ]  -0.038015 [ G_Loss ]   37.434385 [ Time ]  92.88s
+[Epoch]  1248 [ D_Loss ]  -0.038848 [ G_Loss ]   37.507579 [ Time ]  91.45s
+[Epoch]  1249 [ D_Loss ]  -0.040296 [ G_Loss ]   38.170959 [ Time ]  90.38s
+[Epoch]  1250 [ D_Loss ]  -0.037535 [ G_Loss ]   38.472367 [ Time ]  90.41s
+---------------------------[1250 Epoch] Frechet Pointcloud Distance <<< 1.08 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 2746
+[Epoch]  1251 [ D_Loss ]  -0.041212 [ G_Loss ]   39.540500 [ Time ]  90.52s
+[Epoch]  1252 [ D_Loss ]  -0.040119 [ G_Loss ]   38.799683 [ Time ]  93.98s
+[Epoch]  1253 [ D_Loss ]  -0.038266 [ G_Loss ]   39.166639 [ Time ]  90.12s
+[Epoch]  1254 [ D_Loss ]  -0.038158 [ G_Loss ]   38.474568 [ Time ]  90.21s
+[Epoch]  1255 [ D_Loss ]  -0.039727 [ G_Loss ]   39.047900 [ Time ]  90.43s
+---------------------------[1255 Epoch] Frechet Pointcloud Distance <<< 1.25 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 88 2613
+[Epoch]  1256 [ D_Loss ]  -0.039064 [ G_Loss ]   38.492486 [ Time ]  90.65s
+[Epoch]  1257 [ D_Loss ]  -0.039474 [ G_Loss ]   38.604483 [ Time ]  94.21s
+[Epoch]  1258 [ D_Loss ]  -0.039645 [ G_Loss ]   38.480583 [ Time ]  90.85s
+[Epoch]  1259 [ D_Loss ]  -0.036747 [ G_Loss ]   38.738791 [ Time ]  90.70s
+[Epoch]  1260 [ D_Loss ]  -0.036245 [ G_Loss ]   39.139607 [ Time ]  90.75s
+---------------------------[1260 Epoch] Frechet Pointcloud Distance <<< 1.71 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 3007
+[Epoch]  1261 [ D_Loss ]  -0.038097 [ G_Loss ]   39.275126 [ Time ]  93.05s
+[Epoch]  1262 [ D_Loss ]  -0.039291 [ G_Loss ]   38.809761 [ Time ]  93.71s
+[Epoch]  1263 [ D_Loss ]  -0.040437 [ G_Loss ]   39.930907 [ Time ]  91.03s
+[Epoch]  1264 [ D_Loss ]  -0.039032 [ G_Loss ]   40.254158 [ Time ]  90.69s
+[Epoch]  1265 [ D_Loss ]  -0.038256 [ G_Loss ]   39.541067 [ Time ]  90.84s
+---------------------------[1265 Epoch] Frechet Pointcloud Distance <<< 1.18 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 101 2870
+[Epoch]  1266 [ D_Loss ]  -0.038960 [ G_Loss ]   38.501119 [ Time ]  94.25s
+[Epoch]  1267 [ D_Loss ]  -0.037446 [ G_Loss ]   38.769093 [ Time ]  91.22s
+[Epoch]  1268 [ D_Loss ]  -0.038659 [ G_Loss ]   39.009673 [ Time ]  90.63s
+[Epoch]  1269 [ D_Loss ]  -0.037548 [ G_Loss ]   39.155790 [ Time ]  91.06s
+[Epoch]  1270 [ D_Loss ]  -0.037717 [ G_Loss ]   38.982008 [ Time ]  90.63s
+---------------------------[1270 Epoch] Frechet Pointcloud Distance <<< 1.92 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 96 2768
+[Epoch]  1271 [ D_Loss ]  -0.039348 [ G_Loss ]   38.937025 [ Time ]  94.33s
+[Epoch]  1272 [ D_Loss ]  -0.039000 [ G_Loss ]   38.864446 [ Time ]  90.49s
+[Epoch]  1273 [ D_Loss ]  -0.039671 [ G_Loss ]   39.055825 [ Time ]  90.68s
+[Epoch]  1274 [ D_Loss ]  -0.039126 [ G_Loss ]   38.750751 [ Time ]  90.66s
+[Epoch]  1275 [ D_Loss ]  -0.040291 [ G_Loss ]   38.167266 [ Time ]  91.28s
+---------------------------[1275 Epoch] Frechet Pointcloud Distance <<< 0.86 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 92 2791
+[Epoch]  1276 [ D_Loss ]  -0.037981 [ G_Loss ]   37.809823 [ Time ]  96.09s
+[Epoch]  1277 [ D_Loss ]  -0.039117 [ G_Loss ]   38.889337 [ Time ]  91.29s
+[Epoch]  1278 [ D_Loss ]  -0.040804 [ G_Loss ]   38.517474 [ Time ]  90.67s
+[Epoch]  1279 [ D_Loss ]  -0.038175 [ G_Loss ]   38.520793 [ Time ]  91.01s
+[Epoch]  1280 [ D_Loss ]  -0.039557 [ G_Loss ]   38.147909 [ Time ]  90.37s
+---------------------------[1280 Epoch] Frechet Pointcloud Distance <<< 1.07 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 2837
+[Epoch]  1281 [ D_Loss ]  -0.039120 [ G_Loss ]   39.220265 [ Time ]  94.22s
+[Epoch]  1282 [ D_Loss ]  -0.038686 [ G_Loss ]   37.722509 [ Time ]  90.71s
+[Epoch]  1283 [ D_Loss ]  -0.038839 [ G_Loss ]   37.882002 [ Time ]  90.75s
+[Epoch]  1284 [ D_Loss ]  -0.038030 [ G_Loss ]   38.203165 [ Time ]  90.82s
+[Epoch]  1285 [ D_Loss ]  -0.038519 [ G_Loss ]   38.613017 [ Time ]  90.56s
+---------------------------[1285 Epoch] Frechet Pointcloud Distance <<< 1.80 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 103 3111
+[Epoch]  1286 [ D_Loss ]  -0.037208 [ G_Loss ]   39.337782 [ Time ]  91.99s
+[Epoch]  1287 [ D_Loss ]  -0.038371 [ G_Loss ]   39.695696 [ Time ]  91.04s
+[Epoch]  1288 [ D_Loss ]  -0.040105 [ G_Loss ]   39.032639 [ Time ]  91.40s
+[Epoch]  1289 [ D_Loss ]  -0.037224 [ G_Loss ]   38.994682 [ Time ]  90.86s
+[Epoch]  1290 [ D_Loss ]  -0.037918 [ G_Loss ]   38.860995 [ Time ]  91.03s
+---------------------------[1290 Epoch] Frechet Pointcloud Distance <<< 3.10 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 102 2870
+[Epoch]  1291 [ D_Loss ]  -0.039371 [ G_Loss ]   38.446953 [ Time ]  91.03s
+[Epoch]  1292 [ D_Loss ]  -0.037977 [ G_Loss ]   38.596034 [ Time ]  90.58s
+[Epoch]  1293 [ D_Loss ]  -0.038452 [ G_Loss ]   39.243335 [ Time ]  90.88s
+[Epoch]  1294 [ D_Loss ]  -0.039572 [ G_Loss ]   38.519828 [ Time ]  90.37s
+[Epoch]  1295 [ D_Loss ]  -0.037344 [ G_Loss ]   38.799208 [ Time ]  93.68s
+---------------------------[1295 Epoch] Frechet Pointcloud Distance <<< 1.78 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 100 2860
+[Epoch]  1296 [ D_Loss ]  -0.039452 [ G_Loss ]   38.061134 [ Time ]  90.35s
+[Epoch]  1297 [ D_Loss ]  -0.039087 [ G_Loss ]   37.888912 [ Time ]  90.31s
+[Epoch]  1298 [ D_Loss ]  -0.039072 [ G_Loss ]   37.898257 [ Time ]  90.58s
+[Epoch]  1299 [ D_Loss ]  -0.038212 [ G_Loss ]   38.764561 [ Time ]  90.58s
+[Epoch]  1300 [ D_Loss ]  -0.039788 [ G_Loss ]   38.444855 [ Time ]  94.24s
+---------------------------[1300 Epoch] Frechet Pointcloud Distance <<< 1.21 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 89 2644
+[Epoch]  1301 [ D_Loss ]  -0.035484 [ G_Loss ]   37.516130 [ Time ]  90.53s
+[Epoch]  1302 [ D_Loss ]  -0.038805 [ G_Loss ]   38.381353 [ Time ]  90.81s
+[Epoch]  1303 [ D_Loss ]  -0.040342 [ G_Loss ]   38.775886 [ Time ]  90.58s
+[Epoch]  1304 [ D_Loss ]  -0.037203 [ G_Loss ]   39.164533 [ Time ]  90.29s
+[Epoch]  1305 [ D_Loss ]  -0.040237 [ G_Loss ]   38.348942 [ Time ]  97.05s
+---------------------------[1305 Epoch] Frechet Pointcloud Distance <<< 1.50 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 99 2879
+[Epoch]  1306 [ D_Loss ]  -0.039278 [ G_Loss ]   38.422082 [ Time ]  90.23s
+[Epoch]  1307 [ D_Loss ]  -0.038164 [ G_Loss ]   38.241312 [ Time ]  90.50s
+[Epoch]  1308 [ D_Loss ]  -0.040163 [ G_Loss ]   37.938693 [ Time ]  90.70s
+[Epoch]  1309 [ D_Loss ]  -0.038791 [ G_Loss ]   37.396521 [ Time ]  93.81s
+[Epoch]  1310 [ D_Loss ]  -0.038697 [ G_Loss ]   37.666635 [ Time ]  91.91s
+---------------------------[1310 Epoch] Frechet Pointcloud Distance <<< 1.17 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 97 2746
+[Epoch]  1311 [ D_Loss ]  -0.038462 [ G_Loss ]   37.378755 [ Time ]  90.17s
+[Epoch]  1312 [ D_Loss ]  -0.035865 [ G_Loss ]   37.906443 [ Time ]  90.18s
+[Epoch]  1313 [ D_Loss ]  -0.039099 [ G_Loss ]   37.893833 [ Time ]  90.30s
+[Epoch]  1314 [ D_Loss ]  -0.038527 [ G_Loss ]   38.335563 [ Time ]  93.41s
+[Epoch]  1315 [ D_Loss ]  -0.038256 [ G_Loss ]   37.914987 [ Time ]  90.23s
+---------------------------[1315 Epoch] Frechet Pointcloud Distance <<< 1.97 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 91 2665
+[Epoch]  1316 [ D_Loss ]  -0.039471 [ G_Loss ]   38.647591 [ Time ]  90.44s
+[Epoch]  1317 [ D_Loss ]  -0.038282 [ G_Loss ]   39.081219 [ Time ]  90.71s
+[Epoch]  1318 [ D_Loss ]  -0.041186 [ G_Loss ]   38.619404 [ Time ]  90.25s
+[Epoch]  1319 [ D_Loss ]  -0.039451 [ G_Loss ]   38.209708 [ Time ]  94.34s
+[Epoch]  1320 [ D_Loss ]  -0.037960 [ G_Loss ]   38.525395 [ Time ]  90.31s
+---------------------------[1320 Epoch] Frechet Pointcloud Distance <<< 1.39 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 101 2890
+[Epoch]  1321 [ D_Loss ]  -0.039439 [ G_Loss ]   38.795694 [ Time ]  90.38s
+[Epoch]  1322 [ D_Loss ]  -0.035561 [ G_Loss ]   38.644362 [ Time ]  90.39s
+[Epoch]  1323 [ D_Loss ]  -0.039712 [ G_Loss ]   39.114938 [ Time ]  92.42s
+[Epoch]  1324 [ D_Loss ]  -0.038547 [ G_Loss ]   38.892019 [ Time ]  92.66s
+[Epoch]  1325 [ D_Loss ]  -0.039519 [ G_Loss ]   38.898590 [ Time ]  90.28s
+---------------------------[1325 Epoch] Frechet Pointcloud Distance <<< 2.59 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 105 2896
+[Epoch]  1326 [ D_Loss ]  -0.039950 [ G_Loss ]   38.522202 [ Time ]  90.28s
+[Epoch]  1327 [ D_Loss ]  -0.038219 [ G_Loss ]   38.081822 [ Time ]  90.50s
+[Epoch]  1328 [ D_Loss ]  -0.039650 [ G_Loss ]   38.222207 [ Time ]  93.41s
+[Epoch]  1329 [ D_Loss ]  -0.039307 [ G_Loss ]   37.923931 [ Time ]  91.09s
+[Epoch]  1330 [ D_Loss ]  -0.038749 [ G_Loss ]   38.920751 [ Time ]  90.66s
+---------------------------[1330 Epoch] Frechet Pointcloud Distance <<< 1.85 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 105 2988
+[Epoch]  1331 [ D_Loss ]  -0.039072 [ G_Loss ]   37.927307 [ Time ]  90.58s
+[Epoch]  1332 [ D_Loss ]  -0.039398 [ G_Loss ]   38.098857 [ Time ]  90.56s
+[Epoch]  1333 [ D_Loss ]  -0.038205 [ G_Loss ]   38.805435 [ Time ]  94.01s
+[Epoch]  1334 [ D_Loss ]  -0.037475 [ G_Loss ]   39.098466 [ Time ]  90.24s
+[Epoch]  1335 [ D_Loss ]  -0.038911 [ G_Loss ]   38.631045 [ Time ]  90.45s
+---------------------------[1335 Epoch] Frechet Pointcloud Distance <<< 1.93 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 98 2683
+[Epoch]  1336 [ D_Loss ]  -0.038189 [ G_Loss ]   38.094335 [ Time ]  90.32s
+[Epoch]  1337 [ D_Loss ]  -0.040498 [ G_Loss ]   38.107306 [ Time ]  90.43s
+[Epoch]  1338 [ D_Loss ]  -0.038901 [ G_Loss ]   38.400901 [ Time ]  94.50s
+[Epoch]  1339 [ D_Loss ]  -0.040065 [ G_Loss ]   37.309484 [ Time ]  90.09s
+[Epoch]  1340 [ D_Loss ]  -0.038398 [ G_Loss ]   37.492789 [ Time ]  90.35s
+---------------------------[1340 Epoch] Frechet Pointcloud Distance <<< 1.33 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 103 2829
+[Epoch]  1341 [ D_Loss ]  -0.038840 [ G_Loss ]   37.365151 [ Time ]  90.31s
+[Epoch]  1342 [ D_Loss ]  -0.038151 [ G_Loss ]   36.574372 [ Time ]  92.73s
+[Epoch]  1343 [ D_Loss ]  -0.040477 [ G_Loss ]   35.289810 [ Time ]  91.87s
+[Epoch]  1344 [ D_Loss ]  -0.039821 [ G_Loss ]   36.125827 [ Time ]  90.81s
+[Epoch]  1345 [ D_Loss ]  -0.038782 [ G_Loss ]   36.494676 [ Time ]  90.18s
+---------------------------[1345 Epoch] Frechet Pointcloud Distance <<< 1.71 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 91 2635
+[Epoch]  1346 [ D_Loss ]  -0.039745 [ G_Loss ]   37.395445 [ Time ]  90.53s
+[Epoch]  1347 [ D_Loss ]  -0.038968 [ G_Loss ]   36.739871 [ Time ]  94.51s
+[Epoch]  1348 [ D_Loss ]  -0.039744 [ G_Loss ]   37.389089 [ Time ]  90.26s
+[Epoch]  1349 [ D_Loss ]  -0.037327 [ G_Loss ]   37.201237 [ Time ]  90.01s
+[Epoch]  1350 [ D_Loss ]  -0.038212 [ G_Loss ]   36.493244 [ Time ]  90.28s
+---------------------------[1350 Epoch] Frechet Pointcloud Distance <<< 3.00 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 94 2748
+[Epoch]  1351 [ D_Loss ]  -0.039419 [ G_Loss ]   35.777414 [ Time ]  90.20s
+[Epoch]  1352 [ D_Loss ]  -0.037277 [ G_Loss ]   36.458646 [ Time ]  93.89s
+[Epoch]  1353 [ D_Loss ]  -0.038788 [ G_Loss ]   35.143918 [ Time ]  90.63s
+[Epoch]  1354 [ D_Loss ]  -0.038034 [ G_Loss ]   35.321712 [ Time ]  90.48s
+[Epoch]  1355 [ D_Loss ]  -0.039297 [ G_Loss ]   34.726519 [ Time ]  90.77s
+---------------------------[1355 Epoch] Frechet Pointcloud Distance <<< 1.58 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 84 2553
+[Epoch]  1356 [ D_Loss ]  -0.039902 [ G_Loss ]   35.768667 [ Time ]  90.29s
+[Epoch]  1357 [ D_Loss ]  -0.039824 [ G_Loss ]   35.818964 [ Time ]  96.68s
+[Epoch]  1358 [ D_Loss ]  -0.039006 [ G_Loss ]   36.370163 [ Time ]  90.31s
+[Epoch]  1359 [ D_Loss ]  -0.037619 [ G_Loss ]   35.729307 [ Time ]  90.25s
+[Epoch]  1360 [ D_Loss ]  -0.039734 [ G_Loss ]   35.396052 [ Time ]  90.64s
+---------------------------[1360 Epoch] Frechet Pointcloud Distance <<< 2.79 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 92 2640
+[Epoch]  1361 [ D_Loss ]  -0.037839 [ G_Loss ]   35.749093 [ Time ]  93.36s
+[Epoch]  1362 [ D_Loss ]  -0.038256 [ G_Loss ]   36.272674 [ Time ]  92.93s
+[Epoch]  1363 [ D_Loss ]  -0.036720 [ G_Loss ]   35.460035 [ Time ]  90.94s
+[Epoch]  1364 [ D_Loss ]  -0.037886 [ G_Loss ]   35.307398 [ Time ]  91.12s
+[Epoch]  1365 [ D_Loss ]  -0.038305 [ G_Loss ]   35.770114 [ Time ]  91.22s
+---------------------------[1365 Epoch] Frechet Pointcloud Distance <<< 1.46 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 96 2762
+[Epoch]  1366 [ D_Loss ]  -0.039415 [ G_Loss ]   36.208210 [ Time ]  94.39s
+[Epoch]  1367 [ D_Loss ]  -0.040172 [ G_Loss ]   36.730330 [ Time ]  90.55s
+[Epoch]  1368 [ D_Loss ]  -0.036928 [ G_Loss ]   36.585319 [ Time ]  90.75s
+[Epoch]  1369 [ D_Loss ]  -0.038883 [ G_Loss ]   35.919405 [ Time ]  90.56s
+[Epoch]  1370 [ D_Loss ]  -0.040358 [ G_Loss ]   35.942732 [ Time ]  90.72s
+---------------------------[1370 Epoch] Frechet Pointcloud Distance <<< 2.32 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 92 2786
+[Epoch]  1371 [ D_Loss ]  -0.039555 [ G_Loss ]   35.946655 [ Time ]  94.05s
+[Epoch]  1372 [ D_Loss ]  -0.037632 [ G_Loss ]   35.402317 [ Time ]  90.59s
+[Epoch]  1373 [ D_Loss ]  -0.040690 [ G_Loss ]   35.609669 [ Time ]  90.37s
+[Epoch]  1374 [ D_Loss ]  -0.037522 [ G_Loss ]   36.088021 [ Time ]  90.81s
+[Epoch]  1375 [ D_Loss ]  -0.037368 [ G_Loss ]   35.106005 [ Time ]  90.68s
+---------------------------[1375 Epoch] Frechet Pointcloud Distance <<< 1.95 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 85 2454
+[Epoch]  1376 [ D_Loss ]  -0.038548 [ G_Loss ]   34.983648 [ Time ]  98.03s
+[Epoch]  1377 [ D_Loss ]  -0.036945 [ G_Loss ]   35.601357 [ Time ]  90.59s
+[Epoch]  1378 [ D_Loss ]  -0.039865 [ G_Loss ]   35.660549 [ Time ]  90.80s
+[Epoch]  1379 [ D_Loss ]  -0.037153 [ G_Loss ]   35.264802 [ Time ]  90.68s
+[Epoch]  1380 [ D_Loss ]  -0.038307 [ G_Loss ]   34.475847 [ Time ]  92.66s
+---------------------------[1380 Epoch] Frechet Pointcloud Distance <<< 2.10 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 85 2504
+[Epoch]  1381 [ D_Loss ]  -0.040520 [ G_Loss ]   34.081168 [ Time ]  91.95s
+[Epoch]  1382 [ D_Loss ]  -0.038007 [ G_Loss ]   35.128571 [ Time ]  90.82s
+[Epoch]  1383 [ D_Loss ]  -0.038391 [ G_Loss ]   35.226877 [ Time ]  91.72s
+[Epoch]  1384 [ D_Loss ]  -0.038522 [ G_Loss ]   35.205001 [ Time ]  90.42s
+[Epoch]  1385 [ D_Loss ]  -0.037637 [ G_Loss ]   35.722033 [ Time ]  92.44s
+---------------------------[1385 Epoch] Frechet Pointcloud Distance <<< 1.08 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 88 2610
+[Epoch]  1386 [ D_Loss ]  -0.038538 [ G_Loss ]   35.242405 [ Time ]  90.82s
+[Epoch]  1387 [ D_Loss ]  -0.038286 [ G_Loss ]   35.219902 [ Time ]  90.57s
+[Epoch]  1388 [ D_Loss ]  -0.039056 [ G_Loss ]   35.873520 [ Time ]  90.89s
+[Epoch]  1389 [ D_Loss ]  -0.039152 [ G_Loss ]   35.366092 [ Time ]  90.99s
+[Epoch]  1390 [ D_Loss ]  -0.038517 [ G_Loss ]   34.981382 [ Time ]  94.11s
+---------------------------[1390 Epoch] Frechet Pointcloud Distance <<< 1.31 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 91 2690
+[Epoch]  1391 [ D_Loss ]  -0.039558 [ G_Loss ]   35.068202 [ Time ]  90.80s
+[Epoch]  1392 [ D_Loss ]  -0.037080 [ G_Loss ]   35.761807 [ Time ]  90.74s
+[Epoch]  1393 [ D_Loss ]  -0.038579 [ G_Loss ]   36.079838 [ Time ]  90.63s
+[Epoch]  1394 [ D_Loss ]  -0.037432 [ G_Loss ]   36.263923 [ Time ]  91.07s
+[Epoch]  1395 [ D_Loss ]  -0.038787 [ G_Loss ]   36.221753 [ Time ]  94.41s
+---------------------------[1395 Epoch] Frechet Pointcloud Distance <<< 1.90 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 88 2602
+[Epoch]  1396 [ D_Loss ]  -0.035717 [ G_Loss ]   35.753934 [ Time ]  90.41s
+[Epoch]  1397 [ D_Loss ]  -0.037080 [ G_Loss ]   35.227910 [ Time ]  90.01s
+[Epoch]  1398 [ D_Loss ]  -0.037633 [ G_Loss ]   35.777192 [ Time ]  90.33s
+[Epoch]  1399 [ D_Loss ]  -0.037530 [ G_Loss ]   36.366901 [ Time ]  90.50s
+[Epoch]  1400 [ D_Loss ]  -0.036637 [ G_Loss ]   35.834539 [ Time ]  95.91s
+---------------------------[1400 Epoch] Frechet Pointcloud Distance <<< 1.94 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 85 2690
+[Epoch]  1401 [ D_Loss ]  -0.036952 [ G_Loss ]   35.660988 [ Time ]  90.44s
+[Epoch]  1402 [ D_Loss ]  -0.037252 [ G_Loss ]   36.638279 [ Time ]  90.66s
+[Epoch]  1403 [ D_Loss ]  -0.038542 [ G_Loss ]   35.712386 [ Time ]  90.44s
+[Epoch]  1404 [ D_Loss ]  -0.037231 [ G_Loss ]   35.132258 [ Time ]  92.90s
+[Epoch]  1405 [ D_Loss ]  -0.039025 [ G_Loss ]   34.498752 [ Time ]  92.03s
+---------------------------[1405 Epoch] Frechet Pointcloud Distance <<< 1.55 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 86 2480
+[Epoch]  1406 [ D_Loss ]  -0.037732 [ G_Loss ]   34.717561 [ Time ]  90.67s
+[Epoch]  1407 [ D_Loss ]  -0.036841 [ G_Loss ]   34.262692 [ Time ]  90.55s
+[Epoch]  1408 [ D_Loss ]  -0.038163 [ G_Loss ]   35.507888 [ Time ]  90.46s
+[Epoch]  1409 [ D_Loss ]  -0.038366 [ G_Loss ]   35.097414 [ Time ]  93.80s
+[Epoch]  1410 [ D_Loss ]  -0.037758 [ G_Loss ]   34.978537 [ Time ]  90.41s
+---------------------------[1410 Epoch] Frechet Pointcloud Distance <<< 1.12 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 91 2650
+[Epoch]  1411 [ D_Loss ]  -0.038147 [ G_Loss ]   34.991466 [ Time ]  90.47s
+[Epoch]  1412 [ D_Loss ]  -0.037363 [ G_Loss ]   35.018472 [ Time ]  90.25s
+[Epoch]  1413 [ D_Loss ]  -0.037941 [ G_Loss ]   35.340138 [ Time ]  90.30s
+[Epoch]  1414 [ D_Loss ]  -0.038273 [ G_Loss ]   36.798604 [ Time ]  94.10s
+[Epoch]  1415 [ D_Loss ]  -0.037126 [ G_Loss ]   35.257321 [ Time ]  90.41s
+---------------------------[1415 Epoch] Frechet Pointcloud Distance <<< 1.12 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 77 2341
+[Epoch]  1416 [ D_Loss ]  -0.037081 [ G_Loss ]   34.798047 [ Time ]  90.45s
+[Epoch]  1417 [ D_Loss ]  -0.040006 [ G_Loss ]   35.377993 [ Time ]  90.53s
+[Epoch]  1418 [ D_Loss ]  -0.037342 [ G_Loss ]   35.697030 [ Time ]  90.69s
+[Epoch]  1419 [ D_Loss ]  -0.038296 [ G_Loss ]   35.742896 [ Time ]  97.16s
+[Epoch]  1420 [ D_Loss ]  -0.036802 [ G_Loss ]   35.433524 [ Time ]  90.16s
+---------------------------[1420 Epoch] Frechet Pointcloud Distance <<< 2.45 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 95 2667
+[Epoch]  1421 [ D_Loss ]  -0.038598 [ G_Loss ]   34.833307 [ Time ]  90.41s
+[Epoch]  1422 [ D_Loss ]  -0.038948 [ G_Loss ]   36.509537 [ Time ]  90.42s
+[Epoch]  1423 [ D_Loss ]  -0.037019 [ G_Loss ]   36.611756 [ Time ]  93.04s
+[Epoch]  1424 [ D_Loss ]  -0.037050 [ G_Loss ]   36.550700 [ Time ]  91.87s
+[Epoch]  1425 [ D_Loss ]  -0.038772 [ G_Loss ]   37.281417 [ Time ]  90.43s
+---------------------------[1425 Epoch] Frechet Pointcloud Distance <<< 2.34 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 96 2634
+[Epoch]  1426 [ D_Loss ]  -0.039147 [ G_Loss ]   36.720822 [ Time ]  90.31s
+[Epoch]  1427 [ D_Loss ]  -0.036757 [ G_Loss ]   36.590895 [ Time ]  90.25s
+[Epoch]  1428 [ D_Loss ]  -0.038724 [ G_Loss ]   35.018223 [ Time ]  94.35s
+[Epoch]  1429 [ D_Loss ]  -0.036545 [ G_Loss ]   34.899534 [ Time ]  90.31s
+[Epoch]  1430 [ D_Loss ]  -0.038356 [ G_Loss ]   34.648182 [ Time ]  90.10s
+---------------------------[1430 Epoch] Frechet Pointcloud Distance <<< 2.73 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2362
+[Epoch]  1431 [ D_Loss ]  -0.037496 [ G_Loss ]   34.905752 [ Time ]  90.61s
+[Epoch]  1432 [ D_Loss ]  -0.038217 [ G_Loss ]   35.700571 [ Time ]  90.52s
+[Epoch]  1433 [ D_Loss ]  -0.036826 [ G_Loss ]   35.435579 [ Time ]  93.75s
+[Epoch]  1434 [ D_Loss ]  -0.037215 [ G_Loss ]   35.917504 [ Time ]  90.44s
+[Epoch]  1435 [ D_Loss ]  -0.037763 [ G_Loss ]   35.773702 [ Time ]  90.37s
+---------------------------[1435 Epoch] Frechet Pointcloud Distance <<< 1.89 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 90 2590
+[Epoch]  1436 [ D_Loss ]  -0.037635 [ G_Loss ]   36.047929 [ Time ]  90.52s
+[Epoch]  1437 [ D_Loss ]  -0.039334 [ G_Loss ]   35.765318 [ Time ]  91.89s
+[Epoch]  1438 [ D_Loss ]  -0.036072 [ G_Loss ]   36.335943 [ Time ]  92.97s
+[Epoch]  1439 [ D_Loss ]  -0.037460 [ G_Loss ]   37.090325 [ Time ]  90.11s
+[Epoch]  1440 [ D_Loss ]  -0.037491 [ G_Loss ]   35.910081 [ Time ]  90.17s
+---------------------------[1440 Epoch] Frechet Pointcloud Distance <<< 1.91 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 83 2437
+[Epoch]  1441 [ D_Loss ]  -0.037551 [ G_Loss ]   35.292759 [ Time ]  90.54s
+[Epoch]  1442 [ D_Loss ]  -0.038330 [ G_Loss ]   35.458217 [ Time ]  93.89s
+[Epoch]  1443 [ D_Loss ]  -0.036814 [ G_Loss ]   36.251379 [ Time ]  91.17s
+[Epoch]  1444 [ D_Loss ]  -0.037842 [ G_Loss ]   35.673758 [ Time ]  90.61s
+[Epoch]  1445 [ D_Loss ]  -0.039634 [ G_Loss ]   35.846033 [ Time ]  90.71s
+---------------------------[1445 Epoch] Frechet Pointcloud Distance <<< 1.43 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 75 2246
+[Epoch]  1446 [ D_Loss ]  -0.037095 [ G_Loss ]   34.937931 [ Time ]  90.30s
+[Epoch]  1447 [ D_Loss ]  -0.035449 [ G_Loss ]   35.404688 [ Time ]  93.56s
+[Epoch]  1448 [ D_Loss ]  -0.034897 [ G_Loss ]   35.208007 [ Time ]  90.33s
+[Epoch]  1449 [ D_Loss ]  -0.036728 [ G_Loss ]   34.637978 [ Time ]  90.28s
+[Epoch]  1450 [ D_Loss ]  -0.037465 [ G_Loss ]   34.858613 [ Time ]  92.50s
+---------------------------[1450 Epoch] Frechet Pointcloud Distance <<< 1.06 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 86 2471
+[Epoch]  1451 [ D_Loss ]  -0.035570 [ G_Loss ]   34.893375 [ Time ]  90.40s
+[Epoch]  1452 [ D_Loss ]  -0.037173 [ G_Loss ]   35.572609 [ Time ]  94.84s
+[Epoch]  1453 [ D_Loss ]  -0.036809 [ G_Loss ]   35.104537 [ Time ]  90.28s
+[Epoch]  1454 [ D_Loss ]  -0.037468 [ G_Loss ]   34.971474 [ Time ]  90.24s
+[Epoch]  1455 [ D_Loss ]  -0.037346 [ G_Loss ]   35.150127 [ Time ]  90.16s
+---------------------------[1455 Epoch] Frechet Pointcloud Distance <<< 2.17 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 87 2558
+[Epoch]  1456 [ D_Loss ]  -0.037906 [ G_Loss ]   34.146576 [ Time ]  92.85s
+[Epoch]  1457 [ D_Loss ]  -0.036083 [ G_Loss ]   34.396423 [ Time ]  92.21s
+[Epoch]  1458 [ D_Loss ]  -0.037278 [ G_Loss ]   33.271388 [ Time ]  90.39s
+[Epoch]  1459 [ D_Loss ]  -0.035867 [ G_Loss ]   33.576896 [ Time ]  90.35s
+[Epoch]  1460 [ D_Loss ]  -0.036902 [ G_Loss ]   33.887547 [ Time ]  90.52s
+---------------------------[1460 Epoch] Frechet Pointcloud Distance <<< 0.77 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 79 2258
+[Epoch]  1461 [ D_Loss ]  -0.037339 [ G_Loss ]   34.532253 [ Time ]  94.52s
+[Epoch]  1462 [ D_Loss ]  -0.037022 [ G_Loss ]   35.370462 [ Time ]  90.30s
+[Epoch]  1463 [ D_Loss ]  -0.038454 [ G_Loss ]   35.451612 [ Time ]  90.30s
+[Epoch]  1464 [ D_Loss ]  -0.037332 [ G_Loss ]   34.903375 [ Time ]  90.41s
+[Epoch]  1465 [ D_Loss ]  -0.036083 [ G_Loss ]   35.133209 [ Time ]  90.17s
+---------------------------[1465 Epoch] Frechet Pointcloud Distance <<< 2.28 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2539
+[Epoch]  1466 [ D_Loss ]  -0.036390 [ G_Loss ]   34.838818 [ Time ]  94.36s
+[Epoch]  1467 [ D_Loss ]  -0.036734 [ G_Loss ]   35.351843 [ Time ]  90.89s
+[Epoch]  1468 [ D_Loss ]  -0.036914 [ G_Loss ]   35.611674 [ Time ]  90.89s
+[Epoch]  1469 [ D_Loss ]  -0.036260 [ G_Loss ]   34.821001 [ Time ]  91.23s
+[Epoch]  1470 [ D_Loss ]  -0.037742 [ G_Loss ]   34.540443 [ Time ]  90.94s
+---------------------------[1470 Epoch] Frechet Pointcloud Distance <<< 1.38 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 75 2293
+[Epoch]  1471 [ D_Loss ]  -0.036203 [ G_Loss ]   34.129064 [ Time ]  98.09s
+[Epoch]  1472 [ D_Loss ]  -0.036477 [ G_Loss ]   35.180786 [ Time ]  90.59s
+[Epoch]  1473 [ D_Loss ]  -0.035510 [ G_Loss ]   36.653239 [ Time ]  90.74s
+[Epoch]  1474 [ D_Loss ]  -0.036844 [ G_Loss ]   34.880959 [ Time ]  90.62s
+[Epoch]  1475 [ D_Loss ]  -0.036124 [ G_Loss ]   34.845601 [ Time ]  90.73s
+---------------------------[1475 Epoch] Frechet Pointcloud Distance <<< 1.39 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2371
+[Epoch]  1476 [ D_Loss ]  -0.037835 [ G_Loss ]   34.342762 [ Time ]  92.86s
+[Epoch]  1477 [ D_Loss ]  -0.036686 [ G_Loss ]   34.131627 [ Time ]  90.22s
+[Epoch]  1478 [ D_Loss ]  -0.038263 [ G_Loss ]   34.090728 [ Time ]  90.66s
+[Epoch]  1479 [ D_Loss ]  -0.036829 [ G_Loss ]   34.278599 [ Time ]  90.84s
+[Epoch]  1480 [ D_Loss ]  -0.036164 [ G_Loss ]   33.256454 [ Time ]  90.88s
+---------------------------[1480 Epoch] Frechet Pointcloud Distance <<< 2.13 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2415
+[Epoch]  1481 [ D_Loss ]  -0.037576 [ G_Loss ]   34.764271 [ Time ]  90.78s
+[Epoch]  1482 [ D_Loss ]  -0.036001 [ G_Loss ]   34.709772 [ Time ]  91.01s
+[Epoch]  1483 [ D_Loss ]  -0.038413 [ G_Loss ]   35.085915 [ Time ]  90.73s
+[Epoch]  1484 [ D_Loss ]  -0.037415 [ G_Loss ]   35.189220 [ Time ]  90.66s
+[Epoch]  1485 [ D_Loss ]  -0.035054 [ G_Loss ]   36.231067 [ Time ]  92.93s
+---------------------------[1485 Epoch] Frechet Pointcloud Distance <<< 1.98 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 90 2530
+[Epoch]  1486 [ D_Loss ]  -0.036552 [ G_Loss ]   36.318477 [ Time ]  91.12s
+[Epoch]  1487 [ D_Loss ]  -0.037825 [ G_Loss ]   34.794943 [ Time ]  91.02s
+[Epoch]  1488 [ D_Loss ]  -0.036168 [ G_Loss ]   35.360455 [ Time ]  90.83s
+[Epoch]  1489 [ D_Loss ]  -0.037163 [ G_Loss ]   35.255541 [ Time ]  91.33s
+[Epoch]  1490 [ D_Loss ]  -0.036809 [ G_Loss ]   35.810708 [ Time ]  94.67s
+---------------------------[1490 Epoch] Frechet Pointcloud Distance <<< 1.57 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 83 2376
+[Epoch]  1491 [ D_Loss ]  -0.037751 [ G_Loss ]   34.828213 [ Time ]  90.88s
+[Epoch]  1492 [ D_Loss ]  -0.037697 [ G_Loss ]   34.271568 [ Time ]  90.70s
+[Epoch]  1493 [ D_Loss ]  -0.037974 [ G_Loss ]   33.679680 [ Time ]  90.67s
+[Epoch]  1494 [ D_Loss ]  -0.036603 [ G_Loss ]   35.372337 [ Time ]  90.66s
+[Epoch]  1495 [ D_Loss ]  -0.037152 [ G_Loss ]   35.318995 [ Time ]  94.45s
+---------------------------[1495 Epoch] Frechet Pointcloud Distance <<< 1.19 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 82 2373
+[Epoch]  1496 [ D_Loss ]  -0.034928 [ G_Loss ]   34.564092 [ Time ]  91.37s
+[Epoch]  1497 [ D_Loss ]  -0.037179 [ G_Loss ]   33.803656 [ Time ]  91.00s
+[Epoch]  1498 [ D_Loss ]  -0.036184 [ G_Loss ]   34.537828 [ Time ]  90.88s
+[Epoch]  1499 [ D_Loss ]  -0.034870 [ G_Loss ]   34.160186 [ Time ]  92.62s
+[Epoch]  1500 [ D_Loss ]  -0.035973 [ G_Loss ]   33.963955 [ Time ]  94.95s
+---------------------------[1500 Epoch] Frechet Pointcloud Distance <<< 1.34 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 81 2316
+[Epoch]  1501 [ D_Loss ]  -0.035979 [ G_Loss ]   34.821682 [ Time ]  90.90s
+[Epoch]  1502 [ D_Loss ]  -0.034537 [ G_Loss ]   34.954570 [ Time ]  90.38s
+[Epoch]  1503 [ D_Loss ]  -0.034937 [ G_Loss ]   34.236767 [ Time ]  90.18s
+[Epoch]  1504 [ D_Loss ]  -0.037291 [ G_Loss ]   34.189948 [ Time ]  93.14s
+[Epoch]  1505 [ D_Loss ]  -0.037470 [ G_Loss ]   33.978103 [ Time ]  90.90s
+---------------------------[1505 Epoch] Frechet Pointcloud Distance <<< 1.95 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 87 2467
+[Epoch]  1506 [ D_Loss ]  -0.035729 [ G_Loss ]   34.886551 [ Time ]  90.37s
+[Epoch]  1507 [ D_Loss ]  -0.035830 [ G_Loss ]   35.297191 [ Time ]  90.29s
+[Epoch]  1508 [ D_Loss ]  -0.036044 [ G_Loss ]   35.553103 [ Time ]  90.26s
+[Epoch]  1509 [ D_Loss ]  -0.039098 [ G_Loss ]   35.286609 [ Time ]  93.83s
+[Epoch]  1510 [ D_Loss ]  -0.035615 [ G_Loss ]   34.657229 [ Time ]  90.38s
+---------------------------[1510 Epoch] Frechet Pointcloud Distance <<< 1.20 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 87 2509
+[Epoch]  1511 [ D_Loss ]  -0.036760 [ G_Loss ]   34.593593 [ Time ]  90.63s
+[Epoch]  1512 [ D_Loss ]  -0.035390 [ G_Loss ]   34.364021 [ Time ]  90.71s
+[Epoch]  1513 [ D_Loss ]  -0.038264 [ G_Loss ]   34.012412 [ Time ]  90.80s
+[Epoch]  1514 [ D_Loss ]  -0.036396 [ G_Loss ]   34.101886 [ Time ]  93.94s
+[Epoch]  1515 [ D_Loss ]  -0.035264 [ G_Loss ]   33.665274 [ Time ]  90.33s
+---------------------------[1515 Epoch] Frechet Pointcloud Distance <<< 1.06 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2391
+[Epoch]  1516 [ D_Loss ]  -0.036500 [ G_Loss ]   32.694546 [ Time ]  90.52s
+[Epoch]  1517 [ D_Loss ]  -0.036552 [ G_Loss ]   33.094326 [ Time ]  90.48s
+[Epoch]  1518 [ D_Loss ]  -0.036091 [ G_Loss ]   33.409792 [ Time ]  92.54s
+[Epoch]  1519 [ D_Loss ]  -0.035699 [ G_Loss ]   33.639366 [ Time ]  92.58s
+[Epoch]  1520 [ D_Loss ]  -0.036749 [ G_Loss ]   33.854067 [ Time ]  90.68s
+---------------------------[1520 Epoch] Frechet Pointcloud Distance <<< 1.38 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 73 2240
+[Epoch]  1521 [ D_Loss ]  -0.035522 [ G_Loss ]   33.901898 [ Time ]  90.63s
+[Epoch]  1522 [ D_Loss ]  -0.035866 [ G_Loss ]   33.146467 [ Time ]  90.53s
+[Epoch]  1523 [ D_Loss ]  -0.034792 [ G_Loss ]   34.024303 [ Time ]  93.85s
+[Epoch]  1524 [ D_Loss ]  -0.037035 [ G_Loss ]   33.774566 [ Time ]  90.67s
+[Epoch]  1525 [ D_Loss ]  -0.036621 [ G_Loss ]   33.772773 [ Time ]  90.53s
+---------------------------[1525 Epoch] Frechet Pointcloud Distance <<< 2.89 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 85 2452
+[Epoch]  1526 [ D_Loss ]  -0.035263 [ G_Loss ]   33.312648 [ Time ]  90.48s
+[Epoch]  1527 [ D_Loss ]  -0.036091 [ G_Loss ]   33.651112 [ Time ]  90.33s
+[Epoch]  1528 [ D_Loss ]  -0.035078 [ G_Loss ]   33.857234 [ Time ]  94.29s
+[Epoch]  1529 [ D_Loss ]  -0.033800 [ G_Loss ]   33.768037 [ Time ]  90.38s
+[Epoch]  1530 [ D_Loss ]  -0.035297 [ G_Loss ]   34.552208 [ Time ]  90.77s
+---------------------------[1530 Epoch] Frechet Pointcloud Distance <<< 0.95 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 74 2213
+[Epoch]  1531 [ D_Loss ]  -0.034766 [ G_Loss ]   34.220696 [ Time ]  90.23s
+[Epoch]  1532 [ D_Loss ]  -0.035175 [ G_Loss ]   34.094893 [ Time ]  91.68s
+[Epoch]  1533 [ D_Loss ]  -0.034603 [ G_Loss ]   33.438667 [ Time ]  95.50s
+[Epoch]  1534 [ D_Loss ]  -0.035242 [ G_Loss ]   33.840647 [ Time ]  90.38s
+[Epoch]  1535 [ D_Loss ]  -0.036822 [ G_Loss ]   32.680240 [ Time ]  90.47s
+---------------------------[1535 Epoch] Frechet Pointcloud Distance <<< 0.93 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 73 2164
+[Epoch]  1536 [ D_Loss ]  -0.034653 [ G_Loss ]   34.045112 [ Time ]  90.31s
+[Epoch]  1537 [ D_Loss ]  -0.035047 [ G_Loss ]   33.963203 [ Time ]  92.93s
+[Epoch]  1538 [ D_Loss ]  -0.035772 [ G_Loss ]   33.988955 [ Time ]  91.50s
+[Epoch]  1539 [ D_Loss ]  -0.035080 [ G_Loss ]   33.847960 [ Time ]  90.51s
+[Epoch]  1540 [ D_Loss ]  -0.036114 [ G_Loss ]   32.835796 [ Time ]  90.44s
+---------------------------[1540 Epoch] Frechet Pointcloud Distance <<< 1.65 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 77 2292
+[Epoch]  1541 [ D_Loss ]  -0.036148 [ G_Loss ]   33.635986 [ Time ]  90.43s
+[Epoch]  1542 [ D_Loss ]  -0.035461 [ G_Loss ]   33.516588 [ Time ]  93.54s
+[Epoch]  1543 [ D_Loss ]  -0.035481 [ G_Loss ]   33.508925 [ Time ]  90.34s
+[Epoch]  1544 [ D_Loss ]  -0.035188 [ G_Loss ]   33.867891 [ Time ]  90.37s
+[Epoch]  1545 [ D_Loss ]  -0.034164 [ G_Loss ]   32.576281 [ Time ]  90.27s
+---------------------------[1545 Epoch] Frechet Pointcloud Distance <<< 2.24 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 75 2210
+[Epoch]  1546 [ D_Loss ]  -0.035584 [ G_Loss ]   33.722778 [ Time ]  90.41s
+[Epoch]  1547 [ D_Loss ]  -0.037029 [ G_Loss ]   33.812513 [ Time ]  94.11s
+[Epoch]  1548 [ D_Loss ]  -0.034859 [ G_Loss ]   32.946174 [ Time ]  90.41s
+[Epoch]  1549 [ D_Loss ]  -0.035580 [ G_Loss ]   33.312061 [ Time ]  90.49s
+[Epoch]  1550 [ D_Loss ]  -0.038387 [ G_Loss ]   33.285157 [ Time ]  90.39s
+---------------------------[1550 Epoch] Frechet Pointcloud Distance <<< 3.03 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 81 2320
+[Epoch]  1551 [ D_Loss ]  -0.035365 [ G_Loss ]   34.092809 [ Time ]  92.32s
+[Epoch]  1552 [ D_Loss ]  -0.037128 [ G_Loss ]   34.342651 [ Time ]  92.65s
+[Epoch]  1553 [ D_Loss ]  -0.036261 [ G_Loss ]   35.500115 [ Time ]  90.43s
+[Epoch]  1554 [ D_Loss ]  -0.034082 [ G_Loss ]   35.440022 [ Time ]  90.40s
+[Epoch]  1555 [ D_Loss ]  -0.036813 [ G_Loss ]   35.013225 [ Time ]  94.30s
+---------------------------[1555 Epoch] Frechet Pointcloud Distance <<< 1.33 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 4 86 2340
+[Epoch]  1556 [ D_Loss ]  -0.035228 [ G_Loss ]   34.317250 [ Time ]  94.31s
+[Epoch]  1557 [ D_Loss ]  -0.035233 [ G_Loss ]   33.130457 [ Time ]  90.60s
+[Epoch]  1558 [ D_Loss ]  -0.036050 [ G_Loss ]   34.260867 [ Time ]  90.44s
+[Epoch]  1559 [ D_Loss ]  -0.035749 [ G_Loss ]   33.918740 [ Time ]  90.28s
+[Epoch]  1560 [ D_Loss ]  -0.034453 [ G_Loss ]   34.302638 [ Time ]  90.33s
+---------------------------[1560 Epoch] Frechet Pointcloud Distance <<< 2.05 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2379
+[Epoch]  1561 [ D_Loss ]  -0.035545 [ G_Loss ]   34.408117 [ Time ]  93.89s
+[Epoch]  1562 [ D_Loss ]  -0.035317 [ G_Loss ]   34.188392 [ Time ]  90.53s
+[Epoch]  1563 [ D_Loss ]  -0.034565 [ G_Loss ]   33.822573 [ Time ]  90.48s
+[Epoch]  1564 [ D_Loss ]  -0.035363 [ G_Loss ]   33.523665 [ Time ]  90.39s
+[Epoch]  1565 [ D_Loss ]  -0.035486 [ G_Loss ]   33.432113 [ Time ]  90.34s
+---------------------------[1565 Epoch] Frechet Pointcloud Distance <<< 1.71 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 76 2179
+[Epoch]  1566 [ D_Loss ]  -0.035041 [ G_Loss ]   32.819463 [ Time ]  96.58s
+[Epoch]  1567 [ D_Loss ]  -0.037228 [ G_Loss ]   32.675284 [ Time ]  90.37s
+[Epoch]  1568 [ D_Loss ]  -0.035895 [ G_Loss ]   32.494006 [ Time ]  90.32s
+[Epoch]  1569 [ D_Loss ]  -0.035855 [ G_Loss ]   33.127093 [ Time ]  90.26s
+[Epoch]  1570 [ D_Loss ]  -0.036266 [ G_Loss ]   33.977806 [ Time ]  90.29s
+---------------------------[1570 Epoch] Frechet Pointcloud Distance <<< 1.37 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 81 2321
+[Epoch]  1571 [ D_Loss ]  -0.035613 [ G_Loss ]   33.654631 [ Time ]  92.31s
+[Epoch]  1572 [ D_Loss ]  -0.036502 [ G_Loss ]   34.146152 [ Time ]  90.76s
+[Epoch]  1573 [ D_Loss ]  -0.025588 [ G_Loss ]   33.053732 [ Time ]  90.56s
+[Epoch]  1574 [ D_Loss ]  -0.033015 [ G_Loss ]   34.322080 [ Time ]  90.93s
+[Epoch]  1575 [ D_Loss ]  -0.036884 [ G_Loss ]   35.708090 [ Time ]  90.72s
+---------------------------[1575 Epoch] Frechet Pointcloud Distance <<< 1.51 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2239
+[Epoch]  1576 [ D_Loss ]  -0.035096 [ G_Loss ]   34.488445 [ Time ]  90.79s
+[Epoch]  1577 [ D_Loss ]  -0.034862 [ G_Loss ]   34.145256 [ Time ]  91.07s
+[Epoch]  1578 [ D_Loss ]  -0.035092 [ G_Loss ]   34.814778 [ Time ]  90.41s
+[Epoch]  1579 [ D_Loss ]  -0.035364 [ G_Loss ]   35.909123 [ Time ]  91.29s
+[Epoch]  1580 [ D_Loss ]  -0.035220 [ G_Loss ]   34.408679 [ Time ]  92.51s
+---------------------------[1580 Epoch] Frechet Pointcloud Distance <<< 0.80 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 77 2280
+[Epoch]  1581 [ D_Loss ]  -0.032626 [ G_Loss ]   34.214281 [ Time ]  90.57s
+[Epoch]  1582 [ D_Loss ]  -0.036010 [ G_Loss ]   33.607992 [ Time ]  90.94s
+[Epoch]  1583 [ D_Loss ]  -0.034073 [ G_Loss ]   34.133918 [ Time ]  90.60s
+[Epoch]  1584 [ D_Loss ]  -0.034710 [ G_Loss ]   33.927795 [ Time ]  91.22s
+[Epoch]  1585 [ D_Loss ]  -0.035039 [ G_Loss ]   34.463045 [ Time ]  94.45s
+---------------------------[1585 Epoch] Frechet Pointcloud Distance <<< 1.47 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 85 2349
+[Epoch]  1586 [ D_Loss ]  -0.035666 [ G_Loss ]   33.868516 [ Time ]  90.93s
+[Epoch]  1587 [ D_Loss ]  -0.036070 [ G_Loss ]   33.600201 [ Time ]  90.73s
+[Epoch]  1588 [ D_Loss ]  -0.034219 [ G_Loss ]   34.215569 [ Time ]  91.25s
+[Epoch]  1589 [ D_Loss ]  -0.035924 [ G_Loss ]   34.619269 [ Time ]  91.01s
+[Epoch]  1590 [ D_Loss ]  -0.035937 [ G_Loss ]   34.073723 [ Time ]  94.18s
+---------------------------[1590 Epoch] Frechet Pointcloud Distance <<< 1.47 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 77 2236
+[Epoch]  1591 [ D_Loss ]  -0.036023 [ G_Loss ]   34.728071 [ Time ]  90.87s
+[Epoch]  1592 [ D_Loss ]  -0.033784 [ G_Loss ]   34.501241 [ Time ]  91.48s
+[Epoch]  1593 [ D_Loss ]  -0.034340 [ G_Loss ]   33.323204 [ Time ]  90.89s
+[Epoch]  1594 [ D_Loss ]  -0.033744 [ G_Loss ]   33.518842 [ Time ]  91.40s
+[Epoch]  1595 [ D_Loss ]  -0.035509 [ G_Loss ]   33.077843 [ Time ]  97.63s
+---------------------------[1595 Epoch] Frechet Pointcloud Distance <<< 1.54 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2154
+[Epoch]  1596 [ D_Loss ]  -0.033878 [ G_Loss ]   33.585238 [ Time ]  91.18s
+[Epoch]  1597 [ D_Loss ]  -0.033573 [ G_Loss ]   34.093936 [ Time ]  90.64s
+[Epoch]  1598 [ D_Loss ]  -0.035109 [ G_Loss ]   34.659794 [ Time ]  91.28s
+[Epoch]  1599 [ D_Loss ]  -0.029848 [ G_Loss ]   33.685591 [ Time ]  93.65s
+[Epoch]  1600 [ D_Loss ]  -0.032616 [ G_Loss ]   34.084140 [ Time ]  92.11s
+---------------------------[1600 Epoch] Frechet Pointcloud Distance <<< 1.04 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 69 2062
+[Epoch]  1601 [ D_Loss ]  -0.035417 [ G_Loss ]   32.397559 [ Time ]  90.21s
+[Epoch]  1602 [ D_Loss ]  -0.035554 [ G_Loss ]   33.708550 [ Time ]  90.72s
+[Epoch]  1603 [ D_Loss ]  -0.035089 [ G_Loss ]   33.942488 [ Time ]  90.48s
+[Epoch]  1604 [ D_Loss ]  -0.034437 [ G_Loss ]   33.591869 [ Time ]  94.26s
+[Epoch]  1605 [ D_Loss ]  -0.035872 [ G_Loss ]   34.516255 [ Time ]  90.64s
+---------------------------[1605 Epoch] Frechet Pointcloud Distance <<< 2.74 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 84 2340
+[Epoch]  1606 [ D_Loss ]  -0.033045 [ G_Loss ]   33.836050 [ Time ]  90.32s
+[Epoch]  1607 [ D_Loss ]  -0.034716 [ G_Loss ]   33.191678 [ Time ]  90.09s
+[Epoch]  1608 [ D_Loss ]  -0.033072 [ G_Loss ]   32.740012 [ Time ]  90.82s
+[Epoch]  1609 [ D_Loss ]  -0.034006 [ G_Loss ]   33.714483 [ Time ]  94.05s
+[Epoch]  1610 [ D_Loss ]  -0.032523 [ G_Loss ]   33.235983 [ Time ]  90.11s
+---------------------------[1610 Epoch] Frechet Pointcloud Distance <<< 0.94 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 69 2021
+[Epoch]  1611 [ D_Loss ]  -0.034945 [ G_Loss ]   32.804984 [ Time ]  90.46s
+[Epoch]  1612 [ D_Loss ]  -0.035490 [ G_Loss ]   33.305463 [ Time ]  90.60s
+[Epoch]  1613 [ D_Loss ]  -0.036189 [ G_Loss ]   33.150898 [ Time ]  92.78s
+[Epoch]  1614 [ D_Loss ]  -0.034772 [ G_Loss ]   33.127876 [ Time ]  92.92s
+[Epoch]  1615 [ D_Loss ]  -0.033787 [ G_Loss ]   32.175424 [ Time ]  90.30s
+---------------------------[1615 Epoch] Frechet Pointcloud Distance <<< 1.31 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 75 2225
+[Epoch]  1616 [ D_Loss ]  -0.034869 [ G_Loss ]   31.647291 [ Time ]  90.36s
+[Epoch]  1617 [ D_Loss ]  -0.033510 [ G_Loss ]   32.299881 [ Time ]  90.23s
+[Epoch]  1618 [ D_Loss ]  -0.036607 [ G_Loss ]   31.444521 [ Time ]  93.41s
+[Epoch]  1619 [ D_Loss ]  -0.035230 [ G_Loss ]   31.904742 [ Time ]  91.01s
+[Epoch]  1620 [ D_Loss ]  -0.035087 [ G_Loss ]   32.293582 [ Time ]  90.55s
+---------------------------[1620 Epoch] Frechet Pointcloud Distance <<< 1.21 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2344
+[Epoch]  1621 [ D_Loss ]  -0.034985 [ G_Loss ]   32.650201 [ Time ]  90.54s
+[Epoch]  1622 [ D_Loss ]  -0.034294 [ G_Loss ]   32.706938 [ Time ]  90.62s
+[Epoch]  1623 [ D_Loss ]  -0.033811 [ G_Loss ]   32.749736 [ Time ]  94.92s
+[Epoch]  1624 [ D_Loss ]  -0.036168 [ G_Loss ]   31.791717 [ Time ]  90.59s
+[Epoch]  1625 [ D_Loss ]  -0.035406 [ G_Loss ]   32.355632 [ Time ]  90.30s
+---------------------------[1625 Epoch] Frechet Pointcloud Distance <<< 0.98 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 77 2187
+[Epoch]  1626 [ D_Loss ]  -0.036217 [ G_Loss ]   32.771284 [ Time ]  90.44s
+[Epoch]  1627 [ D_Loss ]  -0.032734 [ G_Loss ]   33.839993 [ Time ]  90.43s
+[Epoch]  1628 [ D_Loss ]  -0.034116 [ G_Loss ]   32.915669 [ Time ]  93.92s
+[Epoch]  1629 [ D_Loss ]  -0.034608 [ G_Loss ]   31.687351 [ Time ]  90.42s
+[Epoch]  1630 [ D_Loss ]  -0.035122 [ G_Loss ]   31.499052 [ Time ]  90.14s
+---------------------------[1630 Epoch] Frechet Pointcloud Distance <<< 1.52 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 67 1967
+[Epoch]  1631 [ D_Loss ]  -0.034272 [ G_Loss ]   31.910973 [ Time ]  90.30s
+[Epoch]  1632 [ D_Loss ]  -0.034550 [ G_Loss ]   31.933201 [ Time ]  92.68s
+[Epoch]  1633 [ D_Loss ]  -0.036374 [ G_Loss ]   31.927499 [ Time ]  92.53s
+[Epoch]  1634 [ D_Loss ]  -0.035252 [ G_Loss ]   32.002102 [ Time ]  90.69s
+[Epoch]  1635 [ D_Loss ]  -0.035924 [ G_Loss ]   31.741548 [ Time ]  90.69s
+---------------------------[1635 Epoch] Frechet Pointcloud Distance <<< 2.25 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 74 2142
+[Epoch]  1636 [ D_Loss ]  -0.034830 [ G_Loss ]   31.982549 [ Time ]  90.26s
+[Epoch]  1637 [ D_Loss ]  -0.035457 [ G_Loss ]   31.443084 [ Time ]  93.84s
+[Epoch]  1638 [ D_Loss ]  -0.034794 [ G_Loss ]   32.076458 [ Time ]  90.25s
+[Epoch]  1639 [ D_Loss ]  -0.036652 [ G_Loss ]   31.927931 [ Time ]  90.39s
+[Epoch]  1640 [ D_Loss ]  -0.036057 [ G_Loss ]   33.159171 [ Time ]  90.30s
+---------------------------[1640 Epoch] Frechet Pointcloud Distance <<< 2.91 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 73 2204
+[Epoch]  1641 [ D_Loss ]  -0.034160 [ G_Loss ]   32.860421 [ Time ]  90.44s
+[Epoch]  1642 [ D_Loss ]  -0.036348 [ G_Loss ]   32.148231 [ Time ]  93.93s
+[Epoch]  1643 [ D_Loss ]  -0.035508 [ G_Loss ]   32.481888 [ Time ]  90.17s
+[Epoch]  1644 [ D_Loss ]  -0.034253 [ G_Loss ]   31.748340 [ Time ]  90.43s
+[Epoch]  1645 [ D_Loss ]  -0.036136 [ G_Loss ]   32.540432 [ Time ]  90.39s
+---------------------------[1645 Epoch] Frechet Pointcloud Distance <<< 1.25 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 71 2114
+[Epoch]  1646 [ D_Loss ]  -0.034904 [ G_Loss ]   32.417660 [ Time ]  90.95s
+[Epoch]  1647 [ D_Loss ]  -0.035772 [ G_Loss ]   32.578386 [ Time ]  96.39s
+[Epoch]  1648 [ D_Loss ]  -0.033628 [ G_Loss ]   33.086380 [ Time ]  90.40s
+[Epoch]  1649 [ D_Loss ]  -0.034229 [ G_Loss ]   32.969064 [ Time ]  90.60s
+[Epoch]  1650 [ D_Loss ]  -0.033963 [ G_Loss ]   32.297137 [ Time ]  90.45s
+---------------------------[1650 Epoch] Frechet Pointcloud Distance <<< 1.88 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 67 1983
+[Epoch]  1651 [ D_Loss ]  -0.035794 [ G_Loss ]   32.589183 [ Time ]  93.13s
+[Epoch]  1652 [ D_Loss ]  -0.035622 [ G_Loss ]   31.240373 [ Time ]  91.92s
+[Epoch]  1653 [ D_Loss ]  -0.034625 [ G_Loss ]   31.485403 [ Time ]  90.45s
+[Epoch]  1654 [ D_Loss ]  -0.034325 [ G_Loss ]   32.124032 [ Time ]  90.37s
+[Epoch]  1655 [ D_Loss ]  -0.034736 [ G_Loss ]   31.966520 [ Time ]  90.57s
+---------------------------[1655 Epoch] Frechet Pointcloud Distance <<< 2.00 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 68 2055
+[Epoch]  1656 [ D_Loss ]  -0.034208 [ G_Loss ]   32.295491 [ Time ]  93.87s
+[Epoch]  1657 [ D_Loss ]  -0.034115 [ G_Loss ]   32.670690 [ Time ]  90.51s
+[Epoch]  1658 [ D_Loss ]  -0.035133 [ G_Loss ]   32.904005 [ Time ]  90.23s
+[Epoch]  1659 [ D_Loss ]  -0.034137 [ G_Loss ]   32.124300 [ Time ]  90.11s
+[Epoch]  1660 [ D_Loss ]  -0.036878 [ G_Loss ]   32.716866 [ Time ]  90.36s
+---------------------------[1660 Epoch] Frechet Pointcloud Distance <<< 1.79 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 80 2250
+[Epoch]  1661 [ D_Loss ]  -0.034137 [ G_Loss ]   32.701766 [ Time ]  94.28s
+[Epoch]  1662 [ D_Loss ]  -0.034788 [ G_Loss ]   31.642252 [ Time ]  90.08s
+[Epoch]  1663 [ D_Loss ]  -0.034216 [ G_Loss ]   31.993107 [ Time ]  90.12s
+[Epoch]  1664 [ D_Loss ]  -0.035384 [ G_Loss ]   31.582057 [ Time ]  90.17s
+[Epoch]  1665 [ D_Loss ]  -0.034235 [ G_Loss ]   31.960880 [ Time ]  90.19s
+---------------------------[1665 Epoch] Frechet Pointcloud Distance <<< 2.09 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 77 2298
+[Epoch]  1666 [ D_Loss ]  -0.033774 [ G_Loss ]   32.762020 [ Time ]  96.36s
+[Epoch]  1667 [ D_Loss ]  -0.034088 [ G_Loss ]   33.303249 [ Time ]  90.27s
+[Epoch]  1668 [ D_Loss ]  -0.034693 [ G_Loss ]   33.337556 [ Time ]  90.10s
+[Epoch]  1669 [ D_Loss ]  -0.034557 [ G_Loss ]   32.712194 [ Time ]  90.44s
+[Epoch]  1670 [ D_Loss ]  -0.034398 [ G_Loss ]   33.571403 [ Time ]  90.62s
+---------------------------[1670 Epoch] Frechet Pointcloud Distance <<< 1.10 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 74 2187
+[Epoch]  1671 [ D_Loss ]  -0.032744 [ G_Loss ]   33.400699 [ Time ]  92.63s
+[Epoch]  1672 [ D_Loss ]  -0.032586 [ G_Loss ]   33.718389 [ Time ]  90.14s
+[Epoch]  1673 [ D_Loss ]  -0.035029 [ G_Loss ]   33.352247 [ Time ]  90.31s
+[Epoch]  1674 [ D_Loss ]  -0.033137 [ G_Loss ]   32.929730 [ Time ]  90.07s
+[Epoch]  1675 [ D_Loss ]  -0.034976 [ G_Loss ]   32.265311 [ Time ]  90.94s
+---------------------------[1675 Epoch] Frechet Pointcloud Distance <<< 1.13 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 72 2128
+[Epoch]  1676 [ D_Loss ]  -0.034170 [ G_Loss ]   32.304436 [ Time ]  91.68s
+[Epoch]  1677 [ D_Loss ]  -0.033162 [ G_Loss ]   31.125606 [ Time ]  91.35s
+[Epoch]  1678 [ D_Loss ]  -0.033257 [ G_Loss ]   31.873553 [ Time ]  90.76s
+[Epoch]  1679 [ D_Loss ]  -0.030569 [ G_Loss ]   30.956721 [ Time ]  90.58s
+[Epoch]  1680 [ D_Loss ]  -0.035100 [ G_Loss ]   32.218566 [ Time ]  91.96s
+---------------------------[1680 Epoch] Frechet Pointcloud Distance <<< 2.93 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 70 2052
+[Epoch]  1681 [ D_Loss ]  -0.032791 [ G_Loss ]   32.741075 [ Time ]  91.09s
+[Epoch]  1682 [ D_Loss ]  -0.032680 [ G_Loss ]   32.165507 [ Time ]  90.19s
+[Epoch]  1683 [ D_Loss ]  -0.034259 [ G_Loss ]   32.433269 [ Time ]  90.70s
+[Epoch]  1684 [ D_Loss ]  -0.033998 [ G_Loss ]   32.116738 [ Time ]  90.78s
+[Epoch]  1685 [ D_Loss ]  -0.033299 [ G_Loss ]   33.355970 [ Time ]  94.14s
+---------------------------[1685 Epoch] Frechet Pointcloud Distance <<< 1.13 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 72 2082
+[Epoch]  1686 [ D_Loss ]  -0.035862 [ G_Loss ]   31.463584 [ Time ]  90.74s
+[Epoch]  1687 [ D_Loss ]  -0.034932 [ G_Loss ]   31.427427 [ Time ]  91.02s
+[Epoch]  1688 [ D_Loss ]  -0.034516 [ G_Loss ]   31.134233 [ Time ]  90.22s
+[Epoch]  1689 [ D_Loss ]  -0.034155 [ G_Loss ]   29.755616 [ Time ]  90.78s
+[Epoch]  1690 [ D_Loss ]  -0.033466 [ G_Loss ]   30.246293 [ Time ]  94.56s
+---------------------------[1690 Epoch] Frechet Pointcloud Distance <<< 1.68 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 64 1901
+[Epoch]  1691 [ D_Loss ]  -0.034077 [ G_Loss ]   30.918439 [ Time ]  90.77s
+[Epoch]  1692 [ D_Loss ]  -0.033164 [ G_Loss ]   30.907491 [ Time ]  90.42s
+[Epoch]  1693 [ D_Loss ]  -0.034519 [ G_Loss ]   32.217529 [ Time ]  91.59s
+[Epoch]  1694 [ D_Loss ]  -0.033630 [ G_Loss ]   32.829919 [ Time ]  91.02s
+[Epoch]  1695 [ D_Loss ]  -0.034075 [ G_Loss ]   31.363231 [ Time ]  95.23s
+---------------------------[1695 Epoch] Frechet Pointcloud Distance <<< 1.03 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 75 2096
+[Epoch]  1696 [ D_Loss ]  -0.032475 [ G_Loss ]   31.485540 [ Time ]  90.41s
+[Epoch]  1697 [ D_Loss ]  -0.035417 [ G_Loss ]   32.280833 [ Time ]  90.88s
+[Epoch]  1698 [ D_Loss ]  -0.034402 [ G_Loss ]   32.191848 [ Time ]  90.57s
+[Epoch]  1699 [ D_Loss ]  -0.034528 [ G_Loss ]   31.907917 [ Time ]  92.75s
+[Epoch]  1700 [ D_Loss ]  -0.034208 [ G_Loss ]   31.740018 [ Time ]  92.84s
+---------------------------[1700 Epoch] Frechet Pointcloud Distance <<< 1.48 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 70 2081
+[Epoch]  1701 [ D_Loss ]  -0.034829 [ G_Loss ]   32.235152 [ Time ]  90.95s
+[Epoch]  1702 [ D_Loss ]  -0.032821 [ G_Loss ]   31.531990 [ Time ]  90.46s
+[Epoch]  1703 [ D_Loss ]  -0.032623 [ G_Loss ]   31.597323 [ Time ]  91.01s
+[Epoch]  1704 [ D_Loss ]  -0.032615 [ G_Loss ]   31.860684 [ Time ]  93.77s
+[Epoch]  1705 [ D_Loss ]  -0.033477 [ G_Loss ]   31.639531 [ Time ]  91.76s
+---------------------------[1705 Epoch] Frechet Pointcloud Distance <<< 1.17 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 74 2197
+[Epoch]  1706 [ D_Loss ]  -0.035850 [ G_Loss ]   31.821228 [ Time ]  90.56s
+[Epoch]  1707 [ D_Loss ]  -0.035417 [ G_Loss ]   32.134663 [ Time ]  90.96s
+[Epoch]  1708 [ D_Loss ]  -0.032949 [ G_Loss ]   30.890655 [ Time ]  90.51s
+[Epoch]  1709 [ D_Loss ]  -0.034529 [ G_Loss ]   31.529033 [ Time ]  94.45s
+[Epoch]  1710 [ D_Loss ]  -0.032883 [ G_Loss ]   32.769439 [ Time ]  90.81s
+---------------------------[1710 Epoch] Frechet Pointcloud Distance <<< 1.51 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 67 1964
+[Epoch]  1711 [ D_Loss ]  -0.033554 [ G_Loss ]   32.386218 [ Time ]  90.72s
+[Epoch]  1712 [ D_Loss ]  -0.034785 [ G_Loss ]   31.687224 [ Time ]  90.22s
+[Epoch]  1713 [ D_Loss ]  -0.033768 [ G_Loss ]   32.669441 [ Time ]  90.90s
+[Epoch]  1714 [ D_Loss ]  -0.036475 [ G_Loss ]   31.511997 [ Time ]  94.00s
+[Epoch]  1715 [ D_Loss ]  -0.034117 [ G_Loss ]   32.137389 [ Time ]  90.35s
+---------------------------[1715 Epoch] Frechet Pointcloud Distance <<< 1.56 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 70 1965
+[Epoch]  1716 [ D_Loss ]  -0.035130 [ G_Loss ]   31.705354 [ Time ]  90.10s
+[Epoch]  1717 [ D_Loss ]  -0.033490 [ G_Loss ]   32.796821 [ Time ]  90.41s
+[Epoch]  1718 [ D_Loss ]  -0.033574 [ G_Loss ]   32.674305 [ Time ]  92.19s
+[Epoch]  1719 [ D_Loss ]  -0.034256 [ G_Loss ]   31.395439 [ Time ]  93.00s
+[Epoch]  1720 [ D_Loss ]  -0.034836 [ G_Loss ]   31.263743 [ Time ]  90.14s
+---------------------------[1720 Epoch] Frechet Pointcloud Distance <<< 1.18 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 71 2104
+[Epoch]  1721 [ D_Loss ]  -0.033070 [ G_Loss ]   31.426291 [ Time ]  90.03s
+[Epoch]  1722 [ D_Loss ]  -0.034559 [ G_Loss ]   30.262509 [ Time ]  90.08s
+[Epoch]  1723 [ D_Loss ]  -0.034348 [ G_Loss ]   31.091297 [ Time ]  93.40s
+[Epoch]  1724 [ D_Loss ]  -0.033983 [ G_Loss ]   31.464119 [ Time ]  91.00s
+[Epoch]  1725 [ D_Loss ]  -0.034486 [ G_Loss ]   31.529574 [ Time ]  90.51s
+---------------------------[1725 Epoch] Frechet Pointcloud Distance <<< 1.11 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 78 2191
+[Epoch]  1726 [ D_Loss ]  -0.036947 [ G_Loss ]   31.492104 [ Time ]  90.26s
+[Epoch]  1727 [ D_Loss ]  -0.033864 [ G_Loss ]   31.183570 [ Time ]  90.20s
+[Epoch]  1728 [ D_Loss ]  -0.034276 [ G_Loss ]   31.707997 [ Time ]  93.36s
+[Epoch]  1729 [ D_Loss ]  -0.034016 [ G_Loss ]   31.238262 [ Time ]  90.62s
+[Epoch]  1730 [ D_Loss ]  -0.032959 [ G_Loss ]   31.874973 [ Time ]  90.22s
+---------------------------[1730 Epoch] Frechet Pointcloud Distance <<< 3.02 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 72 2110
+[Epoch]  1731 [ D_Loss ]  -0.031968 [ G_Loss ]   31.320431 [ Time ]  90.57s
+[Epoch]  1732 [ D_Loss ]  -0.034016 [ G_Loss ]   31.867985 [ Time ]  90.36s
+[Epoch]  1733 [ D_Loss ]  -0.033556 [ G_Loss ]   31.603416 [ Time ]  94.51s
+[Epoch]  1734 [ D_Loss ]  -0.035813 [ G_Loss ]   31.842422 [ Time ]  90.26s
+[Epoch]  1735 [ D_Loss ]  -0.033832 [ G_Loss ]   31.828832 [ Time ]  90.18s
+---------------------------[1735 Epoch] Frechet Pointcloud Distance <<< 0.91 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 74 2025
+[Epoch]  1736 [ D_Loss ]  -0.034096 [ G_Loss ]   32.304047 [ Time ]  90.12s
+[Epoch]  1737 [ D_Loss ]  -0.032297 [ G_Loss ]   32.652107 [ Time ]  92.08s
+[Epoch]  1738 [ D_Loss ]  -0.034123 [ G_Loss ]   33.163948 [ Time ]  91.90s
+[Epoch]  1739 [ D_Loss ]  -0.032760 [ G_Loss ]   32.597415 [ Time ]  90.13s
+[Epoch]  1740 [ D_Loss ]  -0.032211 [ G_Loss ]   31.290839 [ Time ]  90.22s
+---------------------------[1740 Epoch] Frechet Pointcloud Distance <<< 1.19 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 66 1876
+[Epoch]  1741 [ D_Loss ]  -0.032004 [ G_Loss ]   31.004749 [ Time ]  90.27s
+[Epoch]  1742 [ D_Loss ]  -0.034233 [ G_Loss ]   31.013296 [ Time ]  93.43s
+[Epoch]  1743 [ D_Loss ]  -0.032218 [ G_Loss ]   31.017008 [ Time ]  90.65s
+[Epoch]  1744 [ D_Loss ]  -0.035089 [ G_Loss ]   31.189909 [ Time ]  90.56s
+[Epoch]  1745 [ D_Loss ]  -0.034284 [ G_Loss ]   30.987463 [ Time ]  90.33s
+---------------------------[1745 Epoch] Frechet Pointcloud Distance <<< 1.77 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 70 2007
+[Epoch]  1746 [ D_Loss ]  -0.031588 [ G_Loss ]   30.888993 [ Time ]  90.50s
+[Epoch]  1747 [ D_Loss ]  -0.033001 [ G_Loss ]   31.144022 [ Time ]  93.70s
+[Epoch]  1748 [ D_Loss ]  -0.033673 [ G_Loss ]   31.070255 [ Time ]  90.77s
+[Epoch]  1749 [ D_Loss ]  -0.033852 [ G_Loss ]   31.156769 [ Time ]  90.36s
+[Epoch]  1750 [ D_Loss ]  -0.033601 [ G_Loss ]   31.250900 [ Time ]  90.39s
+---------------------------[1750 Epoch] Frechet Pointcloud Distance <<< 1.08 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 73 2004
+[Epoch]  1751 [ D_Loss ]  -0.031746 [ G_Loss ]   31.448495 [ Time ]  90.47s
+[Epoch]  1752 [ D_Loss ]  -0.032901 [ G_Loss ]   30.693264 [ Time ]  93.88s
+[Epoch]  1753 [ D_Loss ]  -0.032741 [ G_Loss ]   31.479965 [ Time ]  90.96s
+[Epoch]  1754 [ D_Loss ]  -0.034359 [ G_Loss ]   32.159278 [ Time ]  90.07s
+[Epoch]  1755 [ D_Loss ]  -0.033357 [ G_Loss ]   32.065622 [ Time ]  90.32s
+---------------------------[1755 Epoch] Frechet Pointcloud Distance <<< 1.36 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 70 1996
+[Epoch]  1756 [ D_Loss ]  -0.034620 [ G_Loss ]   31.811282 [ Time ]  92.50s
+[Epoch]  1757 [ D_Loss ]  -0.034272 [ G_Loss ]   32.470852 [ Time ]  92.36s
+[Epoch]  1758 [ D_Loss ]  -0.034219 [ G_Loss ]   31.706219 [ Time ]  90.25s
+[Epoch]  1759 [ D_Loss ]  -0.034720 [ G_Loss ]   32.519445 [ Time ]  90.07s
+[Epoch]  1760 [ D_Loss ]  -0.033280 [ G_Loss ]   32.636786 [ Time ]  90.49s
+---------------------------[1760 Epoch] Frechet Pointcloud Distance <<< 1.64 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 81 2130
+[Epoch]  1761 [ D_Loss ]  -0.034024 [ G_Loss ]   33.236566 [ Time ]  93.66s
+[Epoch]  1762 [ D_Loss ]  -0.032199 [ G_Loss ]   32.478239 [ Time ]  90.01s
+[Epoch]  1763 [ D_Loss ]  -0.032349 [ G_Loss ]   32.653049 [ Time ]  90.26s
+[Epoch]  1764 [ D_Loss ]  -0.004938 [ G_Loss ]   27.939560 [ Time ]  90.04s
+[Epoch]  1765 [ D_Loss ]  -0.006005 [ G_Loss ]   28.192172 [ Time ]  91.54s
+---------------------------[1765 Epoch] Frechet Pointcloud Distance <<< 8.09 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 1 50 1758
+[Epoch]  1766 [ D_Loss ]  -0.019925 [ G_Loss ]   26.733537 [ Time ]  93.80s
+[Epoch]  1767 [ D_Loss ]  -0.023179 [ G_Loss ]   28.447575 [ Time ]  90.46s
+[Epoch]  1768 [ D_Loss ]  -0.023079 [ G_Loss ]   30.709686 [ Time ]  90.30s
+[Epoch]  1769 [ D_Loss ]  -0.028514 [ G_Loss ]   29.371754 [ Time ]  90.39s
+[Epoch]  1770 [ D_Loss ]  -0.034508 [ G_Loss ]   30.152404 [ Time ]  90.49s
+---------------------------[1770 Epoch] Frechet Pointcloud Distance <<< 1.79 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 61 1890
+[Epoch]  1771 [ D_Loss ]  -0.034208 [ G_Loss ]   29.519039 [ Time ]  97.41s
+[Epoch]  1772 [ D_Loss ]  -0.035530 [ G_Loss ]   30.666575 [ Time ]  90.24s
+[Epoch]  1773 [ D_Loss ]  -0.035416 [ G_Loss ]   30.042334 [ Time ]  90.40s
+[Epoch]  1774 [ D_Loss ]  -0.035364 [ G_Loss ]   30.389084 [ Time ]  90.29s
+[Epoch]  1775 [ D_Loss ]  -0.034228 [ G_Loss ]   30.297367 [ Time ]  90.40s
+---------------------------[1775 Epoch] Frechet Pointcloud Distance <<< 0.90 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 68 1961
+[Epoch]  1776 [ D_Loss ]  -0.034719 [ G_Loss ]   30.507025 [ Time ]  93.78s
+[Epoch]  1777 [ D_Loss ]  -0.034273 [ G_Loss ]   30.232065 [ Time ]  90.57s
+[Epoch]  1778 [ D_Loss ]  -0.034205 [ G_Loss ]   29.714259 [ Time ]  90.02s
+[Epoch]  1779 [ D_Loss ]  -0.031839 [ G_Loss ]   30.700335 [ Time ]  90.64s
+[Epoch]  1780 [ D_Loss ]  -0.034653 [ G_Loss ]   30.013197 [ Time ]  91.21s
+---------------------------[1780 Epoch] Frechet Pointcloud Distance <<< 1.89 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 62 1936
+[Epoch]  1781 [ D_Loss ]  -0.033135 [ G_Loss ]   29.810486 [ Time ]  91.51s
+[Epoch]  1782 [ D_Loss ]  -0.032125 [ G_Loss ]   30.244878 [ Time ]  90.65s
+[Epoch]  1783 [ D_Loss ]  -0.032927 [ G_Loss ]   29.773885 [ Time ]  90.99s
+[Epoch]  1784 [ D_Loss ]  -0.032863 [ G_Loss ]   30.761329 [ Time ]  90.56s
+[Epoch]  1785 [ D_Loss ]  -0.032804 [ G_Loss ]   30.531889 [ Time ]  92.92s
+---------------------------[1785 Epoch] Frechet Pointcloud Distance <<< 1.52 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 69 2051
+[Epoch]  1786 [ D_Loss ]  -0.033535 [ G_Loss ]   29.820883 [ Time ]  90.83s
+[Epoch]  1787 [ D_Loss ]  -0.033768 [ G_Loss ]   29.714091 [ Time ]  90.89s
+[Epoch]  1788 [ D_Loss ]  -0.034059 [ G_Loss ]   30.038579 [ Time ]  90.54s
+[Epoch]  1789 [ D_Loss ]  -0.033514 [ G_Loss ]   30.292976 [ Time ]  90.93s
+[Epoch]  1790 [ D_Loss ]  -0.030468 [ G_Loss ]   29.536537 [ Time ]  93.72s
+---------------------------[1790 Epoch] Frechet Pointcloud Distance <<< 1.66 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 66 1903
+[Epoch]  1791 [ D_Loss ]  -0.033115 [ G_Loss ]   29.521551 [ Time ]  91.05s
+[Epoch]  1792 [ D_Loss ]  -0.033268 [ G_Loss ]   28.937939 [ Time ]  91.31s
+[Epoch]  1793 [ D_Loss ]  -0.032890 [ G_Loss ]   28.513089 [ Time ]  90.69s
+[Epoch]  1794 [ D_Loss ]  -0.030473 [ G_Loss ]   28.883865 [ Time ]  91.08s
+[Epoch]  1795 [ D_Loss ]  -0.032153 [ G_Loss ]   30.018061 [ Time ]  94.37s
+---------------------------[1795 Epoch] Frechet Pointcloud Distance <<< 1.77 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 68 1935
+[Epoch]  1796 [ D_Loss ]  -0.034407 [ G_Loss ]   30.712911 [ Time ]  90.97s
+[Epoch]  1797 [ D_Loss ]  -0.033285 [ G_Loss ]   30.111684 [ Time ]  90.84s
+[Epoch]  1798 [ D_Loss ]  -0.033521 [ G_Loss ]   28.966975 [ Time ]  91.31s
+[Epoch]  1799 [ D_Loss ]  -0.032972 [ G_Loss ]   29.766163 [ Time ]  90.82s
+[Epoch]  1800 [ D_Loss ]  -0.030542 [ G_Loss ]   30.741984 [ Time ]  97.66s
+---------------------------[1800 Epoch] Frechet Pointcloud Distance <<< 0.89 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 74 1993
+[Epoch]  1801 [ D_Loss ]  -0.032526 [ G_Loss ]   30.699614 [ Time ]  90.52s
+[Epoch]  1802 [ D_Loss ]  -0.031277 [ G_Loss ]   30.437540 [ Time ]  90.69s
+[Epoch]  1803 [ D_Loss ]  -0.031888 [ G_Loss ]   30.905553 [ Time ]  90.41s
+[Epoch]  1804 [ D_Loss ]  -0.032448 [ G_Loss ]   29.920102 [ Time ]  93.94s
+[Epoch]  1805 [ D_Loss ]  -0.032758 [ G_Loss ]   30.227041 [ Time ]  91.94s
+---------------------------[1805 Epoch] Frechet Pointcloud Distance <<< 4.53 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 67 2030
+[Epoch]  1806 [ D_Loss ]  -0.031804 [ G_Loss ]   30.272005 [ Time ]  91.57s
+[Epoch]  1807 [ D_Loss ]  -0.034195 [ G_Loss ]   30.782319 [ Time ]  91.07s
+[Epoch]  1808 [ D_Loss ]  -0.031842 [ G_Loss ]   29.420803 [ Time ]  90.72s
+[Epoch]  1809 [ D_Loss ]  -0.031619 [ G_Loss ]   29.767504 [ Time ]  94.02s
+[Epoch]  1810 [ D_Loss ]  -0.032377 [ G_Loss ]   29.859416 [ Time ]  92.29s
+---------------------------[1810 Epoch] Frechet Pointcloud Distance <<< 1.22 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 65 1904
+[Epoch]  1811 [ D_Loss ]  -0.032855 [ G_Loss ]   29.555934 [ Time ]  90.61s
+[Epoch]  1812 [ D_Loss ]  -0.032876 [ G_Loss ]   29.513184 [ Time ]  91.33s
+[Epoch]  1813 [ D_Loss ]  -0.032700 [ G_Loss ]   30.292516 [ Time ]  91.00s
+[Epoch]  1814 [ D_Loss ]  -0.031704 [ G_Loss ]   30.191833 [ Time ]  94.74s
+[Epoch]  1815 [ D_Loss ]  -0.033684 [ G_Loss ]   29.605097 [ Time ]  90.56s
+---------------------------[1815 Epoch] Frechet Pointcloud Distance <<< 0.84 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 64 1766
+[Epoch]  1816 [ D_Loss ]  -0.032342 [ G_Loss ]   29.507711 [ Time ]  90.74s
+[Epoch]  1817 [ D_Loss ]  -0.032130 [ G_Loss ]   30.170324 [ Time ]  90.39s
+[Epoch]  1818 [ D_Loss ]  -0.032446 [ G_Loss ]   29.657212 [ Time ]  92.10s
+[Epoch]  1819 [ D_Loss ]  -0.032569 [ G_Loss ]   29.829451 [ Time ]  94.59s
+[Epoch]  1820 [ D_Loss ]  -0.032863 [ G_Loss ]   29.743665 [ Time ]  90.09s
+---------------------------[1820 Epoch] Frechet Pointcloud Distance <<< 0.96 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 65 1790
+[Epoch]  1821 [ D_Loss ]  -0.032707 [ G_Loss ]   30.914523 [ Time ]  90.71s
+[Epoch]  1822 [ D_Loss ]  -0.033560 [ G_Loss ]   30.951039 [ Time ]  90.53s
+[Epoch]  1823 [ D_Loss ]  -0.033454 [ G_Loss ]   31.013910 [ Time ]  93.47s
+[Epoch]  1824 [ D_Loss ]  -0.032444 [ G_Loss ]   31.908098 [ Time ]  90.77s
+[Epoch]  1825 [ D_Loss ]  -0.031710 [ G_Loss ]   32.519818 [ Time ]  90.59s
+---------------------------[1825 Epoch] Frechet Pointcloud Distance <<< 1.38 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 72 2017
+[Epoch]  1826 [ D_Loss ]  -0.032599 [ G_Loss ]   32.585950 [ Time ]  90.05s
+[Epoch]  1827 [ D_Loss ]  -0.033358 [ G_Loss ]   33.062960 [ Time ]  90.71s
+[Epoch]  1828 [ D_Loss ]  -0.031713 [ G_Loss ]   31.174082 [ Time ]  93.73s
+[Epoch]  1829 [ D_Loss ]  -0.032866 [ G_Loss ]   31.066242 [ Time ]  90.03s
+[Epoch]  1830 [ D_Loss ]  -0.031885 [ G_Loss ]   30.256160 [ Time ]  90.44s
+---------------------------[1830 Epoch] Frechet Pointcloud Distance <<< 1.49 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 75 2016
+[Epoch]  1831 [ D_Loss ]  -0.033672 [ G_Loss ]   31.061865 [ Time ]  90.45s
+[Epoch]  1832 [ D_Loss ]  -0.032832 [ G_Loss ]   31.309572 [ Time ]  90.33s
+[Epoch]  1833 [ D_Loss ]  -0.034033 [ G_Loss ]   30.511888 [ Time ]  94.14s
+[Epoch]  1834 [ D_Loss ]  -0.032620 [ G_Loss ]   29.580119 [ Time ]  90.33s
+[Epoch]  1835 [ D_Loss ]  -0.032790 [ G_Loss ]   29.551181 [ Time ]  90.40s
+---------------------------[1835 Epoch] Frechet Pointcloud Distance <<< 1.70 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 64 1849
+[Epoch]  1836 [ D_Loss ]  -0.033376 [ G_Loss ]   29.840855 [ Time ]  90.22s
+[Epoch]  1837 [ D_Loss ]  -0.031109 [ G_Loss ]   29.930852 [ Time ]  92.34s
+[Epoch]  1838 [ D_Loss ]  -0.030229 [ G_Loss ]   31.211054 [ Time ]  92.99s
+[Epoch]  1839 [ D_Loss ]  -0.032577 [ G_Loss ]   31.678187 [ Time ]  90.27s
+[Epoch]  1840 [ D_Loss ]  -0.032450 [ G_Loss ]   31.227060 [ Time ]  90.16s
+---------------------------[1840 Epoch] Frechet Pointcloud Distance <<< 1.49 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 74 2041
+[Epoch]  1841 [ D_Loss ]  -0.032062 [ G_Loss ]   30.389993 [ Time ]  90.30s
+[Epoch]  1842 [ D_Loss ]  -0.032565 [ G_Loss ]   31.055418 [ Time ]  93.48s
+[Epoch]  1843 [ D_Loss ]  -0.033635 [ G_Loss ]   31.466382 [ Time ]  90.40s
+[Epoch]  1844 [ D_Loss ]  -0.031899 [ G_Loss ]   30.397538 [ Time ]  90.39s
+[Epoch]  1845 [ D_Loss ]  -0.033071 [ G_Loss ]   29.508120 [ Time ]  90.24s
+---------------------------[1845 Epoch] Frechet Pointcloud Distance <<< 1.21 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 65 1960
+[Epoch]  1846 [ D_Loss ]  -0.033486 [ G_Loss ]   30.017591 [ Time ]  90.16s
+[Epoch]  1847 [ D_Loss ]  -0.034138 [ G_Loss ]   30.267862 [ Time ]  93.69s
+[Epoch]  1848 [ D_Loss ]  -0.032943 [ G_Loss ]   29.858137 [ Time ]  90.59s
+[Epoch]  1849 [ D_Loss ]  -0.032151 [ G_Loss ]   28.413626 [ Time ]  90.40s
+[Epoch]  1850 [ D_Loss ]  -0.033380 [ G_Loss ]   28.777104 [ Time ]  90.55s
+---------------------------[1850 Epoch] Frechet Pointcloud Distance <<< 1.78 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 65 1815
+[Epoch]  1851 [ D_Loss ]  -0.032264 [ G_Loss ]   29.530686 [ Time ]  90.62s
+[Epoch]  1852 [ D_Loss ]  -0.032830 [ G_Loss ]   29.588357 [ Time ]  95.15s
+[Epoch]  1853 [ D_Loss ]  -0.033025 [ G_Loss ]   30.049134 [ Time ]  90.16s
+[Epoch]  1854 [ D_Loss ]  -0.033692 [ G_Loss ]   30.977439 [ Time ]  90.74s
+[Epoch]  1855 [ D_Loss ]  -0.032122 [ G_Loss ]   30.465730 [ Time ]  90.23s
+---------------------------[1855 Epoch] Frechet Pointcloud Distance <<< 0.90 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 58 1696
+[Epoch]  1856 [ D_Loss ]  -0.033652 [ G_Loss ]   29.908164 [ Time ]  92.72s
+[Epoch]  1857 [ D_Loss ]  -0.032524 [ G_Loss ]   30.057065 [ Time ]  92.46s
+[Epoch]  1858 [ D_Loss ]  -0.032928 [ G_Loss ]   30.096338 [ Time ]  90.31s
+[Epoch]  1859 [ D_Loss ]  -0.032699 [ G_Loss ]   30.154022 [ Time ]  90.44s
+[Epoch]  1860 [ D_Loss ]  -0.032529 [ G_Loss ]   30.065346 [ Time ]  90.46s
+---------------------------[1860 Epoch] Frechet Pointcloud Distance <<< 0.88 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 64 1787
+[Epoch]  1861 [ D_Loss ]  -0.033312 [ G_Loss ]   29.794606 [ Time ]  93.78s
+[Epoch]  1862 [ D_Loss ]  -0.032465 [ G_Loss ]   29.527949 [ Time ]  90.65s
+[Epoch]  1863 [ D_Loss ]  -0.033078 [ G_Loss ]   29.763180 [ Time ]  90.01s
+[Epoch]  1864 [ D_Loss ]  -0.032696 [ G_Loss ]   29.789074 [ Time ]  90.27s
+[Epoch]  1865 [ D_Loss ]  -0.031454 [ G_Loss ]   29.859047 [ Time ]  90.75s
+---------------------------[1865 Epoch] Frechet Pointcloud Distance <<< 2.05 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 71 1951
+[Epoch]  1866 [ D_Loss ]  -0.032470 [ G_Loss ]   29.610890 [ Time ]  93.54s
+[Epoch]  1867 [ D_Loss ]  -0.033623 [ G_Loss ]   29.923837 [ Time ]  90.17s
+[Epoch]  1868 [ D_Loss ]  -0.032878 [ G_Loss ]   30.041083 [ Time ]  90.33s
+[Epoch]  1869 [ D_Loss ]  -0.033452 [ G_Loss ]   29.625544 [ Time ]  90.40s
+[Epoch]  1870 [ D_Loss ]  -0.034148 [ G_Loss ]   29.645610 [ Time ]  92.43s
+---------------------------[1870 Epoch] Frechet Pointcloud Distance <<< 1.16 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 65 1709
+[Epoch]  1871 [ D_Loss ]  -0.033298 [ G_Loss ]   29.019903 [ Time ]  97.24s
+[Epoch]  1872 [ D_Loss ]  -0.032708 [ G_Loss ]   30.377380 [ Time ]  90.60s
+[Epoch]  1873 [ D_Loss ]  -0.031741 [ G_Loss ]   29.897684 [ Time ]  90.31s
+[Epoch]  1874 [ D_Loss ]  -0.032128 [ G_Loss ]   29.796910 [ Time ]  90.30s
+[Epoch]  1875 [ D_Loss ]  -0.034759 [ G_Loss ]   29.383158 [ Time ]  89.92s
+---------------------------[1875 Epoch] Frechet Pointcloud Distance <<< 1.06 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 64 1885
+[Epoch]  1876 [ D_Loss ]  -0.033820 [ G_Loss ]   29.972886 [ Time ]  92.21s
+[Epoch]  1877 [ D_Loss ]  -0.033706 [ G_Loss ]   30.406964 [ Time ]  90.16s
+[Epoch]  1878 [ D_Loss ]  -0.032901 [ G_Loss ]   30.407770 [ Time ]  91.04s
+[Epoch]  1879 [ D_Loss ]  -0.031763 [ G_Loss ]   29.913975 [ Time ]  90.42s
+[Epoch]  1880 [ D_Loss ]  -0.031579 [ G_Loss ]   30.590104 [ Time ]  90.92s
+---------------------------[1880 Epoch] Frechet Pointcloud Distance <<< 1.44 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 67 1867
+[Epoch]  1881 [ D_Loss ]  -0.031820 [ G_Loss ]   29.306574 [ Time ]  90.28s
+[Epoch]  1882 [ D_Loss ]  -0.031834 [ G_Loss ]   30.863382 [ Time ]  90.66s
+[Epoch]  1883 [ D_Loss ]  -0.032593 [ G_Loss ]   30.877129 [ Time ]  90.35s
+[Epoch]  1884 [ D_Loss ]  -0.032937 [ G_Loss ]   30.060156 [ Time ]  91.11s
+[Epoch]  1885 [ D_Loss ]  -0.032871 [ G_Loss ]   30.437043 [ Time ]  93.34s
+---------------------------[1885 Epoch] Frechet Pointcloud Distance <<< 2.07 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 60 1721
+[Epoch]  1886 [ D_Loss ]  -0.031388 [ G_Loss ]   29.918660 [ Time ]  91.29s
+[Epoch]  1887 [ D_Loss ]  -0.032515 [ G_Loss ]   29.873055 [ Time ]  90.22s
+[Epoch]  1888 [ D_Loss ]  -0.031591 [ G_Loss ]   30.344022 [ Time ]  90.91s
+[Epoch]  1889 [ D_Loss ]  -0.032499 [ G_Loss ]   30.141425 [ Time ]  90.86s
+[Epoch]  1890 [ D_Loss ]  -0.032039 [ G_Loss ]   28.964369 [ Time ]  94.65s
+---------------------------[1890 Epoch] Frechet Pointcloud Distance <<< 1.43 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 60 1733
+[Epoch]  1891 [ D_Loss ]  -0.032524 [ G_Loss ]   29.438287 [ Time ]  90.54s
+[Epoch]  1892 [ D_Loss ]  -0.031442 [ G_Loss ]   29.133300 [ Time ]  91.03s
+[Epoch]  1893 [ D_Loss ]  -0.034111 [ G_Loss ]   29.954014 [ Time ]  90.83s
+[Epoch]  1894 [ D_Loss ]  -0.033370 [ G_Loss ]   29.042578 [ Time ]  91.10s
+[Epoch]  1895 [ D_Loss ]  -0.032149 [ G_Loss ]   29.979703 [ Time ]  94.45s
+---------------------------[1895 Epoch] Frechet Pointcloud Distance <<< 1.11 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 66 1860
+[Epoch]  1896 [ D_Loss ]  -0.030085 [ G_Loss ]   29.742542 [ Time ]  91.27s
+[Epoch]  1897 [ D_Loss ]  -0.033172 [ G_Loss ]   30.297830 [ Time ]  91.23s
+[Epoch]  1898 [ D_Loss ]  -0.033175 [ G_Loss ]   30.325192 [ Time ]  90.70s
+[Epoch]  1899 [ D_Loss ]  -0.034455 [ G_Loss ]   32.011360 [ Time ]  92.61s
+[Epoch]  1900 [ D_Loss ]  -0.033024 [ G_Loss ]   31.272422 [ Time ]  93.80s
+---------------------------[1900 Epoch] Frechet Pointcloud Distance <<< 0.82 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 76 2042
+[Epoch]  1901 [ D_Loss ]  -0.033397 [ G_Loss ]   31.463911 [ Time ]  90.82s
+[Epoch]  1902 [ D_Loss ]  -0.034093 [ G_Loss ]   30.597894 [ Time ]  90.50s
+[Epoch]  1903 [ D_Loss ]  -0.032156 [ G_Loss ]   30.661550 [ Time ]  90.58s
+[Epoch]  1904 [ D_Loss ]  -0.033104 [ G_Loss ]   30.137540 [ Time ]  89.84s
+[Epoch]  1905 [ D_Loss ]  -0.032527 [ G_Loss ]   29.631929 [ Time ]  90.24s
+---------------------------[1905 Epoch] Frechet Pointcloud Distance <<< 0.90 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 66 1781
+[Epoch]  1906 [ D_Loss ]  -0.031142 [ G_Loss ]   28.979500 [ Time ]  90.43s
+[Epoch]  1907 [ D_Loss ]  -0.030656 [ G_Loss ]   28.945008 [ Time ]  90.29s
+[Epoch]  1908 [ D_Loss ]  -0.034625 [ G_Loss ]   29.640519 [ Time ]  90.65s
+[Epoch]  1909 [ D_Loss ]  -0.032618 [ G_Loss ]   29.652197 [ Time ]  89.93s
+[Epoch]  1910 [ D_Loss ]  -0.031343 [ G_Loss ]   29.906770 [ Time ]  90.74s
+---------------------------[1910 Epoch] Frechet Pointcloud Distance <<< 0.94 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 58 1706
+[Epoch]  1911 [ D_Loss ]  -0.033341 [ G_Loss ]   29.556507 [ Time ]  90.85s
+[Epoch]  1912 [ D_Loss ]  -0.034641 [ G_Loss ]   29.627937 [ Time ]  91.34s
+[Epoch]  1913 [ D_Loss ]  -0.031915 [ G_Loss ]   29.742281 [ Time ]  90.25s
+[Epoch]  1914 [ D_Loss ]  -0.033739 [ G_Loss ]   30.112580 [ Time ]  90.57s
+[Epoch]  1915 [ D_Loss ]  -0.032632 [ G_Loss ]   29.400010 [ Time ]  90.56s
+---------------------------[1915 Epoch] Frechet Pointcloud Distance <<< 2.06 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 58 1585
+[Epoch]  1916 [ D_Loss ]  -0.030297 [ G_Loss ]   29.570476 [ Time ]  90.88s
+[Epoch]  1917 [ D_Loss ]  -0.032157 [ G_Loss ]   29.776755 [ Time ]  90.36s
+[Epoch]  1918 [ D_Loss ]  -0.034291 [ G_Loss ]   30.186546 [ Time ]  90.61s
+[Epoch]  1919 [ D_Loss ]  -0.032177 [ G_Loss ]   30.349296 [ Time ]  90.42s
+[Epoch]  1920 [ D_Loss ]  -0.033549 [ G_Loss ]   29.492012 [ Time ]  90.64s
+---------------------------[1920 Epoch] Frechet Pointcloud Distance <<< 1.19 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 62 1751
+[Epoch]  1921 [ D_Loss ]  -0.034300 [ G_Loss ]   29.080179 [ Time ]  90.15s
+[Epoch]  1922 [ D_Loss ]  -0.032570 [ G_Loss ]   28.581400 [ Time ]  90.17s
+[Epoch]  1923 [ D_Loss ]  -0.032095 [ G_Loss ]   29.253789 [ Time ]  89.95s
+[Epoch]  1924 [ D_Loss ]  -0.032143 [ G_Loss ]   28.524511 [ Time ]  89.97s
+[Epoch]  1925 [ D_Loss ]  -0.032591 [ G_Loss ]   27.871135 [ Time ]  90.00s
+---------------------------[1925 Epoch] Frechet Pointcloud Distance <<< 1.07 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 57 1681
+[Epoch]  1926 [ D_Loss ]  -0.032100 [ G_Loss ]   28.578593 [ Time ]  90.17s
+[Epoch]  1927 [ D_Loss ]  -0.031506 [ G_Loss ]   28.316217 [ Time ]  90.02s
+[Epoch]  1928 [ D_Loss ]  -0.032326 [ G_Loss ]   28.309982 [ Time ]  90.15s
+[Epoch]  1929 [ D_Loss ]  -0.031419 [ G_Loss ]   28.377422 [ Time ]  90.03s
+[Epoch]  1930 [ D_Loss ]  -0.033079 [ G_Loss ]   28.627819 [ Time ]  89.82s
+---------------------------[1930 Epoch] Frechet Pointcloud Distance <<< 1.69 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 57 1729
+[Epoch]  1931 [ D_Loss ]  -0.033459 [ G_Loss ]   28.952903 [ Time ]  90.02s
+[Epoch]  1932 [ D_Loss ]  -0.030897 [ G_Loss ]   29.467522 [ Time ]  90.15s
+[Epoch]  1933 [ D_Loss ]  -0.032829 [ G_Loss ]   28.649414 [ Time ]  90.31s
+[Epoch]  1934 [ D_Loss ]  -0.033067 [ G_Loss ]   28.330340 [ Time ]  90.02s
+[Epoch]  1935 [ D_Loss ]  -0.033083 [ G_Loss ]   28.127453 [ Time ]  90.04s
+---------------------------[1935 Epoch] Frechet Pointcloud Distance <<< 1.10 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 57 1683
+[Epoch]  1936 [ D_Loss ]  -0.033152 [ G_Loss ]   28.144783 [ Time ]  89.88s
+[Epoch]  1937 [ D_Loss ]  -0.033718 [ G_Loss ]   28.863839 [ Time ]  90.02s
+[Epoch]  1938 [ D_Loss ]  -0.031437 [ G_Loss ]   27.984579 [ Time ]  90.01s
+[Epoch]  1939 [ D_Loss ]  -0.033732 [ G_Loss ]   28.482326 [ Time ]  89.98s
+[Epoch]  1940 [ D_Loss ]  -0.033400 [ G_Loss ]   28.488778 [ Time ]  89.95s
+---------------------------[1940 Epoch] Frechet Pointcloud Distance <<< 1.01 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 61 1631
+[Epoch]  1941 [ D_Loss ]  -0.033346 [ G_Loss ]   28.578834 [ Time ]  89.99s
+[Epoch]  1942 [ D_Loss ]  -0.032773 [ G_Loss ]   28.670252 [ Time ]  89.80s
+[Epoch]  1943 [ D_Loss ]  -0.033298 [ G_Loss ]   29.595980 [ Time ]  89.95s
+[Epoch]  1944 [ D_Loss ]  -0.033408 [ G_Loss ]   29.297467 [ Time ]  89.91s
+[Epoch]  1945 [ D_Loss ]  -0.031396 [ G_Loss ]   28.760604 [ Time ]  89.86s
+---------------------------[1945 Epoch] Frechet Pointcloud Distance <<< 1.19 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 65 1769
+[Epoch]  1946 [ D_Loss ]  -0.033524 [ G_Loss ]   28.831941 [ Time ]  90.05s
+[Epoch]  1947 [ D_Loss ]  -0.032337 [ G_Loss ]   29.034237 [ Time ]  89.84s
+[Epoch]  1948 [ D_Loss ]  -0.032974 [ G_Loss ]   29.059764 [ Time ]  90.00s
+[Epoch]  1949 [ D_Loss ]  -0.033267 [ G_Loss ]   29.554406 [ Time ]  89.99s
+[Epoch]  1950 [ D_Loss ]  -0.032147 [ G_Loss ]   28.785850 [ Time ]  89.95s
+---------------------------[1950 Epoch] Frechet Pointcloud Distance <<< 1.45 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 62 1726
+[Epoch]  1951 [ D_Loss ]  -0.032676 [ G_Loss ]   29.096591 [ Time ]  90.05s
+[Epoch]  1952 [ D_Loss ]  -0.031232 [ G_Loss ]   29.631514 [ Time ]  90.04s
+[Epoch]  1953 [ D_Loss ]  -0.032900 [ G_Loss ]   29.553179 [ Time ]  89.90s
+[Epoch]  1954 [ D_Loss ]  -0.034133 [ G_Loss ]   29.215612 [ Time ]  89.96s
+[Epoch]  1955 [ D_Loss ]  -0.032783 [ G_Loss ]   28.998835 [ Time ]  90.13s
+---------------------------[1955 Epoch] Frechet Pointcloud Distance <<< 4.62 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 63 1795
+[Epoch]  1956 [ D_Loss ]  -0.032894 [ G_Loss ]   28.559378 [ Time ]  90.10s
+[Epoch]  1957 [ D_Loss ]  -0.033229 [ G_Loss ]   28.206171 [ Time ]  89.84s
+[Epoch]  1958 [ D_Loss ]  -0.031191 [ G_Loss ]   29.918997 [ Time ]  89.94s
+[Epoch]  1959 [ D_Loss ]  -0.032236 [ G_Loss ]   30.011960 [ Time ]  90.02s
+[Epoch]  1960 [ D_Loss ]  -0.032523 [ G_Loss ]   29.614326 [ Time ]  89.95s
+---------------------------[1960 Epoch] Frechet Pointcloud Distance <<< 0.93 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 72 1902
+[Epoch]  1961 [ D_Loss ]  -0.032120 [ G_Loss ]   29.735491 [ Time ]  90.04s
+[Epoch]  1962 [ D_Loss ]  -0.032816 [ G_Loss ]   30.336312 [ Time ]  89.83s
+[Epoch]  1963 [ D_Loss ]  -0.031434 [ G_Loss ]   29.872134 [ Time ]  89.99s
+[Epoch]  1964 [ D_Loss ]  -0.032524 [ G_Loss ]   30.056448 [ Time ]  89.82s
+[Epoch]  1965 [ D_Loss ]  -0.032879 [ G_Loss ]   29.596286 [ Time ]  90.14s
+---------------------------[1965 Epoch] Frechet Pointcloud Distance <<< 1.12 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 66 1755
+[Epoch]  1966 [ D_Loss ]  -0.032592 [ G_Loss ]   29.947952 [ Time ]  90.15s
+[Epoch]  1967 [ D_Loss ]  -0.033771 [ G_Loss ]   29.013451 [ Time ]  89.68s
+[Epoch]  1968 [ D_Loss ]  -0.031897 [ G_Loss ]   29.214162 [ Time ]  89.63s
+[Epoch]  1969 [ D_Loss ]  -0.033674 [ G_Loss ]   28.541517 [ Time ]  89.84s
+[Epoch]  1970 [ D_Loss ]  -0.031087 [ G_Loss ]   29.381312 [ Time ]  89.78s
+---------------------------[1970 Epoch] Frechet Pointcloud Distance <<< 2.02 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 60 1678
+[Epoch]  1971 [ D_Loss ]  -0.031690 [ G_Loss ]   28.091673 [ Time ]  90.08s
+[Epoch]  1972 [ D_Loss ]  -0.031566 [ G_Loss ]   28.140603 [ Time ]  90.11s
+[Epoch]  1973 [ D_Loss ]  -0.035308 [ G_Loss ]   28.213002 [ Time ]  89.96s
+[Epoch]  1974 [ D_Loss ]  -0.033254 [ G_Loss ]   28.789424 [ Time ]  90.44s
+[Epoch]  1975 [ D_Loss ]  -0.031703 [ G_Loss ]   28.860177 [ Time ]  90.14s
+---------------------------[1975 Epoch] Frechet Pointcloud Distance <<< 1.12 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 62 1721
+[Epoch]  1976 [ D_Loss ]  -0.030152 [ G_Loss ]   29.119090 [ Time ]  91.12s
+[Epoch]  1977 [ D_Loss ]  -0.032906 [ G_Loss ]   28.856104 [ Time ]  89.91s
+[Epoch]  1978 [ D_Loss ]  -0.031621 [ G_Loss ]   28.983341 [ Time ]  89.89s
+[Epoch]  1979 [ D_Loss ]  -0.031835 [ G_Loss ]   29.650656 [ Time ]  89.63s
+[Epoch]  1980 [ D_Loss ]  -0.031901 [ G_Loss ]   29.476014 [ Time ]  90.53s
+---------------------------[1980 Epoch] Frechet Pointcloud Distance <<< 1.87 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 63 1816
+[Epoch]  1981 [ D_Loss ]  -0.033966 [ G_Loss ]   29.348168 [ Time ]  91.17s
+[Epoch]  1982 [ D_Loss ]  -0.030548 [ G_Loss ]   29.283836 [ Time ]  90.42s
+[Epoch]  1983 [ D_Loss ]  -0.031101 [ G_Loss ]   29.218202 [ Time ]  90.08s
+[Epoch]  1984 [ D_Loss ]  -0.030900 [ G_Loss ]   29.125575 [ Time ]  89.87s
+[Epoch]  1985 [ D_Loss ]  -0.033151 [ G_Loss ]   28.924869 [ Time ]  90.77s
+---------------------------[1985 Epoch] Frechet Pointcloud Distance <<< 3.21 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 2 57 1623
+[Epoch]  1986 [ D_Loss ]  -0.031838 [ G_Loss ]   28.408246 [ Time ]  90.14s
+[Epoch]  1987 [ D_Loss ]  -0.033655 [ G_Loss ]   27.968173 [ Time ]  89.86s
+[Epoch]  1988 [ D_Loss ]  -0.032125 [ G_Loss ]   28.432298 [ Time ]  90.01s
+[Epoch]  1989 [ D_Loss ]  -0.032527 [ G_Loss ]   28.514472 [ Time ]  90.05s
+[Epoch]  1990 [ D_Loss ]  -0.032126 [ G_Loss ]   29.168756 [ Time ]  89.77s
+---------------------------[1990 Epoch] Frechet Pointcloud Distance <<< 1.12 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 62 1684
+[Epoch]  1991 [ D_Loss ]  -0.031282 [ G_Loss ]   28.430455 [ Time ]  89.59s
+[Epoch]  1992 [ D_Loss ]  -0.032812 [ G_Loss ]   28.582146 [ Time ]  89.86s
+[Epoch]  1993 [ D_Loss ]  -0.032538 [ G_Loss ]   28.560177 [ Time ]  90.35s
+[Epoch]  1994 [ D_Loss ]  -0.031362 [ G_Loss ]   28.476710 [ Time ]  90.19s
+[Epoch]  1995 [ D_Loss ]  -0.031162 [ G_Loss ]   28.812218 [ Time ]  90.13s
+---------------------------[1995 Epoch] Frechet Pointcloud Distance <<< 1.87 >>>
+----------------var at [0.01, 0.02, 0.05] ====== 3 66 1908
+[Epoch]  1996 [ D_Loss ]  -0.032322 [ G_Loss ]   29.565118 [ Time ]  90.42s
+[Epoch]  1997 [ D_Loss ]  -0.032540 [ G_Loss ]   30.037586 [ Time ]  90.99s
+[Epoch]  1998 [ D_Loss ]  -0.032917 [ G_Loss ]   28.370246 [ Time ]  89.87s
+[Epoch]  1999 [ D_Loss ]  -0.032366 [ G_Loss ]   29.130961 [ Time ]  90.44s
+(r0.3.0) [zhangjunzhe@SG-IDC1-10-51-0-103 pcd_lib]$ cd ~
+(r0.3.0) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ srun -u --partition=Sensetime -n1 --gres
+=gpu:4 --ntasks-per-node=4 -x SG-IDC1-10-51-0-34         --job-name=branch_v6
+python train.py         --class_choice Chair --epochs 2000   --batch_size 64
+--FPD_path ./evaluation/pre_statistics_chair.npz         --ckpt_path ./model/branch_v6
+/         --degrees_opt opt_1         --loop_non_linear True         --uniform_loss un
+iform_single_radius         --uniform_loss_scalar 0.5          --uniform_loss_radius
+0.02         --uniform_loss_n_seeds 200         --uniform_loss_offset 10         --uni
+form_loss_no_scale True         --uniform_loss_max True
+srun: job 416342 queued and waiting for resources
+^Csrun: Job allocation 416342 has been revoked
+srun: Force Terminated job 416342
+(r0.3.0) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$ ^C
+(r0.3.0) [zhangjunzhe@SG-IDC1-10-51-0-103 ~]$
