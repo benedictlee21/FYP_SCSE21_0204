@@ -1,1 +1,0 @@
-# Model part = {feature_extraction, spatial_block}

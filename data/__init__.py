@@ -1,1 +1,0 @@
-# Spatial dataset = {single 2d image, point cloud, adjacency matrix}
