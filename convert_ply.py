@@ -11,29 +11,47 @@ def read_ply_xyz(input_dir):
 
     pathnames = glob.glob(input_dir + '/*')
     ply_files = []
-    count = 0
+    directory_list = []
+    #count = 0
 
-    for filepath in pathnames:
-        if 'fake-z' in filepath:
-            ply_files.append(filepath)
-            count += 1
-    print('Number of ply files: ', count)
+    for subpath in pathnames:
+        directory_list.append(subpath)
+        subdirectory = os.path.basename(subpath)
+        one_shape = glob.glob(input_dir + subdirectory + '/*')
 
-    for PLY_file in ply_files:
-        filename = os.path.basename(PLY_file)
+        for filepath in one_shape:
+            if '.ply' in filepath:
+                ply_files.append(filepath)
+                #count += 1
+    #print('Number of ply files: ', count)
+    #print('Number of all ply files: ', len(ply_files))
+    #print('Number of subdirectory paths: ', len(directory_list))
+    file_count = 0
+    folder_count = 0
 
-        with open(PLY_file, 'rb') as file_in:
+    for each in ply_files:
+        filename = os.path.basename(each)
+        filename_no_ext = os.path.splitext(filename)[0]
+        filename_ply_ext = directory_list[folder_count] + '/' + filename_no_ext + '.txt'
+        file_count += 1
+        #print('Total files: ', file_count)
+
+        with open(each, 'rb') as file_in:
             plydata = PlyData.read(file_in)
-            num_verts = plydata['vertex'].count
-            vertices = np.zeros(shape=[num_verts, 3], dtype=np.float32)
+            number_vertices = plydata['vertex'].count
+            vertices = np.zeros(shape = [number_vertices, 3], dtype = np.float32)
             vertices[:,0] = plydata['vertex'].data['x']
             vertices[:,1] = plydata['vertex'].data['y']
             vertices[:,2] = plydata['vertex'].data['z']
 
-        with open(filename + '.txt','w') as file_out:
-            for i in vertices:
-                file_out.write(str(i))
-        print(filename, ' processed.')
+        with open(filename_ply_ext,'w') as file_out:
+            for coordinates in vertices:
+                file_out.write(str(coordinates[0]) + ';' + str(coordinates[1]) + ';' + str(coordinates[2]) + '\n')
+        print('Processed: ', filename_ply_ext)
+
+        if file_count % 11 == 0:
+            folder_count += 1
+            print('Folder count: ', folder_count)
 
 if __name__ == "__main__":
 
