@@ -1,7 +1,6 @@
 import os
 import os.path as osp
 from copy import deepcopy
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -10,7 +9,6 @@ import torch.nn.functional as F
 import torchvision
 from torch.autograd import Variable
 from model.treegan_network import Generator, Discriminator
-
 from utils.common_utils import *
 from loss import *
 from evaluation.pointnet import *
@@ -27,9 +25,9 @@ class ShapeInversion(object):
             self.world_size = dist.get_world_size()
         else:
             self.rank, self.world_size = 0, 1
-        
-        # init seed for static masks: ball_hole, knn_hole, voxel_mask 
-        self.to_reset_mask = True 
+
+        # init seed for static masks: ball_hole, knn_hole, voxel_mask
+        self.to_reset_mask = True
         self.mask_type = self.args.mask_type
         self.update_G_stages = self.args.update_G_stages
         self.iterations = self.args.iterations
@@ -38,15 +36,15 @@ class ShapeInversion(object):
         self.select_num = self.args.select_num
 
         self.loss_log = []
-        
+
         # create model
-        self.G = Generator(features=args.G_FEAT, degrees=args.DEGREE, support=args.support,args=self.args).cuda() 
-        self.D = Discriminator(features=args.D_FEAT).cuda() 
-       
+        self.G = Generator(features=args.G_FEAT, degrees=args.DEGREE, support=args.support,args=self.args).cuda()
+        self.D = Discriminator(features=args.D_FEAT).cuda()
+
         self.G.optim = torch.optim.Adam(
             [{'params': self.G.get_params(i)}
                 for i in range(7)],
-            lr=self.G_lrs[0], 
+            lr=self.G_lrs[0],
             betas=(0,0.99),
             weight_decay=0,
             eps=1e-8)
@@ -55,7 +53,7 @@ class ShapeInversion(object):
         self.z_optim = torch.optim.Adam([self.z], lr=self.args.z_lrs[0], betas=(0,0.99))
 
         # load weights
-        checkpoint = torch.load(args.ckpt_load, map_location=self.args.device) 
+        checkpoint = torch.load(args.ckpt_load, map_location=self.args.device)
         self.G.load_state_dict(checkpoint['G_state_dict'])
         self.D.load_state_dict(checkpoint['D_state_dict'])
 
@@ -63,7 +61,7 @@ class ShapeInversion(object):
         if self.D is not None:
             self.D.eval()
         self.G_weight = deepcopy(self.G.state_dict())
-    
+
         # prepare latent variable and optimizer
         self.G_scheduler = LRScheduler(self.G.optim, self.args.warm_up)
         self.z_scheduler = LRScheduler(self.z_optim, self.args.warm_up)
@@ -79,40 +77,39 @@ class ShapeInversion(object):
         self.checkpoint_pcd = [] # to save the staged checkpoints
         self.checkpoint_flags = [] # plot subtitle
 
-        
         if len(args.w_D_loss) == 1:
             self.w_D_loss = args.w_D_loss * len(args.G_lrs)
         else:
             self.w_D_loss = args.w_D_loss
 
-    def reset_G(self,pcd_id=None): 
+    def reset_G(self,pcd_id=None):
         """
         to call in every new fine_tuning
         before the 1st one also okay
         """
-        self.G.load_state_dict(self.G_weight, strict=False) 
+        self.G.load_state_dict(self.G_weight, strict=False)
         if self.args.random_G:
             self.G.train()
         else:
             self.G.eval()
         self.checkpoint_pcd = [] # to save the staged checkpoints
         self.checkpoint_flags = []
-        self.pcd_id = pcd_id # for 
+        self.pcd_id = pcd_id # for
         if self.mask_type == 'voxel_mask':
-            self.to_reset_mask = True # reset hole center for each shape 
-    
+            self.to_reset_mask = True # reset hole center for each shape
+
     def set_target(self, gt=None, partial=None):
         '''
-        set target 
+        set target
         '''
         if gt is not None:
             self.gt = gt.unsqueeze(0)
             # for visualization
-            self.checkpoint_flags.append('Ground Truth')
+            self.checkpoint_flags.append('GT')
             self.checkpoint_pcd.append(self.gt)
         else:
             self.gt = None
-        
+
         if partial is not None:
             if self.args.target_downsample_method.lower() == 'fps':
                 target_size = self.args.target_downsample_size
@@ -122,9 +119,9 @@ class ShapeInversion(object):
         else:
             self.target = self.pre_process(self.gt, stage=-1)
         # for visualization
-        self.checkpoint_flags.append('Input Partial') 
+        self.checkpoint_flags.append('target')
         self.checkpoint_pcd.append(self.target)
-    
+
     def run(self, ith=-1):
         loss_dict = {}
         curr_step = 0
@@ -139,13 +136,13 @@ class ShapeInversion(object):
 
                 # forward
                 self.z_optim.zero_grad()
-                
+
                 if self.update_G_stages[stage]:
                     self.G.optim.zero_grad()
-                             
+
                 tree = [self.z]
                 x = self.G(tree)
-                
+
                 # masking
                 x_map = self.pre_process(x,stage=stage)
 
@@ -162,16 +159,16 @@ class ShapeInversion(object):
                 # nll corresponds to a negative log-likelihood loss
                 nll = self.z**2 / 2
                 nll = nll.mean()
-                
+
                 ### loss
                 loss = ftr_loss * self.w_D_loss[stage] + nll * self.args.w_nll \
                         + cd_loss * 1
-                
+
                 # optional to use directed_hausdorff
                 if self.args.directed_hausdorff:
                     directed_hausdorff_loss = self.directed_hausdorff(self.target, x)
                     loss += directed_hausdorff_loss*self.args.w_directed_hausdorff_loss
-                
+
                 # backward
                 loss.backward()
                 self.z_optim.step()
@@ -179,10 +176,10 @@ class ShapeInversion(object):
                     self.G.optim.step()
 
             # save checkpoint for each stage
-            #self.checkpoint_flags.append('Stage '+str(stage)+' Shape')
-            #self.checkpoint_pcd.append(x)
-            #self.checkpoint_flags.append('Stage '+str(stage)+' Mask Map')
-            #self.checkpoint_pcd.append(x_map)
+            self.checkpoint_flags.append('s_'+str(stage)+' x')
+            self.checkpoint_pcd.append(x)
+            self.checkpoint_flags.append('s_'+str(stage)+' x_map')
+            self.checkpoint_pcd.append(x_map)
 
             # test only for each stage
             if self.gt is not None:
@@ -191,7 +188,7 @@ class ShapeInversion(object):
                 with open(self.args.log_pathname, "a") as file_object:
                     msg = str(self.pcd_id) + ',' + 'stage'+str(stage) + ',' + 'cd' +',' + '{:6.5f}'.format(test_cd.item())
                     file_object.write(msg+'\n')
-        
+
         if self.gt is not None:
             loss_dict = {
                 'ftr_loss': np.asscalar(ftr_loss.detach().cpu().numpy()),
@@ -199,12 +196,8 @@ class ShapeInversion(object):
                 'cd': np.asscalar(test_cd.detach().cpu().numpy()),
             }
             self.loss_log.append(loss_dict)
-                
+
         ### save point clouds
-        self.checkpoint_flags.append('Final Output Shape')
-        self.checkpoint_pcd.append(x)
-        self.checkpoint_flags.append('Final Output Mask Map')
-        self.checkpoint_pcd.append(x_map)
         self.x = x
         if not osp.isdir(self.args.save_inversion_path):
             os.mkdir(self.args.save_inversion_path)
@@ -217,16 +210,15 @@ class ShapeInversion(object):
             basename = str(self.pcd_id)+'_'+str(ith)
         if self.gt is not None:
             gt_np = self.gt[0].detach().cpu().numpy()
-            np.savetxt(osp.join(self.args.save_inversion_path,basename+' Ground Truth.txt'), gt_np, fmt = "%f;%f;%f")  
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+' Output Shape.txt'), x_np, fmt = "%f;%f;%f")  
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+' Output Mask Map.txt'), x_map_np, fmt = "%f;%f;%f")  
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+' Input Partial.txt'), target_np, fmt = "%f;%f;%f")  
+            np.savetxt(osp.join(self.args.save_inversion_path,basename+'_gt.txt'), gt_np, fmt = "%f;%f;%f")
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_x.txt'), x_np, fmt = "%f;%f;%f")
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_xmap.txt'), x_map_np, fmt = "%f;%f;%f")
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_target.txt'), target_np, fmt = "%f;%f;%f")
 
         # jittering mode
         if self.args.inversion_mode == 'jittering':
             self.jitter(self.target)
-        
-    
+
     def diversity_search(self, select_y=False):
         """
         produce batch by batch
@@ -240,6 +232,7 @@ class ShapeInversion(object):
         z_ls = []
         cd_ls = []
         tic = time.time()
+
         with torch.no_grad():
             for i in range(num_batch):
                 z = torch.randn(batch_size, 1, 96).cuda()
@@ -251,18 +244,16 @@ class ShapeInversion(object):
                 x_ls.append(x)
                 z_ls.append(z)
                 cd_ls.append(cd)
-                
+
         x_full = torch.cat(x_ls)
         cd_full = torch.cat(cd_ls)
         z_full = torch.cat(z_ls)
-
         toc = time.time()
-        
+
         cd_candidates, idx = torch.topk(cd_full,self.args.n_z_candidates,largest=False)
         z_t = z_full[idx].transpose(0,1)
-        seeds = farthest_point_sample(z_t, self.args.n_outputs).squeeze(0) 
+        seeds = farthest_point_sample(z_t, self.args.n_outputs).squeeze(0)
         z_ten = z_full[idx][seeds]
-
         self.zs = [itm.unsqueeze(0) for itm in z_ten]
         self.xs = []
 
@@ -281,18 +272,18 @@ class ShapeInversion(object):
                 tree = [z]
                 with torch.no_grad():
                     x = self.G(tree)
-                ftr_loss = self.criterion(self.ftr_net, x, self.target) 
+                ftr_loss = self.criterion(self.ftr_net, x, self.target)
                 z_all.append(z)
                 loss_all.append(ftr_loss.detach().cpu().numpy())
-            
+
             toc = time.time()
             loss_all = np.array(loss_all)
             idx = np.argmin(loss_all)
-            
+
             self.z.copy_(z_all[idx])
             if select_y:
                 self.y.copy_(y_all[idx])
-            
+
             x = self.G([self.z])
 
             # visualization
@@ -300,18 +291,18 @@ class ShapeInversion(object):
                 x_map = self.pre_process(x, stage=-1)
                 dist1, dist2 , _, _ = distChamfer(x,self.gt)
                 cd_loss = dist1.mean() + dist2.mean()
-                
+
                 with open(self.args.log_pathname, "a") as file_object:
                     msg = str(self.pcd_id) + ',' + 'init' + ',' + 'cd' +',' + '{:6.5f}'.format(cd_loss.item())
                     # print(msg)
                     file_object.write(msg+'\n')
-                self.checkpoint_flags.append('Generator Initial Shape')
+                self.checkpoint_flags.append('init x')
                 self.checkpoint_pcd.append(x)
-                self.checkpoint_flags.append('Generator Initial Mask Map')
+                self.checkpoint_flags.append('init x_map')
                 self.checkpoint_pcd.append(x_map)
             return z_all[idx]
 
-    
+
     def pre_process(self,pcd,stage=-1):
         """
         transfer a pcd in the observation space:
@@ -322,7 +313,7 @@ class ShapeInversion(object):
             tau_mask: baseline in ShapeInversion
             k_mask: proposed component by ShapeInversion
         """
-        
+
         if self.mask_type == 'none':
             return pcd
         elif self.mask_type in ['ball_hole', 'knn_hole']:
@@ -336,7 +327,7 @@ class ShapeInversion(object):
                 self.hole_centers = torch.stack([img[seed] for img, seed in zip(pcd,seeds)]) # (B, hole_n, 3)
                 # turn off mask after set mask, until next partial pcd
                 self.to_reset_mask = False
-            
+
             ### preprocess
             flag_map = torch.ones(1,2048,1).cuda()
             pcd_new = pcd.unsqueeze(2).repeat(1,1,self.hole_n,1)
@@ -347,27 +338,27 @@ class ShapeInversion(object):
 
             if self.mask_type == 'knn_hole':
                 # idx (B, hole_n, hole_k), dist (B, hole_n, hole_k)
-                dist, idx = torch.topk(dist_new,self.hole_k,largest=False)                
-            
+                dist, idx = torch.topk(dist_new,self.hole_k,largest=False)
+
             for i in range(self.hole_n):
                 dist_per_hole = dist_new[:,i,:].unsqueeze(2)
                 if self.mask_type == 'knn_hole':
                     threshold_dist = dist[:,i, -1]
-                if self.mask_type == 'ball_hole': 
+                if self.mask_type == 'ball_hole':
                     threshold_dist = self.hole_radius
                 flag_map[dist_per_hole <= threshold_dist] = 0
-            
+
             target = torch.mul(pcd, flag_map)
-            return target    
+            return target
         elif self.mask_type == 'voxel_mask':
             """
             voxels in the partial and optionally surroundings are 1, the rest are 0.
-            """  
+            """
             ### set static mask for each new partial pcd
             if self.to_reset_mask:
                 mask_partial = self.voxelize(self.target, n_bins=self.args.voxel_bins, pcd_limit=0.5, threshold=0)
                 # optional to add surrounding to the mask partial
-                surrounding = self.args.surrounding 
+                surrounding = self.args.surrounding
                 self.mask_dict = {}
                 for key_gt in mask_partial:
                     x,y,z = key_gt
@@ -380,8 +371,8 @@ class ShapeInversion(object):
                     for xyz in surrounding_ls:
                         self.mask_dict[xyz] = 1
                 # turn off mask after set mask, until next partial pcd
-                self.to_reset_mask = False 
-            
+                self.to_reset_mask = False
+
             ### preprocess
             n_bins = self.args.voxel_bins
             mask_tensor = torch.zeros(2048,1)
@@ -390,13 +381,13 @@ class ShapeInversion(object):
             ls_voxels = pcd_new.squeeze(0).tolist() # 2028 of sublists
             tuple_voxels = [tuple(itm) for itm in ls_voxels]
             for i in range(2048):
-                tuple_voxel = tuple_voxels[i] 
+                tuple_voxel = tuple_voxels[i]
                 if tuple_voxel in self.mask_dict:
                     mask_tensor[i] = 1
-            
+
             mask_tensor = mask_tensor.unsqueeze(0).cuda()
             pcd_map = torch.mul(pcd, mask_tensor)
-            return pcd_map    
+            return pcd_map
         elif self.mask_type == 'k_mask':
             pcd_map = self.k_mask(self.target, pcd,stage)
             return pcd_map
@@ -427,8 +418,8 @@ class ShapeInversion(object):
         for voxel, cnt in mask_dict.items():
             if cnt <= threshold:
                 del mask_dict[voxel]
-        return mask_dict   
-    
+        return mask_dict
+
     def tau_mask(self, target, x, stage=-1):
         """
         tau mask
@@ -437,11 +428,11 @@ class ShapeInversion(object):
         stage = max(0, stage)
         dist_tau = self.args.tau_mask_dist[stage]
         dist_mat = distChamfer_raw(target, x)
-        idx0, idx1, idx2 = torch.where(dist_mat<dist_tau) 
+        idx0, idx1, idx2 = torch.where(dist_mat<dist_tau)
         idx = torch.unique(idx2).type(torch.long)
         x_map = x[:, idx]
         return x_map
-        
+
     def k_mask(self, target, x, stage=-1):
         """
         masking based on CD.
@@ -463,14 +454,13 @@ class ShapeInversion(object):
             # union of all the indices
             idx = torch.unique(indices).type(torch.long)
 
-        if self.args.masking_option == 'element_product':   
+        if self.args.masking_option == 'element_product':
             mask_tensor = torch.zeros(2048,1)
             mask_tensor[idx] = 1
             mask_tensor = mask_tensor.cuda().unsqueeze(0)
-            x_map = torch.mul(x, mask_tensor) 
-        elif self.args.masking_option == 'indexing':  
+            x_map = torch.mul(x, mask_tensor)
+        elif self.args.masking_option == 'indexing':
             x_map = x[:, idx]
-
         return x_map
 
     def jitter(self, x):
@@ -479,11 +469,11 @@ class ShapeInversion(object):
         stds = [0.3, 0.5, 0.7]
         n_jitters = 12
 
-        flag_list = ['Ground Truth', 'Reconstructed Shape']
+        flag_list = ['gt', 'recon']
         pcd_list = [self.gt, self.x]
         with torch.no_grad():
             for std in stds:
-                
+
                 for i in range(n_jitters):
                     z_rand.normal_()
                     z = self.z + std * z_rand
@@ -491,11 +481,11 @@ class ShapeInversion(object):
                     x_np = x_jitter.squeeze(0).detach().cpu().numpy()
                     basename = '{}_std{:3.2f}_{}.txt'.format(self.pcd_id,std,i)
                     pathname = osp.join(self.args.save_inversion_path,basename)
-                    np.savetxt(pathname, x_np, fmt = "%f;%f;%f")  
+                    np.savetxt(pathname, x_np, fmt = "%f;%f;%f")
                     flag_list.append(basename)
                     pcd_list.append(x_jitter)
         self.checkpoint_pcd = pcd_list
-        self.checkpoint_flags = flag_list       
+        self.checkpoint_flags = flag_list
 
     def downsample(self, dense_pcd, n=2048):
         """
@@ -505,3 +495,4 @@ class ShapeInversion(object):
         idx = farthest_point_sample(dense_pcd,n)
         sparse_pcd = dense_pcd[0,idx]
         return sparse_pcd
+

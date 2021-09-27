@@ -57,10 +57,10 @@ def compute_uhd(partial_ls, output_ls):
     udh_loss = uhd(partial, output)
     return udh_loss.item()
 
+### FUNCTION IMMEDIATELY BELOW FOR SHAPEINVERSION DIVERSITY RESULTS ONLY
 """
 def eval_completion_without_gt(input_dir):
     ### retrieve _x and target
-    # FOR SHAPEINVERSION DIVERSITY RESULTS ONLY
     pathnames = glob.glob(input_dir + "/*")
 
     input_partials = []
@@ -92,9 +92,9 @@ def eval_completion_without_gt(input_dir):
     print('UHD: ', uhd)
 """
 
+### FUNCTION IMMEDIATELY BELOW FOR MULTIMODAL SHAPE COMPLETION RESULTS ONLY
 def eval_completion_without_gt(input_dir):
     ### retrieve raw and fake text files
-    # FOR MPC RESULTS ONLY
     pathnames = glob.glob(input_dir + '/*')
 
     input_partials = []
@@ -132,10 +132,10 @@ def eval_completion_without_gt(input_dir):
         ours_output.append(output_numpy)
 
     cd, cd_ls = compute_ucd(ours_input, ours_output)
-    uhd = compute_uhd(ours_input, ours_output)
+    #uhd = compute_uhd(ours_input, ours_output)
     print(input_dir)
     print('UCD: ', cd)
-    print('UHD: ', uhd)
+    #print('UHD: ', uhd)
 
 if __name__ == '__main__':
 
