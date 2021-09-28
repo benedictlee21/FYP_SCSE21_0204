@@ -85,13 +85,113 @@ class Trainer(object):
             print('Training mode for diversity, ball hole diversity.')
             self.train_diversity()
 
+        elif self.inversion_mode in ['multiclass']:
+            print('Training mode for multiclass completion.')
+            self.train_multiclass()
+
         elif self.inversion_mode == 'morphing':
             print('Training mode for morphing.')
             self.train_morphing()
         else:
             raise NotImplementedError
 
+    def train_multiclass(self):
+
+        if args.class_range is not None:
+
+            # Read in list of classes that ShapeInversion should try to complete a partial input as.
+            target_classes = args.class_range.split(',')
+
+            # Convert multiclass name inputs to lowercase.
+            for index in range(len(target_classes)):
+                target_classes[index] = target_classes[index].lower()
+
+            num_target_classes = len(target_classes)
+            print('Multiclass - number of classes: ({}): {}'.format(num_target_classes, target_classes))
+
+            # Dictionary to hold class name and integer indexes.
+            class_index_dict = {
+                "chair":0,
+                "table":1,
+                "couch":2,
+                "cabinet":3,
+                "lamp":4,
+                "car":5,
+                "plane":6,
+                "watercraft":7
+            }
+
+            # Assign indexes based on selected classes.
+            classes_chosen = [0,0,0,0,0,0,0,0]
+
+            for index in target_classes:
+                for entry in class_index_dict.keys():
+                    if index == entry:
+                        classes_chosen[class_index_dict[entry]] = 1
+
+            # Convert the one hot encoding list into an array, representing the classes.
+            classes_chosen = numpy.array(classes_chosen)
+            print('One hot encoding for chosen classes:')
+            print('<chair, table, couch, cabinet, lamp, car, plane, watercraft>')
+            print(classes_chosen)
+
+            for i, data in enumerate(self.dataloader):
+                tic = time.time()
+                # Get only the input partial shape data without ground truth for multiclass.
+                unused, partial, index = data
+                gt = None
+
+                # Using only diversity mode for multiclass.
+                partial = partial.squeeze(0).cuda()
+
+                # Reset the generator for each new input shape.
+                self.model.reset_G(pcd_id=index.item())
+
+                # Set the input partial shape and output shape.
+                # Ground truth is set to 'None' for multiclass above.
+                self.model.set_target(gt=gt, partial=partial)
+
+                # Search for initial value of latent space 'z'.
+                self.model.diversity_search()
+
+                # Perform fine tuning using input partial shape only.
+                pcd_ls = [partial.unsqueeze(0)]
+                flag_ls = ['input']
+
+                for ith, z in enumerate(self.model.zs):
+                    self.model.reset_G(pcd_id=index.item())
+                    self.model.set_target(gt=gt, partial=partial)
+                    self.model.z.data = z.data
+                    self.model.run(ith=ith)
+                    self.model.xs.append(self.model.x)
+                    flag_ls.append(str(ith))
+                    pcd_ls.append(self.model.x)
+
+                if self.args.visualize:
+                    output_stem = str(index.item())
+                    output_dir = self.args.save_inversion_path + '_visual'
+
+                    if self.args.n_outputs <= 10:
+                        layout = (3,4)
+                    elif self.args.n_outputs <= 20:
+                        layout = (4,6)
+                    else:
+                        layout = (6,9)
+                    draw_any_set(flag_ls, pcd_ls, output_dir, output_stem, layout=layout)
+
+                    if self.rank == 0:
+                        toc = time.time()
+                        print(i ,'out of',len(self.dataloader),'done in ',int(toc-tic),'s')
+                        tic = time.time()
+
+            print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<,rank',self.rank,'completed>>>>>>>>>>>>>>>>>>>>>>')
+
+        # If multiclass parameters are not specified.
+        else:
+            print('Parameters for multiclass completion not specified.')
+
     def train(self):
+
         for i, data in enumerate(self.dataloader):
             tic = time.time()
             if self.args.dataset in ['MatterPort','ScanNet','KITTI']:
@@ -148,75 +248,18 @@ class Trainer(object):
 
     def train_diversity(self):
 
-        # Read in list of classes that ShapeInversion should try to complete a partial input as.
-        target_classes = args.class_range.split(',')
-
-        # Convert multiclass name inputs to lowercase.
-        for index in range(len(target_classes)):
-            target_classes[index] = target_classes[index].lower()
-
-        num_target_classes = len(target_classes)
-        print('Multiclass - number of classes: ({}): {}'.format(num_target_classes, target_classes))
-
-        # Dictionary to hold class name and integer indexes.
-        class_index_dict = {
-            "chair":0,
-            "table":1,
-            "couch":2,
-            "cabinet":3,
-            "lamp":4,
-            "car":5,
-            "plane":6,
-            "watercraft":7
-        }
-
-        # Assign indexes based on selected classes.
-        classes_chosen = [0,0,0,0,0,0,0,0]
-
-        for index in target_classes:
-            for entry in class_index_dict.keys():
-                if index == entry:
-                    #classes_chosen.append(class_index_dict[entry])
-                    classes_chosen[class_index_dict[entry]] = 1
-
-        classes_chosen = numpy.array(classes_chosen)
-        print('One hot encoding for chosen classes:')
-        print(classes_chosen)
-
-
-    """
-        # Perform one hot encoding of input classes.
-        target_classes_array = array(target_classes)
-        #print(target_classes_array)
-
-        # Integer encoding.
-        label_encoder = LabelEncoder()
-        integer_encoded = label_encoder.fit_transform(target_classes_array)
-        print('Index of entered classes: {}'.format(integer_encoded))
-
-        # One hot encoding.
-        onehot_encoder = OneHotEncoder(sparse = False)
-        integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
-        onehot_encoded = onehot_encoder.fit_transform(integer_encoded)
-        print('Onehot encoding: \n{}'.format(onehot_encoded))
-
-    """
-    """
         for i, data in enumerate(self.dataloader):
             tic = time.time()
-            # Get only the input partial shape data without ground truth for multiclass.
-            #if self.args.dataset in ['MatterPort','ScanNet','KITTI']:
+            ### get data
+            if self.args.dataset in ['MatterPort','ScanNet','KITTI']:
+                # without gt
+                partial, index = data
+                gt = None
+            else:
+                # with gt
+                gt, partial, index = data
+                gt = gt.squeeze(0).cuda()
 
-            # Without ground truth.
-            partial, index = data
-            gt = None
-
-            #else:
-                # With ground truth.
-                #gt, partial, index = data
-                #gt = gt.squeeze(0).cuda()
-
-    """ """
             if self.args.inversion_mode == 'ball_hole_diversity':
                 pcd = gt.unsqueeze(0).clone()
                 self.hole_radius = self.args.hole_radius
@@ -229,7 +272,6 @@ class Trainer(object):
                 delta = pcd_new.add(-seeds_new) # (B, 2048, hole_n, 3)
                 dist_mat = torch.norm(delta,dim=3)
                 dist_new = dist_mat.transpose(1,2) # (B, hole_n, 2048)
-
                 for i in range(self.hole_n):
                     dist_per_hole = dist_new[:,i,:].unsqueeze(2)
                     threshold_dist = self.hole_radius
@@ -242,24 +284,18 @@ class Trainer(object):
                 partial = partial.cuda()
                 # print(index.item(), 'partial shape', partial.shape)
             else:
-    """ """
-            # Using only diversity mode for multiclass.
-            partial = partial.squeeze(0).cuda()
+                partial = partial.squeeze(0).cuda()
 
-            # Reset the generator for each new input shape.
+            # reset G for each new input
             self.model.reset_G(pcd_id=index.item())
-
-            # Set the input partial shape and output shape.
-            # Ground truth is set to 'None' for multiclass above.
+            # set target and complete shape
             self.model.set_target(gt=gt, partial=partial)
-
-            # Search for initial value of latent space 'z'.
+            # search init values of z
             self.model.diversity_search()
 
-            # Perform fine tuning.
+            ### fine tuning
             pcd_ls = [gt.unsqueeze(0), partial.unsqueeze(0)]
             flag_ls = ['gt', 'input']
-
             for ith, z in enumerate(self.model.zs):
                 self.model.reset_G(pcd_id=index.item())
                 self.model.set_target(gt=gt, partial=partial)
@@ -285,9 +321,9 @@ class Trainer(object):
                     tic = time.time()
 
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<,rank',self.rank,'completed>>>>>>>>>>>>>>>>>>>>>>')
-    """
 
     def train_morphing(self):
+
         """
         shape interpolation
         shape pairs are randomly predefined by the dataloader

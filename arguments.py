@@ -83,7 +83,7 @@ class Arguments:
      
     def add_inversion_args(self):
         # multiclass completion related
-        self._parser.add_argument('--class_range', type=str, default='chair,table',help='Classes for multiclass diversity completion, classes separated by commas only.')
+        self._parser.add_argument('--class_range', type=str, default=None, help='Classes for multiclass diversity completion, classes separated by commas only.')
 
         ### loss related
         self._parser.add_argument('--w_nll', type=float, default=0.001, help='Weight for the negative log-likelihood loss (default: %(default)s)')
@@ -107,7 +107,7 @@ class Arguments:
         self._parser.add_argument('--masking_option', type=str, default="element_product", help='keep zeros with element_prodcut or remove zero with indexing')
         
         ### inversion mode related
-        self._parser.add_argument('--inversion_mode', type=str, default='completion', help='reconstruction|completion|jittering|morphing|diversity|ball_hole_diversity|simulate_pfnet')
+        self._parser.add_argument('--inversion_mode', type=str, default='completion', help='reconstruction|completion|jittering|morphing|diversity|ball_hole_diversity|simulate_pfnet|multiclass')
         ### diversity
         self._parser.add_argument('--n_z_candidates', type=int, default=50, help='number of z candidates prior to FPS, based on partial-to-full CD')
         self._parser.add_argument('--n_outputs', type=int, default=10, help='the number of complete outputs for a given partial shape')
