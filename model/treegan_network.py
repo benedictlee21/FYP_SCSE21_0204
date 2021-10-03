@@ -1,13 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-
 # from layers.gcn import TreeGCN
 from model.gcn import TreeGCN
+
 from math import ceil
 
 class Discriminator(nn.Module):
-
     def __init__(self, features,version=0):
         self.layer_num = len(features)-1
         super(Discriminator, self).__init__()
@@ -26,7 +25,11 @@ class Discriminator(nn.Module):
                     nn.Linear(64, 1),
                     nn.Sigmoid())
 
-    def forward(self, f):
+    def forward(self, f, classes_chosen = None):
+
+        if classes_chosen is not None:
+            print('treegan_network.py: Discriminator forward classes chosen:', classes_chosen)
+
         feat = f.transpose(1,2)
         vertex_num = feat.size(2)
 
@@ -37,28 +40,33 @@ class Discriminator(nn.Module):
         out = self.final_layer(out1) # (B, 1)
         return out,out1
 
+
 class Generator(nn.Module):
     def __init__(self,features,degrees,support,args=None):
         self.layer_num = len(features)-1
         assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
         self.pointcloud = None
         super(Generator, self).__init__()
-        
+
         vertex_num = 1
         self.gcn = nn.Sequential()
         for inx in range(self.layer_num):
             # NOTE last layer activation False
             if inx == self.layer_num-1:
                 self.gcn.add_module('TreeGCN_'+str(inx),
-                                    TreeGCN(inx, features, degrees, 
+                                    TreeGCN(inx, features, degrees,
                                             support=support, node=vertex_num, upsample=True, activation=False,args=args))
             else:
                 self.gcn.add_module('TreeGCN_'+str(inx),
-                                    TreeGCN(inx, features, degrees, 
+                                    TreeGCN(inx, features, degrees,
                                             support=support, node=vertex_num, upsample=True, activation=True,args=args))
             vertex_num = int(vertex_num * degrees[inx])
 
-    def forward(self, tree):
+    def forward(self, tree, classes_chosen = None):
+
+        if classes_chosen is not None:
+            print('treegan_network.py: Generator forward classes chosen:', classes_chosen)
+
         feat = self.gcn(tree)
         self.pointcloud = feat[-1]
         return self.pointcloud
@@ -67,7 +75,7 @@ class Generator(nn.Module):
         return self.pointcloud[-1] # return a single point cloud (2048,3)
 
     def get_params(self,index):
-        
+
         if index < 7:
             for param in self.gcn[index].parameters():
                 yield param

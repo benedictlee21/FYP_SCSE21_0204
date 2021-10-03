@@ -122,73 +122,86 @@ class ShapeInversion(object):
         self.checkpoint_flags.append('target')
         self.checkpoint_pcd.append(self.target)
 
-    def run(self, ith=-1):
+    def run(self, ith=-1, classes_chosen=None):
+
+        print('shape_inversion.py: run - one hot chosen classes:', classes_chosen)
+
         loss_dict = {}
         curr_step = 0
         count = 0
+
+        # For each shape.
         for stage, iteration in enumerate(self.iterations):
 
+            # For each step in the shape completion process.
             for i in range(iteration):
                 curr_step += 1
-                # setup learning rate
+
+                # Reset the learning rate parameters based on input arguments.
                 self.G_scheduler.update(curr_step, self.args.G_lrs[stage])
                 self.z_scheduler.update(curr_step, self.args.z_lrs[stage])
 
-                # forward
+                # Perform forward propagation.
+                # Reset all latent space optimizer model weights to zero.
                 self.z_optim.zero_grad()
 
                 if self.update_G_stages[stage]:
                     self.G.optim.zero_grad()
 
+                # Store the latent space into a list and pass it to the generator.
                 tree = [self.z]
-                x = self.G(tree)
+                x = self.G(tree, classes_chosen)
 
-                # masking
+                # Perform masking.
                 x_map = self.pre_process(x,stage=stage)
 
-                ### compute losses
+                # Compute losses.
                 ftr_loss = self.criterion(self.ftr_net, x_map, self.target)
 
                 dist1, dist2 , _, _ = distChamfer(x_map, self.target)
                 cd_loss = dist1.mean() + dist2.mean()
-                # optional early stopping
+
+                # Perform optional early stopping if specified as an argument.
                 if self.args.early_stopping:
                     if cd_loss.item() < self.args.stop_cd:
                         break
 
-                # nll corresponds to a negative log-likelihood loss
+                # 'nll' corresponds to a negative log-likelihood loss.
                 nll = self.z**2 / 2
                 nll = nll.mean()
 
-                ### loss
+                # Compute loss.
                 loss = ftr_loss * self.w_D_loss[stage] + nll * self.args.w_nll \
                         + cd_loss * 1
 
-                # optional to use directed_hausdorff
+                # Use optional directed_hausdorff if specified as an arugment.
                 if self.args.directed_hausdorff:
                     directed_hausdorff_loss = self.directed_hausdorff(self.target, x)
                     loss += directed_hausdorff_loss*self.args.w_directed_hausdorff_loss
 
-                # backward
+                # Perform backward propagation.
                 loss.backward()
                 self.z_optim.step()
                 if self.update_G_stages[stage]:
                     self.G.optim.step()
 
-            # save checkpoint for each stage
+            # Save checkpoint and its label for each stage.
             self.checkpoint_flags.append('s_'+str(stage)+' x')
             self.checkpoint_pcd.append(x)
             self.checkpoint_flags.append('s_'+str(stage)+' x_map')
             self.checkpoint_pcd.append(x_map)
 
-            # test only for each stage
+            # If the ground truth exists, calculate the chamfer distance for each shape.
             if self.gt is not None:
                 dist1, dist2 , _, _ = distChamfer(x,self.gt)
                 test_cd = dist1.mean() + dist2.mean()
+
+                # Log the results.
                 with open(self.args.log_pathname, "a") as file_object:
                     msg = str(self.pcd_id) + ',' + 'stage'+str(stage) + ',' + 'cd' +',' + '{:6.5f}'.format(test_cd.item())
                     file_object.write(msg+'\n')
 
+        # If the ground truth exists, determine additional loss values.
         if self.gt is not None:
             loss_dict = {
                 'ftr_loss': np.asscalar(ftr_loss.detach().cpu().numpy()),
@@ -197,17 +210,21 @@ class ShapeInversion(object):
             }
             self.loss_log.append(loss_dict)
 
-        ### save point clouds
+        # Save the completed point cloud output.
         self.x = x
+
         if not osp.isdir(self.args.save_inversion_path):
             os.mkdir(self.args.save_inversion_path)
         x_np = x[0].detach().cpu().numpy()
         x_map_np = x_map[0].detach().cpu().numpy()
         target_np = self.target[0].detach().cpu().numpy()
+
         if ith == -1:
             basename = str(self.pcd_id)
         else:
             basename = str(self.pcd_id)+'_'+str(ith)
+
+        # If the ground truth exists, save it to the output.
         if self.gt is not None:
             gt_np = self.gt[0].detach().cpu().numpy()
             np.savetxt(osp.join(self.args.save_inversion_path,basename+'_gt.txt'), gt_np, fmt = "%f;%f;%f")
@@ -215,10 +232,11 @@ class ShapeInversion(object):
         np.savetxt(osp.join(self.args.save_inversion_path,basename+'_xmap.txt'), x_map_np, fmt = "%f;%f;%f")
         np.savetxt(osp.join(self.args.save_inversion_path,basename+'_target.txt'), target_np, fmt = "%f;%f;%f")
 
-        # jittering mode
+        # If the shapeinversion mode is 'jittering'.
         if self.args.inversion_mode == 'jittering':
             self.jitter(self.target)
 
+    # Search for latent space gaussian distributions for each completed shape of 'diversity' mode.
     def diversity_search(self, select_y=False):
         """
         produce batch by batch

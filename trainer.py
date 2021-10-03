@@ -121,7 +121,7 @@ class Trainer(object):
                 "watercraft":7
             }
 
-            # Assign indexes based on selected classes.
+            # Assign one hot indexes based on selected classes.
             classes_chosen = [0,0,0,0,0,0,0,0]
 
             for index in target_classes:
@@ -131,14 +131,20 @@ class Trainer(object):
 
             # Convert the one hot encoding list into an array, representing the classes.
             classes_chosen = numpy.array(classes_chosen)
-            print('One hot encoding for chosen classes:')
+            print('trainer.py: train_multiclass - one hot chosen classes:')
             print('<chair, table, couch, cabinet, lamp, car, plane, watercraft>')
             print(classes_chosen)
 
+            # For each input shape.
             for i, data in enumerate(self.dataloader):
+
+                # Record the start time for the current shape.
                 tic = time.time()
-                # Get only the input partial shape data without ground truth for multiclass.
+
+                # Get only the input partial shape data for multiclass.
                 unused, partial, index = data
+
+                # Ground truth is not used.
                 gt = None
 
                 # Using only diversity mode for multiclass.
@@ -147,44 +153,72 @@ class Trainer(object):
                 # Reset the generator for each new input shape.
                 self.model.reset_G(pcd_id=index.item())
 
-                # Set the input partial shape and output shape.
-                # Ground truth is set to 'None' for multiclass above.
+                # Set the input partial shape. No ground truth is used.
                 self.model.set_target(gt=gt, partial=partial)
 
                 # Search for initial value of latent space 'z'.
                 self.model.diversity_search()
 
                 # Perform fine tuning using input partial shape only.
+                # Append input partial shape to a list of point clouds for that respective shape.
                 pcd_ls = [partial.unsqueeze(0)]
+
+                # Specify the list of labels for the input partial and its completed shapes.
                 flag_ls = ['input']
 
+                # For each latent space distribution found through diversity search.
                 for ith, z in enumerate(self.model.zs):
+
+                    # Reset the generator before completing the same input partial differently.
                     self.model.reset_G(pcd_id=index.item())
+
+                    # Set the input partial shape. No ground truth is used.
                     self.model.set_target(gt=gt, partial=partial)
+
+                    # Latent space variable set for run function below.
                     self.model.z.data = z.data
-                    self.model.run(ith=ith)
+
+                    # Generate a shape from each latent space.
+                    self.model.run(ith=ith, classes_chosen=classes_chosen)
+
+                    # Append generated shape to the list of completed shapes.
                     self.model.xs.append(self.model.x)
+
+                    # Append the labels for the completed shapes to a list for identification.
                     flag_ls.append(str(ith))
+
+                    # Append completed point clouds to the list with its respective input partial.
                     pcd_ls.append(self.model.x)
 
+                # For visualization of results if flag is specified.
                 if self.args.visualize:
+
+                    # Specify the output filename and directory path.
                     output_stem = str(index.item())
                     output_dir = self.args.save_inversion_path + '_visual'
 
+                    # Set visualization layout based on number of figures to display.
                     if self.args.n_outputs <= 10:
                         layout = (3,4)
                     elif self.args.n_outputs <= 20:
                         layout = (4,6)
                     else:
                         layout = (6,9)
+
+                    # Plot the figures.
                     draw_any_set(flag_ls, pcd_ls, output_dir, output_stem, layout=layout)
 
+                    # Once all input shapes have been completed.
                     if self.rank == 0:
+
+                        # Record the stop time for the current shape.
                         toc = time.time()
                         print(i ,'out of',len(self.dataloader),'done in ',int(toc-tic),'s')
+
+                        # Record the start time.
                         tic = time.time()
 
-            print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<,rank',self.rank,'completed>>>>>>>>>>>>>>>>>>>>>>')
+            print('<<<<<<<<<<<<<<<<<<<<<<<,multiclass rank',self.rank,'completed>>>>>>>>>>>>>>>>>>')
 
         # If multiclass parameters are not specified.
         else:

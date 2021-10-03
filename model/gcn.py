@@ -49,6 +49,7 @@ class TreeGCN(nn.Module):
     def forward(self, tree):
         batch_size = tree[0].shape[0] 
         root = 0
+        
         # ancestor term
         for inx in range(self.depth+1):
             root_num = tree[inx].size(1)
@@ -57,6 +58,7 @@ class TreeGCN(nn.Module):
             root = root + root_node.repeat(1,1,repeat_num).view(batch_size,-1,self.out_feature)
             # after reshape, for node = 2, 
         branch = 0
+        
         if self.upsample:
             branch = tree[-1].unsqueeze(2) @ self.W_branch 
             branch = self.leaky_relu(branch)
@@ -67,7 +69,6 @@ class TreeGCN(nn.Module):
             branch = root.repeat(1,1,self.degree).view(batch_size,-1,self.out_feature) + branch
         else:
             branch = self.W_loop(tree[-1])
-
             branch = root + branch
 
         if self.activation:
