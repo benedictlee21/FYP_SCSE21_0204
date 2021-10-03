@@ -150,7 +150,12 @@ class ShapeInversion(object):
 
                 # Store the latent space into a list and pass it to the generator.
                 tree = [self.z]
-                x = self.G(tree, classes_chosen)
+
+                # If multiclass mode is selected.
+                if classes_chosen is not None:
+                    x = self.G(tree, classes_chosen)
+                else:
+                    x = self.G(tree)
 
                 # Perform masking.
                 x_map = self.pre_process(x,stage=stage)

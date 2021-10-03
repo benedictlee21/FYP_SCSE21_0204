@@ -66,8 +66,10 @@ class Generator(nn.Module):
 
         if classes_chosen is not None:
             print('treegan_network.py: Generator forward classes chosen:', classes_chosen)
+            feat = self.gcn(tree, classes_chosen)
+        else:
+            feat = self.gcn(tree)
 
-        feat = self.gcn(tree)
         self.pointcloud = feat[-1]
         return self.pointcloud
 
