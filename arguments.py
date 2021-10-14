@@ -10,7 +10,8 @@ from utils.common_utils import *
 class Arguments:
     def __init__(self, stage='pretrain'):
         self._parser = argparse.ArgumentParser(description='Arguments for pretain|inversion|eval_treegan|eval_completion.')
-        
+        print('\n\nBEGIN EXECUTION\n')
+
         if stage == 'eval_completion':
             print('Evaluation of results.')
             self.add_eval_completion_args()

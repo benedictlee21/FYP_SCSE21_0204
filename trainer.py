@@ -35,6 +35,8 @@ class Trainer(object):
         save_inversion_dirname = args.save_inversion_path.split('/')
         log_pathname = './logs/'+save_inversion_dirname[-1]+'.txt'
         args.log_pathname = log_pathname
+
+        # Instantiate the shape inversion model.
         self.model = ShapeInversion(self.args)
 
         if self.inversion_mode == 'morphing':
@@ -77,6 +79,8 @@ class Trainer(object):
         - simulate_pfnet: complete partial shapes, where partial shapes are randomly
             made from complete shapes following PF-Net
         """
+        print()
+
         if self.inversion_mode in ['reconstruction', 'completion', 'jittering','simulate_pfnet']:
             print('Training mode for reconstruction, completion, jittering, simulate pfnet.')
             self.train()
@@ -105,9 +109,7 @@ class Trainer(object):
             # Convert multiclass name inputs to lowercase.
             for index in range(len(target_classes)):
                 target_classes[index] = target_classes[index].lower()
-
-            num_target_classes = len(target_classes)
-            print('Multiclass - number of classes: ({}): {}'.format(num_target_classes, target_classes))
+            print('trainer.py: train_multiclass - number of classes: ({}): {}'.format(len(target_classes), target_classes))
 
             # Dictionary to hold class name and integer indexes.
             class_index_dict = {

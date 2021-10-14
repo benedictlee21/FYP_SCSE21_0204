@@ -34,12 +34,12 @@ class ShapeInversion(object):
         self.G_lrs = self.args.G_lrs
         self.z_lrs = self.args.z_lrs
         self.select_num = self.args.select_num
-
         self.loss_log = []
 
-        # create model
-        self.G = Generator(features=args.G_FEAT, degrees=args.DEGREE, support=args.support,args=self.args).cuda()
-        self.D = Discriminator(features=args.D_FEAT).cuda()
+        # Create the model including generator and discriminator.
+        # Pass the chosen classes to them.
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = args.class_range, args = self.args).cuda()
+        self.D = Discriminator(features = args.D_FEAT, classes_chosen = args.class_range).cuda()
 
         self.G.optim = torch.optim.Adam(
             [{'params': self.G.get_params(i)}
@@ -122,9 +122,9 @@ class ShapeInversion(object):
         self.checkpoint_flags.append('target')
         self.checkpoint_pcd.append(self.target)
 
-    def run(self, ith=-1, classes_chosen=None):
+    def run(self, ith = -1, classes_chosen = None):
 
-        print('shape_inversion.py: run - one hot chosen classes:', classes_chosen)
+        print('\nshape_inversion.py: run - one hot chosen classes:', classes_chosen)
 
         loss_dict = {}
         curr_step = 0

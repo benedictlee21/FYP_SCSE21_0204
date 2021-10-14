@@ -33,9 +33,7 @@ class TreeGCN(nn.Module):
 
         if activation:
             self.bias = nn.Parameter(torch.FloatTensor(1, self.degree, self.out_feature))
-
         self.leaky_relu = nn.LeakyReLU(negative_slope=0.2)
-
         self.init_param()
 
     def init_param(self):
@@ -46,11 +44,7 @@ class TreeGCN(nn.Module):
         if self.activation:
             self.bias.data.uniform_(-stdv, stdv)
 
-    def forward(self, tree, classes_chosen = None):
-
-        if classes_chosen is not None:
-            print('gcn.py: forward - classes chosen:', classes_chosen)
-
+    def forward(self, tree):
         batch_size = tree[0].shape[0]
         root = 0
         # ancestor term
@@ -59,10 +53,11 @@ class TreeGCN(nn.Module):
             repeat_num = int(self.node / root_num)
             root_node = self.W_root[inx](tree[inx])
             root = root + root_node.repeat(1,1,repeat_num).view(batch_size,-1,self.out_feature)
-            # after reshape, for node = 2, 
+            # after reshape, for node = 2,
         branch = 0
+
         if self.upsample:
-            branch = tree[-1].unsqueeze(2) @ self.W_branch 
+            branch = tree[-1].unsqueeze(2) @ self.W_branch
             branch = self.leaky_relu(branch)
             branch = branch.view(batch_size,self.node*self.degree,self.in_feature)
             # loop term
@@ -71,7 +66,6 @@ class TreeGCN(nn.Module):
             branch = root.repeat(1,1,self.degree).view(batch_size,-1,self.out_feature) + branch
         else:
             branch = self.W_loop(tree[-1])
-
             branch = root + branch
 
         if self.activation:

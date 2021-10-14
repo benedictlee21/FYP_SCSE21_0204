@@ -3,11 +3,14 @@ import torch.nn as nn
 import torch.nn.functional as F
 # from layers.gcn import TreeGCN
 from model.gcn import TreeGCN
-
 from math import ceil
 
 class Discriminator(nn.Module):
-    def __init__(self, features,version=0):
+    def __init__(self, features, classes_chosen=None, version=0):
+
+        if multi_class is not None:
+            print('treegan_network.py: Discriminator initialization - classes chosen:', classes_chosen)
+
         self.layer_num = len(features)-1
         super(Discriminator, self).__init__()
 
@@ -16,7 +19,6 @@ class Discriminator(nn.Module):
             self.fc_layers.append(nn.Conv1d(features[inx], features[inx+1], kernel_size=1, stride=1))
 
         self.leaky_relu = nn.LeakyReLU(negative_slope=0.2)
-
         self.final_layer = nn.Sequential(
                     nn.Linear(features[-1], 128),
                     nn.LeakyReLU(negative_slope=0.2),
@@ -28,7 +30,7 @@ class Discriminator(nn.Module):
     def forward(self, f, classes_chosen = None):
 
         if classes_chosen is not None:
-            print('treegan_network.py: Discriminator forward classes chosen:', classes_chosen)
+            print('treegan_network.py: Discriminator forward - classes chosen:', classes_chosen)
 
         feat = f.transpose(1,2)
         vertex_num = feat.size(2)
@@ -42,7 +44,11 @@ class Discriminator(nn.Module):
 
 
 class Generator(nn.Module):
-    def __init__(self,features,degrees,support,args=None):
+    def __init__(self,features, degrees, support, classes_chosen = None, args = None):
+
+        if classes_chosen is not None:
+            print('treegan_network.py: Generator initialization - classes chosen:', classes_chosen)
+
         self.layer_num = len(features)-1
         assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
         self.pointcloud = None
@@ -65,8 +71,8 @@ class Generator(nn.Module):
     def forward(self, tree, classes_chosen = None):
 
         if classes_chosen is not None:
-            print('treegan_network.py: Generator forward classes chosen:', classes_chosen)
-            feat = self.gcn(tree, classes_chosen)
+            print('treegan_network.py: Generator forward - classes chosen:', classes_chosen)
+            feat = self.gcn(tree)
         else:
             feat = self.gcn(tree)
 
