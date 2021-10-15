@@ -13,6 +13,7 @@ from utils.common_utils import *
 from loss import *
 from evaluation.pointnet import *
 import time
+from perform_one_hot_encoding import perform_one_hot_encoding
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
 
 class ShapeInversion(object):
@@ -38,8 +39,8 @@ class ShapeInversion(object):
 
         # Create the model including generator and discriminator.
         # Pass the chosen classes to them.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = args.class_range, args = self.args).cuda()
-        self.D = Discriminator(features = args.D_FEAT, classes_chosen = args.class_range).cuda()
+        self.G = Generator(features=args.G_FEAT, degrees=args.DEGREE, support=args.support, classes_chosen=args.class_range, args=self.args).cuda()
+        self.D = Discriminator(features=args.D_FEAT, classes_chosen=args.class_range).cuda()
 
         self.G.optim = torch.optim.Adam(
             [{'params': self.G.get_params(i)}
@@ -122,7 +123,7 @@ class ShapeInversion(object):
         self.checkpoint_flags.append('target')
         self.checkpoint_pcd.append(self.target)
 
-    def run(self, ith = -1, classes_chosen = None):
+    def run(self, ith=-1, classes_chosen=None):
 
         print('\nshape_inversion.py: run - one hot chosen classes:', classes_chosen)
 

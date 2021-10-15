@@ -17,6 +17,7 @@ from utils.common_utils import *
 from utils.inversion_dist import *
 from loss import *
 from shape_inversion import ShapeInversion
+from perform_one_hot_encoding import perform_one_hot_encoding
 from model.treegan_network import Generator, Discriminator
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
 
@@ -102,38 +103,10 @@ class Trainer(object):
     def train_multiclass(self):
 
         if args.class_range is not None:
-
-            # Read in list of classes that ShapeInversion should try to complete a partial input as.
-            target_classes = args.class_range.split(',')
-
-            # Convert multiclass name inputs to lowercase.
-            for index in range(len(target_classes)):
-                target_classes[index] = target_classes[index].lower()
-            print('trainer.py: train_multiclass - number of classes: ({}): {}'.format(len(target_classes), target_classes))
-
-            # Dictionary to hold class name and integer indexes.
-            class_index_dict = {
-                "chair":0,
-                "table":1,
-                "couch":2,
-                "cabinet":3,
-                "lamp":4,
-                "car":5,
-                "plane":6,
-                "watercraft":7
-            }
-
-            # Assign one hot indexes based on selected classes.
-            classes_chosen = [0,0,0,0,0,0,0,0]
-
-            for index in target_classes:
-                for entry in class_index_dict.keys():
-                    if index == entry:
-                        classes_chosen[class_index_dict[entry]] = 1
-
             # Convert the one hot encoding list into an array, representing the classes.
-            classes_chosen = numpy.array(classes_chosen)
-            print('trainer.py: train_multiclass - one hot chosen classes:')
+            classes_chosen = perform_one_hot_encoding(args.class_range)
+            
+            print('\ntrainer.py: train_multiclass - one hot chosen classes:')
             print('<chair, table, couch, cabinet, lamp, car, plane, watercraft>')
             print(classes_chosen)
 
@@ -181,7 +154,7 @@ class Trainer(object):
                     self.model.z.data = z.data
 
                     # Generate a shape from each latent space.
-                    self.model.run(ith=ith, classes_chosen=classes_chosen)
+                    self.model.run(ith = ith, classes_chosen = classes_chosen)
 
                     # Append generated shape to the list of completed shapes.
                     self.model.xs.append(self.model.x)

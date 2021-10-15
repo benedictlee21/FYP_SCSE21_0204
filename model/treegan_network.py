@@ -4,11 +4,13 @@ import torch.nn.functional as F
 # from layers.gcn import TreeGCN
 from model.gcn import TreeGCN
 from math import ceil
+from perform_one_hot_encoding import perform_one_hot_encoding
 
 class Discriminator(nn.Module):
     def __init__(self, features, classes_chosen=None, version=0):
 
-        if multi_class is not None:
+        if classes_chosen is not None:
+            classes_chosen = perform_one_hot_encoding(classes_chosen)
             print('treegan_network.py: Discriminator initialization - classes chosen:', classes_chosen)
 
         self.layer_num = len(features)-1
@@ -47,6 +49,7 @@ class Generator(nn.Module):
     def __init__(self,features, degrees, support, classes_chosen = None, args = None):
 
         if classes_chosen is not None:
+            classes_chosen = perform_one_hot_encoding(classes_chosen)
             print('treegan_network.py: Generator initialization - classes chosen:', classes_chosen)
 
         self.layer_num = len(features)-1
