@@ -142,17 +142,17 @@ class ShapeInversion(object):
                 self.G_scheduler.update(curr_step, self.args.G_lrs[stage])
                 self.z_scheduler.update(curr_step, self.args.z_lrs[stage])
 
-                # Perform forward propagation.
                 # Reset all latent space optimizer model weights to zero.
                 self.z_optim.zero_grad()
 
+                # If updating the generator stage, reset all generator optimizer weights to zero.
                 if self.update_G_stages[stage]:
                     self.G.optim.zero_grad()
 
                 # Store the latent space into a list and pass it to the generator.
                 tree = [self.z]
 
-                # If multiclass mode is selected.
+                # If multiclass mode is selected, pass the one hot encoded vector to the generator.
                 if classes_chosen is not None:
                     x = self.G(tree, classes_chosen)
                 else:
@@ -163,7 +163,6 @@ class ShapeInversion(object):
 
                 # Compute losses.
                 ftr_loss = self.criterion(self.ftr_net, x_map, self.target)
-
                 dist1, dist2 , _, _ = distChamfer(x_map, self.target)
                 cd_loss = dist1.mean() + dist2.mean()
 

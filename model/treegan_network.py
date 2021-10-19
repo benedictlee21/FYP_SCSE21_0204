@@ -7,16 +7,15 @@ from math import ceil
 from perform_one_hot_encoding import perform_one_hot_encoding
 
 class Discriminator(nn.Module):
-    def __init__(self, features, classes_chosen=None, version=0):
+    def __init__(self, features, classes_chosen = None, version=0):
 
         if classes_chosen is not None:
-            classes_chosen = perform_one_hot_encoding(classes_chosen)
             print('treegan_network.py: Discriminator initialization - classes chosen:', classes_chosen)
 
         self.layer_num = len(features)-1
         super(Discriminator, self).__init__()
-
         self.fc_layers = nn.ModuleList([])
+
         for inx in range(self.layer_num):
             self.fc_layers.append(nn.Conv1d(features[inx], features[inx+1], kernel_size=1, stride=1))
 
@@ -44,12 +43,10 @@ class Discriminator(nn.Module):
         out = self.final_layer(out1) # (B, 1)
         return out,out1
 
-
 class Generator(nn.Module):
-    def __init__(self,features, degrees, support, classes_chosen = None, args = None):
+    def __init__(self, features, degrees, support, classes_chosen = None, args = None):
 
         if classes_chosen is not None:
-            classes_chosen = perform_one_hot_encoding(classes_chosen)
             print('treegan_network.py: Generator initialization - classes chosen:', classes_chosen)
 
         self.layer_num = len(features)-1

@@ -1,14 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
 from data.CRN_dataset import CRNShapeNet
 from model.treegan_network import Generator, Discriminator
 from model.gradient_penalty import GradientPenalty
 from evaluation.FPD import calculate_fpd
-
 from arguments import Arguments
-
+from perform_one_hot_encoding import perform_one_hot_encoding
 import time
 import numpy as np
 from loss import *
@@ -21,31 +19,40 @@ class TreeGAN():
     def __init__(self, args):
         self.args = args
         
-        ### dataset
+        # If multiclass pretraining is specified.
+        if args.class_range is not None:
+            # Convert the one hot encoding list into an array, representing the classes.
+            classes_chosen = perform_one_hot_encoding(args.class_range)
+            
+            print('pretrain_treegan.py: TreeGAN - classes chosen:', classes_chosen)
+        
+        # Load the dataset.
         self.data = CRNShapeNet(args)
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=16)
         print("Training Dataset : {} prepared.".format(len(self.data)))
         
-        ### Model
-        self.G = Generator(features=args.G_FEAT, degrees=args.DEGREE, support=args.support,args=self.args).to(args.device)
-        self.D = Discriminator(features=args.D_FEAT).to(args.device)             
+        # Define the generator and discriminator models.
+        # Pass in the chosen classes if multiclass is specified.
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = classes_chosen, args=self.args).to(args.device)
+        self.D = Discriminator(features = args.D_FEAT, classes_chosen = classes_chosen).to(args.device)             
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
         self.optimizerD = optim.Adam(self.D.parameters(), lr=args.lr, betas=(0, 0.99))
         self.GP = GradientPenalty(args.lambdaGP, gamma=1, device=args.device)
        
-        ### uniform losses
+        # Calculate uniform losses.
         if self.args.expansion_penality:
             # MSN
             self.expansion = expansionPenaltyModule()
+            
         if self.args.krepul_loss:
             # PU-net
             self.krepul_loss = kNNRepulsionLoss(k=self.args.krepul_k,n_seeds=self.args.krepul_n_seeds,h=self.args.krepul_h)
+            
         if self.args.knn_loss:
             # PatchVariance
             self.knn_loss = kNNLoss(k=self.args.knn_k,n_seeds=self.args.knn_n_seeds)
 
         print("Network prepared.")
-
         # ----------------------------------------------------------------------------------------------------- #
         if len(args.w_train_ls) == 1:
             self.w_train_ls = args.w_train_ls * 4
@@ -55,34 +62,34 @@ class TreeGAN():
     def run(self, save_ckpt=None, load_ckpt=None):        
 
         epoch_log = 0
-        
         loss_log = {'G_loss': [], 'D_loss': []}
         loss_legend = list(loss_log.keys())
-
         metric = {'FPD': []}
+        
         if load_ckpt is not None:
             checkpoint = torch.load(load_ckpt, map_location=self.args.device)
             self.D.load_state_dict(checkpoint['D_state_dict'])
             self.G.load_state_dict(checkpoint['G_state_dict'])
 
             epoch_log = checkpoint['epoch']
-
             loss_log['G_loss'] = checkpoint['G_loss']
             loss_log['D_loss'] = checkpoint['D_loss']
             loss_legend = list(loss_log.keys())
-
             metric['FPD'] = checkpoint['FPD']
             
             print("Checkpoint loaded.")
-        # parallel after loading
+            
+        # Enable data parallelism after loading.
         self.G = nn.DataParallel(self.G)
         self.D = nn.DataParallel(self.D)
         
         for epoch in range(epoch_log, self.args.epochs):
+            print('Starting epoch:', epoch)
             epoch_g_loss = []
             epoch_d_loss = []
             epoch_time = time.time()
             self.w_train = self.w_train_ls[min(3,int(epoch/500))]
+            
             for _iter, data in enumerate(self.dataLoader):
                 # Start Time
                 start_time = time.time()
@@ -119,23 +126,23 @@ class TreeGAN():
                 toc = time.time()
                 # ---------------------- Generator ---------------------- #
                 self.G.zero_grad()
-                
                 z = torch.randn(point.shape[0], 1, 96).to(self.args.device)
             
                 tree = [z]
-                
                 fake_point = self.G(tree)
                 G_fake, _ = self.D(fake_point)
-                
                 G_fakem = G_fake.mean()
                 g_loss = -G_fakem
+                
                 if self.args.expansion_penality:
                     dist, _, mean_mst_dis = self.expansion(fake_point,self.args.expan_primitive_size,self.args.expan_alpha)
                     expansion = torch.mean(dist)
                     g_loss = -G_fakem + self.args.expan_scalar * expansion
+                
                 if self.args.krepul_loss: 
                     krepul_loss = self.krepul_loss(fake_point)
                     g_loss = -G_fakem + self.args.krepul_scalar * krepul_loss
+                
                 if self.args.knn_loss:
                     knn_loss = self.knn_loss(fake_point)
                     g_loss = -G_fakem + self.args.knn_scalar * knn_loss
@@ -149,6 +156,7 @@ class TreeGAN():
                 tac = time.time()
                 # --------------------- Visualization -------------------- #
                 verbose = None
+                
                 if verbose is not None:
                     print("[Epoch/Iter] ", "{:3} / {:3}".format(epoch, _iter),
                         "[ D_Loss ] ", "{: 7.6f}".format(d_loss), 
@@ -203,5 +211,6 @@ if __name__ == '__main__':
     SAVE_CHECKPOINT = args.ckpt_path + args.ckpt_save if args.ckpt_save is not None else None
     LOAD_CHECKPOINT = args.ckpt_load if args.ckpt_load is not None else None
     # print(args)
+    
     model = TreeGAN(args)
     model.run(save_ckpt=SAVE_CHECKPOINT, load_ckpt=LOAD_CHECKPOINT)

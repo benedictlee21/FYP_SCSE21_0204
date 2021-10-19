@@ -46,11 +46,15 @@ class Arguments:
         ### others
         self._parser.add_argument('--FPD_path', type=str, default='./evaluation/pre_statistics_chair.npz', help='Statistics file path to evaluate FPD metric. (default:all_class)')
         self._parser.add_argument('--gpu', type=int, default=0, help='GPU number to use.')
-        self._parser.add_argument('--ckpt_load', type=str, default='pretrained_models/chair.pt', help='Checkpoint name to load. (default:None)')
+        # path to pretrained .pt model can be specified here.
+        self._parser.add_argument('--ckpt_load', type=str, default=None, help='Checkpoint name to load. (default:None)')
     
     def add_pretrain_args(self):
+        # multiclass completion related
+        self._parser.add_argument('--class_range', type=str, default=None, help='Classes for multiclass diversity completion, classes separated by commas only.')
+        
         ### general training related
-        # Original batch size value is 128.
+        # original batch size is 128.
         self._parser.add_argument('--batch_size', type=int, default=2, help='128 for cabinet, lamp, sofa, and boat due to smaller amounts; you can set up to 512 for plane, car, chair, and table')
         self._parser.add_argument('--epochs', type=int, default=2000, help='Integer value for epochs.')
         self._parser.add_argument('--lr', type=float, default=1e-4, help='Float value for learning rate.')
