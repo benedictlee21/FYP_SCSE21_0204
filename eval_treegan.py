@@ -1,15 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-
 from data.CRN_dataset import CRNShapeNet
 from model.treegan_network import Generator, Discriminator
 from model.gradient_penalty import GradientPenalty
 from evaluation.FPD import calculate_fpd, calculate_activation_statistics
-
 from metrics import *
 from loss import *
-
 from evaluation.pointnet import PointNetCls
 from math import ceil
 import argparse
