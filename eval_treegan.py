@@ -43,7 +43,6 @@ def generate_pcs(model_cuda,n_pcs=5000,batch_size=50,device=None):
         with torch.no_grad():
             sample = model_cuda(tree).cpu()
         fake_pcs = torch.cat((fake_pcs, sample), dim=0)
-    
     return fake_pcs
 
 def create_fpd_stats(pcs, pathname_save, device):
@@ -137,4 +136,4 @@ if __name__ == '__main__':
     if args.eval_treegan_mode == "generate_fpd_stats":
         script_create_fpd_stats(args)
     else:
-        test(args,mode=args.eval_treegan_mode)
+        test(args,mode=args.eval_treegan_mode)    

@@ -30,18 +30,7 @@ class TreeGAN():
             classes_chosen = None
 
         # Load the dataset.
-        if classes_chosen is not None:
-            #self.data = CRNShapeNet(args)
-            
-            # Create a list with 'len(classes_chosen)' number of elements of value 5000.
-            class_ratio = [5000] * len(classes_chosen)
-            
-            # Load the multiclass dataset.
-            self.data = load_multiclass_dataset(dataset_path = args.dataset_path, num_points = 5000, uniform = None, classes_chosen = classes_chosen, ratio = class_ratio)
-            
-        else:
-            self.data = CRNShapeNet(args)
-            
+        self.data = CRNShapeNet(args, classes_chosen)    
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=16)
         print("Training Dataset : {} prepared.".format(len(self.data)))
 
@@ -49,21 +38,25 @@ class TreeGAN():
         # Pass in the chosen classes if multiclass is specified.
         self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = classes_chosen, args=self.args).to(args.device)
         self.D = Discriminator(features = args.D_FEAT, classes_chosen = classes_chosen).to(args.device)
+        
+        # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
         self.optimizerD = optim.Adam(self.D.parameters(), lr=args.lr, betas=(0, 0.99))
+        
+        # Define the calculation of gradient penalty.
         self.GP = GradientPenalty(args.lambdaGP, gamma=1, device=args.device)
 
-        # Calculate uniform losses.
+        # Calculate unifrom losses.
+        # Expansion penalty.
         if self.args.expansion_penality:
-            # MSN
             self.expansion = expansionPenaltyModule()
 
+        # PU-Net using Krepul loss.
         if self.args.krepul_loss:
-            # PU-net
             self.krepul_loss = kNNRepulsionLoss(k=self.args.krepul_k,n_seeds=self.args.krepul_n_seeds,h=self.args.krepul_h)
 
+        # PatchVariance using knn_loss.
         if self.args.knn_loss:
-            # PatchVariance
             self.knn_loss = kNNLoss(k=self.args.knn_k,n_seeds=self.args.knn_n_seeds)
 
         print("Network prepared.")
