@@ -4,14 +4,16 @@ import torch.nn.functional as F
 # from layers.gcn import TreeGCN
 from model.gcn import TreeGCN
 from math import ceil
-from perform_one_hot_encoding import perform_one_hot_encoding
 
 class Discriminator(nn.Module):
     def __init__(self, features, classes_chosen = None, version=0):
 
         if classes_chosen is not None:
             print('treegan_network.py: Discriminator initialization - classes chosen:', classes_chosen)
-            print('\nDiscriminator operating in multiclass conditional mode.')
+            print('Discriminator operating in multiclass conditional mode.')
+                    
+            # Need to add the number of multiclass classes to the last value of the discriminator features list.
+            features[-1] += len(classes_chosen)
 
         self.layer_num = len(features)-1
         super(Discriminator, self).__init__()
@@ -21,9 +23,6 @@ class Discriminator(nn.Module):
             self.fc_layers.append(nn.Conv1d(features[inx], features[inx+1], kernel_size=1, stride=1))
 
         self.leaky_relu = nn.LeakyReLU(negative_slope=0.2)
-        
-        # Need to add the number of multiclass classes to the last value of the discriminator features list.
-        features[-1] += len(classes_chosen)
         
         self.final_layer = nn.Sequential(
                     nn.Linear(features[-1], 128),
@@ -46,18 +45,23 @@ class Discriminator(nn.Module):
             feat = self.leaky_relu(feat)
         out = F.max_pool1d(input=feat, kernel_size=vertex_num).squeeze(-1)
         
-        # Concatenate the multiclass labels with the completed shape.
-        out_concat = torch.cat((out, classes_chosen.squeeze(1)), -1)
+        if classes_chosen is not None:
+            # Concatenate the multiclass labels with the completed shape.
+            out = torch.cat((out, classes_chosen.squeeze(1)), -1)
         
-        out_concat = self.final_layer(out_concat) # (B, 1)
-        return out_concat, out
+        out1 = self.final_layer(out) # (B, 1)
+        return out1, out
 
 class Generator(nn.Module):
     def __init__(self, features, degrees, support, classes_chosen = None, args = None):
 
         if classes_chosen is not None:
             print('treegan_network.py: Generator initialization - classes chosen:', classes_chosen)
-            print('\nGenerator operating in conditional multiclass mode.')
+            print('Generator operating in conditional multiclass mode.')
+            
+            # First value in generator features list corresponds to the number of dimensions of the latent space.
+            # Need to add the number of multiclass classes to this value.
+            features[0] += len(classes_chosen)
 
         self.layer_num = len(features)-1
         assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
@@ -66,10 +70,6 @@ class Generator(nn.Module):
 
         vertex_num = 1
         self.gcn = nn.Sequential()
-        
-        # First value in generator features list corresponds to the number of dimensions of the latent space.
-        # Need to add the number of multiclass classes to this value.
-        features[0] += len(classes_chosen)
         
         for inx in range(self.layer_num):
             # NOTE last layer activation False

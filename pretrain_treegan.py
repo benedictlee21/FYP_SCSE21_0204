@@ -6,8 +6,6 @@ from model.treegan_network import Generator, Discriminator
 from model.gradient_penalty import GradientPenalty
 from evaluation.FPD import calculate_fpd
 from arguments import Arguments
-from perform_one_hot_encoding import perform_one_hot_encoding
-from load_multiclass_dataset import load_multiclass_dataset
 import time
 import numpy as np
 from loss import *
@@ -22,22 +20,29 @@ class TreeGAN():
 
         # If multiclass pretraining is specified.
         if args.class_range is not None:
-            # Convert the one hot encoding list into an array, representing the classes.
-            classes_chosen = perform_one_hot_encoding(args.class_range)
+            
+            # Split the input string by the delimiter into a list of multiclass categories.
+            self.classes_chosen = args.class_range.split(',')
+            
+            # Convert multiclass name inputs to lowercase.
+            for index in range(len(self.classes_chosen)):
+                self.classes_chosen[index] = self.classes_chosen[index].lower()
 
-            print('pretrain_treegan.py: TreeGAN - classes chosen:', classes_chosen)
+            print('pretrain_treegan.py: __init__ - classes chosen:', self.classes_chosen)
+        
+        # Otherwise if only using a single class.
         else:
-            classes_chosen = None
+            self.classes_chosen = None
 
         # Load the dataset.
-        self.data = CRNShapeNet(args, classes_chosen)    
+        self.data = CRNShapeNet(args, self.classes_chosen)    
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=16)
         print("Training Dataset : {} prepared.".format(len(self.data)))
 
         # Define the generator and discriminator models.
         # Pass in the chosen classes if multiclass is specified.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = classes_chosen, args=self.args).to(args.device)
-        self.D = Discriminator(features = args.D_FEAT, classes_chosen = classes_chosen).to(args.device)
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = self.classes_chosen, args=self.args).to(args.device)
+        self.D = Discriminator(features = args.D_FEAT, classes_chosen = self.classes_chosen).to(args.device)
         
         # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
@@ -89,9 +94,15 @@ class TreeGAN():
         # Enable data parallelism after loading.
         self.G = nn.DataParallel(self.G)
         self.D = nn.DataParallel(self.D)
+        
+        # Prepare the number of dimensions for the latent space for the network.
+        if self.classes_chosen is not None:
+            latent_space_dim = 96 + len(self.classes_chosen)
+        else:
+            latent_space_dim = 96
 
         for epoch in range(epoch_log, self.args.epochs):
-            print('Starting epoch:', epoch)
+            print('Starting epoch:', epoch + 1)
             epoch_g_loss = []
             epoch_d_loss = []
             epoch_time = time.time()
@@ -107,7 +118,7 @@ class TreeGAN():
                 tic = time.time()
                 for d_iter in range(self.args.D_iter):
                     self.D.zero_grad()
-                    z = torch.randn(point.shape[0], 1, 96).to(self.args.device)
+                    z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                     tree = [z]
 
                     with torch.no_grad():
@@ -132,7 +143,7 @@ class TreeGAN():
                 toc = time.time()
                 # ---------------------- Generator ---------------------- #
                 self.G.zero_grad()
-                z = torch.randn(point.shape[0], 1, 96).to(self.args.device)
+                z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
 
                 tree = [z]
                 fake_point = self.G(tree)
@@ -164,7 +175,7 @@ class TreeGAN():
                 verbose = None
 
                 if verbose is not None:
-                    print("[Epoch/Iter] ", "{:3} / {:3}".format(epoch, _iter),
+                    print("[Epoch/Iter] ", "{:3} / {:3}".format(epoch + 1, _iter),
                         "[ D_Loss ] ", "{: 7.6f}".format(d_loss),
                         "[ G_Loss ] ", "{: 7.6f}".format(g_loss),
                         "[ Time ] ", "{:4.2f}s".format(time.time()-start_time),
@@ -175,7 +186,7 @@ class TreeGAN():
             d_loss_mean = np.array(epoch_d_loss).mean()
             g_loss_mean = np.array(epoch_g_loss).mean()
 
-            print("[Epoch] ", "{:3}".format(epoch),
+            print("[Epoch] ", "{:3}".format(epoch + 1),
                 "[ D_Loss ] ", "{: 7.6f}".format(d_loss_mean),
                 "[ G_Loss ] ", "{: 7.6f}".format(g_loss_mean),
                 "[ Time ] ", "{:.2f}s".format(time.time()-epoch_time))
@@ -183,23 +194,23 @@ class TreeGAN():
 
             ### call abstracted eval, which includes FPD
             if self.args.eval_every_n_epoch > 0:
-                if epoch % self.args.eval_every_n_epoch == 0 :
+                if epoch + 1 % self.args.eval_every_n_epoch == 0 :
                     checkpoint_eval(self.G, self.args.device, n_samples=5000, batch_size=100,conditional=False, ratio='even', FPD_path=self.args.FPD_path,class_choices=self.args.class_choice)
 
             # ---------------------- Save checkpoint --------------------- #
-            if epoch % self.args.save_every_n_epoch == 0 and not save_ckpt == None:
+            if epoch + 1 % self.args.save_every_n_epoch == 0 and not save_ckpt == None:
                 if len(args.class_choice) == 1:
                     class_name = args.class_choice[0]
                 else:
                     class_name = 'multi'
                 torch.save({
-                        'epoch': epoch,
+                        'epoch': epoch + 1,
                         'D_state_dict': self.D.module.state_dict(),
                         'G_state_dict': self.G.module.state_dict(),
                         'D_loss': loss_log['D_loss'],
                         'G_loss': loss_log['G_loss'],
                         'FPD': metric['FPD']
-                }, save_ckpt+str(epoch)+'_'+class_name+'.pt')
+                }, save_ckpt+str(epoch + 1)+'_'+class_name+'.pt')
 
 if __name__ == '__main__':
 
