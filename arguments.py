@@ -55,7 +55,7 @@ class Arguments:
         # original batch size is 128, set to 4 to prevent 'out of cuda memory' error
         # original epoch count is 2000, set to lower value for debugging
         self._parser.add_argument('--batch_size', type=int, default=4, help='128 for cabinet, lamp, sofa, and boat due to smaller amounts; you can set up to 512 for plane, car, chair, and table')
-        self._parser.add_argument('--epochs', type=int, default=1000, help='Integer value for epochs.')
+        self._parser.add_argument('--epochs', type=int, default=500, help='Integer value for epochs.')
         self._parser.add_argument('--lr', type=float, default=1e-4, help='Float value for learning rate.')
         self._parser.add_argument('--lambdaGP', type=int, default=10, help='Lambda for GP term.')
         self._parser.add_argument('--D_iter', type=int, default=5, help='Number of iterations for discriminator.')
@@ -85,8 +85,8 @@ class Arguments:
         # default evaluation and save is once per 10 epochs.
         self._parser.add_argument('--ckpt_path', type=str, default='./pretrain_checkpoints/chair', help='Checkpoint path.')
         self._parser.add_argument('--ckpt_save', type=str, default='tree_ckpt_', help='Checkpoint name to save.')
-        self._parser.add_argument('--eval_every_n_epoch', type=int, default=5, help='0 means never eval')
-        self._parser.add_argument('--save_every_n_epoch', type=int, default=5, help='save models every n epochs')
+        self._parser.add_argument('--eval_every_n_epoch', type=int, default=1, help='0 means never eval')
+        self._parser.add_argument('--save_every_n_epoch', type=int, default=1, help='save models every n epochs')
 
     def add_inversion_args(self):
         # multiclass completion related

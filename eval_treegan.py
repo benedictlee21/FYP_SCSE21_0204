@@ -29,7 +29,7 @@ def save_pcs_to_txt(save_dir, fake_pcs):
     for i in range(sample_size):
         np.savetxt(osp.join(save_dir,str(i)+'.txt'), fake_pcs[i], fmt = "%f;%f;%f")  
 
-def generate_pcs(model_cuda,n_pcs=5000,batch_size=50,device=None):
+def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, latent_space_dim = 96):
     """
     generate fake pcs for evaluation
     """
@@ -38,7 +38,7 @@ def generate_pcs(model_cuda,n_pcs=5000,batch_size=50,device=None):
     n_batches = ceil(n_pcs/batch_size)
 
     for i in range(n_batches):
-        z = torch.randn(batch_size, 1, 96).to(device)
+        z = torch.randn(batch_size, 1, latent_space_dim).to(device)
         tree = [z]
         with torch.no_grad():
             sample = model_cuda(tree).cpu()
@@ -79,13 +79,13 @@ def script_create_fpd_stats(args, data2stats='CRN'):
     create_fpd_stats(ref_pcs,pathname_save, args.device)
     
 @timeit
-def checkpoint_eval(G_net, device, n_samples=5000, batch_size=100,conditional=False, ratio='even', FPD_path=None, class_choices=None):
+def checkpoint_eval(G_net, device, n_samples = 5000, batch_size = 100,conditional = False, ratio = 'even', FPD_path = None, class_choices = None, latent_space_dim = 96):
     """
     an abstraction used during training
     """
     G_net.eval()
-    fake_pcs = generate_pcs(G_net,n_pcs=n_samples,batch_size=batch_size,device=device)
-    fpd = calculate_fpd(fake_pcs, statistic_save_path=FPD_path, batch_size=100, dims=1808, device=device)
+    fake_pcs = generate_pcs(G_net, n_pcs = n_samples, batch_size = batch_size, device = device, latent_space_dim = latent_space_dim)
+    fpd = calculate_fpd(fake_pcs, statistic_save_path = FPD_path, batch_size = 100, dims = 1808, device = device)
     # print(fpd)
     print('----------------------------------------- Frechet Pointcloud Distance <<< {:.2f} >>>'.format(fpd))
 

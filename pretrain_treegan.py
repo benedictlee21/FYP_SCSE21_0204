@@ -35,7 +35,7 @@ class TreeGAN():
             self.classes_chosen = None
 
         # Load the dataset.
-        self.data = CRNShapeNet(args, self.classes_chosen)    
+        self.data = CRNShapeNet(args, self.classes_chosen)
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=16)
         print("Training Dataset : {} prepared.".format(len(self.data)))
 
@@ -100,6 +100,7 @@ class TreeGAN():
             latent_space_dim = 96 + len(self.classes_chosen)
         else:
             latent_space_dim = 96
+        #latent_space_dim = 96
 
         for epoch in range(epoch_log, self.args.epochs):
             print('Starting epoch:', epoch + 1)
@@ -194,23 +195,25 @@ class TreeGAN():
 
             ### call abstracted eval, which includes FPD
             if self.args.eval_every_n_epoch > 0:
-                if epoch + 1 % self.args.eval_every_n_epoch == 0 :
-                    checkpoint_eval(self.G, self.args.device, n_samples=5000, batch_size=100,conditional=False, ratio='even', FPD_path=self.args.FPD_path,class_choices=self.args.class_choice)
+                if (epoch + 1) % self.args.eval_every_n_epoch == 0 :
+                    # Ensure that the number of samples taken is smaller than the number of training shapes per epoch.
+                    checkpoint_eval(self.G, self.args.device, n_samples = 5000, batch_size = 100, conditional = False, ratio = 'even', FPD_path = self.args.FPD_path, class_choices = self.args.class_choice, latent_space_dim = latent_space_dim)
 
             # ---------------------- Save checkpoint --------------------- #
-            if epoch + 1 % self.args.save_every_n_epoch == 0 and not save_ckpt == None:
-                if len(args.class_choice) == 1:
-                    class_name = args.class_choice[0]
-                else:
-                    class_name = 'multi'
-                torch.save({
-                        'epoch': epoch + 1,
-                        'D_state_dict': self.D.module.state_dict(),
-                        'G_state_dict': self.G.module.state_dict(),
-                        'D_loss': loss_log['D_loss'],
-                        'G_loss': loss_log['G_loss'],
-                        'FPD': metric['FPD']
-                }, save_ckpt+str(epoch + 1)+'_'+class_name+'.pt')
+            if self.args.save_every_n_epoch > 0:
+                if (epoch + 1) % self.args.save_every_n_epoch == 0 and not save_ckpt == None:
+                    if len(args.class_choice) == 1:
+                        class_name = args.class_choice[0]
+                    else:
+                        class_name = 'multi'
+                    torch.save({
+                            'epoch': epoch + 1,
+                            'D_state_dict': self.D.module.state_dict(),
+                            'G_state_dict': self.G.module.state_dict(),
+                            'D_loss': loss_log['D_loss'],
+                            'G_loss': loss_log['G_loss'],
+                            'FPD': metric['FPD']
+                    }, save_ckpt+str(epoch + 1)+'_'+class_name+'.pt')
 
 if __name__ == '__main__':
 

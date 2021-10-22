@@ -17,7 +17,6 @@ from utils.common_utils import *
 from utils.inversion_dist import *
 from loss import *
 from shape_inversion import ShapeInversion
-from perform_one_hot_encoding import perform_one_hot_encoding
 from model.treegan_network import Generator, Discriminator
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
 
@@ -28,11 +27,12 @@ class Trainer(object):
         
         if args.class_range is not None:
             # Convert the one hot encoding list into an array, representing the classes.
-            classes_chosen = perform_one_hot_encoding(args.class_range)
-            
-            print('\ntrainer.py: train_multiclass - one hot chosen classes:')
-            print('<chair, table, couch, cabinet, lamp, car, plane, watercraft>')
-            print(classes_chosen)
+            classes_chosen = args.class_range.split(',')
+
+            # Convert multiclass inputs to lowercase.
+            for index in range(len(classes_chosen)):
+                classes_chosen[index] = classes_chosen[index].lower()
+            print('\ntrainer.py: __init__ classes chosen:', classes_chosen)
 
         if self.args.dist:
             self.rank = dist.get_rank()

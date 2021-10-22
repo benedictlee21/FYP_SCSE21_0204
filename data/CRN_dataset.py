@@ -65,7 +65,7 @@ class CRNShapeNet(data.Dataset):
                 # Need to reduce the training set size.
                 # Take only 1000 out of 5750 sample shapes for training.
                 self.one_class_index = self.one_class_index.tolist()
-                self.one_class_index = random.sample(self.one_class_index, 1000)
+                self.one_class_index = random.sample(self.one_class_index, 500)
                 
                 # Append all the indexes from each class into a master list.
                 for index in self.one_class_index:
@@ -76,6 +76,7 @@ class CRNShapeNet(data.Dataset):
             #np.random.seed(0)
             random.shuffle(self.index_list)
             #print('CRN multiclass shuffled index list:', self.index_list)
+            self.index_list = np.array(self.index_list)
             print('Multiclass index list length:', len(self.index_list))
             
         # Import shapes from input dataset for single class.
