@@ -26,23 +26,13 @@ class Trainer(object):
     def __init__(self, args):
         self.args = args
         
-        # If multiclass pretraining is specified.
         if args.class_range is not None:
             # Convert the one hot encoding list into an array, representing the classes.
-            #classes_chosen = perform_one_hot_encoding(args.class_range)
+            classes_chosen = perform_one_hot_encoding(args.class_range)
             
-            # Split the input string by the delimiter into a list of multiclass categories.
-            classes_chosen = class_range.split(',')
-            
-            # Convert multiclass name inputs to lowercase.
-            for index in range(len(classes_chosen)):
-                classes_chosen[index] = classes_chosen[index].lower()
-            
-            print('\ntrainer.py: __init__ - classes chosen:', classes_chosen)
-        
-        # Otherwise if only using a single class.
-        else:
-            classes_chosen = None
+            print('\ntrainer.py: train_multiclass - one hot chosen classes:')
+            print('<chair, table, couch, cabinet, lamp, car, plane, watercraft>')
+            print(classes_chosen)
 
         if self.args.dist:
             self.rank = dist.get_rank()

@@ -22,20 +22,10 @@ class TreeGAN():
 
         # If multiclass pretraining is specified.
         if args.class_range is not None:
-        
             # Convert the one hot encoding list into an array, representing the classes.
-            #classes_chosen = perform_one_hot_encoding(args.class_range)
-            
-            # Split the input string by the delimiter into a list of multiclass categories.
-            classes_chosen = args.class_range.split(',')
-            
-            # Convert multiclass name inputs to lowercase.
-            for index in range(len(classes_chosen)):
-                classes_chosen[index] = classes_chosen[index].lower()
+            classes_chosen = perform_one_hot_encoding(args.class_range)
 
-            print('pretrain_treegan.py: __init__ - classes chosen:', classes_chosen)
-        
-        # Otherwise if only using a single class.
+            print('pretrain_treegan.py: TreeGAN - classes chosen:', classes_chosen)
         else:
             classes_chosen = None
 

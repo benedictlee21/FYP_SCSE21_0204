@@ -34,6 +34,8 @@ def perform_one_hot_encoding(class_range = None):
 
         # # Convert the one hot encoding list into an array, representing the classes.
         # classes_chosen = numpy.array(classes_chosen)
+        
+        print('Type:', type(target_classes))
         return target_classes
 
 # Do not allow this python function to run as standalone.
