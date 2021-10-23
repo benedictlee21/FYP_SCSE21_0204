@@ -7,5 +7,6 @@ python pretrain_treegan.py \
 --dataset_path ./input_shapes/shapenet_crn_dataset \
 --class_range chair,table \
 --epochs 500 \
+--samples_per_class 500 \
 --eval_every_n_epoch 1 \
 --save_every_n_epoch 1

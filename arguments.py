@@ -52,6 +52,8 @@ class Arguments:
 
     def add_pretrain_args(self):
         ### general training related
+        self._parser.add_argument('--samples_per_class', type=int, default=1000, help='number of shapes per class to use for pretraining')
+        
         # original batch size is 128, set to 4 to prevent 'out of cuda memory' error
         # original epoch count is 2000, set to lower value for debugging
         self._parser.add_argument('--batch_size', type=int, default=4, help='128 for cabinet, lamp, sofa, and boat due to smaller amounts; you can set up to 512 for plane, car, chair, and table')

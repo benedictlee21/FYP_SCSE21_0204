@@ -65,7 +65,9 @@ class CRNShapeNet(data.Dataset):
                 # Need to reduce the training set size.
                 # Take only 1000 out of 5750 sample shapes for training.
                 self.one_class_index = self.one_class_index.tolist()
-                self.one_class_index = random.sample(self.one_class_index, 500)
+                
+                # Get input argument for the number of samples per class to use for multiclass pretraining.
+                self.one_class_index = random.sample(self.one_class_index, self.args.samples_per_class)
                 
                 # Append all the indexes from each class into a master list.
                 for index in self.one_class_index:
