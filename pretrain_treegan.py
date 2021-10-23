@@ -221,8 +221,8 @@ if __name__ == '__main__':
     args.device = torch.device('cuda:'+str(args.gpu) if torch.cuda.is_available() else 'cpu')
     torch.cuda.set_device(args.device)
 
-    if not osp.isdir('./pretrain_checkpoints'):
-        os.mkdir('./pretrain_checkpoints')
+    if not osp.isdir('./pretrained_checkpoints'):
+        os.mkdir('./pretrained_checkpoints')
         print('pretrain_checkpoints parent directory created.')
 
     if not osp.isdir(args.ckpt_path):

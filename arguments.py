@@ -28,6 +28,9 @@ class Arguments:
                 self.add_eval_treegan_args()
 
     def add_common_args(self):
+        # multiclass related
+        self._parser.add_argument('--class_range', type=str, default=None, help='Classes for multiclass diversity completion, classes separated by commas only.')
+    
         ### data related
         self._parser.add_argument('--class_choice', type=str, default='chair', help='plane|cabinet|car|chair|lamp|couch|table|watercraft')
         self._parser.add_argument('--dataset', type=str, default='CRN', help='CRN|MatterPort|ScanNet|KITTI|PartNet|PFNet')
@@ -42,15 +45,12 @@ class Arguments:
         self._parser.add_argument('--loop_non_linear', default=False, type=lambda x: (str(x).lower() == 'true'))
 
         ### others
-        self._parser.add_argument('--FPD_path', type=str, default='./evaluation/pre_statistics_chair.npz', help='Statistics file path to evaluate FPD metric. (default:all_class)')
+        self._parser.add_argument('--FPD_path', type=str, default='./evaluation/pre_statistics_CRN_chair.npz', help='Statistics file path to evaluate FPD metric. (default:all_class)')
         self._parser.add_argument('--gpu', type=int, default=0, help='GPU number to use.')
         # path to pretrained .pt model can be specified here.
         self._parser.add_argument('--ckpt_load', type=str, default=None, help='Checkpoint name to load. (default:None)')
 
     def add_pretrain_args(self):
-        # multiclass completion related
-        self._parser.add_argument('--class_range', type=str, default=None, help='Classes for multiclass diversity completion, classes separated by commas only.')
-
         ### general training related
         # original batch size is 128, set to 4 to prevent 'out of cuda memory' error
         # original epoch count is 2000, set to lower value for debugging
@@ -89,9 +89,6 @@ class Arguments:
         self._parser.add_argument('--save_every_n_epoch', type=int, default=1, help='save models every n epochs')
 
     def add_inversion_args(self):
-        # multiclass completion related
-        self._parser.add_argument('--class_range', type=str, default=None, help='Classes for multiclass diversity completion, classes separated by commas only.')
-
         ### loss related
         self._parser.add_argument('--w_nll', type=float, default=0.001, help='Weight for the negative log-likelihood loss (default: %(default)s)')
         self._parser.add_argument('--p2f_chamfer', action='store_true', default=False, help='partial to full chamfer distance')
@@ -145,10 +142,12 @@ class Arguments:
         self._parser.add_argument('--visualize', action='store_true', default=False, help='')
 
     def add_eval_completion_args(self):
+        self._parser.add_argument('--multiclass', type = str2bool, default=0, help='true if using multiclass, otherwise false')
         self._parser.add_argument('--eval_with_GT', type=str2bool, default=0, help='if eval on real scans, choose false')
         self._parser.add_argument('--saved_results_path', type=str, required=True, help='path of saved_results for evaluation')
 
     def add_eval_treegan_args(self):
+        self._parser.add_argument('--multiclass', type = str2bool, default=0, help='true if using multiclass, otherwise false')
         self._parser.add_argument('--eval_treegan_mode', type=str, default='FPD', help='MMD|FPD|save|generate_fpd_stats')
         self._parser.add_argument('--save_sample_path',required=True, help='dir to save generated point clouds')
         self._parser.add_argument('--model_pathname', type=str, required=True, help='pathname of the model to evaluate')

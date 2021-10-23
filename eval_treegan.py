@@ -62,12 +62,24 @@ def create_fpd_stats(pcs, pathname_save, device):
 def script_create_fpd_stats(args, data2stats='CRN'):
     """
     create stats of training data for eval FPD, calling create_fpd_stats()
+    
+    multiclass models should only be evaluated using one single class at a time
     """    
     if data2stats == 'CRN':
         dataset = CRNShapeNet(args)
+        
+        # Retrieve the data from the dataset for evaluation.
         dataLoader = torch.utils.data.DataLoader(dataset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=8)
 
-        pathname_save = './evaluation/pre_statistics_CRN_'+args.class_choice+'.npz' 
+        # If the argument specifying use of multiclass model is True.
+        if args.multiclass:
+            print('Multiclass model FPD evaluation for:', args.class_choice)
+            
+            # Append the name 'multi' to the saved file.
+            pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '_multi.npz' 
+        else:
+            print('Single class model being evaluated:', args.class_choice)
+            pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '.npz' 
     else:
         raise NotImplementedError
 
