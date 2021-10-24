@@ -69,17 +69,7 @@ def script_create_fpd_stats(args, classes_chosen, data2stats='CRN'):
         # Retrieve the data from the dataset for evaluation.
         dataLoader = torch.utils.data.DataLoader(dataset, batch_size = args.batch_size, shuffle = True, pin_memory = True, num_workers = 8)
 
-        # If a multiclass model is being evaluated.
-        if classes_chosen is not None:
-            print('Multiclass model FPD evaluation for:', args.class_choice)
-            
-            # Append the name 'multi' to the saved file.
-            pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '_multiclass.npz'
-            
-        # Otherwise if only a single class model is being evaluated.
-        else:
-            print('Single class model being evaluated:', args.class_choice)
-            pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '.npz' 
+        pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '.npz'
     else:
         raise NotImplementedError
 
@@ -109,6 +99,7 @@ def test(args, mode = 'FPD', classes_chosen = None, verbose = True):
         model pth, , points to save, save pth, npz for the class, 
     '''
     # Instantiate an instance of the generator.
+    print('eval_treegan.py: test - classes chosen:', classes_chosen)
     G_net = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = classes_chosen, args = args).to(args.device)
 
     # Loading of specified model checkpoint.

@@ -205,7 +205,7 @@ class TreeGAN():
                     if len(args.class_choice) == 1:
                         class_name = args.class_choice[0]
                     else:
-                        class_name = 'multi'
+                        class_name = 'multiclass'
                     torch.save({
                             'epoch': epoch + 1,
                             'D_state_dict': self.D.module.state_dict(),

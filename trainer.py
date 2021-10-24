@@ -27,6 +27,7 @@ class Trainer(object):
         
         if args.class_range is not None:
             # Convert the one hot encoding list into an array, representing the classes.
+            print('class range data type:', type(class_range))
             classes_chosen = args.class_range.split(',')
 
             # Convert multiclass inputs to lowercase.

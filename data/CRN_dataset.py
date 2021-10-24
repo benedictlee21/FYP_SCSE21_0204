@@ -86,7 +86,7 @@ class CRNShapeNet(data.Dataset):
             print('Multiclass index list length:', len(self.index_list))
             
         # Import shapes from input dataset for single class.
-        else:
+        elif self.class_choice != 'multiclass':
             # Obtain a single category ID corresponding to the single class.
             category_id = category_ordered_list.index(self.class_choice.lower())
             #print('CRN_dataset single category ID:', cat_id)

@@ -8,6 +8,13 @@ from utils.common_utils import *
 class Arguments:
     def __init__(self, stage='pretrain'):
         self._parser = argparse.ArgumentParser(description='Arguments for pretain|inversion|eval_treegan|eval_completion.')
+        
+        # Executable files:
+        # eval_completion.py    (Evaluate completed shapes.)
+        # eval_treegan.py       (Evaluate treeGAN network.)
+        # pretrain_treegan.py   (Train the treeGAN using training dataset.)
+        # trainer.py            (Test the treeGAN using test dataset.)
+        
         print('\n\nBEGIN EXECUTION\n')
 
         if stage == 'eval_completion':
@@ -32,7 +39,7 @@ class Arguments:
         self._parser.add_argument('--class_range', type=str, default=None, help='Classes for multiclass diversity completion, classes separated by commas only.')
     
         ### data related
-        self._parser.add_argument('--class_choice', type=str, default='chair', help='plane|cabinet|car|chair|lamp|couch|table|watercraft')
+        self._parser.add_argument('--class_choice', type=str, default='chair', help='plane|cabinet|car|chair|lamp|couch|table|watercraft|multiclass')
         self._parser.add_argument('--dataset', type=str, default='CRN', help='CRN|MatterPort|ScanNet|KITTI|PartNet|PFNet')
         self._parser.add_argument('--dataset_path', type=str, required=True, help='Dataset path is required')
         self._parser.add_argument('--split', type=str, default='test', help='NOTE: train if pretrain and generate_fpd_stats; test otherwise')
@@ -150,7 +157,7 @@ class Arguments:
 
     def add_eval_treegan_args(self):
         self._parser.add_argument('--eval_treegan_mode', type=str, default='FPD', help='MMD|FPD|save|generate_fpd_stats')
-        self._parser.add_argument('--save_sample_path',required=True, help='dir to save generated point clouds')
+        self._parser.add_argument('--save_sample_path',type=str, required=True, help='dir to save generated point clouds')
         self._parser.add_argument('--model_pathname', type=str, required=True, help='pathname of the model to evaluate')
         # Original batch size value is 50.
         self._parser.add_argument('--batch_size', type=int, default=25, help='Integer value for batch size.')
@@ -158,4 +165,3 @@ class Arguments:
 
     def parser(self):
         return self._parser
-
