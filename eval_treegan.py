@@ -59,24 +59,24 @@ def create_fpd_stats(pcs, pathname_save, device):
     print('fpd stats saved into:', pathname_save)
 
 @timeit
-def script_create_fpd_stats(args, data2stats='CRN'):
+def script_create_fpd_stats(args, classes_chosen, data2stats='CRN'):
     """
     create stats of training data for eval FPD, calling create_fpd_stats()
-    
-    multiclass models should only be evaluated using one single class at a time
     """    
     if data2stats == 'CRN':
-        dataset = CRNShapeNet(args)
+        dataset = CRNShapeNet(args, classes_chosen = classes_chosen, is_eval = True)
         
         # Retrieve the data from the dataset for evaluation.
-        dataLoader = torch.utils.data.DataLoader(dataset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=8)
+        dataLoader = torch.utils.data.DataLoader(dataset, batch_size = args.batch_size, shuffle = True, pin_memory = True, num_workers = 8)
 
-        # If the argument specifying use of multiclass model is True.
-        if args.multiclass:
+        # If a multiclass model is being evaluated.
+        if classes_chosen is not None:
             print('Multiclass model FPD evaluation for:', args.class_choice)
             
             # Append the name 'multi' to the saved file.
-            pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '_multi.npz' 
+            pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '_multiclass.npz'
+            
+        # Otherwise if only a single class model is being evaluated.
         else:
             print('Single class model being evaluated:', args.class_choice)
             pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '.npz' 
@@ -102,17 +102,28 @@ def checkpoint_eval(G_net, device, n_samples = 5000, batch_size = 100,conditiona
     print('----------------------------------------- Frechet Pointcloud Distance <<< {:.2f} >>>'.format(fpd))
 
 @timeit
-def test(args, mode='FPD', verbose=True):
+def test(args, mode = 'FPD', classes_chosen = None, verbose = True):
     '''
     args needed: 
         n_classes, pcs to generate, ratio of each class, class to id dict???
         model pth, , points to save, save pth, npz for the class, 
     '''
-    G_net = Generator(features=args.G_FEAT, degrees=args.DEGREE, support=args.support,args=args).to(args.device)
+    # Instantiate an instance of the generator.
+    G_net = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = classes_chosen, args = args).to(args.device)
+
+    # Loading of specified model checkpoint.
     checkpoint = torch.load(args.model_pathname, map_location=args.device)
     G_net.load_state_dict(checkpoint['G_state_dict'])
     G_net.eval()
-    fake_pcs = generate_pcs(G_net,n_pcs=args.n_samples,batch_size=args.batch_size,device=args.device)
+    
+    # If multiclass is selected, add the number of classes to the latent space dimensions.
+    if classes_chosen is not None:
+        latent_space_dim = 96 + len(classes_chosen)
+    else:
+        latent_space_dim = 96
+    
+    fake_pcs = generate_pcs(G_net, n_pcs = args.n_samples, batch_size = args.batch_size, device = args.device, latent_space_dim = latent_space_dim)
+    
     if mode == 'save':
         save_pcs_to_txt(args.save_sample_path, fake_pcs)
     elif mode == 'FPD':
@@ -143,9 +154,27 @@ if __name__ == '__main__':
     args = Arguments(stage='eval_treegan').parser().parse_args()
     args.device = torch.device('cuda')
 
+    # Ensure that a valid evalutation mode is specified.
     assert args.eval_treegan_mode in ["MMD", "FPD", "save", "generate_fpd_stats"]
     
-    if args.eval_treegan_mode == "generate_fpd_stats":
-        script_create_fpd_stats(args)
+    # If multiclass pretraining is specified.
+    if args.class_range is not None:
+        
+        # Split the input string by the delimiter into a list of multiclass categories.
+        classes_chosen = args.class_range.split(',')
+            
+        # Convert multiclass name inputs to lowercase.
+        for index in range(len(classes_chosen)):
+            classes_chosen[index] = classes_chosen[index].lower()
+
+        print('eval_treegan.py: main - classes chosen:', classes_chosen)
+        
+    # Otherwise if only using a single class.
     else:
-        test(args,mode=args.eval_treegan_mode)    
+        classes_chosen = None
+    
+    # Perform the evaluation.
+    if args.eval_treegan_mode == "generate_fpd_stats":
+        script_create_fpd_stats(args, classes_chosen)        
+    else:
+        test(args, mode = args.eval_treegan_mode, classes_chosen = classes_chosen)

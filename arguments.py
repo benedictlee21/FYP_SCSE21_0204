@@ -52,7 +52,8 @@ class Arguments:
 
     def add_pretrain_args(self):
         ### general training related
-        self._parser.add_argument('--samples_per_class', type=int, default=1000, help='number of shapes per class to use for pretraining')
+        # CRN dataset used contains 5750 shapes per class.
+        self._parser.add_argument('--samples_per_class', type=int, default=5750, help='number of shapes per class to use for pretraining')
         
         # original batch size is 128, set to 4 to prevent 'out of cuda memory' error
         # original epoch count is 2000, set to lower value for debugging
@@ -144,12 +145,10 @@ class Arguments:
         self._parser.add_argument('--visualize', action='store_true', default=False, help='')
 
     def add_eval_completion_args(self):
-        self._parser.add_argument('--multiclass', type = str2bool, default=0, help='true if using multiclass, otherwise false')
         self._parser.add_argument('--eval_with_GT', type=str2bool, default=0, help='if eval on real scans, choose false')
         self._parser.add_argument('--saved_results_path', type=str, required=True, help='path of saved_results for evaluation')
 
     def add_eval_treegan_args(self):
-        self._parser.add_argument('--multiclass', type = str2bool, default=0, help='true if using multiclass, otherwise false')
         self._parser.add_argument('--eval_treegan_mode', type=str, default='FPD', help='MMD|FPD|save|generate_fpd_stats')
         self._parser.add_argument('--save_sample_path',required=True, help='dir to save generated point clouds')
         self._parser.add_argument('--model_pathname', type=str, required=True, help='pathname of the model to evaluate')

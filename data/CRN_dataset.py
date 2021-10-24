@@ -12,7 +12,7 @@ class CRNShapeNet(data.Dataset):
     Dataset with GT and partial shapes provided by CRN
     Used for shape completion and pre-training tree-GAN
     """
-    def __init__(self, args, classes_chosen = None):
+    def __init__(self, args, classes_chosen = None, is_eval = False):
         self.args = args
         self.classes_chosen = classes_chosen
         self.dataset_path = self.args.dataset_path
@@ -61,13 +61,17 @@ class CRNShapeNet(data.Dataset):
                 print('Category index:', self.category_id_list[count])
                 print('Shape indexes:', self.one_class_index)
                 count += 1
-                    
-                # Need to reduce the training set size.
-                # Take only 1000 out of 5750 sample shapes for training.
+                
+                # Convert the numpy array into a list before sampling.
                 self.one_class_index = self.one_class_index.tolist()
                 
-                # Get input argument for the number of samples per class to use for multiclass pretraining.
-                self.one_class_index = random.sample(self.one_class_index, self.args.samples_per_class)
+                # May need to reduce the training dataset size for pretraining.
+                # Use the full test dataset size for evaluation.
+                if not is_eval:
+                    print('Pretraining - randomly sampling', self.args.samples_per_class, 'out of 5750 shapes per class')
+                    
+                    # Get input argument for the number of samples per class to use for multiclass pretraining.
+                    self.one_class_index = random.sample(self.one_class_index, self.args.samples_per_class)
                 
                 # Append all the indexes from each class into a master list.
                 for index in self.one_class_index:
