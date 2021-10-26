@@ -18,6 +18,7 @@ import os
 import copy
 from utils.common_utils import *
 from arguments import Arguments
+from one_hot_encoding import one_hot_encode_classes
 
 def save_pcs_to_txt(save_dir, fake_pcs):
     """
@@ -151,13 +152,9 @@ if __name__ == '__main__':
     # If multiclass pretraining is specified.
     if args.class_range is not None:
         
-        # Split the input string by the delimiter into a list of multiclass categories.
-        classes_chosen = args.class_range.split(',')
-            
-        # Convert multiclass name inputs to lowercase.
-        for index in range(len(classes_chosen)):
-            classes_chosen[index] = classes_chosen[index].lower()
-
+        # Convert the one hot encoding list into an array, representing the classes.
+        classes_chosen = one_hot_encode_classes(args.class_range)
+        print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
         print('eval_treegan.py: main - classes chosen:', classes_chosen)
         
     # Otherwise if only using a single class.

@@ -35,32 +35,56 @@ class CRNShapeNet(data.Dataset):
 
         # Import shapes from input dataset for multiclass.
         if classes_chosen is not None:
-            self.category_id_list = []
+        
+            # Perform remapping of input class list to match the dataset class index:
+            consolidated_classes = np.array([0] * len(category_ordered_list))
+            remapped_classes = np.array([0] * len(category_ordered_list))
             
-            # For each class category chosen:
-            for each_class in classes_chosen:
+            # Compile all the indexes with '1' in them into a single array for multiclass training.
+            for sub_array in classes_chosen:
+                for index in range(len(sub_array)):
+                    if sub_array[index] == 1:
+                        consolidated_classes[index] = 1
+            print('Consolidated array:', consolidated_classes)
             
-                # If the class is one of the valid categories.
-                if each_class in category_ordered_list:
+            # Mapping: Input index > Output index
+            # Chair: 0 > 3
+            # Table: 1 > 6
+            # Couch: 2 > 5
+            # Cabinet: 3 > 1
+            # Lamp: 4 > 4
+            # Car: 5 > 2
+            # Plane: 6 > 0
+            # Watercraft: 7 > 7
+            
+            # Perform remapping of all selected class indexes to the training dataset indexes:
+            remapped_classes[3] = consolidated_classes[0]
+            remapped_classes[6] = consolidated_classes[1]
+            remapped_classes[5] = consolidated_classes[2]
+            remapped_classes[1] = consolidated_classes[3]
+            remapped_classes[4] = consolidated_classes[4]
+            remapped_classes[2] = consolidated_classes[5]
+            remapped_classes[0] = consolidated_classes[6]
+            remapped_classes[7] = consolidated_classes[7]
+            
+            print('Input: chair, table, couch, cabinet, lamp, car, plane, watercraft ->', classes_chosen)
+            print('REMAPPED TO:')
+            print('Output:', category_ordered_list, '->', remapped_classes)
+            self.category_indexes = []
+            
+            # For each class category chosen, append its index to the list.
+            for index in range(len(remapped_classes)):
+                if remapped_classes[index] == 1:
+                    self.category_indexes.append(index)
+            
+            print('CRN_dataset multiclass category ID list by index:', self.category_indexes)
+            
+            for index in self.category_indexes:
+                self.one_class_index = np.array([shape for (shape, class_index) in enumerate(self.labels) if class_index == index])
                 
-                    # Append the indexes of the chosen classes to a list.
-                    # Convert the classes chosen to lowercase before comparison.
-                    self.category_id_list.append(category_ordered_list.index(each_class.lower()))
-            
-            print('CRN_dataset multiclass category ID list by index:', self.category_id_list)
-            
-            # Master list of lists to hold all the indexes of all the classes for multiclass pretraining.
-            self.index_list = []
-            count = 0
-            
-            # Obtain the indexes of each class for all classes being used for multiclass pretraining.
-            for each_class in self.category_id_list:
-                self.one_class_index = np.array([i for (i, j) in enumerate(self.labels) if j == self.category_id_list[count]])
-                
-                # View the indexes for each individual class in the numpy array.
-                print('Category index:', self.category_id_list[count])
+                # View the indexes and shapes for each individual class used in multiclass.
+                print('Category index:', index)
                 print('Shape indexes:', self.one_class_index)
-                count += 1
                 
                 # Convert the numpy array into a list before sampling.
                 self.one_class_index = self.one_class_index.tolist()
@@ -74,6 +98,8 @@ class CRNShapeNet(data.Dataset):
                     self.one_class_index = random.sample(self.one_class_index, self.args.samples_per_class)
                 
                 # Append all the indexes from each class into a master list.
+                self.index_list = []
+                
                 for index in self.one_class_index:
                     self.index_list.append(index)
             
@@ -82,6 +108,7 @@ class CRNShapeNet(data.Dataset):
             #np.random.seed(0)
             random.shuffle(self.index_list)
             #print('CRN multiclass shuffled index list:', self.index_list)
+            
             self.index_list = np.array(self.index_list)
             print('Multiclass index list length:', len(self.index_list))
             
@@ -91,7 +118,7 @@ class CRNShapeNet(data.Dataset):
             category_id = category_ordered_list.index(self.class_choice.lower())
             #print('CRN_dataset single category ID:', cat_id)
         
-            # Extract all the shapes from the input dataset that match the selected single class.
+            # Extract all the shapes from the training dataset that match the single class index.
             self.index_list = np.array([i for (i, j) in enumerate(self.labels) if j == category_id ])
         
             #print('CRN Single class index list:', self.index_list)

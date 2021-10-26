@@ -13,6 +13,7 @@ from metrics import *
 import os
 import os.path as osp
 from eval_treegan import checkpoint_eval
+from one_hot_encoding import one_hot_encode_classes
 
 class TreeGAN():
     def __init__(self, args):
@@ -21,20 +22,17 @@ class TreeGAN():
         # If multiclass pretraining is specified.
         if args.class_range is not None:
             
-            # Split the input string by the delimiter into a list of multiclass categories.
-            self.classes_chosen = args.class_range.split(',')
-            
-            # Convert multiclass name inputs to lowercase.
-            for index in range(len(self.classes_chosen)):
-                self.classes_chosen[index] = self.classes_chosen[index].lower()
-
-            print('pretrain_treegan.py: __init__ - classes chosen:', self.classes_chosen)
+            # Convert the one hot encoding list into an array, representing the classes.
+            self.classes_chosen = one_hot_encode_classes(args.class_range)
+            print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
+            print('pretrain_treegan.py: __init__ classes chosen:', self.classes_chosen)
         
         # Otherwise if only using a single class.
         else:
             self.classes_chosen = None
 
-        # Load the dataset.
+        # Load the dataset. Reduce the number of workers here if the data loading process freezes.
+        # Original number of workers is 16.
         self.data = CRNShapeNet(args, self.classes_chosen)
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=16)
         print("Training Dataset : {} prepared.".format(len(self.data)))

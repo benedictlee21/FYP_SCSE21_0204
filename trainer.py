@@ -19,6 +19,7 @@ from loss import *
 from shape_inversion import ShapeInversion
 from model.treegan_network import Generator, Discriminator
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
+from one_hot_encoding import one_hot_encode_classes
 
 class Trainer(object):
 
@@ -27,13 +28,9 @@ class Trainer(object):
         
         if args.class_range is not None:
             # Convert the one hot encoding list into an array, representing the classes.
-            print('class range data type:', type(class_range))
-            classes_chosen = args.class_range.split(',')
-
-            # Convert multiclass inputs to lowercase.
-            for index in range(len(classes_chosen)):
-                classes_chosen[index] = classes_chosen[index].lower()
-            print('\ntrainer.py: __init__ classes chosen:', classes_chosen)
+            self.classes_chosen = one_hot_encode_classes(args.class_range)
+            print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
+            print('trainer.py: __init__ classes chosen:', self.classes_chosen)
 
         if self.args.dist:
             self.rank = dist.get_rank()
@@ -155,7 +152,7 @@ class Trainer(object):
                 self.model.z.data = z.data
 
                 # Generate a shape from each latent space.
-                self.model.run(ith = ith, classes_chosen = classes_chosen)
+                self.model.run(ith = ith, classes_chosen = self.classes_chosen)
 
                 # Append generated shape to the list of completed shapes.
                 self.model.xs.append(self.model.x)
