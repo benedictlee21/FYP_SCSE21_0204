@@ -34,7 +34,7 @@ class TreeGAN():
         # Load the dataset. Reduce the number of workers here if the data loading process freezes.
         # Original number of workers is 16.
         self.data = CRNShapeNet(args, self.classes_chosen)
-        self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=16)
+        self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=8)
         print("Training Dataset : {} prepared.".format(len(self.data)))
 
         # Define the generator and discriminator models.
@@ -200,10 +200,6 @@ class TreeGAN():
             # ---------------------- Save checkpoint --------------------- #
             if self.args.save_every_n_epoch > 0:
                 if (epoch + 1) % self.args.save_every_n_epoch == 0 and not save_ckpt == None:
-                    if len(args.class_choice) == 1:
-                        class_name = args.class_choice[0]
-                    else:
-                        class_name = 'multiclass'
                     torch.save({
                             'epoch': epoch + 1,
                             'D_state_dict': self.D.module.state_dict(),
@@ -211,7 +207,7 @@ class TreeGAN():
                             'D_loss': loss_log['D_loss'],
                             'G_loss': loss_log['G_loss'],
                             'FPD': metric['FPD']
-                    }, save_ckpt+str(epoch + 1)+'_'+class_name+'.pt')
+                    }, save_ckpt + str(epoch + 1) + '_' + self.args.class_choice + '.pt')
 
 if __name__ == '__main__':
 

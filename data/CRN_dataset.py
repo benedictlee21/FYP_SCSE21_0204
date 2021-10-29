@@ -108,6 +108,7 @@ class CRNShapeNet(data.Dataset):
             random.shuffle(self.index_list)
             #print('CRN multiclass shuffled index list:', self.index_list)
             
+            # Convert the list back into a numpy array.
             self.index_list = np.array(self.index_list)
             print('Multiclass index list length:', len(self.index_list))
             
@@ -119,9 +120,15 @@ class CRNShapeNet(data.Dataset):
         
             # Extract all the shapes from the training dataset that match the single class index.
             self.index_list = np.array([i for (i, j) in enumerate(self.labels) if j == category_id ])
+            
+            # Convert the numpy array into a list before sampling.
+            self.index_list = self.index_list.tolist()
         
             # Use fewer samples for training if time or computational resources are limited.
             self.index_list = random.sample(self.index_list, self.args.samples_per_class)
+            
+            # Convert the list back into a numpy array.
+            self.index_list = np.array(self.index_list)
         
             #print('CRN Single class index list:', self.index_list)
             print('Single class index list length:', len(self.index_list))
