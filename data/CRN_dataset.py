@@ -18,11 +18,10 @@ class CRNShapeNet(data.Dataset):
         self.dataset_path = self.args.dataset_path
         self.class_choice = self.args.class_choice
         
+        print('CRN_dataset.py: __init__ - classes chosen:', classes_chosen)
+        
         # Value of string 'split' determines which '.h5' dataset file is used, either training or test.
         self.split = self.args.split
-        
-        print('CRN_dataset.py: __init__ - classes chosen:', classes_chosen)
-
         pathname = os.path.join(self.dataset_path, f'{self.split}_data.h5')
         
         data = h5py.File(pathname, 'r')
@@ -120,6 +119,9 @@ class CRNShapeNet(data.Dataset):
         
             # Extract all the shapes from the training dataset that match the single class index.
             self.index_list = np.array([i for (i, j) in enumerate(self.labels) if j == category_id ])
+        
+            # Use fewer samples for training if time or computational resources are limited.
+            self.index_list = random.sample(self.index_list, self.args.samples_per_class)
         
             #print('CRN Single class index list:', self.index_list)
             print('Single class index list length:', len(self.index_list))

@@ -44,7 +44,7 @@ class Trainer(object):
         args.log_pathname = log_pathname
 
         # Instantiate the shape inversion model.
-        self.model = ShapeInversion(self.args)
+        self.model = ShapeInversion(self.args, self.classes_chosen)
 
         if self.inversion_mode == 'morphing':
             self.model2 = ShapeInversion(self.args)
@@ -53,7 +53,8 @@ class Trainer(object):
         if self.args.dataset in ['MatterPort','ScanNet','KITTI','PartNet']:
             dataset = PlyDataset(self.args)
         else:
-            dataset = CRNShapeNet(self.args)
+            # Load the CRN dataset with the one hot encoded classes to be completed.
+            dataset = CRNShapeNet(self.args, self.classes_chosen)
         sampler = DistributedSampler(dataset) if self.args.dist else None
 
         if self.inversion_mode == 'morphing':
@@ -78,7 +79,7 @@ class Trainer(object):
         The framework support the following inversion_mode:
         - completion: complete given partial shapes in the test set
         - reconstruction: reconstruct given complete shapes
-        - jittering: change an compelte object into other plausible shapes of different geometries
+        - jittering: change a complete object into other plausible shapes of different geometries
         - morphing: interpolate between two given complete shapes
         - diversity: output multiple valid complete shapes given a single partial shape
         - ball_hole_diversity: output multiple valid complete shapes,
@@ -106,6 +107,7 @@ class Trainer(object):
         else:
             raise NotImplementedError
 
+    # Function for multiclass is adapted from the function for diversity.
     def train_multiclass(self):
 
         # For each input shape.
@@ -163,6 +165,14 @@ class Trainer(object):
                 # Append completed point clouds to the list with its respective input partial.
                 pcd_ls.append(self.model.x)
 
+            # Once all input shapes have been completed.
+            if self.rank == 0:
+
+                # Record the stop time for the current shape.
+                toc = time.time()
+                print(i ,'out of',len(self.dataloader),'done in ',int(toc-tic),'s')
+                tic = time.time()
+
             # For visualization of results if flag is specified.
             if self.args.visualize:
 
@@ -180,16 +190,6 @@ class Trainer(object):
 
                 # Plot the figures.
                 draw_any_set(flag_ls, pcd_ls, output_dir, output_stem, layout=layout)
-
-                # Once all input shapes have been completed.
-                if self.rank == 0:
-
-                    # Record the stop time for the current shape.
-                    toc = time.time()
-                    print(i ,'out of',len(self.dataloader),'done in ',int(toc-tic),'s')
-
-                    # Record the start time.
-                    tic = time.time()
 
         print('<<<<<<<<<<<<<<<<<<<<<<<,multiclass rank',self.rank,'completed>>>>>>>>>>>>>>>>>>')
 
@@ -308,6 +308,11 @@ class Trainer(object):
                 flag_ls.append(str(ith))
                 pcd_ls.append(self.model.x)
 
+            if self.rank == 0:
+                toc = time.time()
+                print(i ,'out of',len(self.dataloader),'done in ',int(toc-tic),'s')
+                tic = time.time()
+
             if self.args.visualize:
                 output_stem = str(index.item())
                 output_dir = self.args.save_inversion_path + '_visual'
@@ -318,10 +323,6 @@ class Trainer(object):
                 else:
                     layout = (6,9)
                 draw_any_set(flag_ls, pcd_ls, output_dir, output_stem, layout=layout)
-                if self.rank == 0:
-                    toc = time.time()
-                    print(i ,'out of',len(self.dataloader),'done in ',int(toc-tic),'s')
-                    tic = time.time()
 
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<,rank',self.rank,'completed>>>>>>>>>>>>>>>>>>>>>>')
 

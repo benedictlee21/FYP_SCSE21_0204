@@ -18,8 +18,10 @@ from external.ChamferDistancePytorch.chamfer_python import distChamfer, distCham
 
 class ShapeInversion(object):
 
-    def __init__(self, args):
+    def __init__(self, args, classes_chosen):
         self.args = args
+        self.classes_chosen = classes_chosen
+        print('shape_inversion.py: __init__ classes chosen:', classes_chosen)
 
         if self.args.dist:
             self.rank = dist.get_rank()
@@ -38,10 +40,10 @@ class ShapeInversion(object):
         self.loss_log = []
 
         # Create the model including generator and discriminator.
-        # Pass the chosen classes to them.
-        self.G = Generator(features=args.G_FEAT, degrees=args.DEGREE, support=args.support, classes_chosen=args.class_range, args=self.args).cuda()
-        self.D = Discriminator(features=args.D_FEAT, classes_chosen=args.class_range).cuda()
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = self.classes_chosen, args = self.args).cuda()
+        self.D = Discriminator(features = args.D_FEAT, classes_chosen = self.classes_chosen).cuda()
 
+        # Define the optimizer and its parameters.
         self.G.optim = torch.optim.Adam(
             [{'params': self.G.get_params(i)}
                 for i in range(7)],
@@ -49,6 +51,7 @@ class ShapeInversion(object):
             betas=(0,0.99),
             weight_decay=0,
             eps=1e-8)
+        
         self.z = torch.zeros((1, 1, 96)).normal_().cuda()
         self.z = Variable(self.z, requires_grad=True)
         self.z_optim = torch.optim.Adam([self.z], lr=self.args.z_lrs[0], betas=(0,0.99))
@@ -58,6 +61,8 @@ class ShapeInversion(object):
         self.G.load_state_dict(checkpoint['G_state_dict'])
         self.D.load_state_dict(checkpoint['D_state_dict'])
 
+        # Parse the expression arguments for the generator and discriminator.
+        # Evaluate those arguments as python expressions.
         self.G.eval()
         if self.D is not None:
             self.D.eval()
