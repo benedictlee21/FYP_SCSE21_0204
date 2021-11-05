@@ -38,6 +38,11 @@ class ShapeInversion(object):
         self.z_lrs = self.args.z_lrs
         self.select_num = self.args.select_num
         self.loss_log = []
+        self.latent_space_dims = 96
+        
+        # Add the required number of dimensions to the latent space based on number of classes for multiclass.
+        if classes_chosen is not None:
+            self.latent_space_dims += len(classes_chosen)
 
         # Create the model including generator and discriminator.
         self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = self.classes_chosen, args = self.args).cuda()
@@ -52,7 +57,7 @@ class ShapeInversion(object):
             weight_decay=0,
             eps=1e-8)
         
-        self.z = torch.zeros((1, 1, 96)).normal_().cuda()
+        self.z = torch.zeros((1, 1, latent_space_dims)).normal_().cuda()
         self.z = Variable(self.z, requires_grad=True)
         self.z_optim = torch.optim.Adam([self.z], lr=self.args.z_lrs[0], betas=(0,0.99))
 
@@ -157,11 +162,8 @@ class ShapeInversion(object):
                 # Store the latent space into a list and pass it to the generator.
                 tree = [self.z]
 
-                # If multiclass mode is selected, pass the one hot encoded vector to the generator.
-                if classes_chosen is not None:
-                    x = self.G(tree, classes_chosen)
-                else:
-                    x = self.G(tree)
+                # Pass the latent space representation and one hot encoded vector to the generator.
+                x = self.G(tree, classes_chosen)
 
                 # Perform masking.
                 x_map = self.pre_process(x,stage=stage)
@@ -263,7 +265,7 @@ class ShapeInversion(object):
 
         with torch.no_grad():
             for i in range(num_batch):
-                z = torch.randn(batch_size, 1, 96).cuda()
+                z = torch.randn(batch_size, 1, latent_space_dims).cuda()
                 tree = [z]
                 x = self.G(tree)
                 dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)
@@ -296,7 +298,7 @@ class ShapeInversion(object):
                 return
             z_all, y_all, loss_all = [], [], []
             for i in range(self.select_num):
-                z = torch.randn(1, 1, 96).cuda()
+                z = torch.randn(1, 1, latent_space_dims).cuda()
                 tree = [z]
                 with torch.no_grad():
                     x = self.G(tree)
