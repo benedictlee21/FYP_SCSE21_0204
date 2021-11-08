@@ -19,6 +19,8 @@ class ShapeInversion(object):
 
     def __init__(self, args, classes_chosen):
         self.args = args
+        print('shape_inversion.py: __init__ - device used:', self.args.device)
+        
         self.classes_chosen = classes_chosen
         print('shape_inversion.py: __init__ classes chosen:', classes_chosen)
 
@@ -167,7 +169,7 @@ class ShapeInversion(object):
                 tree = [self.z]
 
                 # Pass the latent space representation and one hot encoded vector to the generator.
-                x = self.G(tree, classes_chosen)
+                x = self.G(tree, classes_chosen, self.args.device)
 
                 # Perform masking.
                 x_map = self.pre_process(x,stage=stage)

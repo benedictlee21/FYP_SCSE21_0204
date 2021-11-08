@@ -98,7 +98,6 @@ class TreeGAN():
             latent_space_dim = 96 + len(self.classes_chosen)
         else:
             latent_space_dim = 96
-        #latent_space_dim = 96
 
         for epoch in range(epoch_log, self.args.epochs):
             print('Starting epoch:', epoch + 1)
@@ -120,6 +119,8 @@ class TreeGAN():
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                     tree = [z]
 
+                    # One hot encoded array for multiclass classes chosen is not
+                    # passed into the forward function of the generator during pretraining.
                     with torch.no_grad():
                         fake_point = self.G(tree)
 
@@ -146,6 +147,9 @@ class TreeGAN():
 
                 tree = [z]
                 fake_point = self.G(tree)
+                
+                # One hot encoded array for multiclass classes chosen is not
+                # passed into the forward function of the generator during pretraining.
                 G_fake, _ = self.D(fake_point)
                 G_fakem = G_fake.mean()
                 g_loss = -G_fakem

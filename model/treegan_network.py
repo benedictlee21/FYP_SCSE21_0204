@@ -1,12 +1,21 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+import torch.nn.functional as func
 # from layers.gcn import TreeGCN
 from model.gcn import TreeGCN
 from math import ceil
 
 class Discriminator(nn.Module):
     def __init__(self, features, classes_chosen = None, version=0):
+    
+        # Get the number of layers for the discriminator network.
+        self.layer_num = len(features)-1
+        
+        # For class inheritance.
+        super(Discriminator, self).__init__()
+        
+        # Create a list to hold the submodules for fully connected layers.
+        self.fc_layers = nn.ModuleList([])
 
         if classes_chosen is not None:
             print('treegan_network.py: Discriminator initialization - classes chosen:', classes_chosen)
@@ -15,15 +24,14 @@ class Discriminator(nn.Module):
             # Need to add the number of multiclass classes to the last value of the discriminator features list.
             features[-1] += len(classes_chosen)
 
-        self.layer_num = len(features)-1
-        super(Discriminator, self).__init__()
-        self.fc_layers = nn.ModuleList([])
-
+        # Append the discriminator features to each layer of the discriminator network.
         for inx in range(self.layer_num):
             self.fc_layers.append(nn.Conv1d(features[inx], features[inx+1], kernel_size=1, stride=1))
 
+        # Define the activation function.
         self.leaky_relu = nn.LeakyReLU(negative_slope=0.2)
         
+        # Define the final layer of the discriminator network.
         self.final_layer = nn.Sequential(
                     nn.Linear(features[-1], 128),
                     nn.LeakyReLU(negative_slope=0.2),
@@ -32,28 +40,47 @@ class Discriminator(nn.Module):
                     nn.Linear(64, 1),
                     nn.Sigmoid())
 
-    def forward(self, f, classes_chosen = None):
+    # Pretraining does not pass one hot encoded classes to discriminator forward.
+    def forward(self, tree, classes_chosen = None, device = None):
 
-        if classes_chosen is not None:
-            print('treegan_network.py: Discriminator forward - classes chosen:', classes_chosen)
-
-        feat = f.transpose(1,2)
+        feat = tree.transpose(1,2)
         vertex_num = feat.size(2)
 
+        # Pass the point cloud through each layer of the discriminator network.
         for inx in range(self.layer_num):
             feat = self.fc_layers[inx](feat)
             feat = self.leaky_relu(feat)
-        out = F.max_pool1d(input=feat, kernel_size=vertex_num).squeeze(-1)
+            
+        # Output pooling layer.
+        out = func.max_pool1d(input=feat, kernel_size=vertex_num).squeeze(-1)
         
         if classes_chosen is not None:
+            print('treegan_network.py: Discriminator forward - classes chosen:', classes_chosen)
+            
+            # Convert the one hot encoded array into a tensor for concatenation.
+            classes_chosen = torch.from_numpy(classes_chosen)
+            
             # Concatenate the multiclass labels with the completed shape.
-            out = torch.cat((out, classes_chosen.squeeze(1)), -1)
+            # Need to ensure that both tensors are on the same device.
+            out = torch.cat((out, classes_chosen.to(device).squeeze(1)), -1)
         
+        # Apply the final layer of the network.
         out1 = self.final_layer(out) # (B, 1)
         return out1, out
 
 class Generator(nn.Module):
     def __init__(self, features, degrees, support, classes_chosen = None, args = None):
+    
+        # Get the number of layers for the generator network.
+        self.layer_num = len(features)-1
+        assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
+        
+        # For class instantiation.
+        super(Generator, self).__init__()
+        vertex_num = 1
+        
+        # Create a sequential container to hold submodules for the generator network.
+        self.gcn = nn.Sequential()
 
         if classes_chosen is not None:
             print('treegan_network.py: Generator initialization - classes chosen:', classes_chosen)
@@ -63,14 +90,7 @@ class Generator(nn.Module):
             # Need to add the number of multiclass classes to this value.
             features[0] += len(classes_chosen)
 
-        self.layer_num = len(features)-1
-        assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
-        self.pointcloud = None
-        super(Generator, self).__init__()
-
-        vertex_num = 1
-        self.gcn = nn.Sequential()
-        
+        # Define the generator network.
         for inx in range(self.layer_num):
             # NOTE last layer activation False
             if inx == self.layer_num-1:
@@ -83,13 +103,18 @@ class Generator(nn.Module):
                                             support=support, node=vertex_num, upsample=True, activation=True,args=args))
             vertex_num = int(vertex_num * degrees[inx])
 
-    def forward(self, tree, classes_chosen = None):
+    # Pretraining does not pass one hot encoded classes to generator forward.
+    def forward(self, tree, classes_chosen = None, device = None):
 
         if classes_chosen is not None:
             print('treegan_network.py: Generator forward - classes chosen:', classes_chosen)
             
+            # Convert the one hot encoded array into a tensor for concatenation.
+            classes_chosen = torch.from_numpy(classes_chosen)
+            
             # Concatenate the multiclass labels with the generated latent space.
-            tree[0] = torch.cat((tree[0], classes_chosen), -1)
+            # Need to ensure that both tensors are on the same device.
+            tree[0] = torch.cat((tree[0], classes_chosen.to(device)), -1)
             
             # Obtain all the generated shapes from the result of the graph convolutional network.
             feat = self.gcn(tree)

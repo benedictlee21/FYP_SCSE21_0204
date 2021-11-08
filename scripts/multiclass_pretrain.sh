@@ -4,7 +4,7 @@ python pretrain_treegan.py \
 --FPD_path ./evaluation/pre_statistics_CRN_multiclass.npz \
 --ckpt_path ./pretrained_checkpoints/multiclass/ \
 --knn_loss True \
---dataset_path ./input_shapes/shapenet_crn_dataset \
+--dataset_path ./input_shapes/shapenet_crn_dataset/ \
 --class_range chair,table \
 --epochs 1000 \
 --batch_size 4 \
