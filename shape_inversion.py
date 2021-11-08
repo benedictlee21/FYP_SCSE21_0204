@@ -13,7 +13,6 @@ from utils.common_utils import *
 from loss import *
 from evaluation.pointnet import *
 import time
-from perform_one_hot_encoding import perform_one_hot_encoding
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
 
 class ShapeInversion(object):
@@ -57,12 +56,14 @@ class ShapeInversion(object):
             weight_decay=0,
             eps=1e-8)
         
-        self.z = torch.zeros((1, 1, latent_space_dims)).normal_().cuda()
-        self.z = Variable(self.z, requires_grad=True)
-        self.z_optim = torch.optim.Adam([self.z], lr=self.args.z_lrs[0], betas=(0,0.99))
+        self.z = torch.zeros((1, 1, self.latent_space_dims)).normal_().cuda()
+        self.z = Variable(self.z, requires_grad = True)
+        self.z_optim = torch.optim.Adam([self.z], lr = self.args.z_lrs[0], betas = (0,0.99))
 
-        # load weights
+        # Load pretrained weights from checkpoint, returns a dictionary.
         checkpoint = torch.load(args.ckpt_load, map_location=self.args.device)
+        
+        # Checkpoint key names: epoch, D_state_dict, G_state_dict, D_loss, G_loss, FPD.
         self.G.load_state_dict(checkpoint['G_state_dict'])
         self.D.load_state_dict(checkpoint['D_state_dict'])
 
@@ -71,28 +72,31 @@ class ShapeInversion(object):
         self.G.eval()
         if self.D is not None:
             self.D.eval()
+            
+        # Make a copy of the checkpoint weights to be resued when resetting the generator.
         self.G_weight = deepcopy(self.G.state_dict())
 
-        # prepare latent variable and optimizer
+        # Prepare the latent variable and optimizer.
         self.G_scheduler = LRScheduler(self.G.optim, self.args.warm_up)
         self.z_scheduler = LRScheduler(self.z_optim, self.args.warm_up)
 
-        # loss functions
+        # Define the loss functions.
         self.ftr_net = self.D
         self.criterion = DiscriminatorLoss()
 
         if self.args.directed_hausdorff:
             self.directed_hausdorff = DirectedHausdorff()
 
-        # for visualization
-        self.checkpoint_pcd = [] # to save the staged checkpoints
-        self.checkpoint_flags = [] # plot subtitle
+        # For visualization, create a list for holding point cloud stages and their plot titles.
+        self.checkpoint_pcd = []
+        self.checkpoint_flags = []
 
         if len(args.w_D_loss) == 1:
             self.w_D_loss = args.w_D_loss * len(args.G_lrs)
         else:
             self.w_D_loss = args.w_D_loss
 
+    # Reset the generator weights after completing each shape.
     def reset_G(self,pcd_id=None):
         """
         to call in every new fine_tuning
@@ -133,7 +137,7 @@ class ShapeInversion(object):
         self.checkpoint_flags.append('target')
         self.checkpoint_pcd.append(self.target)
 
-    def run(self, ith=-1, classes_chosen=None):
+    def run(self, ith = -1, classes_chosen = None):
 
         print('\nshape_inversion.py: run - one hot chosen classes:', classes_chosen)
 
@@ -175,6 +179,8 @@ class ShapeInversion(object):
 
                 # Perform optional early stopping if specified as an argument.
                 if self.args.early_stopping:
+                
+                    # Stop based on the defined chamfer distance value threshold.
                     if cd_loss.item() < self.args.stop_cd:
                         break
 
@@ -265,7 +271,7 @@ class ShapeInversion(object):
 
         with torch.no_grad():
             for i in range(num_batch):
-                z = torch.randn(batch_size, 1, latent_space_dims).cuda()
+                z = torch.randn(batch_size, 1, self.latent_space_dims).cuda()
                 tree = [z]
                 x = self.G(tree)
                 dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)

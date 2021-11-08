@@ -31,6 +31,8 @@ class Trainer(object):
             self.classes_chosen = one_hot_encode_classes(args.class_range)
             print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
             print('trainer.py: __init__ classes chosen:', self.classes_chosen)
+        else:
+            self.classes_chosen = None
 
         if self.args.dist:
             self.rank = dist.get_rank()
@@ -54,7 +56,9 @@ class Trainer(object):
             dataset = PlyDataset(self.args)
         else:
             # Load the CRN dataset with the one hot encoded classes to be completed.
-            dataset = CRNShapeNet(self.args, self.classes_chosen)
+            # Set the evaluation flag as true to use all test samples.
+            dataset = CRNShapeNet(self.args, self.classes_chosen, is_eval = True)
+            
         sampler = DistributedSampler(dataset) if self.args.dist else None
 
         if self.inversion_mode == 'morphing':
@@ -136,9 +140,11 @@ class Trainer(object):
 
             # Perform fine tuning using input partial shape only.
             # Append input partial shape to a list of point clouds for that respective shape.
+            # Point cloud list is only used for visualization below.
             pcd_ls = [partial.unsqueeze(0)]
 
             # Specify the list of labels for the input partial and its completed shapes.
+            # Flag list is only used for visualization below.
             flag_ls = ['input']
 
             # For each latent space distribution found through diversity search.

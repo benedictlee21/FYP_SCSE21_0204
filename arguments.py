@@ -60,6 +60,7 @@ class Arguments:
     def add_pretrain_args(self):
         ### general training related
         # CRN dataset used contains 5750 shapes per class.
+        # May need to use fewer samples for pretraining due to resource constraints.
         self._parser.add_argument('--samples_per_class', type=int, default=5750, help='number of shapes per class to use for pretraining')
         
         # original batch size is 128, set to 4 to prevent 'out of cuda memory' error

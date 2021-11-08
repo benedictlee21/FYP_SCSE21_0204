@@ -78,6 +78,9 @@ class CRNShapeNet(data.Dataset):
             
             print('CRN_dataset multiclass category ID list by index:', self.category_indexes)
             
+            # Master list to append all indexes from each class into.
+            self.index_list = []
+            
             for index in self.category_indexes:
                 self.one_class_index = np.array([shape for (shape, class_index) in enumerate(self.labels) if class_index == index])
                 
@@ -85,19 +88,17 @@ class CRNShapeNet(data.Dataset):
                 print('Category index:', index)
                 print('Shape indexes:', self.one_class_index)
                 
-                # Convert the numpy array into a list before sampling.
-                self.one_class_index = self.one_class_index.tolist()
-                
                 # May need to reduce the training dataset size for pretraining.
                 # Use the full test dataset size for evaluation.
                 if not is_eval:
+                
+                    # Convert the numpy array into a list before sampling.
+                    self.one_class_index = self.one_class_index.tolist()
+                
                     print('Pretraining - randomly sampling', self.args.samples_per_class, 'out of 5750 shapes per class')
                     
                     # Get input argument for the number of samples per class to use for multiclass pretraining.
                     self.one_class_index = random.sample(self.one_class_index, self.args.samples_per_class)
-                
-                # Append all the indexes from each class into a master list.
-                self.index_list = []
                 
                 for index in self.one_class_index:
                     self.index_list.append(index)
@@ -121,14 +122,17 @@ class CRNShapeNet(data.Dataset):
             # Extract all the shapes from the training dataset that match the single class index.
             self.index_list = np.array([i for (i, j) in enumerate(self.labels) if j == category_id ])
             
-            # Convert the numpy array into a list before sampling.
-            self.index_list = self.index_list.tolist()
+            # May need to reduce the training dataset size for pretraining.
+            # Use the full test dataset size for evaluation.
+            if not is_eval:
+                # Convert the numpy array into a list before sampling.
+                self.index_list = self.index_list.tolist()
         
-            # Use fewer samples for training if time or computational resources are limited.
-            self.index_list = random.sample(self.index_list, self.args.samples_per_class)
+                # Use fewer samples for training if time or computational resources are limited.
+                self.index_list = random.sample(self.index_list, self.args.samples_per_class)
             
-            # Convert the list back into a numpy array.
-            self.index_list = np.array(self.index_list)
+                # Convert the list back into a numpy array.
+                self.index_list = np.array(self.index_list)
         
             #print('CRN Single class index list:', self.index_list)
             print('Single class index list length:', len(self.index_list))
