@@ -5,7 +5,9 @@ from scipy.stats import entropy
 import torch
 import math
 from loss import *
+
 import sys
+
 from external.ChamferDistancePytorch.chamfer_python import distChamfer
 try: 
     from external.emd.emd_module import emdModule

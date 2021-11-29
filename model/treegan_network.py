@@ -41,6 +41,7 @@ class Discriminator(nn.Module):
                     nn.Sigmoid())
 
     # Pretraining does not pass one hot encoded classes to discriminator forward.
+    # Additional dimensions were already added to latent space in 'pretrain_treegan.py'.
     def forward(self, tree, classes_chosen = None, device = None):
 
         feat = tree.transpose(1,2)
@@ -104,22 +105,11 @@ class Generator(nn.Module):
             vertex_num = int(vertex_num * degrees[inx])
 
     # Pretraining does not pass one hot encoded classes to generator forward.
+    # Additional dimensions were already added to latent space in 'pretrain_treegan.py'.
     def forward(self, tree, classes_chosen = None, device = None):
-
-        if classes_chosen is not None:
-            print('treegan_network.py: Generator forward - classes chosen:', classes_chosen)
             
-            # Convert the one hot encoded array into a tensor for concatenation.
-            classes_chosen = torch.from_numpy(classes_chosen)
-            
-            # Concatenate the multiclass labels with the generated latent space.
-            # Need to ensure that both tensors are on the same device.
-            tree[0] = torch.cat((tree[0], classes_chosen.to(device)), -1)
-            
-            # Obtain all the generated shapes from the result of the graph convolutional network.
-            feat = self.gcn(tree)
-        else:
-            feat = self.gcn(tree)
+        # Obtain all the generated shapes from the result of the graph convolutional network.
+        feat = self.gcn(tree)
 
         # Use only the last shape of the result as the output.
         self.pointcloud = feat[-1]

@@ -106,7 +106,11 @@ class CRNShapeNet(data.Dataset):
             # Shuffle the class indexes in the master list at random to ensure even model pretraining across all classes.
             # Set the random seed to obtain reproducible results.
             #np.random.seed(0)
-            random.shuffle(self.index_list)
+            
+            if self.args.split == 'train':
+                print('Shuffling dataset indexes.')
+                random.shuffle(self.index_list)
+                
             #print('CRN multiclass shuffled index list:', self.index_list)
             
             # Convert the list back into a numpy array.

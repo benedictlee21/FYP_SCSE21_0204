@@ -141,7 +141,7 @@ class ShapeInversion(object):
 
     def run(self, ith = -1, classes_chosen = None):
 
-        print('\nshape_inversion.py: run - one hot chosen classes:', classes_chosen)
+        #print('\nshape_inversion.py: run - one hot chosen classes:', classes_chosen)
 
         loss_dict = {}
         curr_step = 0
