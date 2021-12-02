@@ -394,7 +394,11 @@ class Trainer(object):
                 tic = time.time()
 
 if __name__ == "__main__":
+
+    # Parse all required arguments.
     args = Arguments(stage='inversion').parser().parse_args()
+    
+    # Select the device to use, CPU or GPU.
     args.device = torch.device('cuda:'+str(args.gpu) if torch.cuda.is_available() else 'cpu')
     torch.cuda.set_device(args.device)
 

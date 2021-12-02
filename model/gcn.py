@@ -4,7 +4,9 @@ import torch.nn.init as init
 import math
 
 class TreeGCN(nn.Module):
-    def __init__(self, depth, features, degrees, support=10, node=1, upsample=False, activation=True,args=None):
+    def __init__(self, depth, features, degrees, support = 10, node = 1, upsample = False, activation = True, classes_chosen = None, args = None):
+    
+        # Depth represents the layer index.
         self.depth = depth
         self.in_feature = features[depth]
         self.out_feature = features[depth+1]
@@ -15,8 +17,12 @@ class TreeGCN(nn.Module):
         self.args = args
         super(TreeGCN, self).__init__()
 
-        # ancestor term
+        # Define the ancestor term. Create a list of network layers.
+        # ModuleList does not connect the layers yet unlike Sequential.
         self.W_root = nn.ModuleList([nn.Linear(features[inx], self.out_feature, bias=False) for inx in range(self.depth+1)])
+        
+        if classes_chosen is not None:
+            print('gcn.py: Initializing network module list - classes chosen:', classes_chosen)
 
         if self.upsample:
             # shape (node, in_feature, out_feature)
@@ -24,12 +30,13 @@ class TreeGCN(nn.Module):
 
         if self.args.loop_non_linear:
             self.W_loop = nn.Sequential(nn.Linear(self.in_feature, self.in_feature*support, bias=False),
-                                        nn.LeakyReLU(negative_slope=0.2),
-                                        nn.Linear(self.in_feature*support, self.out_feature, bias=False))
+                nn.LeakyReLU(negative_slope=0.2),
+                nn.Linear(self.in_feature*support, self.out_feature, bias=False))
+                
             print('loop non linear',self.in_feature, self.in_feature*support)
         else:
             self.W_loop = nn.Sequential(nn.Linear(self.in_feature, self.in_feature*support, bias=False),
-                                        nn.Linear(self.in_feature*support, self.out_feature, bias=False))
+                nn.Linear(self.in_feature*support, self.out_feature, bias=False))
 
         if activation:
             self.bias = nn.Parameter(torch.FloatTensor(1, self.degree, self.out_feature))
@@ -44,10 +51,14 @@ class TreeGCN(nn.Module):
         if self.activation:
             self.bias.data.uniform_(-stdv, stdv)
 
-    def forward(self, tree):
+    def forward(self, tree, classes_chosen = None):
         batch_size = tree[0].shape[0]
         root = 0
-        # ancestor term
+        
+        if classes_chosen is not None:
+            print('gcn.py: Network forward - classes chosen:', classes_chosen)
+        
+        # Define the ancestor term.
         for inx in range(self.depth+1):
             root_num = tree[inx].size(1)
             repeat_num = int(self.node / root_num)

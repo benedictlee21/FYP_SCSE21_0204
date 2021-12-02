@@ -91,17 +91,18 @@ class Generator(nn.Module):
             # Need to add the number of multiclass classes to this value.
             features[0] += len(classes_chosen)
 
-        # Define the generator network.
+        # Define each layer of the generator network.
         for inx in range(self.layer_num):
-            # NOTE last layer activation False
-            if inx == self.layer_num-1:
-                self.gcn.add_module('TreeGCN_'+str(inx),
-                                    TreeGCN(inx, features, degrees,
-                                            support=support, node=vertex_num, upsample=True, activation=False,args=args))
+            
+            # The last layer's activation is false.
+            if inx == self.layer_num - 1:
+                self.gcn.add_module('TreeGCN_' + str(inx),
+                    TreeGCN(inx, features, degrees,
+                    support = support, node = vertex_num,upsample = True, activation = False, classes_chosen = classes_chosen, args = args))
             else:
-                self.gcn.add_module('TreeGCN_'+str(inx),
-                                    TreeGCN(inx, features, degrees,
-                                            support=support, node=vertex_num, upsample=True, activation=True,args=args))
+                self.gcn.add_module('TreeGCN_' + str(inx),
+                    TreeGCN(inx, features, degrees,
+                    support = support, node = vertex_num, upsample = True, activation = True,classes_chosen = classes_chosen, args = args))
             vertex_num = int(vertex_num * degrees[inx])
 
     # Pretraining does not pass one hot encoded classes to generator forward.
@@ -119,7 +120,7 @@ class Generator(nn.Module):
             tree[0] = torch.cat((tree[0], classes_chosen.to(device)), -1)
             
             # Obtain all the generated shapes from the result of the graph convolutional network.
-            feat = self.gcn(tree)
+            feat = self.gcn(tree, classes_chosen)
         else:
             feat = self.gcn(tree)
 
