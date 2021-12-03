@@ -18,7 +18,7 @@ import os
 import copy
 from utils.common_utils import *
 from arguments import Arguments
-from one_hot_encoding import one_hot_encode_classes
+from one_hot_encoding import encode_classes
 
 def save_pcs_to_txt(save_dir, fake_pcs):
     """

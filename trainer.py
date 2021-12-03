@@ -19,7 +19,7 @@ from loss import *
 from shape_inversion import ShapeInversion
 from model.treegan_network import Generator, Discriminator
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
-from one_hot_encoding import one_hot_encode_classes
+from one_hot_encoding import encode_classes
 
 class Trainer(object):
 
@@ -28,7 +28,7 @@ class Trainer(object):
         
         if args.class_range is not None:
             # Convert the one hot encoding list into an array, representing the classes.
-            self.classes_chosen = one_hot_encode_classes(args.class_range)
+            self.classes_chosen = encode_classes(args.class_range)
             print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
             print('trainer.py: __init__ classes chosen:', self.classes_chosen)
         else:

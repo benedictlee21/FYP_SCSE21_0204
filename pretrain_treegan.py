@@ -13,7 +13,7 @@ from metrics import *
 import os
 import os.path as osp
 from eval_treegan import checkpoint_eval
-from one_hot_encoding import one_hot_encode_classes
+from one_hot_encoding import encode_classes
 
 class TreeGAN():
     def __init__(self, args):
@@ -23,7 +23,7 @@ class TreeGAN():
         if args.class_range is not None:
             
             # Convert the one hot encoding list into an array, representing the classes.
-            self.classes_chosen = one_hot_encode_classes(args.class_range)
+            self.classes_chosen = encode_classes(args.class_range)
             print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
             print('pretrain_treegan.py: __init__ classes chosen:', self.classes_chosen)
         

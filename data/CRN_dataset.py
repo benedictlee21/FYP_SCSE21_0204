@@ -18,7 +18,7 @@ class CRNShapeNet(data.Dataset):
         self.dataset_path = self.args.dataset_path
         self.class_choice = self.args.class_choice
         
-        print('CRN_dataset.py: __init__ - classes chosen:', classes_chosen)
+        print('CRN_dataset.py: __init__ - classes chosen by dataset index:', classes_chosen)
         
         # Value of string 'split' determines which '.h5' dataset file is used, either training or test.
         self.split = self.args.split
@@ -34,54 +34,11 @@ class CRNShapeNet(data.Dataset):
 
         # Import shapes from input dataset for multiclass.
         if classes_chosen is not None:
-        
-            # Perform remapping of input class list to match the dataset class index:
-            consolidated_classes = np.array([0] * len(category_ordered_list))
-            remapped_classes = np.array([0] * len(category_ordered_list))
-            
-            # Compile all the indexes with '1' in them into a single array for multiclass training.
-            for sub_array in classes_chosen:
-                for index in range(len(sub_array)):
-                    if sub_array[index] == 1:
-                        consolidated_classes[index] = 1
-            print('Consolidated array:', consolidated_classes)
-            
-            # Mapping: Input index > Output index
-            # Chair: 0 > 3
-            # Table: 1 > 6
-            # Couch: 2 > 5
-            # Cabinet: 3 > 1
-            # Lamp: 4 > 4
-            # Car: 5 > 2
-            # Plane: 6 > 0
-            # Watercraft: 7 > 7
-            
-            # Perform remapping of all selected class indexes to the training dataset indexes:
-            remapped_classes[3] = consolidated_classes[0]
-            remapped_classes[6] = consolidated_classes[1]
-            remapped_classes[5] = consolidated_classes[2]
-            remapped_classes[1] = consolidated_classes[3]
-            remapped_classes[4] = consolidated_classes[4]
-            remapped_classes[2] = consolidated_classes[5]
-            remapped_classes[0] = consolidated_classes[6]
-            remapped_classes[7] = consolidated_classes[7]
-            
-            print('Input: chair, table, couch, cabinet, lamp, car, plane, watercraft ->', classes_chosen)
-            print('REMAPPED TO:')
-            print('Output:', category_ordered_list, '->', remapped_classes)
-            self.category_indexes = []
-            
-            # For each class category chosen, append its index to the list.
-            for index in range(len(remapped_classes)):
-                if remapped_classes[index] == 1:
-                    self.category_indexes.append(index)
-            
-            print('CRN_dataset multiclass category ID list by index:', self.category_indexes)
             
             # Master list to append all indexes from each class into.
             self.index_list = []
             
-            for index in self.category_indexes:
+            for index in self.classes_chosen:
                 self.one_class_index = np.array([shape for (shape, class_index) in enumerate(self.labels) if class_index == index])
                 
                 # View the indexes and shapes for each individual class used in multiclass.
