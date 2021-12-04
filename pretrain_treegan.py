@@ -16,6 +16,8 @@ from eval_treegan import checkpoint_eval
 from encode_classes import encode_classes
 from tensorflow.keras.layers import Embedding
 from tensorflow.keras.layers import Multiply
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Flatten
 
 class TreeGAN():
     def __init__(self, args):
@@ -97,23 +99,6 @@ class TreeGAN():
         
         # Prepare the number of dimensions for the latent space for the network.
         latent_space_dim = 96
-        
-        # For multiclass, use an embedding layer to create a vector with the same dimensions
-        # as the latent space representation to indicate the class and combine it with the latent space.
-        if self.classes_chosen is not None:
-        
-            # Input dimensions should be the number of classes.
-            # Output dimensions should be the same as the latent space representation.
-            embedding_layer = Embedding(input_dim = len(self.classes_chosen, output_dim = (1, 1, self.latent_space_dims))
-            
-            print('pretrain_treegan.py - Embedding layer type:', type(embedding_layer))
-            print('pretrain_treegan.py - Embedding layer shape:', embedding_layer.shape)
-            
-            # Combine the latent space with the class embedding.
-            multiclass_latent_space = Multiply()([self.z], [embedding_layer])
-            
-            print('pretrain_treegan.py - Multiclass concatenated latent space type:', type(multiclass_latent_space))
-            print('pretrain_treegan.py - Multiclass concatenated latent space shape:', multiclass_latent_space.shape)
 
         for epoch in range(epoch_log, self.args.epochs):
             print('Starting epoch:', epoch + 1)
@@ -131,8 +116,41 @@ class TreeGAN():
                 # -------------------- Discriminator -------------------- #
                 tic = time.time()
                 for d_iter in range(self.args.D_iter):
+                    
                     self.D.zero_grad()
+                    
+                    # Generate the latent space representation.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
+                    
+                    # For multiclass, use an embedding layer to create a vector with the same dimensions
+                    # as the latent space representation to indicate the class and combine it with the latent space.
+                    if self.classes_chosen is not None:
+                    
+                        # Prepare the latent space for concatenation with the class vector.
+                        #z_multiclass = Input(shape = (latent_space_dim, ))
+                        
+                        # Define the class labels using an instantiated tensor.
+                        class_labels = Input(shape = (1, ), dtype = 'int32')
+                    
+                        # Input dimensions should be the number of classes.
+                        # Output dimensions should be the same as the latent space representation.
+                        classes_embedding = Embedding(input_dim = len(self.classes_chosen), output_dim = latent_space_dim, input_length = 1)(class_labels)
+                        
+                        # Flatten the tensor representing class labels into a single dimension.
+                        classes_embedding = Flatten()(classes_embedding)
+                        
+                        print('pretrain_treegan.py - Embedding layer type:', type(classes_embedding))
+                        print('Embedding layer output:', classes_embedding)
+                        #print('pretrain_treegan.py - Embedding layer shape:', classes_embedding.shape)
+                        
+                        # Create another tensor of the same dimensions as the latent space.
+                        
+                        # Combine the latent space with the class embedding.
+                        multiclass_latent_space = Multiply()([z, classes_embedding])
+                        
+                        print('pretrain_treegan.py - Multiclass concatenated latent space type:', type(multiclass_latent_space))
+                        print('pretrain_treegan.py - Multiclass concatenated latent space shape:', multiclass_latent_space.shape)
+                    
                     tree = [z]
 
                     # One hot encoded array for multiclass classes chosen is not

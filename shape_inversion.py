@@ -16,6 +16,8 @@ import time
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
 from tensorflow.keras.layers import Embedding
 from tensorflow.keras.layers import Multiply
+from tensorflow.keras.layers import Input
+from tensorflow.keras.layers import Flatten
 
 class ShapeInversion(object):
 
@@ -63,15 +65,24 @@ class ShapeInversion(object):
         # as the latent space representation to indicate the class and combine it with the latent space.
         if self.classes_chosen is not None:
         
+            # Prepare the latent space for concatenation with the class vector.
+            #z_multiclass = Input(shape = (self.latent_space_dims, ))
+            
+            # Define the class labels using an instantiated tensor.
+            class_labels = Input(shape = (1, ), dtype = 'int32')
+        
             # Input dimensions should be the number of classes.
             # Output dimensions should be the same as the latent space representation.
-            embedding_layer = Embedding(input_dim = len(self.classes_chosen, output_dim = (1, 1, self.latent_space_dims))
+            classes_embedding = Embedding(input_dim = len(self.classes_chosen), output_dim = self.latent_space_dims, input_length = 1)(class_labels)
             
-            print('Shape_inversion.py - Embedding layer type:', type(embedding_layer))
-            print('shape_inversion.py - Embedding layer shape:', embedding_layer.shape)
+            # Flatten the tensor representing class labels into a single dimension.
+            classes_embedding = Flatten()(classes_embedding)
+            
+            print('Shape_inversion.py - Embedding layer type:', type(classes_embedding))
+            print('shape_inversion.py - Embedding layer shape:', classes_embedding.shape)
             
             # Combine the latent space with the class embedding.
-            multiclass_latent_space = Multiply()([self.z], [embedding_layer])
+            multiclass_latent_space = Multiply()([self.z, classes_embedding])
             
             print('shape_inversion.py - Multiclass concatenated latent space type:', type(multiclass_latent_space))
             print('shape_inversion.py - Multiclass concatenated latent space shape:', multiclass_latent_space.shape)
