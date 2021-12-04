@@ -19,7 +19,7 @@ from loss import *
 from shape_inversion import ShapeInversion
 from model.treegan_network import Generator, Discriminator
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
-from one_hot_encoding import encode_classes
+from encode_classes import encode_classes
 
 class Trainer(object):
 

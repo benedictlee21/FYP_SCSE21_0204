@@ -13,7 +13,9 @@ from metrics import *
 import os
 import os.path as osp
 from eval_treegan import checkpoint_eval
-from one_hot_encoding import encode_classes
+from encode_classes import encode_classes
+from tensorflow.keras.layers import Embedding
+from tensorflow.keras.layers import Multiply
 
 class TreeGAN():
     def __init__(self, args):
@@ -94,10 +96,24 @@ class TreeGAN():
         self.D = nn.DataParallel(self.D)
         
         # Prepare the number of dimensions for the latent space for the network.
+        latent_space_dim = 96
+        
+        # For multiclass, use an embedding layer to create a vector with the same dimensions
+        # as the latent space representation to indicate the class and combine it with the latent space.
         if self.classes_chosen is not None:
-            latent_space_dim = 96 + len(self.classes_chosen)
-        else:
-            latent_space_dim = 96
+        
+            # Input dimensions should be the number of classes.
+            # Output dimensions should be the same as the latent space representation.
+            embedding_layer = Embedding(input_dim = len(self.classes_chosen, output_dim = (1, 1, self.latent_space_dims))
+            
+            print('pretrain_treegan.py - Embedding layer type:', type(embedding_layer))
+            print('pretrain_treegan.py - Embedding layer shape:', embedding_layer.shape)
+            
+            # Combine the latent space with the class embedding.
+            multiclass_latent_space = Multiply()([self.z], [embedding_layer])
+            
+            print('pretrain_treegan.py - Multiclass concatenated latent space type:', type(multiclass_latent_space))
+            print('pretrain_treegan.py - Multiclass concatenated latent space shape:', multiclass_latent_space.shape)
 
         for epoch in range(epoch_log, self.args.epochs):
             print('Starting epoch:', epoch + 1)

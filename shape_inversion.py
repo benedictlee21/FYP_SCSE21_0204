@@ -14,6 +14,8 @@ from loss import *
 from evaluation.pointnet import *
 import time
 from external.ChamferDistancePytorch.chamfer_python import distChamfer, distChamfer_raw
+from tensorflow.keras.layers import Embedding
+from tensorflow.keras.layers import Multiply
 
 class ShapeInversion(object):
 
@@ -22,7 +24,7 @@ class ShapeInversion(object):
         print('shape_inversion.py: __init__ - device used:', self.args.device)
         
         self.classes_chosen = classes_chosen
-        print('shape_inversion.py: __init__ classes chosen:', classes_chosen)
+        print('shape_inversion.py: __init__ classes chosen:', self.classes_chosen)
 
         if self.args.dist:
             self.rank = dist.get_rank()
@@ -40,10 +42,6 @@ class ShapeInversion(object):
         self.select_num = self.args.select_num
         self.loss_log = []
         self.latent_space_dims = 96
-        
-        # Add the required number of dimensions to the latent space based on number of classes for multiclass.
-        if classes_chosen is not None:
-            self.latent_space_dims += len(classes_chosen)
 
         # Create the model including generator and discriminator.
         self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = self.classes_chosen, args = self.args).cuda()
@@ -58,8 +56,31 @@ class ShapeInversion(object):
             weight_decay=0,
             eps=1e-8)
         
+        # Generate the latent space representation vector.
         self.z = torch.zeros((1, 1, self.latent_space_dims)).normal_().cuda()
+        
+        # For multiclass, use an embedding layer to create a vector with the same dimensions
+        # as the latent space representation to indicate the class and combine it with the latent space.
+        if self.classes_chosen is not None:
+        
+            # Input dimensions should be the number of classes.
+            # Output dimensions should be the same as the latent space representation.
+            embedding_layer = Embedding(input_dim = len(self.classes_chosen, output_dim = (1, 1, self.latent_space_dims))
+            
+            print('Shape_inversion.py - Embedding layer type:', type(embedding_layer))
+            print('shape_inversion.py - Embedding layer shape:', embedding_layer.shape)
+            
+            # Combine the latent space with the class embedding.
+            multiclass_latent_space = Multiply()([self.z], [embedding_layer])
+            
+            print('shape_inversion.py - Multiclass concatenated latent space type:', type(multiclass_latent_space))
+            print('shape_inversion.py - Multiclass concatenated latent space shape:', multiclass_latent_space.shape)
+        
+        # 'Variable' is a wrapper for the tensor.
+        # Gradients must be computed for the latent space representation tensor.
         self.z = Variable(self.z, requires_grad = True)
+        
+        # Input to optimizer should be of type 'Variable'.
         self.z_optim = torch.optim.Adam([self.z], lr = self.args.z_lrs[0], betas = (0,0.99))
 
         # Load pretrained weights from checkpoint, returns a dictionary.
@@ -169,7 +190,7 @@ class ShapeInversion(object):
                 tree = [self.z]
 
                 # Pass the latent space representation and one hot encoded vector to the generator.
-                x = self.G(tree, classes_chosen, self.args.device)
+                x = self.G(tree, self.classes_chosen, self.args.device)
 
                 # Perform masking.
                 x_map = self.pre_process(x,stage=stage)
