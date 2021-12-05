@@ -58,34 +58,44 @@ class ShapeInversion(object):
             weight_decay=0,
             eps=1e-8)
         
-        # Generate the latent space representation vector.
-        self.z = torch.zeros((1, 1, self.latent_space_dims)).normal_().cuda()
-        
         # For multiclass, use an embedding layer to create a vector with the same dimensions
         # as the latent space representation to indicate the class and combine it with the latent space.
         if self.classes_chosen is not None:
-        
+                    
             # Prepare the latent space for concatenation with the class vector.
-            #z_multiclass = Input(shape = (self.latent_space_dims, ))
-            
+            latent_space = Input(shape = (self.latent_space_dims, ))
+                        
             # Define the class labels using an instantiated tensor.
             class_labels = Input(shape = (1, ), dtype = 'int32')
-        
+                    
             # Input dimensions should be the number of classes.
             # Output dimensions should be the same as the latent space representation.
             classes_embedding = Embedding(input_dim = len(self.classes_chosen), output_dim = self.latent_space_dims, input_length = 1)(class_labels)
-            
+                        
             # Flatten the tensor representing class labels into a single dimension.
             classes_embedding = Flatten()(classes_embedding)
             
-            print('Shape_inversion.py - Embedding layer type:', type(classes_embedding))
-            print('shape_inversion.py - Embedding layer shape:', classes_embedding.shape)
+            print('shape_inversion.py: __init__ - Multiclass')
+            print('Embedding layer type:', type(classes_embedding))
+            print('Embedding layer output:', classes_embedding)
+            #print('Embedding layer shape:', classes_embedding.shape)
             
-            # Combine the latent space with the class embedding.
-            multiclass_latent_space = Multiply()([self.z, classes_embedding])
+            # Reshape the tensor into the required input dimensions.
+            # First dimension of the output tensor is 'None', indicating that it is an unspecified
+            # dimension for use with multiclass capabilities.
+            torch.reshape(z, (1, 1, 96))
             
-            print('shape_inversion.py - Multiclass concatenated latent space type:', type(multiclass_latent_space))
-            print('shape_inversion.py - Multiclass concatenated latent space shape:', multiclass_latent_space.shape)
+            # Expand the tensor to take the dimensions of (1, 1, 96).
+            z = z[None, :]
+            
+            print('Concatenated latent space type:', type(z))
+            print('Concatenated latent space shape:', z.shape)
+            
+            # TODO: Need to convert keras tensor into pytorch tensor.
+            
+        else:
+            # Generate the latent space representation for single class.
+            self.z = torch.zeros((1, 1, self.latent_space_dims)).normal_().cuda()
         
         # 'Variable' is a wrapper for the tensor.
         # Gradients must be computed for the latent space representation tensor.
