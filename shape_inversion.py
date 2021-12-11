@@ -20,6 +20,9 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Flatten
 import tensorflow
 
+# Enable eager execution in tensorflow if it is not already enabled.
+tensorflow.compat.v1.enable_eager_execution()
+
 class ShapeInversion(object):
 
     def __init__(self, args, classes_chosen):

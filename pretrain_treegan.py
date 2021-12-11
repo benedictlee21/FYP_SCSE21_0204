@@ -20,6 +20,9 @@ from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Flatten
 import tensorflow
 
+# Enable eager execution in tensorflow if it is not already enabled.
+tensorflow.compat.v1.enable_eager_execution()
+
 class TreeGAN():
     def __init__(self, args):
         self.args = args
@@ -126,23 +129,6 @@ class TreeGAN():
                     # as the latent space representation to indicate the class and combine it with the latent space.
                     if self.classes_chosen is not None:
                     
-                        # Alternative using torch.nn.Embedding.
-                        # Arguments: <number of embeddings>, <embedding dimensions>, <padding index>
-                        classes_embedding = nn.Embedding(8, 96, padding_idx = 0)
-                        
-                        # Generate the latent space representation for single class.
-                        z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
-                        
-                        # Output the corresponding word embeddings.
-                        z = classes_embedding(z)
-                        
-                        print('pretrain_treegan.py - Discriminator')
-                        print('Pytorch embedding layer type:', type(z))
-                        print('Pytorch embedding layer output:', z)
-                        #print('Pytorch embedding layer shape:', z.shape)
-                        
-                        # -------------------------------------------------------------------------------
-                    
                         # Prepare the latent space for concatenation with the class vector.
                         latent_space = Input(shape = (latent_space_dim, ))
                         
@@ -165,10 +151,10 @@ class TreeGAN():
                         z = Multiply()([latent_space, classes_embedding])
                         
                         # Reshape the tensor into the required input dimensions.
-                        # First dimension of the output tensor is 'None', indicating that it is an unspecified
-                        # dimension for use with multiclass capabilities.
-                        #torch.reshape(z, (1, 1, 96))
-                        tensorflow.reshape(z, [1, 1, 96])
+                        # Convert the keras tensor into a numpy array before
+                        # converting it into a pytorch tensor.
+                        array = tensorflow.make_ndarray(z)
+                        z = torch.from_numpy(array)
                         
                         print('Concatenated latent space type:', type(z))
                         print('Concatenated latent space shape:', z.shape)
@@ -215,23 +201,6 @@ class TreeGAN():
                 # For multiclass, use an embedding layer to create a vector with the same dimensions
                 # as the latent space representation to indicate the class and combine it with the latent space.
                 if self.classes_chosen is not None:
-                
-                    # Alternative using torch.nn.Embedding.
-                    # Arguments: <number of embeddings>, <embedding dimensions>, <padding index>
-                    classes_embedding = nn.Embedding(8, 96, padding_idx = 0)
-                        
-                    # Generate the latent space representation for single class.
-                    z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
-                        
-                    # Output the corresponding word embeddings.
-                    z = classes_embedding(z)
-                        
-                    print('pretrain_treegan.py - Generator')
-                    print('Pytorch embedding layer type:', type(z))
-                    print('Pytorch embedding layer output:', z)
-                    #print('Pytorch embedding layer shape:', z.shape)
-                    
-                    # -------------------------------------------------------------------------------
                     
                     # Prepare the latent space for concatenation with the class vector.
                     latent_space = Input(shape = (latent_space_dim, ))
@@ -255,10 +224,10 @@ class TreeGAN():
                     z = Multiply()([latent_space, classes_embedding])
                     
                     # Reshape the tensor into the required input dimensions.
-                    # First dimension of the output tensor is 'None', indicating that it is an unspecified
-                    # dimension for use with multiclass capabilities.
-                    #torch.reshape(z, (1, 1, 96))
-                    tensorflow.reshape(z, [1, 1, 96])
+                    # Convert the keras tensor into a numpy array before
+                    # converting it into a pytorch tensor.
+                    array = tensorflow.make_ndarray(z)
+                    z = torch.from_numpy(array)
                     
                     print('Concatenated latent space type:', type(z))
                     print('Concatenated latent space shape:', z.shape)
