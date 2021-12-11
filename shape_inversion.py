@@ -18,6 +18,7 @@ from tensorflow.keras.layers import Embedding
 from tensorflow.keras.layers import Multiply
 from tensorflow.keras.layers import Input
 from tensorflow.keras.layers import Flatten
+import tensorflow
 
 class ShapeInversion(object):
 
@@ -43,7 +44,7 @@ class ShapeInversion(object):
         self.z_lrs = self.args.z_lrs
         self.select_num = self.args.select_num
         self.loss_log = []
-        self.latent_space_dims = 96
+        self.latent_space_dim = 96
 
         # Create the model including generator and discriminator.
         self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = self.classes_chosen, args = self.args).cuda()
@@ -63,39 +64,41 @@ class ShapeInversion(object):
         if self.classes_chosen is not None:
                     
             # Prepare the latent space for concatenation with the class vector.
-            latent_space = Input(shape = (self.latent_space_dims, ))
+            latent_space = Input(shape = (self.latent_space_dim, ))
                         
             # Define the class labels using an instantiated tensor.
             class_labels = Input(shape = (1, ), dtype = 'int32')
                     
             # Input dimensions should be the number of classes.
             # Output dimensions should be the same as the latent space representation.
-            classes_embedding = Embedding(input_dim = len(self.classes_chosen), output_dim = self.latent_space_dims, input_length = 1)(class_labels)
+            classes_embedding = Embedding(input_dim = len(self.classes_chosen), output_dim = self.latent_space_dim, input_length = 1)(class_labels)
                         
             # Flatten the tensor representing class labels into a single dimension.
-            classes_embedding = Flatten()(classes_embedding)
+            #classes_embedding = Flatten()(classes_embedding)
             
             print('shape_inversion.py: __init__ - Multiclass')
             print('Embedding layer type:', type(classes_embedding))
             print('Embedding layer output:', classes_embedding)
             #print('Embedding layer shape:', classes_embedding.shape)
             
+            # Combine the latent space with the class embedding.
+            z = Multiply()([latent_space, classes_embedding])
+            
             # Reshape the tensor into the required input dimensions.
             # First dimension of the output tensor is 'None', indicating that it is an unspecified
             # dimension for use with multiclass capabilities.
-            torch.reshape(z, (1, 1, 96))
-            
-            # Expand the tensor to take the dimensions of (1, 1, 96).
-            z = z[None, :]
+            #torch.reshape(z, (1, 1, 96))
+            tensorflow.reshape(z, [1, 1, 96])
             
             print('Concatenated latent space type:', type(z))
             print('Concatenated latent space shape:', z.shape)
             
-            # TODO: Need to convert keras tensor into pytorch tensor.
+            # Resultant tensor is of shape (None, 1, 96).
+            # Need to convert it to (1, 1, 96).
             
         else:
             # Generate the latent space representation for single class.
-            self.z = torch.zeros((1, 1, self.latent_space_dims)).normal_().cuda()
+            self.z = torch.zeros((1, 1, self.latent_space_dim)).normal_().cuda()
         
         # 'Variable' is a wrapper for the tensor.
         # Gradients must be computed for the latent space representation tensor.
@@ -315,7 +318,7 @@ class ShapeInversion(object):
 
         with torch.no_grad():
             for i in range(num_batch):
-                z = torch.randn(batch_size, 1, self.latent_space_dims).cuda()
+                z = torch.randn(batch_size, 1, self.latent_space_dim).cuda()
                 tree = [z]
                 x = self.G(tree)
                 dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)
@@ -348,7 +351,7 @@ class ShapeInversion(object):
                 return
             z_all, y_all, loss_all = [], [], []
             for i in range(self.select_num):
-                z = torch.randn(1, 1, latent_space_dims).cuda()
+                z = torch.randn(1, 1, latent_space_dim).cuda()
                 tree = [z]
                 with torch.no_grad():
                     x = self.G(tree)
