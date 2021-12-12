@@ -22,6 +22,7 @@ import tensorflow
 
 # Enable eager execution in tensorflow if it is not already enabled.
 tensorflow.compat.v1.enable_eager_execution()
+print('Tensorflow eagerly execution enabled:',  tensorflow.executing_eagerly())
 
 class TreeGAN():
     def __init__(self, args):
@@ -153,7 +154,8 @@ class TreeGAN():
                         # Reshape the tensor into the required input dimensions.
                         # Convert the keras tensor into a numpy array before
                         # converting it into a pytorch tensor.
-                        array = tensorflow.make_ndarray(z)
+                        #array = tensorflow.make_ndarray(z)
+                        array = z.numpy()
                         z = torch.from_numpy(array)
                         
                         print('Concatenated latent space type:', type(z))
@@ -226,7 +228,8 @@ class TreeGAN():
                     # Reshape the tensor into the required input dimensions.
                     # Convert the keras tensor into a numpy array before
                     # converting it into a pytorch tensor.
-                    array = tensorflow.make_ndarray(z)
+                    #array = tensorflow.make_ndarray(z)
+                    array = z.numpy()
                     z = torch.from_numpy(array)
                     
                     print('Concatenated latent space type:', type(z))

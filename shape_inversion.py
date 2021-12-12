@@ -22,6 +22,7 @@ import tensorflow
 
 # Enable eager execution in tensorflow if it is not already enabled.
 tensorflow.compat.v1.enable_eager_execution()
+print('Tensorflow eagerly execution enabled:',  tensorflow.executing_eagerly())
 
 class ShapeInversion(object):
 
