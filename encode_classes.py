@@ -3,6 +3,10 @@ import numpy as Numpy
 # Convert input list of selected categories into a one hot encoded vector.
 def encode_classes(class_range):
     
+    # Print out the integer mapping to each class.
+    print('encode_classes.py - Mapping of class to integer based on index of dataset.')
+    print('0: plane\n1: cabinet\n2: car\n3: chair\n4: lamp\n5: couch\n6: table\n7: watercraft')
+    
     # Split the string into individual classes using the delimiter.
     class_list = class_range.split(',')
     
@@ -40,7 +44,7 @@ def encode_classes(class_range):
 
     # Convert the entire master list into an array.
     master_list = Numpy.array(master_list)
-    print('one hot encoding.py - Integer encoded list:', master_list)
+    print('encode_classes.py - Integer encoded list:', master_list)
     return master_list
 
 # This file cannot run as a standalone program.

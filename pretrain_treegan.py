@@ -14,15 +14,6 @@ import os
 import os.path as osp
 from eval_treegan import checkpoint_eval
 from encode_classes import encode_classes
-from tensorflow.keras.layers import Embedding
-from tensorflow.keras.layers import Multiply
-from tensorflow.keras.layers import Input
-from tensorflow.keras.layers import Flatten
-import tensorflow
-
-# Enable eager execution in tensorflow if it is not already enabled.
-tensorflow.compat.v1.enable_eager_execution()
-print('Tensorflow eagerly execution enabled:',  tensorflow.executing_eagerly())
 
 class TreeGAN():
     def __init__(self, args):
@@ -33,8 +24,7 @@ class TreeGAN():
             
             # Convert the one hot encoding list into an array, representing the classes.
             self.classes_chosen = encode_classes(args.class_range)
-            print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
-            print('pretrain_treegan.py: __init__ classes chosen:', self.classes_chosen)
+            print('pretrain_treegan.py: __init__ - index of classes chosen:', self.classes_chosen)
         
         # Otherwise if only using a single class.
         else:
@@ -130,39 +120,18 @@ class TreeGAN():
                     # as the latent space representation to indicate the class and combine it with the latent space.
                     if self.classes_chosen is not None:
                     
-                        # Prepare the latent space for concatenation with the class vector.
-                        latent_space = Input(shape = (latent_space_dim, ))
+                        # TODO: Produce resultant tensor of (1, 1, 96) from the integer value representing class.
                         
-                        # Define the class labels using an instantiated tensor.
-                        class_labels = Input(shape = (1, ), dtype = 'int32')
-                    
-                        # Input dimensions should be the number of classes.
-                        # Output dimensions should be the same as the latent space representation.
-                        classes_embedding = Embedding(input_dim = len(self.classes_chosen), output_dim = latent_space_dim, input_length = 1)(class_labels)
+                        # Get the number of classes.
+                        class_count = len(self.classes_chosen)
                         
-                        # Flatten the tensor representing class labels into a single dimension.
-                        #classes_embedding = Flatten()(classes_embedding)
+                        # Use a lookup table to represent the number of classes.
+                        self.lookup_table = nn.Embedding(class_count, 96)
+                        print('Discriminator - class tensor embed layer type:', type(self.lookup_table))
                         
-                        print('pretrain_treegan.py - Discriminator')
-                        print('Embedding layer type:', type(classes_embedding))
-                        print('Embedding layer output:', classes_embedding)
-                        #print('Embedding layer shape:', classes_embedding.shape)
-                        
-                        # Combine the latent space with the class embedding.
-                        z = Multiply()([latent_space, classes_embedding])
-                        
-                        # Reshape the tensor into the required input dimensions.
-                        # Convert the keras tensor into a numpy array before
-                        # converting it into a pytorch tensor.
-                        #array = tensorflow.make_ndarray(z)
-                        array = z.numpy()
-                        z = torch.from_numpy(array)
-                        
-                        print('Concatenated latent space type:', type(z))
-                        print('Concatenated latent space shape:', z.shape)
-                        
-                        # Resultant tensor is of shape (None, 1, 96).
-                        # Need to convert it to (1, 1, 96).
+                        # Create the embedding layer.
+                        self.embed_layer = self.lookup_table(classes_chosen)
+                        print('Class embedding layer type:', type(self.embed_layer))
                         
                     else:
                         # Generate the latent space representation for single class.
@@ -204,39 +173,18 @@ class TreeGAN():
                 # as the latent space representation to indicate the class and combine it with the latent space.
                 if self.classes_chosen is not None:
                     
-                    # Prepare the latent space for concatenation with the class vector.
-                    latent_space = Input(shape = (latent_space_dim, ))
-                        
-                    # Define the class labels using an instantiated tensor.
-                    class_labels = Input(shape = (1, ), dtype = 'int32')
+                    # TODO: Produce resultant tensor of (1, 1, 96) from the integer value representing class.
                     
-                    # Input dimensions should be the number of classes.
-                    # Output dimensions should be the same as the latent space representation.
-                    classes_embedding = Embedding(input_dim = len(self.classes_chosen), output_dim = latent_space_dim, input_length = 1)(class_labels)
+                    # Get the number of classes.
+                    class_count = len(self.classes_chosen)
                         
-                    # Flatten the tensor representing class labels into a single dimension.
-                    #classes_embedding = Flatten()(classes_embedding)
-                        
-                    print('pretrain_treegan.py - Generator')
-                    print('Embedding layer type:', type(classes_embedding))
-                    print('Embedding layer output:', classes_embedding)
-                    #print('Embedding layer shape:', classes_embedding.shape)
-                        
-                    # Combine the latent space with the class embedding.
-                    z = Multiply()([latent_space, classes_embedding])
+                    # Use a lookup table to represent the number of classes.
+                    self.lookup_table = nn.Embedding(class_count, 96)
+                    print('Discriminator - class tensor embed layer type:', type(self.lookup_table))
                     
-                    # Reshape the tensor into the required input dimensions.
-                    # Convert the keras tensor into a numpy array before
-                    # converting it into a pytorch tensor.
-                    #array = tensorflow.make_ndarray(z)
-                    array = z.numpy()
-                    z = torch.from_numpy(array)
-                    
-                    print('Concatenated latent space type:', type(z))
-                    print('Concatenated latent space shape:', z.shape)
-                    
-                    # Resultant tensor is of shape (None, 1, 96).
-                    # Need to convert it to (1, 1, 96).
+                    # Create the embedding layer.
+                    self.embed_layer = self.lookup_table(classes_chosen)
+                    print('Class embedding layer type:', type(self.embed_layer))
                         
                 else:
                     # Generate the latent space representation for single class.
