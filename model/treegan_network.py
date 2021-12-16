@@ -8,6 +8,8 @@ from math import ceil
 class Discriminator(nn.Module):
     def __init__(self, features, classes_chosen = None, version=0):
     
+        self.classes_chosen = classes_chosen
+    
         # Get the number of layers for the discriminator network.
         self.layer_num = len(features)-1
         
@@ -25,7 +27,7 @@ class Discriminator(nn.Module):
                         
             # Create a lookup table using pytorch embedding to represent the number of classes.
             self.lookup_table = nn.Embedding(class_count, 96)
-            print('Discriminator - class tensor embed layer type:', type(self.lookup_table))
+            print('Discriminator - class NN embedding lookup table layer type:', type(self.lookup_table))
 
         # Append the discriminator features to each layer of the discriminator network.
         for inx in range(self.layer_num):
@@ -43,8 +45,7 @@ class Discriminator(nn.Module):
                     nn.Linear(64, 1),
                     nn.Sigmoid())
 
-    # Pretraining does not pass one hot encoded classes to discriminator forward.
-    # Additional dimensions were already added to latent space in 'pretrain_treegan.py'.
+    # Pretraining does not use the forward propagation function.
     def forward(self, tree, classes_chosen = None, device = None):
 
         feat = tree.transpose(1,2)
@@ -76,6 +77,8 @@ class Discriminator(nn.Module):
 class Generator(nn.Module):
     def __init__(self, features, degrees, support, classes_chosen = None, args = None):
     
+        self.classes_chosen = classes_chosen
+        
         # Get the number of layers for the generator network.
         self.layer_num = len(features)-1
         assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
@@ -89,14 +92,14 @@ class Generator(nn.Module):
         
         # For multiclass, use an embedding layer to create a vector with the same dimensions
         # as the latent space representation to indicate the class and combine it with the latent space.
-        if classes_chosen is not None:
+        if self.classes_chosen is not None:
                 
             # Get the number of classes.
-            class_count = len(self.classes_chosen)
+            self.class_count = len(self.classes_chosen)
                         
             # Create a lookup table using pytorch embedding to represent the number of classes.
-            self.lookup_table = nn.Embedding(class_count, 96)
-            print('Generator - class tensor embed layer type:', type(self.lookup_table))
+            self.lookup_table = nn.Embedding(self.class_count, 96)
+            print('Generator - class NN embedding lookup table type:', type(self.lookup_table))
 
         # Define each layer of the generator network.
         for inx in range(self.layer_num):
@@ -105,15 +108,14 @@ class Generator(nn.Module):
             if inx == self.layer_num - 1:
                 self.gcn.add_module('TreeGCN_' + str(inx),
                     TreeGCN(inx, features, degrees,
-                    support = support, node = vertex_num,upsample = True, activation = False, classes_chosen = classes_chosen, args = args))
+                    support = support, node = vertex_num,upsample = True, activation = False,  classes_chosen = self.classes_chosen, args = args))
             else:
                 self.gcn.add_module('TreeGCN_' + str(inx),
                     TreeGCN(inx, features, degrees,
-                    support = support, node = vertex_num, upsample = True, activation = True,classes_chosen = classes_chosen, args = args))
+                    support = support, node = vertex_num, upsample = True, activation = True,classes_chosen = self.classes_chosen, args = args))
             vertex_num = int(vertex_num * degrees[inx])
 
-    # Pretraining does not pass one hot encoded classes to generator forward.
-    # Additional dimensions were already added to latent space in 'pretrain_treegan.py'.
+    # Pretraining does not use the forward propagation function.
     def forward(self, tree, classes_chosen = None, device = None):
 
         # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
