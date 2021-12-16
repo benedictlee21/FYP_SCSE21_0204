@@ -116,32 +116,15 @@ class TreeGAN():
                     # Reset discriminator gradients to zero.
                     self.D.zero_grad()
                     
-                    # For multiclass, use an embedding layer to create a vector with the same dimensions
-                    # as the latent space representation to indicate the class and combine it with the latent space.
-                    if self.classes_chosen is not None:
-                    
-                        # TODO: Produce resultant tensor of (1, 1, 96) from the integer value representing class.
-                        
-                        # Get the number of classes.
-                        class_count = len(self.classes_chosen)
-                        
-                        # Use a lookup table to represent the number of classes.
-                        self.lookup_table = nn.Embedding(class_count, 96)
-                        print('Discriminator - class tensor embed layer type:', type(self.lookup_table))
-                        
-                        # Create the embedding layer.
-                        self.embed_layer = self.lookup_table(classes_chosen)
-                        print('Class embedding layer type:', type(self.embed_layer))
-                        
-                    else:
-                        # Generate the latent space representation for single class.
-                        z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
+                    # Generate the latent space representation.
+                    # Concatentation of multiclass labels is done in 'treegan_network.py'.
+                    z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                         
                     # Store the latent space in a list.
                     tree = [z]
 
-                    # One hot encoded array for multiclass classes chosen is not
-                    # passed into the forward function of the generator during pretraining.
+                    # Reset the gradients and pass the latent space representation to the generator.
+                    # Concatentation of multiclass labels is done in 'treegan_network.py'.
                     with torch.no_grad():
                         fake_point = self.G(tree)
 
@@ -149,13 +132,13 @@ class TreeGAN():
                     D_fake, _ = self.D(fake_point)
                     gp_loss = self.GP(self.D, point.data, fake_point.data)
 
-                    # compute D loss
+                    # Compute discriminator losses.
                     D_realm = D_real.mean()
                     D_fakem = D_fake.mean()
                     d_loss = -D_realm + D_fakem
                     d_loss_gp = d_loss + gp_loss
                     
-                    # times weight before backward
+                    # Multiply the loss by the weight before backpropagation.
                     d_loss*=self.w_train
                     d_loss_gp.backward()
                     self.optimizerD.step()
@@ -169,33 +152,14 @@ class TreeGAN():
                 # Reset generator gradients to zero.
                 self.G.zero_grad()
                 
-                # For multiclass, use an embedding layer to create a vector with the same dimensions
-                # as the latent space representation to indicate the class and combine it with the latent space.
-                if self.classes_chosen is not None:
-                    
-                    # TODO: Produce resultant tensor of (1, 1, 96) from the integer value representing class.
-                    
-                    # Get the number of classes.
-                    class_count = len(self.classes_chosen)
-                        
-                    # Use a lookup table to represent the number of classes.
-                    self.lookup_table = nn.Embedding(class_count, 96)
-                    print('Discriminator - class tensor embed layer type:', type(self.lookup_table))
-                    
-                    # Create the embedding layer.
-                    self.embed_layer = self.lookup_table(classes_chosen)
-                    print('Class embedding layer type:', type(self.embed_layer))
-                        
-                else:
-                    # Generate the latent space representation for single class.
-                    z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
+                # Generate the latent space representation.
+                z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
 
-                # Store the latent space in a list.
+                # Pass the latent space representation to the generator.
+                # Concatentation of multiclass labels is done in 'treegan_network.py'.
                 tree = [z]
                 fake_point = self.G(tree)
                 
-                # One hot encoded array for multiclass classes chosen is not
-                # passed into the forward function of the generator during pretraining.
                 G_fake, _ = self.D(fake_point)
                 G_fakem = G_fake.mean()
                 g_loss = -G_fakem
@@ -213,6 +177,7 @@ class TreeGAN():
                     knn_loss = self.knn_loss(fake_point)
                     g_loss = -G_fakem + self.args.knn_scalar * knn_loss
 
+                # Multiply the loss by the weight before backpropagation.
                 g_loss*=self.w_train
                 g_loss.backward()
                 self.optimizerG.step()

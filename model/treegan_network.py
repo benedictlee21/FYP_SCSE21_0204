@@ -17,12 +17,15 @@ class Discriminator(nn.Module):
         # Create a list to hold the submodules for fully connected layers.
         self.fc_layers = nn.ModuleList([])
 
+        # For multiclass, use an embedding layer to create a vector with the same dimensions
+        # as the latent space representation to indicate the class and combine it with the latent space.
         if classes_chosen is not None:
-            print('treegan_network.py: Discriminator initialization - classes chosen:', classes_chosen)
-            print('Discriminator operating in multiclass conditional mode.')
-                    
-            # Need to add the number of multiclass classes to the last value of the discriminator features list.
-            features[-1] += len(classes_chosen)
+            # Get the number of classes.
+            class_count = len(self.classes_chosen)
+                        
+            # Create a lookup table using pytorch embedding to represent the number of classes.
+            self.lookup_table = nn.Embedding(class_count, 96)
+            print('Discriminator - class tensor embed layer type:', type(self.lookup_table))
 
         # Append the discriminator features to each layer of the discriminator network.
         for inx in range(self.layer_num):
@@ -55,15 +58,16 @@ class Discriminator(nn.Module):
         # Output pooling layer.
         out = func.max_pool1d(input=feat, kernel_size=vertex_num).squeeze(-1)
         
+        # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
         if classes_chosen is not None:
-            print('treegan_network.py: Discriminator forward - classes chosen:', classes_chosen)
+        
+            # Create the embedding layer.
+            self.embed_layer = self.lookup_table(self.classes_chosen)
+            print('Class embedding layer type:', type(self.embed_layer))
             
-            # Convert the one hot encoded array into a tensor for concatenation.
-            classes_chosen = torch.from_numpy(classes_chosen)
-            
-            # Concatenate the multiclass labels with the completed shape.
-            # Need to ensure that both tensors are on the same device.
-            out = torch.cat((out, classes_chosen.to(device).squeeze(1)), -1)
+            # Perform an unsqueeze operation if required.
+            # Concatenate the tensor representing the classes to the latent space representation.
+            # out = torch.cat(tree, embed_layer)
         
         # Apply the final layer of the network.
         out1 = self.final_layer(out) # (B, 1)
@@ -82,14 +86,17 @@ class Generator(nn.Module):
         
         # Create a sequential container to hold submodules for the generator network.
         self.gcn = nn.Sequential()
-
+        
+        # For multiclass, use an embedding layer to create a vector with the same dimensions
+        # as the latent space representation to indicate the class and combine it with the latent space.
         if classes_chosen is not None:
-            print('treegan_network.py: Generator initialization - classes chosen:', classes_chosen)
-            print('Generator operating in conditional multiclass mode.')
-            
-            # First value in generator features list corresponds to the number of dimensions of the latent space.
-            # Need to add the number of multiclass classes to this value.
-            features[0] += len(classes_chosen)
+                
+            # Get the number of classes.
+            class_count = len(self.classes_chosen)
+                        
+            # Create a lookup table using pytorch embedding to represent the number of classes.
+            self.lookup_table = nn.Embedding(class_count, 96)
+            print('Generator - class tensor embed layer type:', type(self.lookup_table))
 
         # Define each layer of the generator network.
         for inx in range(self.layer_num):
@@ -109,20 +116,19 @@ class Generator(nn.Module):
     # Additional dimensions were already added to latent space in 'pretrain_treegan.py'.
     def forward(self, tree, classes_chosen = None, device = None):
 
+        # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
         if classes_chosen is not None:
-            print('treegan_network.py: Generator forward - classes chosen:', classes_chosen)
+        
+            # Create the embedding layer.
+            self.embed_layer = self.lookup_table(self.classes_chosen)
+            print('Class embedding layer type:', type(self.embed_layer))
             
-            # Convert the one hot encoded array into a tensor for concatenation.
-            classes_chosen = torch.from_numpy(classes_chosen)
-            
-            # Concatenate the multiclass labels with the generated latent space.
-            # Need to ensure that both tensors are on the same device.
-            tree[0] = torch.cat((tree[0], classes_chosen.to(device)), -1)
-            
-            # Obtain all the generated shapes from the result of the graph convolutional network.
-            feat = self.gcn(tree, classes_chosen)
-        else:
-            feat = self.gcn(tree)
+            # Perform an unsqueeze operation if required.
+            # Concatenate the tensor representing the classes to the latent space representation.
+            # tree = torch.cat(tree, embed_layer)
+
+        # Pass the network features to the graph convolutional network.
+        feat = self.gcn(tree)
 
         # Use only the last shape of the result as the output.
         self.pointcloud = feat[-1]
