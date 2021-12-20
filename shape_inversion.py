@@ -54,15 +54,9 @@ class ShapeInversion(object):
             weight_decay=0,
             eps=1e-8)
         
-        # For multiclass, use an embedding layer to create a vector with the same dimensions
-        # as the latent space representation to indicate the class and combine it with the latent space.
-        if self.classes_chosen is not None:
-                    
-            # TODO: Produce resultant tensor of (1, 1, 96) from the integer value representing class.
-            
-        else:
-            # Generate the latent space representation for single class.
-            self.z = torch.zeros((1, 1, self.latent_space_dim)).normal_().cuda()
+        # Generate the latent space representation.
+        # Concatentation of multiclass labels is done in 'treegan_network.py'.
+        self.z = torch.zeros((1, 1, self.latent_space_dim)).normal_().cuda()
         
         # 'Variable' is a wrapper for the tensor.
         # Gradients must be computed for the latent space representation tensor.

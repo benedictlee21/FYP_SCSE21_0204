@@ -22,6 +22,7 @@ class Discriminator(nn.Module):
         # For multiclass, use an embedding layer to create a vector with the same dimensions
         # as the latent space representation to indicate the class and combine it with the latent space.
         if classes_chosen is not None:
+        
             # Get the number of classes.
             class_count = len(self.classes_chosen)
                         
@@ -68,7 +69,7 @@ class Discriminator(nn.Module):
             
             # Perform an unsqueeze operation if required.
             # Concatenate the tensor representing the classes to the latent space representation.
-            # out = torch.cat(tree, embed_layer)
+            # out = torch.cat((tree, embed_layer), dim = 1)
         
         # Apply the final layer of the network.
         out1 = self.final_layer(out) # (B, 1)
@@ -127,7 +128,7 @@ class Generator(nn.Module):
             
             # Perform an unsqueeze operation if required.
             # Concatenate the tensor representing the classes to the latent space representation.
-            # tree = torch.cat(tree, embed_layer)
+            # tree = torch.cat((tree, embed_layer), dim = 1)
 
         # Pass the network features to the graph convolutional network.
         feat = self.gcn(tree)

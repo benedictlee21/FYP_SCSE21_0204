@@ -38,15 +38,18 @@ class CRNShapeNet(data.Dataset):
             # Master list to append all indexes from each class into.
             self.index_list = []
             
-            for index in self.classes_chosen:
-                self.one_class_index = np.array([shape for (shape, class_index) in enumerate(self.labels) if class_index == index])
+            # For each selected multiclass class.
+            for category_index in self.classes_chosen:
+                
+                # Retrieve all the shape class for the current class stored as a numpy array.
+                self.one_class_index = np.array([shape for (shape, class_index) in enumerate(self.labels) if class_index == category_index])
                 
                 # View the indexes and shapes for each individual class used in multiclass.
-                print('Category index:', index)
-                print('Shape indexes:', self.one_class_index)
+                print('Category index:', category_index, ', Shape indexes:', self.one_class_index)
                 
-                # May need to reduce the training dataset size for pretraining.
-                # Use the full test dataset size for evaluation.
+                # May need to reduce the training dataset size for pretraining,
+                # by randomly selecting a subset from that particular class of training shapes.
+                # For evaluation or testing, can use the full dataset size as it is smaller.
                 if not is_eval:
                 
                     # Convert the numpy array into a list before sampling.
@@ -57,6 +60,7 @@ class CRNShapeNet(data.Dataset):
                     # Get input argument for the number of samples per class to use for multiclass pretraining.
                     self.one_class_index = random.sample(self.one_class_index, self.args.samples_per_class)
                 
+                # All the indexes from each of the selected classes is appended into a single master list.
                 for index in self.one_class_index:
                     self.index_list.append(index)
             
@@ -97,13 +101,20 @@ class CRNShapeNet(data.Dataset):
             #print('CRN Single class index list:', self.index_list)
             print('Single class index list length:', len(self.index_list))
         
-    # Uses the index list created during the class initialization.
+    # Retrieves a shape's ground truth, partial and labels using the index list created during initialization.
     def __getitem__(self, index):
+        
+        # Match the input index to the actual index of the shape in the dataset.
         full_idx = self.index_list[index]
+        
+        # Ground truth and partial shapes are pytorch tensors.
+        # Perform concatenation of class tensor to the shape tensors here.
         gt = torch.from_numpy(self.gt[full_idx])
         label = self.labels[index]
         partial = torch.from_numpy(self.partial[full_idx])
+        
         return gt, partial, full_idx
 
+    # Return the number of shapes being used.
     def __len__(self):
         return len(self.index_list)

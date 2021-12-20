@@ -32,7 +32,12 @@ class TreeGAN():
 
         # Load the dataset. Reduce the number of workers here if the data loading process freezes.
         # Original number of workers is 16.
+        # 'self.data' returns a 'CRNShapeNet' object.
         self.data = CRNShapeNet(args, self.classes_chosen)
+        
+        # Append the class index to each shape in the dataset.
+        
+        # Combines the dataset with a sampler, providing an iterable over the dataset.
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=8)
         print("Training Dataset : {} prepared.".format(len(self.data)))
 
@@ -95,6 +100,7 @@ class TreeGAN():
         # Prepare the number of dimensions for the latent space for the network.
         latent_space_dim = 96
 
+        # For each epoch.
         for epoch in range(epoch_log, self.args.epochs):
             print('Starting epoch:', epoch + 1)
             epoch_g_loss = []
@@ -102,15 +108,24 @@ class TreeGAN():
             epoch_time = time.time()
             self.w_train = self.w_train_ls[min(3,int(epoch/500))]
 
+            # For each shape.
             for _iter, data in enumerate(self.dataLoader):
-                # Start Time
+                
+                # Start time.
                 start_time = time.time()
+                
+                # 'point' is a tensor from the current shape.
                 point, _, _ = data
                 point = point.to(self.args.device)
+                
+                # Retrieve the class index of each shape being used for training from the dataloader.
+                # Concatenate the class index to the latent space for each iteration of the discriminator.
 
 # -------------------- Discriminator -------------------- #
 
                 tic = time.time()
+                
+                # Repeat for the number of iterations for the discriminator.
                 for d_iter in range(self.args.D_iter):
                     
                     # Reset discriminator gradients to zero.
@@ -124,7 +139,6 @@ class TreeGAN():
                     tree = [z]
 
                     # Reset the gradients and pass the latent space representation to the generator.
-                    # Concatentation of multiclass labels is done in 'treegan_network.py'.
                     with torch.no_grad():
                         fake_point = self.G(tree)
 
@@ -156,7 +170,6 @@ class TreeGAN():
                 z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
 
                 # Pass the latent space representation to the generator.
-                # Concatentation of multiclass labels is done in 'treegan_network.py'.
                 tree = [z]
                 fake_point = self.G(tree)
                 
