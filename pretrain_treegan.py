@@ -38,6 +38,7 @@ class TreeGAN():
         # Append the class index to each shape in the dataset.
         
         # Combines the dataset with a sampler, providing an iterable over the dataset.
+        # Shuffling of shapes by class indexes is performed here.
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=8)
         print("Training Dataset : {} prepared.".format(len(self.data)))
 
@@ -49,6 +50,17 @@ class TreeGAN():
         # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
         self.optimizerD = optim.Adam(self.D.parameters(), lr=args.lr, betas=(0, 0.99))
+        
+        # Define parameters for multiclass if used.
+        if classes_chosen is not None:
+        
+            # Get the number of classes.
+            self.class_count = len(self.classes_chosen)
+            print('Number of multiclass classes:', class_count)
+            
+            # Create a lookup table using pytorch embedding to represent the number of classes.
+            self.lookup_table = nn.Embedding(self.class_count, 96)
+            print('pretrain_treegan.py - NN embedding lookup table type:', type(self.lookup_table))
         
         # Define the calculation of gradient penalty.
         self.GP = GradientPenalty(args.lambdaGP, gamma=1, device=args.device)
@@ -80,6 +92,7 @@ class TreeGAN():
         loss_legend = list(loss_log.keys())
         metric = {'FPD': []}
 
+        # Load previously saved checkpoint if applicable.
         if load_ckpt is not None:
             checkpoint = torch.load(load_ckpt, map_location=self.args.device)
             self.D.load_state_dict(checkpoint['D_state_dict'])
@@ -108,19 +121,22 @@ class TreeGAN():
             epoch_time = time.time()
             self.w_train = self.w_train_ls[min(3,int(epoch/500))]
 
-            # For each shape.
+            # Load each shape one at a time from the dataloader.
+            # Dataloader uses function '__getitem__' in 'CRNShapeNet.py'.
             for _iter, data in enumerate(self.dataLoader):
                 
                 # Start time.
                 start_time = time.time()
                 
-                # 'point' is a tensor from the current shape.
-                point, _, _ = data
+                # Assigned variables are those returned from the '__getitem__' function in 'CRNShapeNet.py'.
+                # 'point' is the ground truth tensor from the current shape.
+                # '_' means to ignore that respective return variable.
+                # Retrieve the class index 'class_id' of each shape being from the dataloader.
+                point, _, _, class_id = data
                 point = point.to(self.args.device)
                 
-                # Retrieve the class index of each shape being used for training from the dataloader.
-                # Concatenate the class index to the latent space for each iteration of the discriminator.
-
+                print('Class ID for the current shape:', class_id)
+                
 # -------------------- Discriminator -------------------- #
 
                 tic = time.time()
@@ -134,6 +150,17 @@ class TreeGAN():
                     # Generate the latent space representation.
                     # Concatentation of multiclass labels is done in 'treegan_network.py'.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
+                    
+                    # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
+                    if classes_chosen is not None:
+                        
+                        # Create the embedding layer.
+                        self.embed_layer = self.lookup_table(self.classes_chosen)
+                        print('Discriminator iteration - class embedding layer type:', type(self.embed_layer))
+                
+                        # Perform an unsqueeze operation if required.
+                        # Concatenate the tensor representing the classes to the latent space representation.
+                        z = torch.cat((z, embed_layer), dim = 1)
                         
                     # Store the latent space in a list.
                     tree = [z]
@@ -168,6 +195,17 @@ class TreeGAN():
                 
                 # Generate the latent space representation.
                 z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
+                
+                # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
+                if classes_chosen is not None:
+                        
+                    # Create the embedding layer.
+                    self.embed_layer = self.lookup_table(self.classes_chosen)
+                    print('Generator iteration - class embedding layer type:', type(self.embed_layer))
+                
+                    # Perform an unsqueeze operation if required.
+                    # Concatenate the tensor representing the classes to the latent space representation.
+                    z = torch.cat((z, embed_layer), dim = 1)
 
                 # Pass the latent space representation to the generator.
                 tree = [z]

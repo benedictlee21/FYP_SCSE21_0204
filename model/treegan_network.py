@@ -19,17 +19,6 @@ class Discriminator(nn.Module):
         # Create a list to hold the submodules for fully connected layers.
         self.fc_layers = nn.ModuleList([])
 
-        # For multiclass, use an embedding layer to create a vector with the same dimensions
-        # as the latent space representation to indicate the class and combine it with the latent space.
-        if classes_chosen is not None:
-        
-            # Get the number of classes.
-            class_count = len(self.classes_chosen)
-                        
-            # Create a lookup table using pytorch embedding to represent the number of classes.
-            self.lookup_table = nn.Embedding(class_count, 96)
-            print('Discriminator - class NN embedding lookup table layer type:', type(self.lookup_table))
-
         # Append the discriminator features to each layer of the discriminator network.
         for inx in range(self.layer_num):
             self.fc_layers.append(nn.Conv1d(features[inx], features[inx+1], kernel_size=1, stride=1))
@@ -60,17 +49,6 @@ class Discriminator(nn.Module):
         # Output pooling layer.
         out = func.max_pool1d(input=feat, kernel_size=vertex_num).squeeze(-1)
         
-        # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
-        if classes_chosen is not None:
-        
-            # Create the embedding layer.
-            self.embed_layer = self.lookup_table(self.classes_chosen)
-            print('Class embedding layer type:', type(self.embed_layer))
-            
-            # Perform an unsqueeze operation if required.
-            # Concatenate the tensor representing the classes to the latent space representation.
-            # out = torch.cat((tree, embed_layer), dim = 1)
-        
         # Apply the final layer of the network.
         out1 = self.final_layer(out) # (B, 1)
         return out1, out
@@ -90,17 +68,6 @@ class Generator(nn.Module):
         
         # Create a sequential container to hold submodules for the generator network.
         self.gcn = nn.Sequential()
-        
-        # For multiclass, use an embedding layer to create a vector with the same dimensions
-        # as the latent space representation to indicate the class and combine it with the latent space.
-        if self.classes_chosen is not None:
-                
-            # Get the number of classes.
-            self.class_count = len(self.classes_chosen)
-                        
-            # Create a lookup table using pytorch embedding to represent the number of classes.
-            self.lookup_table = nn.Embedding(self.class_count, 96)
-            print('Generator - class NN embedding lookup table type:', type(self.lookup_table))
 
         # Define each layer of the generator network.
         for inx in range(self.layer_num):
@@ -118,17 +85,6 @@ class Generator(nn.Module):
 
     # Pretraining does not use the forward propagation function.
     def forward(self, tree, classes_chosen = None, device = None):
-
-        # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
-        if classes_chosen is not None:
-        
-            # Create the embedding layer.
-            self.embed_layer = self.lookup_table(self.classes_chosen)
-            print('Class embedding layer type:', type(self.embed_layer))
-            
-            # Perform an unsqueeze operation if required.
-            # Concatenate the tensor representing the classes to the latent space representation.
-            # tree = torch.cat((tree, embed_layer), dim = 1)
 
         # Pass the network features to the graph convolutional network.
         feat = self.gcn(tree)
