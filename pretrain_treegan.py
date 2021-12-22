@@ -22,6 +22,10 @@ class TreeGAN():
         # If multiclass pretraining is specified.
         if args.class_range is not None:
             
+            # Set the total number of classes to be used.
+            # Chair, Table, Cabinet, Couch, Lamp, Car, Plane, Watercraft.
+            self.total_num_classes = 8
+            
             # Convert the one hot encoding list into an array, representing the classes.
             self.classes_chosen = encode_classes(args.class_range)
             print('pretrain_treegan.py: __init__ - index of classes chosen:', self.classes_chosen)
@@ -54,13 +58,9 @@ class TreeGAN():
         
         # Define parameters for multiclass if used.
         if self.classes_chosen is not None:
-        
-            # Get the number of classes.
-            self.class_count = len(self.classes_chosen)
-            print('Number of multiclass classes:', self.class_count)
             
             # Create a lookup table using pytorch embedding to represent the number of classes.
-            self.lookup_table = nn.Embedding(self.class_count, 96)
+            self.lookup_table = nn.Embedding(self.total_num_classes, 96)
             print('pretrain_treegan.py - NN embedding lookup table type:', type(self.lookup_table))
         
         # Define the calculation of gradient penalty.
@@ -151,8 +151,6 @@ class TreeGAN():
                 # '.cpu()' moves the tensor from the gpu to the cpu.
                 # '.detach()' returns a new tensor that is detached from the current graph.
                 # '.numpy()' converts the tensor into a numpy array.
-                class_indexes = class_id.cpu().detach().numpy()
-                print('Numpy array of class indexes:', class_indexes)
                 
 # -------------------- Discriminator -------------------- #
 
@@ -172,12 +170,17 @@ class TreeGAN():
                     if self.classes_chosen is not None and class_id is not None:
                         
                         # Create the embedding layer.
-                        self.embed_layer = self.lookup_table(class_id)
+                        self.embed_layer = self.lookup_table(class_id).to(self.args.device)
                         print('Discriminator iteration - class embedding layer type:', type(self.embed_layer))
-                
-                        # Perform an unsqueeze operation if required.
+                        
+                        # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
+                        self.embed_layer = torch.unsqueeze(self.embed_layer, 0)
+                        print('Discriminator z shape:', z.shape)
+                        print('Embedding layer output shape:', self.embed_layer.shape)
+                        
                         # Concatenate the tensor representing the classes to the latent space representation.
-                        z = torch.cat((z, embed_layer), dim = 1)
+                        z = torch.cat((z, self.embed_layer), dim = 1)
+                        print('Discriminator - class concatenated with latent space output:', z)
                         
                     # Store the latent space in a list.
                     tree = [z]
@@ -219,12 +222,17 @@ class TreeGAN():
                 if self.classes_chosen is not None and class_id is not None:
                         
                     # Create the embedding layer.
-                    self.embed_layer = self.lookup_table(class_id)
+                    self.embed_layer = self.lookup_table(class_id).to(self.args.device)
                     print('Generator iteration - class embedding layer type:', type(self.embed_layer))
-                
-                    # Perform an unsqueeze operation if required.
+                    
+                    # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
+                    self.embed_layer = torch.unsqueeze(self.embed_layer, 0)
+                    print('Generator z shape:', z.shape)
+                    print('Embedding layer output shape:', self.embed_layer.shape)
+                    
                     # Concatenate the tensor representing the classes to the latent space representation.
-                    z = torch.cat((z, embed_layer), dim = 1)
+                    z = torch.cat((z, self.embed_layer), dim = 1)
+                    print('Generator - class concatenated with latent space output:', z)
 
                 # Pass the latent space representation to the generator.
                 tree = [z]
