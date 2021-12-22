@@ -6,9 +6,7 @@ from model.gcn import TreeGCN
 from math import ceil
 
 class Discriminator(nn.Module):
-    def __init__(self, features, classes_chosen = None, version=0):
-    
-        self.classes_chosen = classes_chosen
+    def __init__(self, features, version = 0):
     
         # Get the number of layers for the discriminator network.
         self.layer_num = len(features)-1
@@ -36,7 +34,7 @@ class Discriminator(nn.Module):
                     nn.Sigmoid())
 
     # Pretraining does not use the forward propagation function.
-    def forward(self, tree, classes_chosen = None, device = None):
+    def forward(self, tree, device = None):
 
         feat = tree.transpose(1,2)
         vertex_num = feat.size(2)
@@ -54,9 +52,7 @@ class Discriminator(nn.Module):
         return out1, out
 
 class Generator(nn.Module):
-    def __init__(self, features, degrees, support, classes_chosen = None, args = None):
-    
-        self.classes_chosen = classes_chosen
+    def __init__(self, features, degrees, support, args = None):
         
         # Get the number of layers for the generator network.
         self.layer_num = len(features)-1
@@ -76,15 +72,15 @@ class Generator(nn.Module):
             if inx == self.layer_num - 1:
                 self.gcn.add_module('TreeGCN_' + str(inx),
                     TreeGCN(inx, features, degrees,
-                    support = support, node = vertex_num,upsample = True, activation = False,  classes_chosen = self.classes_chosen, args = args))
+                    support = support, node = vertex_num,upsample = True, activation = False, args = args))
             else:
                 self.gcn.add_module('TreeGCN_' + str(inx),
                     TreeGCN(inx, features, degrees,
-                    support = support, node = vertex_num, upsample = True, activation = True,classes_chosen = self.classes_chosen, args = args))
+                    support = support, node = vertex_num, upsample = True, activation = True, args = args))
             vertex_num = int(vertex_num * degrees[inx])
 
     # Pretraining does not use the forward propagation function.
-    def forward(self, tree, classes_chosen = None, device = None):
+    def forward(self, tree, device = None):
 
         # Pass the network features to the graph convolutional network.
         feat = self.gcn(tree)

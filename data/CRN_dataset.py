@@ -39,7 +39,7 @@ class CRNShapeNet(data.Dataset):
             self.index_list = []
             
             # Create dictionary to store key as class index and value as numpy array of shape indexes for that class.
-            classes_dictionary = {}
+            self.classes_dictionary = {}
             
             # For each selected multiclass class.
             for category_index in self.classes_chosen:
@@ -51,7 +51,7 @@ class CRNShapeNet(data.Dataset):
                 print('Category index:', category_index, ', Shape indexes:', self.one_class_index)
                 
                 # Add the class index as key, and numpy array of shape indexes as values to the dictionary.
-                classes_dictionary[category_index] = one_class_index
+                self.classes_dictionary[category_index] = self.one_class_index
                 
                 # May need to reduce the training dataset size for pretraining,
                 # by randomly selecting a subset from that particular class of training shapes.
@@ -103,43 +103,30 @@ class CRNShapeNet(data.Dataset):
     # Retrieves a shape's ground truth, partial and labels using the index list created during initialization.
     def __getitem__(self, index):
         
-        print('Value of __getitem__ index:', index)
-        
-        # Determine if multiclass is being used and set the class ID if it is.
-        if classes_chosen is not None:
-            
-            # Use the dictionary from '__init__' to determine the class from the key,
-            # by matching the index value as belonging to one of the numpy arrays in the value.
-            
-            # Implementation method 1.
-            key_list = list(classes_dictionary.keys())
-            value_list = list(classes_dictionary.values())
-            
-            # Search each dictionary value array to see if the input index is contained within it.
-            for array in value_list:
-                
-                # Get the key for that dictionary value, which is the class ID for this particular shape.
-                if index in array:
-                    position = key_list.index[array]
-                    class_id = key_list[position]
-                    print('Class index of current shape (method 1):', class_id)
-            
-            # Implementation method 2.
-            # Search each dictionary value array to see if the input index is contained within it.
-            for array in classes_dictionary.values():
-                if index in array:
-                
-                    # Get the key for that dictionary value, which is the class ID for this particular shape.
-                    for key, value in classes_dictionary:
-                        if value == array:
-                            class_id = key
-                            print('Class index of current shape (method 2):', class_id)
-            
-        else:
-            class_id = None
+        print('\nValue of __getitem__ input index:', index)
         
         # Match the input index to the actual index of the shape in the dataset.
         full_idx = self.index_list[index]
+        
+        print('\nValue of __getitem__ full index:', full_idx)
+        
+        # Determine if multiclass is being used and set the class ID if it is.
+        if self.classes_chosen is not None:
+            
+            # Use the dictionary from '__init__' to determine the class from the key,
+            # by matching the index value as belonging to one of the numpy arrays in the value.
+            # Search each dictionary value array to see if the input index is contained within it.
+            for key in self.classes_dictionary:
+                array = self.classes_dictionary[key]
+                
+                # Identify the class for which the current index belongs to.
+                if full_idx in array:
+                    class_id = key
+                    print('Current Shape Class ID:', class_id)
+        
+        # Otherwise, for single class pretraining.
+        else:
+            class_id = None      
         
         # Ground truth and partial shapes are pytorch tensors.
         # Perform concatenation of class tensor to the shape tensors here.

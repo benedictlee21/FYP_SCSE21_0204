@@ -4,7 +4,7 @@ import torch.nn.init as init
 import math
 
 class TreeGCN(nn.Module):
-    def __init__(self, depth, features, degrees, support = 10, node = 1, upsample = False, activation = True, classes_chosen = None, args = None):
+    def __init__(self, depth, features, degrees, support = 10, node = 1, upsample = False, activation = True, args = None):
     
         # Depth represents the layer index.
         self.depth = depth
@@ -20,9 +20,6 @@ class TreeGCN(nn.Module):
         # Define the ancestor term. Create a list of network layers.
         # ModuleList does not connect the layers yet unlike Sequential.
         self.W_root = nn.ModuleList([nn.Linear(features[inx], self.out_feature, bias=False) for inx in range(self.depth+1)])
-        
-        if classes_chosen is not None:
-            print('gcn.py: Initializing network module list - classes chosen:', classes_chosen)
 
         if self.upsample:
             # shape (node, in_feature, out_feature)
@@ -51,12 +48,9 @@ class TreeGCN(nn.Module):
         if self.activation:
             self.bias.data.uniform_(-stdv, stdv)
 
-    def forward(self, tree, classes_chosen = None):
+    def forward(self, tree):
         batch_size = tree[0].shape[0]
         root = 0
-        
-        if classes_chosen is not None:
-            print('gcn.py: Network forward - classes chosen:', classes_chosen)
         
         # Define the ancestor term.
         for inx in range(self.depth+1):

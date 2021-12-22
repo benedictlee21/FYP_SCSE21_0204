@@ -39,24 +39,25 @@ class TreeGAN():
         
         # Combines the dataset with a sampler, providing an iterable over the dataset.
         # Shuffling of shapes by class indexes is performed here.
-        self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=8)
+        self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size = args.batch_size, shuffle = True, pin_memory = True, num_workers = 16)
+        
         print("Training Dataset : {} prepared.".format(len(self.data)))
 
         # Define the generator and discriminator models.
         # Pass in the chosen classes if multiclass is specified.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = self.classes_chosen, args=self.args).to(args.device)
-        self.D = Discriminator(features = args.D_FEAT, classes_chosen = self.classes_chosen).to(args.device)
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, args=self.args).to(args.device)
+        self.D = Discriminator(features = args.D_FEAT).to(args.device)
         
         # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
         self.optimizerD = optim.Adam(self.D.parameters(), lr=args.lr, betas=(0, 0.99))
         
         # Define parameters for multiclass if used.
-        if classes_chosen is not None:
+        if self.classes_chosen is not None:
         
             # Get the number of classes.
             self.class_count = len(self.classes_chosen)
-            print('Number of multiclass classes:', class_count)
+            print('Number of multiclass classes:', self.class_count)
             
             # Create a lookup table using pytorch embedding to represent the number of classes.
             self.lookup_table = nn.Embedding(self.class_count, 96)
@@ -129,13 +130,29 @@ class TreeGAN():
                 start_time = time.time()
                 
                 # Assigned variables are those returned from the '__getitem__' function in 'CRNShapeNet.py'.
-                # 'point' is the ground truth tensor from the current shape.
+                # 'point' is the tensor containing ground truths.
+                # 'class_id' is the tensor of class indexes.
                 # '_' means to ignore that respective return variable.
-                # Retrieve the class index 'class_id' of each shape being from the dataloader.
                 point, _, _, class_id = data
                 point = point.to(self.args.device)
                 
-                print('Class ID for the current shape:', class_id)
+                # Number of shapes in ground truth tensor and number of indexes in class tensor
+                # is determined by number of workers and batch size.
+                print('Ground truth (point) tensor:', point)
+                print('Ground truth (point) tensor shape:', point.shape)
+                print('Class ID tensor:', class_id)
+                print('Class ID tensor shape:', class_id.shape)
+                
+                # Split the ground truth tensor into their individual shapes.
+                split_shapes = torch.split(point, 1)
+                print('Split ground truth tensor:', split_shapes)
+                
+                # Converting the tensor of class indexes into a numpy array to extract individual class indexes.
+                # '.cpu()' moves the tensor from the gpu to the cpu.
+                # '.detach()' returns a new tensor that is detached from the current graph.
+                # '.numpy()' converts the tensor into a numpy array.
+                class_indexes = class_id.cpu().detach().numpy()
+                print('Numpy array of class indexes:', class_indexes)
                 
 # -------------------- Discriminator -------------------- #
 
@@ -148,14 +165,14 @@ class TreeGAN():
                     self.D.zero_grad()
                     
                     # Generate the latent space representation.
-                    # Concatentation of multiclass labels is done in 'treegan_network.py'.
+                    # First dimension of latent space is dependent on batch size.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                     
                     # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
-                    if classes_chosen is not None:
+                    if self.classes_chosen is not None and class_id is not None:
                         
                         # Create the embedding layer.
-                        self.embed_layer = self.lookup_table(self.classes_chosen)
+                        self.embed_layer = self.lookup_table(class_id)
                         print('Discriminator iteration - class embedding layer type:', type(self.embed_layer))
                 
                         # Perform an unsqueeze operation if required.
@@ -169,6 +186,7 @@ class TreeGAN():
                     with torch.no_grad():
                         fake_point = self.G(tree)
 
+                    # Evaluate both the ground truth and generated shape using the discriminator.
                     D_real, _ = self.D(point)
                     D_fake, _ = self.D(fake_point)
                     gp_loss = self.GP(self.D, point.data, fake_point.data)
@@ -194,13 +212,14 @@ class TreeGAN():
                 self.G.zero_grad()
                 
                 # Generate the latent space representation.
+                # First dimension of latent space is dependent on batch size.
                 z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                 
                 # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
-                if classes_chosen is not None:
+                if self.classes_chosen is not None and class_id is not None:
                         
                     # Create the embedding layer.
-                    self.embed_layer = self.lookup_table(self.classes_chosen)
+                    self.embed_layer = self.lookup_table(class_id)
                     print('Generator iteration - class embedding layer type:', type(self.embed_layer))
                 
                     # Perform an unsqueeze operation if required.
