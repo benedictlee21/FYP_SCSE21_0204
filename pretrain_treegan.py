@@ -17,6 +17,8 @@ from encode_classes import encode_classes
 
 class TreeGAN():
     def __init__(self, args):
+        
+        print('\n\nINSIDE: pretrain_treegan.py, Class: TreeGAN - __init__')
         self.args = args
 
         # If multiclass pretraining is specified.
@@ -138,14 +140,14 @@ class TreeGAN():
                 
                 # Number of shapes in ground truth tensor and number of indexes in class tensor
                 # is determined by number of workers and batch size.
-                print('Ground truth (point) tensor:', point)
+                #print('Ground truth (point) tensor:', point)
                 print('Ground truth (point) tensor shape:', point.shape)
                 print('Class ID tensor:', class_id)
                 print('Class ID tensor shape:', class_id.shape)
                 
                 # Split the ground truth tensor into their individual shapes.
-                split_shapes = torch.split(point, 1)
-                print('Split ground truth tensor:', split_shapes)
+                #split_shapes = torch.split(point, 1)
+                #print('Split ground truth tensor:', split_shapes)
                 
                 # Converting the tensor of class indexes into a numpy array to extract individual class indexes.
                 # '.cpu()' moves the tensor from the gpu to the cpu.
@@ -176,11 +178,20 @@ class TreeGAN():
                         # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
                         self.embed_layer = torch.unsqueeze(self.embed_layer, 0)
                         print('Discriminator z shape:', z.shape)
-                        print('Embedding layer output shape:', self.embed_layer.shape)
+                        print('Class embedding layer output shape:', self.embed_layer.shape)
                         
                         # Concatenate the tensor representing the classes to the latent space representation.
-                        z = torch.cat((z, self.embed_layer), dim = 1)
-                        print('Discriminator - class concatenated with latent space output:', z)
+                        #z = torch.cat((z, self.embed_layer), dim = 1)
+                        #print('Discriminator - class concatenated with latent space tensor:', z)
+                        #print('Discriminator concatenated tensor shape:', z.shape)
+                        
+                        # Add the latent space and class tensor together.
+                        z = z + self.embed_layer
+                        #print('Discriminator - class added with latent space tensor:', z)
+                        print('Discriminator added tensor shape:', z.shape)
+                        
+                        # Latent space and class tensor shapes are (1, 1, 96).
+                        # Output tensor shape must also be (1, 1, 96).
                         
                     # Store the latent space in a list.
                     tree = [z]
@@ -228,11 +239,20 @@ class TreeGAN():
                     # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
                     self.embed_layer = torch.unsqueeze(self.embed_layer, 0)
                     print('Generator z shape:', z.shape)
-                    print('Embedding layer output shape:', self.embed_layer.shape)
+                    print('Class embedding layer output shape:', self.embed_layer.shape)
                     
                     # Concatenate the tensor representing the classes to the latent space representation.
-                    z = torch.cat((z, self.embed_layer), dim = 1)
-                    print('Generator - class concatenated with latent space output:', z)
+                    #z = torch.cat((z, self.embed_layer), dim = 1)
+                    #print('Generator - class concatenated with latent space tensor:', z)
+                    #print('Generator concatenated tensor shape:', z.shape)
+                    
+                    # Add the latent space and class tensor together.
+                    z = z + self.embed_layer
+                    #print('Generator - class added with latent space tensor:', z)
+                    print('Generator added tensor shape:', z.shape)
+                        
+                    # Latent space and class tensor shapes are (1, 1, 96).
+                    # Output tensor shape must also be (1, 1, 96).
 
                 # Pass the latent space representation to the generator.
                 tree = [z]
