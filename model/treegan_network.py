@@ -58,6 +58,12 @@ class Generator(nn.Module):
         self.layer_num = len(features)-1
         assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
         
+        # First dimension of 'features' represents the number of input dimensions.
+        # Default value for single class is 96.
+        # For multiclass, need to change it to 192 due to concatenation of class tensor with latent space.
+        if args.class_choice == 'multiclass':
+            features[0] = 192
+        
         # For class instantiation.
         super(Generator, self).__init__()
         vertex_num = 1

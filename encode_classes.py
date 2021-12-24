@@ -28,7 +28,7 @@ def encode_classes(class_range):
     # Plane: 6 > 0
     # Watercraft: 7 > 7
     
-    class_dict = {3:'chair', 6: 'table', 5: 'couch', 1: 'cabinet', 4: 'lamp', 2: 'car', 0: 'plane', 7: 'watercraft'}
+    class_dict = {3: 'chair', 6: 'table', 5: 'couch', 1: 'cabinet', 4: 'lamp', 2: 'car', 0: 'plane', 7: 'watercraft'}
     
     # List to hold all the one hot encoded arrays.
     master_list = []

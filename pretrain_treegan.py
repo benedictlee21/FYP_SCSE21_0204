@@ -20,26 +20,28 @@ class TreeGAN():
         
         print('\n\nINSIDE: pretrain_treegan.py, Class: TreeGAN - __init__')
         self.args = args
+        self.args.class_choice = self.args.class_choice.lower()
 
         # If multiclass pretraining is specified.
-        if args.class_range is not None:
+        if self.args.class_choice == 'multiclass' and self.args.class_range is not None:
             
             # Set the total number of classes to be used.
             # Chair, Table, Cabinet, Couch, Lamp, Car, Plane, Watercraft.
             self.total_num_classes = 8
             
             # Convert the one hot encoding list into an array, representing the classes.
-            self.classes_chosen = encode_classes(args.class_range)
-            print('pretrain_treegan.py: __init__ - index of classes chosen:', self.classes_chosen)
+            self.classes_chosen = encode_classes(self.args.class_range)
+            print('pretrain_treegan.py: __init__ - index of multiclass classes chosen:', self.classes_chosen)
         
         # Otherwise if only using a single class.
         else:
             self.classes_chosen = None
+            print('pretrain_treegan.py: __init__ - single class pretraining.')
 
         # Load the dataset. Reduce the number of workers here if the data loading process freezes.
         # Original number of workers is 16.
         # 'self.data' returns a 'CRNShapeNet' object.
-        self.data = CRNShapeNet(args, self.classes_chosen)
+        self.data = CRNShapeNet(self.args, self.classes_chosen)
         
         # Append the class index to each shape in the dataset.
         
@@ -59,11 +61,11 @@ class TreeGAN():
         self.optimizerD = optim.Adam(self.D.parameters(), lr=args.lr, betas=(0, 0.99))
         
         # Define parameters for multiclass if used.
-        if self.classes_chosen is not None:
+        if self.args.class_choice == 'multiclass':
             
             # Create a lookup table using pytorch embedding to represent the number of classes.
             self.lookup_table = nn.Embedding(self.total_num_classes, 96)
-            print('pretrain_treegan.py - NN embedding lookup table type:', type(self.lookup_table))
+            print('pretrain_treegan.py - multiclass NN embedding lookup table type:', type(self.lookup_table))
         
         # Define the calculation of gradient penalty.
         self.GP = GradientPenalty(args.lambdaGP, gamma=1, device=args.device)
@@ -141,9 +143,9 @@ class TreeGAN():
                 # Number of shapes in ground truth tensor and number of indexes in class tensor
                 # is determined by number of workers and batch size.
                 #print('Ground truth (point) tensor:', point)
-                print('Ground truth (point) tensor shape:', point.shape)
-                print('Class ID tensor:', class_id)
-                print('Class ID tensor shape:', class_id.shape)
+                #print('Ground truth (point) tensor shape:', point.shape)
+                #print('Class ID tensor:', class_id)
+                #print('Class ID tensor shape:', class_id.shape)
                 
                 # Split the ground truth tensor into their individual shapes.
                 #split_shapes = torch.split(point, 1)
@@ -169,29 +171,22 @@ class TreeGAN():
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                     
                     # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
-                    if self.classes_chosen is not None and class_id is not None:
+                    if self.args.class_choice == 'multiclass' and class_id is not None:
                         
                         # Create the embedding layer.
                         self.embed_layer = self.lookup_table(class_id).to(self.args.device)
-                        print('Discriminator iteration - class embedding layer type:', type(self.embed_layer))
+                        #print('Multiclass discriminator iteration - class embedding layer type:', type(self.embed_layer))
                         
                         # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
                         self.embed_layer = torch.unsqueeze(self.embed_layer, 0)
-                        print('Discriminator z shape:', z.shape)
-                        print('Class embedding layer output shape:', self.embed_layer.shape)
+                        #print('Discriminator z shape:', z.shape)
+                        #print('Multiclass discriminator embedding layer output shape:', self.embed_layer.shape)
                         
                         # Concatenate the tensor representing the classes to the latent space representation.
-                        #z = torch.cat((z, self.embed_layer), dim = 1)
+                        z = torch.cat((z, self.embed_layer), dim = 2)
                         #print('Discriminator - class concatenated with latent space tensor:', z)
-                        #print('Discriminator concatenated tensor shape:', z.shape)
-                        
-                        # Add the latent space and class tensor together.
-                        z = z + self.embed_layer
-                        #print('Discriminator - class added with latent space tensor:', z)
-                        print('Discriminator added tensor shape:', z.shape)
-                        
-                        # Latent space and class tensor shapes are (1, 1, 96).
-                        # Output tensor shape must also be (1, 1, 96).
+                        #print('Multiclass discriminator concatenated tensor shape:', z.shape)
+                        # Output tensor shape is (1, 1, 192).
                         
                     # Store the latent space in a list.
                     tree = [z]
@@ -230,29 +225,22 @@ class TreeGAN():
                 z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                 
                 # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
-                if self.classes_chosen is not None and class_id is not None:
+                if self.args.class_choice == 'multiclass' and class_id is not None:
                         
                     # Create the embedding layer.
                     self.embed_layer = self.lookup_table(class_id).to(self.args.device)
-                    print('Generator iteration - class embedding layer type:', type(self.embed_layer))
+                    #print('Multiclass generator iteration - class embedding layer type:', type(self.embed_layer))
                     
                     # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
                     self.embed_layer = torch.unsqueeze(self.embed_layer, 0)
-                    print('Generator z shape:', z.shape)
-                    print('Class embedding layer output shape:', self.embed_layer.shape)
+                    #print('Generator z shape:', z.shape)
+                    #print('Multiclass generator embedding layer output shape:', self.embed_layer.shape)
                     
                     # Concatenate the tensor representing the classes to the latent space representation.
-                    #z = torch.cat((z, self.embed_layer), dim = 1)
+                    z = torch.cat((z, self.embed_layer), dim = 2)
                     #print('Generator - class concatenated with latent space tensor:', z)
-                    #print('Generator concatenated tensor shape:', z.shape)
-                    
-                    # Add the latent space and class tensor together.
-                    z = z + self.embed_layer
-                    #print('Generator - class added with latent space tensor:', z)
-                    print('Generator added tensor shape:', z.shape)
-                        
-                    # Latent space and class tensor shapes are (1, 1, 96).
-                    # Output tensor shape must also be (1, 1, 96).
+                    #print('Multiclass generator concatenated tensor shape:', z.shape)
+                    # Output tensor shape is (1, 1, 192).
 
                 # Pass the latent space representation to the generator.
                 tree = [z]

@@ -16,9 +16,8 @@ class CRNShapeNet(data.Dataset):
         self.args = args
         self.classes_chosen = classes_chosen
         self.dataset_path = self.args.dataset_path
-        self.class_choice = self.args.class_choice
         
-        print('CRN_dataset.py: __init__ - classes chosen by dataset index:', classes_chosen)
+        print('CRN_dataset.py: __init__ - classes chosen by dataset index:', self.classes_chosen)
         
         # Value of string 'split' determines which '.h5' dataset file is used, either training or test.
         self.split = self.args.split
@@ -33,7 +32,8 @@ class CRNShapeNet(data.Dataset):
         print('Category ordered list:', category_ordered_list)
 
         # Import shapes from input dataset for multiclass.
-        if classes_chosen is not None:
+        # 'self.classes_chosen' is a list of class indexes for multiclass created in 'encode_classes.py'
+        if self.args.class_choice == 'multiclass':
             
             # Master list to append all indexes from each class into.
             self.index_list = []
@@ -77,9 +77,9 @@ class CRNShapeNet(data.Dataset):
             print('Multiclass index list length:', len(self.index_list))
             
         # Import shapes from input dataset for single class.
-        elif self.class_choice != 'multiclass':
+        else:
             # Obtain a single category ID corresponding to the single class.
-            category_id = category_ordered_list.index(self.class_choice.lower())
+            category_id = category_ordered_list.index(self.args.class_choice.lower())
             #print('CRN_dataset single category ID:', cat_id)
         
             # Extract all the shapes from the training dataset that match the single class index.
@@ -103,15 +103,15 @@ class CRNShapeNet(data.Dataset):
     # Retrieves a shape's ground truth, partial and labels using the index list created during initialization.
     def __getitem__(self, index):
         
-        print('\nValue of __getitem__ input index:', index)
+        #print('\nValue of __getitem__ input index:', index)
         
         # Match the input index to the actual index of the shape in the dataset.
         full_idx = self.index_list[index]
         
-        print('\nValue of __getitem__ full index:', full_idx)
+        #print('\nValue of __getitem__ full index:', full_idx)
         
         # Determine if multiclass is being used and set the class ID if it is.
-        if self.classes_chosen is not None:
+        if self.args.class_choice == 'multiclass':
             
             # Use the dictionary from '__init__' to determine the class from the key,
             # by matching the index value as belonging to one of the numpy arrays in the value.
@@ -122,7 +122,7 @@ class CRNShapeNet(data.Dataset):
                 # Identify the class for which the current index belongs to.
                 if full_idx in array:
                     class_id = key
-                    print('Current Shape Class ID:', class_id)
+                    #print('Current Shape Class ID:', class_id)
         
         # Otherwise, for single class pretraining.
         else:
