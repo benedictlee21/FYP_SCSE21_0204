@@ -140,21 +140,26 @@ class TreeGAN():
                 point, _, _, class_id = data
                 point = point.to(self.args.device)
                 
-                # Number of shapes in ground truth tensor and number of indexes in class tensor
-                # is determined by number of workers and batch size.
-                #print('Ground truth (point) tensor:', point)
-                #print('Ground truth (point) tensor shape:', point.shape)
-                #print('Class ID tensor:', class_id)
-                #print('Class ID tensor shape:', class_id.shape)
+                # Number of shapes in ground truth tensor and indexes in class tensor are determined by the batch size.
+                print('Ground truth (point) tensor:', point)
+                print('Ground truth (point) tensor shape:', point.shape)
+                print('Class ID tensor:', class_id)
+                print('Class ID tensor shape:', class_id.shape)
                 
                 # Split the ground truth tensor into their individual shapes.
-                #split_shapes = torch.split(point, 1)
-                #print('Split ground truth tensor:', split_shapes)
+                # Divide the ground truth tensor by the batch size to obtain one shape per tensor.
+                split_shapes = torch.tensor_split(point, self.args.batch_size)
+                print('Split ground truth tensor:', split_shapes)
+                print('Split ground truth tensor type:', type(split_shapes))
                 
-                # Converting the tensor of class indexes into a numpy array to extract individual class indexes.
-                # '.cpu()' moves the tensor from the gpu to the cpu.
-                # '.detach()' returns a new tensor that is detached from the current graph.
-                # '.numpy()' converts the tensor into a numpy array.
+                # Split the class tensor into their individual class indexes.
+                # Divide the class tensor by the batch size to obtain one class ID per tensor.
+                class_id = torch.tensor_split(class_id, self.args.batch_size)
+                print('Split class ID tensor:', class_id)
+                print('Split class tensor type:', type(class_id))
+
+                #for count in range(self.args.batch_size):
+                    #print('Shape count:', count)
                 
 # -------------------- Discriminator -------------------- #
 
@@ -170,7 +175,7 @@ class TreeGAN():
                     # First dimension of latent space is dependent on batch size.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                     
-                    # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
+                    # For multiclass operation, concatenate the latent space tensor with the class tensor.
                     if self.args.class_choice == 'multiclass' and class_id is not None:
                         
                         # Create the embedding layer.
@@ -192,10 +197,12 @@ class TreeGAN():
                     tree = [z]
 
                     # Reset the gradients and pass the latent space representation to the generator.
+                    # 'self.G' leads into the 'forward()' function of the generator in 'treegan_network.py'.
                     with torch.no_grad():
                         fake_point = self.G(tree)
 
                     # Evaluate both the ground truth and generated shape using the discriminator.
+                    # 'self.D' leads into the 'forward()' function of the generator in 'treegan_network.py'.
                     D_real, _ = self.D(point)
                     D_fake, _ = self.D(fake_point)
                     gp_loss = self.GP(self.D, point.data, fake_point.data)
@@ -224,7 +231,7 @@ class TreeGAN():
                 # First dimension of latent space is dependent on batch size.
                 z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                 
-                # For multiclass operation, produce tensor of (1, 1, 96) from the list of integer indexes representing class.
+                # For multiclass operation, concatenate the latent space tensor with the class tensor.
                 if self.args.class_choice == 'multiclass' and class_id is not None:
                         
                     # Create the embedding layer.
