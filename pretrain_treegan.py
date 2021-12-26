@@ -141,15 +141,16 @@ class TreeGAN():
                 point = point.to(self.args.device)
                 
                 # Number of shapes in ground truth tensor and indexes in class tensor are determined by the batch size.
-                print('Ground truth (point) tensor:', point)
+                #print('Ground truth (point) tensor:', point)
                 print('Ground truth (point) tensor shape:', point.shape)
                 print('Class ID tensor:', class_id)
                 print('Class ID tensor shape:', class_id.shape)
                 
                 # Split the ground truth tensor into their individual shapes.
                 # Divide the ground truth tensor by the batch size to obtain one shape per tensor.
+                # 'torch.tensor_split' returns a tuple containing the tensors.
                 split_shapes = torch.tensor_split(point, self.args.batch_size)
-                print('Split ground truth tensor:', split_shapes)
+                #print('Split ground truth tensor:', split_shapes)
                 print('Split ground truth tensor type:', type(split_shapes))
                 
                 # Split the class tensor into their individual class indexes.
@@ -157,9 +158,14 @@ class TreeGAN():
                 class_id = torch.tensor_split(class_id, self.args.batch_size)
                 print('Split class ID tensor:', class_id)
                 print('Split class tensor type:', type(class_id))
+                
+                print('Length of ground truth split tensors tuple:', len(split_shapes))
+                print('Length of class ID split tensors tuple:', len(class_id))
 
-                #for count in range(self.args.batch_size):
-                    #print('Shape count:', count)
+                # For each shape and its class ID in the batch size.
+                # Length of ground truth and class ID tuples should be the same as the batch size.
+                for count in range(self.args.batch_size):
+                    print('Class ID', count, ', tensor:', class_id[count])
                 
 # -------------------- Discriminator -------------------- #
 
@@ -172,7 +178,7 @@ class TreeGAN():
                     self.D.zero_grad()
                     
                     # Generate the latent space representation.
-                    # First dimension of latent space is dependent on batch size.
+                    # First dimension of latent space represents the batch size.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                     
                     # For multiclass operation, concatenate the latent space tensor with the class tensor.

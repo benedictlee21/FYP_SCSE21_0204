@@ -89,6 +89,7 @@ class Generator(nn.Module):
     def forward(self, tree, device = None):
 
         # Pass the network features to the graph convolutional network.
+        # 'self.gcn' leads to the 'forward' function of the 'TreeGAN' class in 'gcn.py'.
         feat = self.gcn(tree)
 
         # Use only the last shape of the result as the output.
