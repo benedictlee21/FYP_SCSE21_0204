@@ -142,31 +142,10 @@ class TreeGAN():
                 
                 # Number of shapes in ground truth tensor and indexes in class tensor are determined by the batch size.
                 #print('Ground truth (point) tensor:', point)
-                print('Ground truth (point) tensor shape:', point.shape)
-                print('Class ID tensor:', class_id)
-                print('Class ID tensor shape:', class_id.shape)
-                
-                # Split the ground truth tensor into their individual shapes.
-                # Divide the ground truth tensor by the batch size to obtain one shape per tensor.
-                # 'torch.tensor_split' returns a tuple containing the tensors.
-                split_shapes = torch.tensor_split(point, self.args.batch_size)
-                #print('Split ground truth tensor:', split_shapes)
-                print('Split ground truth tensor type:', type(split_shapes))
-                
-                # Split the class tensor into their individual class indexes.
-                # Divide the class tensor by the batch size to obtain one class ID per tensor.
-                class_id = torch.tensor_split(class_id, self.args.batch_size)
-                print('Split class ID tensor:', class_id)
-                print('Split class tensor type:', type(class_id))
-                
-                print('Length of ground truth split tensors tuple:', len(split_shapes))
-                print('Length of class ID split tensors tuple:', len(class_id))
-
-                # For each shape and its class ID in the batch size.
-                # Length of ground truth and class ID tuples should be the same as the batch size.
-                for count in range(self.args.batch_size):
-                    print('Class ID', count, ', tensor:', class_id[count])
-                
+                #print('Ground truth (point) tensor shape:', point.shape)
+                #print('Class ID tensor:', class_id)
+                #print('Class ID tensor shape:', class_id.shape)
+                                
 # -------------------- Discriminator -------------------- #
 
                 tic = time.time()
@@ -186,10 +165,11 @@ class TreeGAN():
                         
                         # Create the embedding layer.
                         self.embed_layer = self.lookup_table(class_id).to(self.args.device)
+                        #print('Discriminator embedding layer shape before unsqueeze:', self.embed_layer.shape)
                         #print('Multiclass discriminator iteration - class embedding layer type:', type(self.embed_layer))
                         
                         # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
-                        self.embed_layer = torch.unsqueeze(self.embed_layer, 0)
+                        self.embed_layer = torch.unsqueeze(self.embed_layer, 1)
                         #print('Discriminator z shape:', z.shape)
                         #print('Multiclass discriminator embedding layer output shape:', self.embed_layer.shape)
                         
@@ -205,12 +185,16 @@ class TreeGAN():
                     # Reset the gradients and pass the latent space representation to the generator.
                     # 'self.G' leads into the 'forward()' function of the generator in 'treegan_network.py'.
                     with torch.no_grad():
+                    
+                        # Number of shapes in 'fake_point' is equal to the batch size.
                         fake_point = self.G(tree)
 
                     # Evaluate both the ground truth and generated shape using the discriminator.
                     # 'self.D' leads into the 'forward()' function of the generator in 'treegan_network.py'.
                     D_real, _ = self.D(point)
                     D_fake, _ = self.D(fake_point)
+                    
+                    # Compute the gradient penalty loss.
                     gp_loss = self.GP(self.D, point.data, fake_point.data)
 
                     # Compute discriminator losses.
@@ -218,7 +202,7 @@ class TreeGAN():
                     D_fakem = D_fake.mean()
                     d_loss = -D_realm + D_fakem
                     d_loss_gp = d_loss + gp_loss
-                    
+
                     # Multiply the loss by the weight before backpropagation.
                     d_loss*=self.w_train
                     d_loss_gp.backward()
@@ -242,10 +226,11 @@ class TreeGAN():
                         
                     # Create the embedding layer.
                     self.embed_layer = self.lookup_table(class_id).to(self.args.device)
+                    #print('Generator embedding layer shape before unsqueeze:', self.embed_layer.shape)
                     #print('Multiclass generator iteration - class embedding layer type:', type(self.embed_layer))
                     
                     # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
-                    self.embed_layer = torch.unsqueeze(self.embed_layer, 0)
+                    self.embed_layer = torch.unsqueeze(self.embed_layer, 1)
                     #print('Generator z shape:', z.shape)
                     #print('Multiclass generator embedding layer output shape:', self.embed_layer.shape)
                     

@@ -4,6 +4,8 @@ import torch.nn.init as init
 import math
 
 class TreeGCN(nn.Module):
+
+    # 'TreeGCN' class is used for generator only.
     def __init__(self, depth, features, degrees, support = 10, node = 1, upsample = False, activation = True, args = None):
     
         # Depth represents the layer index.
