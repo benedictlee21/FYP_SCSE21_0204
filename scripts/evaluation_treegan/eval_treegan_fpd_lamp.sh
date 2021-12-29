@@ -3,5 +3,5 @@ python eval_treegan.py \
 --class_choice lamp \
 --FPD_path ./evaluation/pre_statistics_CRN_lamp.npz \
 --save_sample_path ./saved_results/eval_treegan_samples \
---model_pathname ./pretrained_models/lamp.pt \
+--model_pathname ./single_class_pretrained_models/lamp.pt \
 --dataset_path ./input_shapes/shapenet_crn_dataset/
