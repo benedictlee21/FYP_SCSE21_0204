@@ -9,6 +9,9 @@ from metrics import *
 from loss import *
 from evaluation.pointnet import PointNetCls
 from math import ceil
+from utils.common_utils import *
+from arguments import Arguments
+from encode_classes import encode_classes
 import argparse
 import time
 import numpy as np
@@ -16,9 +19,7 @@ import time
 import os.path as osp
 import os
 import copy
-from utils.common_utils import *
-from arguments import Arguments
-from encode_classes import encode_classes
+import random
 
 def save_pcs_to_txt(save_dir, fake_pcs):
     """
@@ -30,25 +31,64 @@ def save_pcs_to_txt(save_dir, fake_pcs):
     for i in range(sample_size):
         np.savetxt(osp.join(save_dir,str(i)+'.txt'), fake_pcs[i], fmt = "%f;%f;%f")  
 
-def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, latent_space_dim = 96):
+# 'model_cuda' represents the instantiated generator network.
+def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, latent_space_dim = 96, total_num_classes = 8, classes_chosen = None):
     """
     generate fake pcs for evaluation
     """
+    # For multiclass, create a lookup table using pytorch embedding to represent the number of classes.
+    if classes_chosen is not None:
+        lookup_table = nn.Embedding(total_num_classes, 96)
+        print('eval_treegan.py - multiclass NN embedding lookup table type:', type(lookup_table))
+    
     fake_pcs = torch.Tensor([])
     n_pcs = int(ceil(n_pcs/batch_size) * batch_size)
     n_batches = ceil(n_pcs/batch_size)
 
     for i in range(n_batches):
+    
+        # Generate the latent space vector tensor.
         z = torch.randn(batch_size, 1, latent_space_dim).to(device)
+        
+        # If multiclass operation is specified.
+        if classes_chosen is not None:
+            #print('generate_pcs function - classes chosen:', classes_chosen)
+            
+            # Create a numpy array to store as many random class IDs as equal to the batch size.
+            # Array elements are all initialized to 0.
+            class_id_array = np.zeros(batch_size, dtype = np.int64)
+
+            for j in range(batch_size):
+                # Shapes are not drawn from the training or test datasets for FPD evaluation.
+                # Randomly choose a class index from the list of specified classes, concatenate it to the
+                # latent space and pass it to the generator.
+                random_class_id = random.choice(classes_chosen)
+                #print('Type of variable: random_class_id:', type(random_class_id))
+                class_id_array[j] = random_class_id
+            
+            # Convert the array of randomly chosen class IDs into a tensor.
+            class_id_array = torch.from_numpy(class_id_array)
+            
+            # Create the embedding layer using the randomly chosen class ID.
+            embed_layer = lookup_table(class_id_array).to(args.device)
+            
+            # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
+            embed_layer = torch.unsqueeze(embed_layer, 1)
+            
+            # Concatenate the tensor representing the class IDs to the latent space representation.
+            z = torch.cat((z, embed_layer), dim = 2)
         tree = [z]
+        
+        # Reset the gradients and pass the latent space representation to the generator.
         with torch.no_grad():
             sample = model_cuda(tree).cpu()
+            
         fake_pcs = torch.cat((fake_pcs, sample), dim=0)
     return fake_pcs
 
 def create_fpd_stats(pcs, pathname_save, device):
     """
-    create stats of training data for eval FPD
+    create stats of training data for evaluation of fpd
     """
     PointNet_pretrained_path = './evaluation/cls_model_39.pth'
 
@@ -57,14 +97,17 @@ def create_fpd_stats(pcs, pathname_save, device):
     mu, sigma = calculate_activation_statistics(pcs, model, device=device)
     print (mu.shape, sigma.shape)
     np.savez(pathname_save,m=mu,s=sigma)
-    print('fpd stats saved into:', pathname_save)
+    print('FPD statistics saved to:', pathname_save)
 
 @timeit
-def script_create_fpd_stats(args, classes_chosen, data2stats='CRN'):
+def script_create_fpd_stats(args, classes_chosen = None, data2stats='CRN'):
     """
     create stats of training data for eval FPD, calling create_fpd_stats()
     """    
     if data2stats == 'CRN':
+    
+        # 'is_eval' argument specifies to draw all shapes from the test dataset.
+        # 'is_eval' is only flase when pretraining using a smaller sample size from the training dataset.
         dataset = CRNShapeNet(args, classes_chosen = classes_chosen, is_eval = True)
         
         # Retrieve the data from the dataset for evaluation.
@@ -75,8 +118,13 @@ def script_create_fpd_stats(args, classes_chosen, data2stats='CRN'):
         raise NotImplementedError
 
     ref_pcs = torch.Tensor([])
+    
+    # Returns shapes and their class ID one batch at a time.
     for _iter, data in enumerate(dataLoader):
-        point, _, _ = data
+        
+        # 'point' is the tensor containing ground truths.
+        # '_' means to ignore that return variable.
+        point, _, _, _ = data
         ref_pcs = torch.cat((ref_pcs, point),0)
     
     create_fpd_stats(ref_pcs,pathname_save, args.device)
@@ -93,35 +141,47 @@ def checkpoint_eval(G_net, device, n_samples = 5000, batch_size = 100,conditiona
     print('----------------------------------------- Frechet Pointcloud Distance <<< {:.2f} >>>'.format(fpd))
 
 @timeit
-def test(args, mode = 'FPD', classes_chosen = None, verbose = True):
+def test(args, mode = 'FPD', classes_chosen = None):
     '''
     args needed: 
         n_classes, pcs to generate, ratio of each class, class to id dict???
         model pth, , points to save, save pth, npz for the class, 
     '''
+    # Define the total possible number of classes.
+    total_num_classes = 8
+    
+    # Extract the generator features first in case it needs to be modified for multiclass.
+    generator_features = args.G_FEAT
+    
+    # For multiclass, change the input layer of the generator to accept 192 dimensions instead of 96.
+    if args.class_choice == 'multiclass' and classes_chosen is not None:
+        print('eval_treegan.py: test - classes chosen:', classes_chosen)
+        generator_features[0] = 192
+    
     # Instantiate an instance of the generator.
-    print('eval_treegan.py: test - classes chosen:', classes_chosen)
-    G_net = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = classes_chosen, args = args).to(args.device)
+    G_net = Generator(features = generator_features, degrees = args.DEGREE, support = args.support, args = args).to(args.device)
 
     # Loading of specified model checkpoint.
     checkpoint = torch.load(args.model_pathname, map_location=args.device)
     G_net.load_state_dict(checkpoint['G_state_dict'])
     G_net.eval()
     
-    # If multiclass is selected, add the number of classes to the latent space dimensions.
-    if classes_chosen is not None:
-        latent_space_dim = 96 + len(classes_chosen)
-    else:
-        latent_space_dim = 96
+    # Specify the number of latent space dimensions.
+    latent_space_dim = 96
     
-    fake_pcs = generate_pcs(G_net, n_pcs = args.n_samples, batch_size = args.batch_size, device = args.device, latent_space_dim = latent_space_dim)
+    # Generate the point cloud shapes using the generator.
+    fake_pcs = generate_pcs(G_net, n_pcs = args.n_samples, batch_size = args.batch_size, device = args.device, latent_space_dim = latent_space_dim, total_num_classes = total_num_classes, classes_chosen = classes_chosen)
     
+    # Save generated samples.
     if mode == 'save':
         save_pcs_to_txt(args.save_sample_path, fake_pcs)
+        
+    # Calculate fractal point distance.
     elif mode == 'FPD':
         fpd = calculate_fpd(fake_pcs, statistic_save_path=args.FPD_path, batch_size=100, dims=1808, device=args.device)
-        if verbose:
-            print('-----FPD: {:3.2f}'.format(fpd))
+        print('-----FPD: {:3.2f}'.format(fpd))
+            
+    # Calculate minimum matching distance.
     elif mode == 'MMD':
         use_EMD = True
         batch_size = 50 
@@ -130,8 +190,11 @@ def test(args, mode = 'FPD', classes_chosen = None, verbose = True):
         
         dataLoader = torch.utils.data.DataLoader(gt_dataset, batch_size=args.batch_size, shuffle=True, pin_memory=True, num_workers=10)
         gt_data = torch.Tensor([])
+        
+        # For each batch of shapes, retrieve the ground truth, partial and shape index.
+        # Shape class ID is not required.
         for _iter, data in enumerate(dataLoader):
-            point, partial, index = data
+            point, partial, index, _ = data
             gt_data = torch.cat((gt_data,point),0)
         ref_pcs = gt_data.detach().cpu().numpy()
         sample_pcs = fake_pcs.detach().cpu().numpy()
@@ -139,8 +202,7 @@ def test(args, mode = 'FPD', classes_chosen = None, verbose = True):
         tic = time.time()
         mmd, matched_dists, dist_mat = MMD_batch(sample_pcs,ref_pcs,batch_size, normalize=normalize, use_EMD=use_EMD,device=args.device)
         toc = time.time()
-        if verbose:
-            print('-----MMD-EMD: {:5.3f}'.format(mmd*100))
+        print('-----MMD-EMD: {:5.3f}'.format(mmd*100))
 
 if __name__ == '__main__':
     args = Arguments(stage='eval_treegan').parser().parse_args()
@@ -150,19 +212,21 @@ if __name__ == '__main__':
     assert args.eval_treegan_mode in ["MMD", "FPD", "save", "generate_fpd_stats"]
     
     # If multiclass pretraining is specified.
-    if args.class_range is not None:
+    if args.class_choice == 'multiclass' and args.class_range is not None:
         
         # Convert the one hot encoding list into an array, representing the classes.
-        classes_chosen = one_hot_encode_classes(args.class_range)
+        classes_chosen = encode_classes(args.class_range)
         print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
-        print('eval_treegan.py: main - classes chosen:', classes_chosen)
+        #print('eval_treegan.py: main - classes chosen:', classes_chosen)
         
     # Otherwise if only using a single class.
     else:
         classes_chosen = None
     
-    # Perform the evaluation.
     if args.eval_treegan_mode == "generate_fpd_stats":
-        script_create_fpd_stats(args, classes_chosen)        
+    
+        # Generation of FPD statistics file when running multiclass operation already makes use of multiclass
+        # intergration implemented in 'CRN_dataset.py', hence no need to provide argument for classes chosen here.
+        script_create_fpd_stats(args, classes_chosen)
     else:
         test(args, mode = args.eval_treegan_mode, classes_chosen = classes_chosen)

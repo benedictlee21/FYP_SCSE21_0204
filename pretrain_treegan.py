@@ -163,7 +163,7 @@ class TreeGAN():
                     # For multiclass operation, concatenate the latent space tensor with the class tensor.
                     if self.args.class_choice == 'multiclass' and class_id is not None:
                         
-                        # Create the embedding layer.
+                        # Create the embedding layer using the class IDs of the retrieved shapes.
                         self.embed_layer = self.lookup_table(class_id).to(self.args.device)
                         #print('Discriminator embedding layer shape before unsqueeze:', self.embed_layer.shape)
                         #print('Multiclass discriminator iteration - class embedding layer type:', type(self.embed_layer))
@@ -173,13 +173,11 @@ class TreeGAN():
                         #print('Discriminator z shape:', z.shape)
                         #print('Multiclass discriminator embedding layer output shape:', self.embed_layer.shape)
                         
-                        # Concatenate the tensor representing the classes to the latent space representation.
+                        # Concatenate the tensor representing the class IDs to the latent space representation.
                         z = torch.cat((z, self.embed_layer), dim = 2)
                         #print('Discriminator - class concatenated with latent space tensor:', z)
                         #print('Multiclass discriminator concatenated tensor shape:', z.shape)
                         # Output tensor shape is (1, 1, 192).
-                        
-                    # Store the latent space in a list.
                     tree = [z]
 
                     # Reset the gradients and pass the latent space representation to the generator.
