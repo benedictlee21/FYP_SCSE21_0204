@@ -215,8 +215,8 @@ class ShapeInversion(object):
             self.checkpoint_pcd.append(x_map)
 
             # If the ground truth exists, calculate the chamfer distance for each shape.
-            if self.gt is not None:
-                dist1, dist2 , _, _ = distChamfer(x,self.gt)
+            if self.ground_truth is not None:
+                dist1, dist2 , _, _ = distChamfer(x,self.ground_truth)
                 test_cd = dist1.mean() + dist2.mean()
 
                 # Log the results.
@@ -225,7 +225,7 @@ class ShapeInversion(object):
                     file_object.write(msg+'\n')
 
         # If the ground truth exists, determine additional loss values.
-        if self.gt is not None:
+        if self.ground_truth is not None:
             loss_dict = {
                 'ftr_loss': np.asscalar(ftr_loss.detach().cpu().numpy()),
                 'nll': np.asscalar(nll.detach().cpu().numpy()),
@@ -248,12 +248,12 @@ class ShapeInversion(object):
             basename = str(self.pcd_id)+'_'+str(ith)
 
         # If the ground truth exists, save it to the output.
-        if self.gt is not None:
-            gt_np = self.gt[0].detach().cpu().numpy()
-            np.savetxt(osp.join(self.args.save_inversion_path,basename+'_gt.txt'), gt_np, fmt = "%f;%f;%f")
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_x.txt'), x_np, fmt = "%f;%f;%f")
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_xmap.txt'), x_map_np, fmt = "%f;%f;%f")
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_target.txt'), target_np, fmt = "%f;%f;%f")
+        if self.ground_truth is not None:
+            ground_truth_np = self.ground_truth[0].detach().cpu().numpy()
+            np.savetxt(osp.join(self.args.save_inversion_path,basename+'_Ground_Truth.txt'), ground_truth_np, fmt = "%f;%f;%f")
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_X_Partial.txt'), x_np, fmt = "%f;%f;%f")
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_X_Partial_Map.txt'), x_map_np, fmt = "%f;%f;%f")
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_Completed Target.txt'), target_np, fmt = "%f;%f;%f")
 
         # If the shapeinversion mode is 'jittering'.
         if self.args.inversion_mode == 'jittering':
@@ -266,6 +266,8 @@ class ShapeInversion(object):
         search by 2pf and partial
         but constrainted to z dimension are large
         """
+        print('classes chosen:', classes_chosen)
+        print('lookup table:', lookup_table)
         self.classes_chosen = classes_chosen
         self.lookup_table = lookup_table
         batch_size = 50
@@ -281,11 +283,14 @@ class ShapeInversion(object):
         
             # For each batch.
             for i in range(num_batch):
+            
+                # Generate the latent space vector tensor.
                 z = torch.randn(batch_size, 1, self.latent_space_dim).cuda()
                 
                 # If multiclass operation is specified, the lookup table must exist from 'trainer.py'.
                 # Concatenate the latent space tensor with the class ID tensor.
-                if args.class_choice == 'multiclass' and self.classes_chosen is not None and self.lookup_table is not None:
+                
+                if self.args.class_choice == 'multiclass' and self.classes_chosen is not None and self.lookup_table is not None:
                 
                     # Complete the partial shapes based on which multiclass classes are specified.
                     for one_class in self.classes_chosen:
@@ -297,31 +302,36 @@ class ShapeInversion(object):
                         # Set all the elements of the class ID array to one class index
                         # so as to complete the partial shapes according to that class index only.
                         for j in range(batch_size):
-                            class_id_array[j] = one_class
+                            self.class_id_array[j] = one_class
                             
                         # Convert the array of randomly chosen class IDs into a tensor.
                         self.class_id_array = torch.from_numpy(self.class_id_array)
                 
                         # Create the embedding layer using the randomly chosen class ID.
-                        self.embed_layer = self.lookup_table(self.class_id_array).to(args.device)
+                        self.embed_layer = self.lookup_table(self.class_id_array).to(self.args.device)
                         
                         # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
-                        embed_layer = torch.unsqueeze(embed_layer, 1)
+                        self.embed_layer = torch.unsqueeze(self.embed_layer, 1)
                         
                         # Concatenate the tensor representing the class IDs to the latent space representation.
-                        z = torch.cat((z, embed_layer), dim = 2)
+                        z = torch.cat((z, self.embed_layer), dim = 2)
                         
-                # Need to modify the code to complete each partial multiple times according to each user specified class for multiclass.
-                tree = [z]
+                        # Need to modify the code to complete each partial multiple times according to each user specified class for multiclass.
+                        tree = [z]
                 
-                # Pass the concatenated latent space vector to the generator.
-                x = self.G(tree)
-                dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)
-                cd = dist1.mean(1) # single directional CD
+                        # Pass the concatenated latent space vector to the generator.
+                        x = self.G(tree)
+                        
+                        # Compute the chamfer distance.
+                        dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)
+                        
+                        # Compute single directional chamfer distance.
+                        cd = dist1.mean(1)
 
-                x_ls.append(x)
-                z_ls.append(z)
-                cd_ls.append(cd)
+                        # Append the generated shape, latent space and chamfer distance to their respective lists.
+                        x_ls.append(x)
+                        z_ls.append(z)
+                        cd_ls.append(cd)
 
         x_full = torch.cat(x_ls)
         cd_full = torch.cat(cd_ls)
@@ -365,9 +375,9 @@ class ShapeInversion(object):
             x = self.G([self.z])
 
             # visualization
-            if self.gt is not None:
+            if self.ground_truth is not None:
                 x_map = self.pre_process(x, stage=-1)
-                dist1, dist2 , _, _ = distChamfer(x,self.gt)
+                dist1, dist2 , _, _ = distChamfer(x,self.ground_truth)
                 cd_loss = dist1.mean() + dist2.mean()
 
                 with open(self.args.log_pathname, "a") as file_object:
@@ -438,8 +448,8 @@ class ShapeInversion(object):
                 # optional to add surrounding to the mask partial
                 surrounding = self.args.surrounding
                 self.mask_dict = {}
-                for key_gt in mask_partial:
-                    x,y,z = key_gt
+                for key_ground_truth in mask_partial:
+                    x,y,z = key_ground_truth
                     surrounding_ls = []
                     surrounding_ls.append((x,y,z))
                     for x_s in range(x-surrounding+1, x+surrounding):
@@ -477,7 +487,7 @@ class ShapeInversion(object):
 
     def voxelize(self, pcd, n_bins=32, pcd_limit=0.5, threshold=0):
         """
-        given a partial/GT pcd
+        given a partial/ground truth pcd
         return {0,1} masks with resolution n_bins^3
         voxel_limit in case the pcd is very small, but still assume it is symmetric
         threshold is needed, in case we would need to handle noise
@@ -547,8 +557,8 @@ class ShapeInversion(object):
         stds = [0.3, 0.5, 0.7]
         n_jitters = 12
 
-        flag_list = ['gt', 'recon']
-        pcd_list = [self.gt, self.x]
+        flag_list = ['ground_truth', 'recon']
+        pcd_list = [self.ground_truth, self.x]
         with torch.no_grad():
             for std in stds:
 

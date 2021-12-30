@@ -37,7 +37,7 @@ class Trainer(object):
             
             # Create a lookup table using pytorch embedding to represent the number of classes.
             self.lookup_table = nn.Embedding(self.total_num_classes, 96)
-            print('pretrain_treegan.py - multiclass NN embedding lookup table type:', type(self.lookup_table))
+            print('pretrain_treegan.py - multiclass NN embedding lookup table:', self.lookup_table)
             
         # Otherwise if only using a single class.
         else:
@@ -148,11 +148,11 @@ class Trainer(object):
             self.model.reset_G(pcd_id = index.item())
 
             # Set the input partial shape. No ground truth is used.
-            self.model.set_target(ground_truth, partial)
+            self.model.set_target(ground_truth = ground_truth, partial = partial)
 
             # Search for initial value of latent space 'z', passing the class ID to be concatenated to it.
             # Pass the lookup table created for multiclass for the latent space diversity search.
-            self.model.diversity_search(self.classes_chosen, self.lookup_table)
+            self.model.diversity_search(classes_chosen = self.classes_chosen, lookup_table = self.lookup_table)
 
             # Perform fine tuning using input partial shape only.
             # Append input partial shape to a list of point clouds for that respective shape.
@@ -170,7 +170,7 @@ class Trainer(object):
                 self.model.reset_G(pcd_id=index.item())
 
                 # Set the input partial shape. No ground truth is used.
-                self.model.set_target(gt=gt, partial=partial)
+                self.model.set_target(ground_truth = ground_truth, partial = partial)
 
                 # Latent space variable set for run function below.
                 self.model.z.data = z.data
@@ -220,7 +220,7 @@ class Trainer(object):
         for i, data in enumerate(self.dataloader):
             tic = time.time()
             if self.args.dataset in ['MatterPort','ScanNet','KITTI']:
-                # without gt
+                # without ground truth
                 partial, index = data
                 gt = None
             else:
