@@ -26,13 +26,24 @@ class Trainer(object):
     def __init__(self, args):
         self.args = args
         
-        if args.class_range is not None:
+        if self.args.class_choice == 'multiclass' and self.args.class_range is not None:
+        
+            # Define the total number of multiclass classes.
+            self.total_num_classes = 8
+        
             # Convert the one hot encoding list into an array, representing the classes.
             self.classes_chosen = encode_classes(args.class_range)
-            print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
-            print('trainer.py: __init__ classes chosen:', self.classes_chosen)
+            print('trainer.py: __init__ index of multiclass classes chosen:', self.classes_chosen)
+            
+            # Create a lookup table using pytorch embedding to represent the number of classes.
+            self.lookup_table = nn.Embedding(self.total_num_classes, 96)
+            print('pretrain_treegan.py - multiclass NN embedding lookup table type:', type(self.lookup_table))
+            
+        # Otherwise if only using a single class.
         else:
             self.classes_chosen = None
+            self.lookup_table = None
+            print('trainer.py: __init__ - single class pretraining.')
 
         if self.args.dist:
             self.rank = dist.get_rank()
@@ -121,22 +132,27 @@ class Trainer(object):
             tic = time.time()
 
             # Get only the input partial shape data for multiclass.
-            unused, partial, index = data
+            # 'partial' is the tensor containing the partial shapes.
+            # 'index' is the label 'partial' for the shapes, not the class ID.
+            # 'class_id' is the tensor of class IDs.
+            # '_' means to ignore that respective return variable.
+            _, partial, index, class_id = data
 
             # Ground truth is not used.
-            gt = None
+            ground_truth = None
 
             # Using only diversity mode for multiclass.
             partial = partial.squeeze(0).cuda()
 
             # Reset the generator for each new input shape.
-            self.model.reset_G(pcd_id=index.item())
+            self.model.reset_G(pcd_id = index.item())
 
             # Set the input partial shape. No ground truth is used.
-            self.model.set_target(gt=gt, partial=partial)
+            self.model.set_target(ground_truth, partial)
 
-            # Search for initial value of latent space 'z'.
-            self.model.diversity_search()
+            # Search for initial value of latent space 'z', passing the class ID to be concatenated to it.
+            # Pass the lookup table created for multiclass for the latent space diversity search.
+            self.model.diversity_search(self.classes_chosen, self.lookup_table)
 
             # Perform fine tuning using input partial shape only.
             # Append input partial shape to a list of point clouds for that respective shape.

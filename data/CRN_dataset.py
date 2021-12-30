@@ -33,7 +33,7 @@ class CRNShapeNet(data.Dataset):
 
         # Import shapes from input dataset for multiclass.
         # 'self.classes_chosen' is a list of class indexes for multiclass created in 'encode_classes.py'
-        if self.args.class_choice == 'multiclass':
+        if self.args.class_choice == 'multiclass' and self.classes_chosen is not None:
             
             # Master list to append all indexes from each class into.
             self.index_list = []
@@ -111,7 +111,7 @@ class CRNShapeNet(data.Dataset):
         #print('\nValue of __getitem__ full index:', full_idx)
         
         # Determine if multiclass is being used and set the class ID if it is.
-        if self.args.class_choice == 'multiclass':
+        if self.args.class_choice == 'multiclass' and self.classes_chosen is not None:
             
             # Use the dictionary from '__init__' to determine the class from the key,
             # by matching the index value as belonging to one of the numpy arrays in the value.

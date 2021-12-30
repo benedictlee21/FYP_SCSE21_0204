@@ -42,8 +42,8 @@ class ShapeInversion(object):
         self.latent_space_dim = 96
 
         # Create the model including generator and discriminator.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, classes_chosen = self.classes_chosen, args = self.args).cuda()
-        self.D = Discriminator(features = args.D_FEAT, classes_chosen = self.classes_chosen).cuda()
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, args = self.args).cuda()
+        self.D = Discriminator(features = args.D_FEAT).cuda()
 
         # Define the optimizer and its parameters.
         self.G.optim = torch.optim.Adam(
@@ -118,17 +118,17 @@ class ShapeInversion(object):
         if self.mask_type == 'voxel_mask':
             self.to_reset_mask = True # reset hole center for each shape
 
-    def set_target(self, gt=None, partial=None):
+    def set_target(self, ground_truth = None, partial = None):
         '''
         set target
         '''
-        if gt is not None:
-            self.gt = gt.unsqueeze(0)
+        if ground_truth is not None:
+            self.ground_truth = ground_truth.unsqueeze(0)
             # for visualization
-            self.checkpoint_flags.append('GT')
-            self.checkpoint_pcd.append(self.gt)
+            self.checkpoint_flags.append('Ground Truth')
+            self.checkpoint_pcd.append(self.ground_truth)
         else:
-            self.gt = None
+            self.ground_truth = None
 
         if partial is not None:
             if self.args.target_downsample_method.lower() == 'fps':
@@ -137,9 +137,9 @@ class ShapeInversion(object):
             else:
                 self.target = partial.unsqueeze(0)
         else:
-            self.target = self.pre_process(self.gt, stage=-1)
+            self.target = self.pre_process(self.ground_truth, stage=-1)
         # for visualization
-        self.checkpoint_flags.append('target')
+        self.checkpoint_flags.append('Target')
         self.checkpoint_pcd.append(self.target)
 
     def run(self, ith = -1, classes_chosen = None):
@@ -172,7 +172,7 @@ class ShapeInversion(object):
                 tree = [self.z]
 
                 # Pass the latent space representation and one hot encoded vector to the generator.
-                x = self.G(tree, self.classes_chosen, self.args.device)
+                x = self.G(tree, self.args.device)
 
                 # Perform masking.
                 x_map = self.pre_process(x,stage=stage)
@@ -260,12 +260,14 @@ class ShapeInversion(object):
             self.jitter(self.target)
 
     # Search for latent space gaussian distributions for each completed shape of 'diversity' mode.
-    def diversity_search(self, select_y=False):
+    def diversity_search(self, classes_chosen = None, lookup_table = None, select_y=False):
         """
         produce batch by batch
         search by 2pf and partial
         but constrainted to z dimension are large
         """
+        self.classes_chosen = classes_chosen
+        self.lookup_table = lookup_table
         batch_size = 50
 
         num_batch = int(self.select_num/batch_size)
@@ -274,10 +276,45 @@ class ShapeInversion(object):
         cd_ls = []
         tic = time.time()
 
+        # Reset the gradients and pass the latent space representation to the generator.
         with torch.no_grad():
+        
+            # For each batch.
             for i in range(num_batch):
                 z = torch.randn(batch_size, 1, self.latent_space_dim).cuda()
+                
+                # If multiclass operation is specified, the lookup table must exist from 'trainer.py'.
+                # Concatenate the latent space tensor with the class ID tensor.
+                if args.class_choice == 'multiclass' and self.classes_chosen is not None and self.lookup_table is not None:
+                
+                    # Complete the partial shapes based on which multiclass classes are specified.
+                    for one_class in self.classes_chosen:
+                        print('shapeinversion.py - current class index:', one_class)
+                        
+                        # Create a numpy array to store as many of the same class IDs as equal to the batch size.
+                        self.class_id_array = np.zeros(batch_size, dtype = np.int64)
+                        
+                        # Set all the elements of the class ID array to one class index
+                        # so as to complete the partial shapes according to that class index only.
+                        for j in range(batch_size):
+                            class_id_array[j] = one_class
+                            
+                        # Convert the array of randomly chosen class IDs into a tensor.
+                        self.class_id_array = torch.from_numpy(self.class_id_array)
+                
+                        # Create the embedding layer using the randomly chosen class ID.
+                        self.embed_layer = self.lookup_table(self.class_id_array).to(args.device)
+                        
+                        # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
+                        embed_layer = torch.unsqueeze(embed_layer, 1)
+                        
+                        # Concatenate the tensor representing the class IDs to the latent space representation.
+                        z = torch.cat((z, embed_layer), dim = 2)
+                        
+                # Need to modify the code to complete each partial multiple times according to each user specified class for multiclass.
                 tree = [z]
+                
+                # Pass the concatenated latent space vector to the generator.
                 x = self.G(tree)
                 dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)
                 cd = dist1.mean(1) # single directional CD

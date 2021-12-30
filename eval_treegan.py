@@ -147,7 +147,7 @@ def test(args, mode = 'FPD', classes_chosen = None):
         n_classes, pcs to generate, ratio of each class, class to id dict???
         model pth, , points to save, save pth, npz for the class, 
     '''
-    # Define the total possible number of classes.
+    # Define the total number of multiclass classes.
     total_num_classes = 8
     
     # Extract the generator features first in case it needs to be modified for multiclass.

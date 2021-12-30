@@ -32,6 +32,10 @@ class TreeGAN():
             # Convert the one hot encoding list into an array, representing the classes.
             self.classes_chosen = encode_classes(self.args.class_range)
             print('pretrain_treegan.py: __init__ - index of multiclass classes chosen:', self.classes_chosen)
+            
+            # Create a lookup table using pytorch embedding to represent the number of classes.
+            self.lookup_table = nn.Embedding(self.total_num_classes, 96)
+            print('pretrain_treegan.py - multiclass NN embedding lookup table type:', type(self.lookup_table))
         
         # Otherwise if only using a single class.
         else:
@@ -59,13 +63,6 @@ class TreeGAN():
         # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
         self.optimizerD = optim.Adam(self.D.parameters(), lr=args.lr, betas=(0, 0.99))
-        
-        # Define parameters for multiclass if used.
-        if self.args.class_choice == 'multiclass':
-            
-            # Create a lookup table using pytorch embedding to represent the number of classes.
-            self.lookup_table = nn.Embedding(self.total_num_classes, 96)
-            print('pretrain_treegan.py - multiclass NN embedding lookup table type:', type(self.lookup_table))
         
         # Define the calculation of gradient penalty.
         self.GP = GradientPenalty(args.lambdaGP, gamma=1, device=args.device)
@@ -135,7 +132,7 @@ class TreeGAN():
                 
                 # Assigned variables are those returned from the '__getitem__' function in 'CRNShapeNet.py'.
                 # 'point' is the tensor containing ground truths.
-                # 'class_id' is the tensor of class indexes.
+                # 'class_id' is the tensor of class IDs.
                 # '_' means to ignore that respective return variable.
                 point, _, _, class_id = data
                 point = point.to(self.args.device)
@@ -160,7 +157,7 @@ class TreeGAN():
                     # First dimension of latent space represents the batch size.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                     
-                    # For multiclass operation, concatenate the latent space tensor with the class tensor.
+                    # For multiclass operation, concatenate the latent space tensor with the class ID tensor.
                     if self.args.class_choice == 'multiclass' and class_id is not None:
                         
                         # Create the embedding layer using the class IDs of the retrieved shapes.
