@@ -39,7 +39,7 @@ def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, laten
     # For multiclass, create a lookup table using pytorch embedding to represent the number of classes.
     if classes_chosen is not None:
         lookup_table = nn.Embedding(total_num_classes, 96)
-        print('eval_treegan.py - multiclass NN embedding lookup table type:', type(lookup_table))
+        #print('eval_treegan.py - multiclass NN embedding lookup table type:', type(lookup_table))
     
     fake_pcs = torch.Tensor([])
     n_pcs = int(ceil(n_pcs/batch_size) * batch_size)
@@ -216,7 +216,6 @@ if __name__ == '__main__':
         
         # Convert the one hot encoding list into an array, representing the classes.
         classes_chosen = encode_classes(args.class_range)
-        print('\nchair, table, couch, cabinet, lamp, car, plane, watercraft')
         #print('eval_treegan.py: main - classes chosen:', classes_chosen)
         
     # Otherwise if only using a single class.

@@ -1,3 +1,0 @@
-1. Generate multiclass pretrained model file (.pt).
-2. Generate multiclass FPD statistics file (.npz) using the multiclass model.
-3. Run FPD evaluation using model and statistics file.

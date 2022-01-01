@@ -235,7 +235,12 @@ class ShapeInversion(object):
 
         # Save the completed point cloud output.
         self.x = x
+        
+        # For multiclass, append all selected classes for testing to the end of the directory name.
+        if self.args.class_choice == 'multiclass' and self.args.class_range is not None:
+            self.args.save_inversion_path = self.args.save_inversion_path + self.args.class_range
 
+        # Create the output directory to save results if it does not exist yet.
         if not osp.isdir(self.args.save_inversion_path):
             os.mkdir(self.args.save_inversion_path)
         x_np = x[0].detach().cpu().numpy()
@@ -266,8 +271,8 @@ class ShapeInversion(object):
         search by 2pf and partial
         but constrainted to z dimension are large
         """
-        print('classes chosen:', classes_chosen)
-        print('lookup table:', lookup_table)
+        #print('classes chosen:', classes_chosen)
+        #print('lookup table:', lookup_table)
         self.classes_chosen = classes_chosen
         self.lookup_table = lookup_table
         batch_size = 50
@@ -294,7 +299,7 @@ class ShapeInversion(object):
                 
                     # Complete the partial shapes based on which multiclass classes are specified.
                     for one_class in self.classes_chosen:
-                        print('shapeinversion.py - current class index:', one_class)
+                        #print('shapeinversion.py - current class index:', one_class)
                         
                         # Create a numpy array to store as many of the same class IDs as equal to the batch size.
                         self.class_id_array = np.zeros(batch_size, dtype = np.int64)

@@ -7,4 +7,3 @@ python trainer.py \
 --ckpt_load ./multiclass_pretrained_models/multiclass_chair_table_1000_epochs.pt \
 --dataset_path ./input_shapes/shapenet_crn_dataset/ \
 --class_range chair,table
---batch_size 4

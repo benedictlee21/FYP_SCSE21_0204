@@ -51,8 +51,13 @@ class Trainer(object):
         else:
             self.rank, self.world_size = 0, 1
 
-        self.inversion_mode = args.inversion_mode
-        save_inversion_dirname = args.save_inversion_path.split('/')
+        self.inversion_mode = self.args.inversion_mode
+        
+        # For multiclass, append all selected classes for testing to the end of the directory name.
+        if self.args.class_choice == 'multiclass' and self.args.class_range is not None:
+            self.args.save_inversion_path = self.args.save_inversion_path + self.args.class_range
+        
+        save_inversion_dirname = self.args.save_inversion_path.split('/')
         log_pathname = './logs/'+save_inversion_dirname[-1]+'.txt'
         args.log_pathname = log_pathname
 
