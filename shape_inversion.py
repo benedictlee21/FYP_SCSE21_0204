@@ -235,14 +235,10 @@ class ShapeInversion(object):
 
         # Save the completed point cloud output.
         self.x = x
-        
-        # For multiclass, append all selected classes for testing to the end of the directory name.
-        if self.args.class_choice == 'multiclass' and self.args.class_range is not None:
-            self.args.save_inversion_path = self.args.save_inversion_path + self.args.class_range
-
-        # Create the output directory to save results if it does not exist yet.
+       
         if not osp.isdir(self.args.save_inversion_path):
             os.mkdir(self.args.save_inversion_path)
+                
         x_np = x[0].detach().cpu().numpy()
         x_map_np = x_map[0].detach().cpu().numpy()
         target_np = self.target[0].detach().cpu().numpy()
@@ -275,7 +271,7 @@ class ShapeInversion(object):
         #print('lookup table:', lookup_table)
         self.classes_chosen = classes_chosen
         self.lookup_table = lookup_table
-        batch_size = 50
+        batch_size = 1
 
         num_batch = int(self.select_num/batch_size)
         x_ls = []

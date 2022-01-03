@@ -53,9 +53,14 @@ class Trainer(object):
 
         self.inversion_mode = self.args.inversion_mode
         
-        # For multiclass, append all selected classes for testing to the end of the directory name.
+        # For multiclass shape completion. 
         if self.args.class_choice == 'multiclass' and self.args.class_range is not None:
-            self.args.save_inversion_path = self.args.save_inversion_path + self.args.class_range
+        
+            # Remove the last character '/' from 'self.args.save_inversion_path.
+            self.args.save_inversion_path = self.args.save_inversion_path[:-1]
+            
+            # Append the class name to the end of the directory name.
+            self.args.save_inversion_path = self.args.save_inversion_path + '_' + self.args.class_range
         
         save_inversion_dirname = self.args.save_inversion_path.split('/')
         log_pathname = './logs/'+save_inversion_dirname[-1]+'.txt'
