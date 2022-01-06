@@ -36,8 +36,8 @@ class Trainer(object):
             print('trainer.py: __init__ index of multiclass classes chosen:', self.classes_chosen)
             
             # Create a lookup table using pytorch embedding to represent the number of classes.
-            self.lookup_table = nn.Embedding(self.total_num_classes, 96)
-            print('pretrain_treegan.py - multiclass NN embedding lookup table:', self.lookup_table)
+            #self.lookup_table = nn.Embedding(self.total_num_classes, 96)
+            #print('pretrain_treegan.py - multiclass NN embedding lookup table:', self.lookup_table)
             
         # Otherwise if only using a single class.
         else:
@@ -162,7 +162,8 @@ class Trainer(object):
 
             # Search for initial value of latent space 'z', passing the class ID to be concatenated to it.
             # Pass the lookup table created for multiclass for the latent space diversity search.
-            self.model.diversity_search(classes_chosen = self.classes_chosen, lookup_table = self.lookup_table)
+            #self.model.diversity_search(classes_chosen = self.classes_chosen, lookup_table = self.lookup_table)
+            self.model.diversity_search()
 
             # Perform fine tuning using input partial shape only.
             # Append input partial shape to a list of point clouds for that respective shape.
@@ -202,7 +203,7 @@ class Trainer(object):
 
                 # Record the stop time for the current shape.
                 toc = time.time()
-                print(i ,'out of',len(self.dataloader),'done in ',int(toc-tic),'s')
+                print(i + 1 ,'out of',len(self.dataloader),'done in ',int(toc-tic),'s')
                 tic = time.time()
 
             # For visualization of results if flag is specified.

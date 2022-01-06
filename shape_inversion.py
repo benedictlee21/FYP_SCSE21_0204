@@ -322,17 +322,23 @@ class ShapeInversion(object):
                 
                         # Pass the concatenated latent space vector to the generator.
                         x = self.G(tree)
+                
+                # For single class shape completion.
+                else:
+                    tree = [z]
+                    x = self.G(tree)
+                
+                # Compute the chamfer distance.
+                dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)
                         
-                        # Compute the chamfer distance.
-                        dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)
-                        
-                        # Compute single directional chamfer distance.
-                        cd = dist1.mean(1)
+                # Compute single directional chamfer distance.
+                cd = dist1.mean(1)
 
-                        # Append the generated shape, latent space and chamfer distance to their respective lists.
-                        x_ls.append(x)
-                        z_ls.append(z)
-                        cd_ls.append(cd)
+                # Append the generated shape, latent space and chamfer distance to their respective lists.
+                x_ls.append(x)
+                z_ls.append(z)
+                cd_ls.append(cd)
+                        
 
         x_full = torch.cat(x_ls)
         cd_full = torch.cat(cd_ls)
