@@ -59,8 +59,8 @@ class TreeGAN():
 
         # Define the generator and discriminator models.
         # Pass in the chosen classes if multiclass is specified.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, args=self.args).to(args.device)
-        self.D = Discriminator(features = args.D_FEAT).to(args.device)
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = len(classes_chosen), args = self.args).to(args.device)
+        self.D = Discriminator(features = args.D_FEAT, num_classes = len(classes_chosen).to(args.device)
         
         # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
@@ -138,15 +138,30 @@ class TreeGAN():
                 # '_' means to ignore that respective return variable.
                 point, _, _, class_id = data
                 point = point.to(self.args.device)
+                class_id = class_id.to(self.args.device)
                 
                 # Number of shapes in ground truth tensor and indexes in class tensor are determined by the batch size.
                 #print('Ground truth (point) tensor:', point)
                 #print('Ground truth (point) tensor shape:', point.shape)
                 #print('Class ID tensor:', class_id)
                 #print('Class ID tensor shape:', class_id.shape)
-                                
+                      
+                # Perform one hot encoding for the generator classes chosen.
+                generator_labels = torch.from_numpy(np.random.randint(0, len(classes_chosen), class_id.shape[0]).reshape(-1, 1).to(self.args.device)
+                generator_class_labels = torch.FloatTensor(class_id.shape[0], len(classes_chosen).to(self.args.device)
+                
+                generator_class_labels.zero()
+                generator_class_labels.scatter_(1, generator_labels, 1)
+                generator_class_labels.unsqueeze_(1)
+                      
+                # Perform one hot encoding for the discriminator classes chosen.
+                discriminator_class_labels = torch.FloatTensor(class_id.shape[0], len(classes_chosen).to(self.args.device)
+                
+                discriminator_class_labels.zero()
+                discriminator_class_labels.scatter_(1, class_id, 1)
+                discriminator_class_labels.unsqueeze_(1)
+                
 # -------------------- Discriminator -------------------- #
-
                 tic = time.time()
                 
                 # Repeat for the number of iterations for the discriminator.

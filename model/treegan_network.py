@@ -6,7 +6,7 @@ from model.gcn import TreeGCN
 from math import ceil
 
 class Discriminator(nn.Module):
-    def __init__(self, features, version = 0):
+    def __init__(self, features, num_classes):
     
         # Get the number of layers for the discriminator network.
         self.layer_num = len(features)-1
@@ -24,6 +24,26 @@ class Discriminator(nn.Module):
         # Define the activation function.
         self.leaky_relu = nn.LeakyReLU(negative_slope=0.2)
         
+# --------------------------------------------------------
+        # Add the required number of dimensions to the input layer of the network for multiclass.
+        if args.class_choice == 'multiclass':
+            print('Number of classes chosen:', num_classes)
+            features[-1] += num_classes
+            
+        # Create additional network layers for multiclass.
+        self.fully_connected_V1 = nn.Sequential(
+            nn.Linear(features[-1], features[-1],
+            nn.LeakyReLU(negative_slope = 0.2)
+        )
+        
+        self.fully_connected_V2 = nn.Sequential(
+            nn.Linear(features[-1], 1024),
+            nn.LeakyReLU(negative_slope = 0.2),
+            nn.Linear(1024, features[-1]),
+            nn.LeakyReLU(negative_slope = 0.2)
+        )
+# --------------------------------------------------------
+        
         # Define the final layer of the discriminator network.
         self.final_layer = nn.Sequential(
                     nn.Linear(features[-1], 128),
@@ -31,7 +51,8 @@ class Discriminator(nn.Module):
                     nn.Linear(128, 64),
                     nn.LeakyReLU(negative_slope=0.2),
                     nn.Linear(64, 1),
-                    nn.Sigmoid())
+                    nn.Sigmoid()
+        )
 
     # Pretraining does not use the forward propagation function.
     def forward(self, tree, device = None):
@@ -47,12 +68,19 @@ class Discriminator(nn.Module):
         # Output pooling layer.
         out = func.max_pool1d(input=feat, kernel_size=vertex_num).squeeze(-1)
         
+# --------------------------------------------------------
+        # For multiclass operation, concatenate the discriminator output with the number of classes.
+        if args.class_choice == 'multiclass':
+            out = torch.cat((out, class_labels.squeeze(1)), -1)
+            out = self.fully_connected_V1(out)
+# --------------------------------------------------------
+        
         # Apply the final layer of the network.
         out1 = self.final_layer(out) # (B, 1)
         return out1, out
 
 class Generator(nn.Module):
-    def __init__(self, features, degrees, support, args = None):
+    def __init__(self, features, degrees, support, num_classes, args = None):
         
         # Get the number of layers for the generator network.
         self.layer_num = len(features)-1
@@ -70,6 +98,26 @@ class Generator(nn.Module):
         
         # Create a sequential container to hold submodules for the generator network.
         self.gcn = nn.Sequential()
+        
+# --------------------------------------------------------
+        # Add the required number of dimensions to the input layer of the network for multiclass.
+        if args.class_choice == 'multiclass':
+            print('Number of classes chosen:', num_classes)
+            features[0] += num_classes
+        
+        # Create additional network layers for multiclass.
+        self.fully_connected_V1 = nn.Sequential(
+            nn.Linear(features[0], features[0]),
+            nn.LeakyReLU(negative_slope = 0.2)
+        )
+        
+        self.fully_connected_V2 = nn.Sequential(
+            nn.Linear(features[0], 256),
+            nn.LeakyReLU(negative_slope = 0.2),
+            nn.Linear(256, features[0]),
+            nn.LeakyReLU(negative_slope = 0.2)
+        )
+# --------------------------------------------------------
 
         # Define each layer of the generator network.
         for inx in range(self.layer_num):
@@ -86,8 +134,17 @@ class Generator(nn.Module):
             vertex_num = int(vertex_num * degrees[inx])
 
     # Pretraining does not use the forward propagation function.
-    def forward(self, tree, device = None):
+    def forward(self, tree, class_labels, device = None):
 
+# --------------------------------------------------------
+        # For multiclass operation, concatenate the latent space with the class labels.
+        if args.class_choice == 'multiclass':
+            tree[0] = torch.cat((tree[0], class_labels), -1)
+        
+            # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
+            #tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
+# --------------------------------------------------------
+        
         # Pass the network features to the graph convolutional network.
         # 'self.gcn' leads to the 'forward' function of the 'TreeGAN' class in 'gcn.py'.
         feat = self.gcn(tree)

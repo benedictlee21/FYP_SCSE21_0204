@@ -102,7 +102,7 @@ class ShapeInversion(object):
             self.w_D_loss = args.w_D_loss
 
     # Reset the generator weights after completing each shape.
-    def reset_G(self,pcd_id=None):
+    def reset_G(self, pcd_id = None):
         """
         to call in every new fine_tuning
         before the 1st one also okay
@@ -136,15 +136,18 @@ class ShapeInversion(object):
                 self.target = self.downsample(partial.unsqueeze(0), target_size)
             else:
                 self.target = partial.unsqueeze(0)
+        
+        # If there is no partial shape, transform the input ground truth into a partial shape
+        # by degrading it and transforming it in the observation space according to the mask type.
         else:
-            self.target = self.pre_process(self.ground_truth, stage=-1)
+            self.target = self.pre_process(self.ground_truth, stage = -1)
         # for visualization
         self.checkpoint_flags.append('Target')
         self.checkpoint_pcd.append(self.target)
 
     def run(self, ith = -1, classes_chosen = None):
 
-        #print('\nshape_inversion.py: run - one hot chosen classes:', classes_chosen)
+        #print('\nshape_inversion.py: run - classes chosen:', classes_chosen)
 
         loss_dict = {}
         curr_step = 0
@@ -174,8 +177,8 @@ class ShapeInversion(object):
                 # Pass the latent space representation and one hot encoded vector to the generator.
                 x = self.G(tree, self.args.device)
 
-                # Perform masking.
-                x_map = self.pre_process(x,stage=stage)
+                # Perform degradation of generated shape and masking, where 'x' is the generated shape.
+                x_map = self.pre_process(x, stage = stage)
 
                 # Compute losses.
                 ftr_loss = self.criterion(self.ftr_net, x_map, self.target)
@@ -381,7 +384,8 @@ class ShapeInversion(object):
 
             x = self.G([self.z])
 
-            # visualization
+            # If the ground truth exists, perform degradation of the generated shape and
+            # evaluate it against the ground truth using chamfer distance.
             if self.ground_truth is not None:
                 x_map = self.pre_process(x, stage=-1)
                 dist1, dist2 , _, _ = distChamfer(x,self.ground_truth)
@@ -398,7 +402,7 @@ class ShapeInversion(object):
             return z_all[idx]
 
 
-    def pre_process(self,pcd,stage=-1):
+    def pre_process(self, pcd, stage = -1):
         """
         transfer a pcd in the observation space:
         with the following mask_type:
@@ -409,8 +413,10 @@ class ShapeInversion(object):
             k_mask: proposed component by ShapeInversion
         """
 
+        # 'pcd' represents the ground truth.
         if self.mask_type == 'none':
             return pcd
+            
         elif self.mask_type in ['ball_hole', 'knn_hole']:
             ### set static mask for each new partial pcd
             if self.to_reset_mask:
@@ -445,6 +451,7 @@ class ShapeInversion(object):
 
             target = torch.mul(pcd, flag_map)
             return target
+            
         elif self.mask_type == 'voxel_mask':
             """
             voxels in the partial and optionally surroundings are 1, the rest are 0.
@@ -455,14 +462,19 @@ class ShapeInversion(object):
                 # optional to add surrounding to the mask partial
                 surrounding = self.args.surrounding
                 self.mask_dict = {}
+                
                 for key_ground_truth in mask_partial:
                     x,y,z = key_ground_truth
                     surrounding_ls = []
                     surrounding_ls.append((x,y,z))
+                    
                     for x_s in range(x-surrounding+1, x+surrounding):
+                    
                         for y_s in range(y-surrounding+1, y+surrounding):
+                        
                             for z_s in range(z-surrounding+1, z+surrounding):
                                 surrounding_ls.append((x_s,y_s,z_s))
+                                
                     for xyz in surrounding_ls:
                         self.mask_dict[xyz] = 1
                 # turn off mask after set mask, until next partial pcd
@@ -475,6 +487,7 @@ class ShapeInversion(object):
             pcd_new = pcd_new.type(torch.int64)
             ls_voxels = pcd_new.squeeze(0).tolist() # 2028 of sublists
             tuple_voxels = [tuple(itm) for itm in ls_voxels]
+            
             for i in range(2048):
                 tuple_voxel = tuple_voxels[i]
                 if tuple_voxel in self.mask_dict:
@@ -483,12 +496,17 @@ class ShapeInversion(object):
             mask_tensor = mask_tensor.unsqueeze(0).cuda()
             pcd_map = torch.mul(pcd, mask_tensor)
             return pcd_map
+            
+        # 'self.target' represents either the input partial shape or the ground truth degraded into a partial shape.
+        # 'pcd' represents the ground truth.
         elif self.mask_type == 'k_mask':
-            pcd_map = self.k_mask(self.target, pcd,stage)
+            pcd_map = self.k_mask(self.target, pcd, stage)
             return pcd_map
+            
         elif self.mask_type == 'tau_mask':
             pcd_map = self.tau_mask(self.target, pcd,stage)
             return pcd_map
+            
         else:
             raise NotImplementedError
 
@@ -528,32 +546,58 @@ class ShapeInversion(object):
         x_map = x[:, idx]
         return x_map
 
-    def k_mask(self, target, x, stage=-1):
+    def k_mask(self, target, x, stage = -1):
         """
-        masking based on CD.
+        masking based on Chamfer Distance.
         target: (1, N, 3), partial, can be < 2048, 2048, > 2048
-        x: (1, 2048, 3)
+        x: (1, 2048, 3) ground truth
         x_map: (1, N', 3), N' < 2048
         x_map: v1: 2048, 0 masked points
         """
+        # Select the index to retrieve the k mask value.
         stage = max(0, stage)
+        
+        # Retrieve the k mask value from the array.
         knn = self.args.k_mask_k[stage]
         if knn == 1:
+        
+            # Compute the chamfer distance.
             cd1, cd2, argmin1, argmin2 = distChamfer(target, x)
+            
+            # Get the unique elements from the tensor 'indices' and convert the values to type 'long'.
+            # union of all the indices
             idx = torch.unique(argmin1).type(torch.long)
+            
         elif knn > 1:
+            # Compute the chamfer distance.
             # dist_mat shape (B, 2048, 2048), where B = 1
             dist_mat = distChamfer_raw(target, x)
+            
+            # Get the 'k' smallest elements from the tensor 'dist_mat' along dimension = 2.
             # indices (B, 2048, k)
-            val, indices = torch.topk(dist_mat, k=knn, dim=2,largest=False)
+            val, indices = torch.topk(dist_mat, k = knn, dim = 2, largest = False)
+            
+            # Get the unique elements from the tensor 'indices' and convert the values to type 'long'.
             # union of all the indices
             idx = torch.unique(indices).type(torch.long)
 
+        # Keep the zeros with the element product.
         if self.args.masking_option == 'element_product':
-            mask_tensor = torch.zeros(2048,1)
+            
+            # Create a tensor of zeros.
+            mask_tensor = torch.zeros(2048, 1)
+            
+            # Set the earlier identified unique index values to 1.
             mask_tensor[idx] = 1
+            
+            # Add a dimension of size 1 to the tensor at position 0.
             mask_tensor = mask_tensor.cuda().unsqueeze(0)
+            
+            # Multiply the mask with the ground truth to obtain the partial shape.
+            # Similar to applying a per pixel binary mask to a 2D image using AND operation.
             x_map = torch.mul(x, mask_tensor)
+            
+        # Remove zeros from the element product.
         elif self.args.masking_option == 'indexing':
             x_map = x[:, idx]
         return x_map

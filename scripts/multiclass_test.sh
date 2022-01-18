@@ -3,6 +3,7 @@ python trainer.py \
 --class_choice multiclass \
 --inversion_mode multiclass \
 --visualize \
+--mask_type k_mask \
 --save_inversion_path ./saved_results/CRN_multiclass/ \
 --ckpt_load ./multiclass_pretrained_models/multiclass_chair_table_1000_epochs.pt \
 --dataset_path ./input_shapes/shapenet_crn_dataset/ \

@@ -119,7 +119,7 @@ class Arguments:
         self._parser.add_argument('--hole_radius', type=float, default=0.35, help='radius of the single hole, ball hole')
         self._parser.add_argument('--hole_k', type=int, default=500, help='k of knn ball hole')
         self._parser.add_argument('--hole_n', type=int, default=1, help='n holes for knn hole or ball hole')
-        self._parser.add_argument('--masking_option', type=str, default="element_product", help='keep zeros with element_prodcut or remove zero with indexing')
+        self._parser.add_argument('--masking_option', type=str, default="element_product", help='keep zeros with element_product or remove zero with indexing')
 
         ### inversion mode related
         self._parser.add_argument('--inversion_mode', type=str, default='completion', help='reconstruction|completion|jittering|morphing|diversity|ball_hole_diversity|simulate_pfnet|multiclass')
