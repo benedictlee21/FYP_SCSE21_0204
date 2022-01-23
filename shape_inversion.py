@@ -239,9 +239,11 @@ class ShapeInversion(object):
         # Save the completed point cloud output.
         self.x = x
        
+       # Create the path to save the results if it does not exist.
         if not osp.isdir(self.args.save_inversion_path):
             os.mkdir(self.args.save_inversion_path)
-                
+        
+        # Get the input partial shape, its map and the completed shape as numpy arrays.
         x_np = x[0].detach().cpu().numpy()
         x_map_np = x_map[0].detach().cpu().numpy()
         target_np = self.target[0].detach().cpu().numpy()
@@ -255,9 +257,11 @@ class ShapeInversion(object):
         if self.ground_truth is not None:
             ground_truth_np = self.ground_truth[0].detach().cpu().numpy()
             np.savetxt(osp.join(self.args.save_inversion_path,basename+'_Ground_Truth.txt'), ground_truth_np, fmt = "%f;%f;%f")
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_X_Partial.txt'), x_np, fmt = "%f;%f;%f")
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_X_Partial_Map.txt'), x_map_np, fmt = "%f;%f;%f")
-        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_Completed Target.txt'), target_np, fmt = "%f;%f;%f")
+            
+        # Save the input partial, its map and the completed shape.
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_X_Partial_Shape.txt'), x_np, fmt = "%f;%f;%f")
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_X_Partial_Shape_Map.txt'), x_map_np, fmt = "%f;%f;%f")
+        np.savetxt(osp.join(self.args.save_inversion_path,basename+'_Completed_Shape.txt'), target_np, fmt = "%f;%f;%f")
 
         # If the shapeinversion mode is 'jittering'.
         if self.args.inversion_mode == 'jittering':
@@ -533,22 +537,32 @@ class ShapeInversion(object):
                 del mask_dict[voxel]
         return mask_dict
 
-    def tau_mask(self, target, x, stage=-1):
-        """
-        tau mask
-        """
+    # Perform masking based on tau distance.
+    def tau_mask(self, target, x, stage = -1):
+
         # dist_mat shape (B, N_target, N_output), where B = 1
         stage = max(0, stage)
+        
+        # Get the tau distance value for the tau mask.
         dist_tau = self.args.tau_mask_dist[stage]
+        
+        # Compute the chamfer distance between the partial and ground truth.
+        # Returns the indexes of the closest point on shape A from the points of shape B.
         dist_mat = distChamfer_raw(target, x)
-        idx0, idx1, idx2 = torch.where(dist_mat<dist_tau)
+        
+        # Get the point indexes where the chamfer distances are greater than the tau distances.
+        idx0, idx1, idx2 = torch.where(dist_mat < dist_tau)
+        
+        # Get the unique index elements from 'idx2' and convert the values to type 'long'.
         idx = torch.unique(idx2).type(torch.long)
+        
+        # Obtain a map points consisting of only those unique index values.
         x_map = x[:, idx]
         return x_map
 
+    # Perform K mask masking based on chamfer distance which was developed by ShapeInversion authors.
     def k_mask(self, target, x, stage = -1):
         """
-        masking based on Chamfer Distance.
         target: (1, N, 3), partial, can be < 2048, 2048, > 2048
         x: (1, 2048, 3) ground truth
         x_map: (1, N', 3), N' < 2048
@@ -569,16 +583,17 @@ class ShapeInversion(object):
             idx = torch.unique(argmin1).type(torch.long)
             
         elif knn > 1:
-            # Compute the chamfer distance.
+            # Compute the chamfer distance between the partial and ground truth.
+            # Returns the indexes of the closest point on shape A from the points of shape B.
             # dist_mat shape (B, 2048, 2048), where B = 1
             dist_mat = distChamfer_raw(target, x)
+            print(type(dist_mat))
             
             # Get the 'k' smallest elements from the tensor 'dist_mat' along dimension = 2.
             # indices (B, 2048, k)
             val, indices = torch.topk(dist_mat, k = knn, dim = 2, largest = False)
             
             # Get the unique elements from the tensor 'indices' and convert the values to type 'long'.
-            # union of all the indices
             idx = torch.unique(indices).type(torch.long)
 
         # Keep the zeros with the element product.

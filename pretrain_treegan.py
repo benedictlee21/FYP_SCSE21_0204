@@ -59,8 +59,8 @@ class TreeGAN():
 
         # Define the generator and discriminator models.
         # Pass in the chosen classes if multiclass is specified.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = len(classes_chosen), args = self.args).to(args.device)
-        self.D = Discriminator(features = args.D_FEAT, num_classes = len(classes_chosen).to(args.device)
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = len(self.classes_chosen), args = self.args).to(args.device)
+        self.D = Discriminator(features = args.D_FEAT, num_classes = len(self.classes_chosen), args = self.args).to(args.device)
         
         # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
@@ -146,18 +146,15 @@ class TreeGAN():
                 #print('Class ID tensor:', class_id)
                 #print('Class ID tensor shape:', class_id.shape)
                       
-                # Perform one hot encoding for the generator classes chosen.
-                generator_labels = torch.from_numpy(np.random.randint(0, len(classes_chosen), class_id.shape[0]).reshape(-1, 1).to(self.args.device)
-                generator_class_labels = torch.FloatTensor(class_id.shape[0], len(classes_chosen).to(self.args.device)
-                
-                generator_class_labels.zero()
-                generator_class_labels.scatter_(1, generator_labels, 1)
-                generator_class_labels.unsqueeze_(1)
-                      
                 # Perform one hot encoding for the discriminator classes chosen.
-                discriminator_class_labels = torch.FloatTensor(class_id.shape[0], len(classes_chosen).to(self.args.device)
+                discriminator_class_labels = torch.FloatTensor(class_id.shape[0], len(self.classes_chosen)).to(self.args.device)
                 
-                discriminator_class_labels.zero()
+                # Zero all the tensor elements before populating them with the class IDs.
+                discriminator_class_labels.zero_()
+                
+                print(type(discriminator_class_labels))
+                print('Discriminator class tensor size:', discriminator_class_labels.size())
+                
                 discriminator_class_labels.scatter_(1, class_id, 1)
                 discriminator_class_labels.unsqueeze_(1)
                 
@@ -173,6 +170,17 @@ class TreeGAN():
                     # Generate the latent space representation.
                     # First dimension of latent space represents the batch size.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
+                    
+                    # Perform one hot encoding for the generator classes chosen.
+                    generator_labels = torch.from_numpy(np.random.randint(0, len(self.classes_chosen), class_id.shape[0]).reshape(-1, 1)).to(self.args.device)
+                    
+                    # Create a float tensor for the class IDs.
+                    generator_class_labels = torch.FloatTensor(class_id.shape[0], len(self.classes_chosen)).to(self.args.device)
+                    
+                    # Zero all the tensor elements before populating them with the class IDs.
+                    generator_class_labels.zero_()
+                    generator_class_labels.scatter_(1, generator_labels, 1)
+                    generator_class_labels.unsqueeze_(1)
                     
 # --------------------------------------------------------
                     # For multiclass operation, concatenate the latent space tensor with the class ID tensor.

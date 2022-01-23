@@ -58,7 +58,7 @@ def compute_uhd(partial_ls, output_ls):
     return udh_loss.item()
 
 ### FUNCTION IMMEDIATELY BELOW FOR SHAPEINVERSION DIVERSITY RESULTS ONLY
-"""
+
 def eval_completion_without_gt(input_dir):
     ### retrieve _x and target
     pathnames = glob.glob(input_dir + "/*")
@@ -67,9 +67,9 @@ def eval_completion_without_gt(input_dir):
     output_shapes = []
 
     for filepath in pathnames:
-        if '_target.txt' in filepath:
+        if 'X_Partial_Shape.txt' in filepath:
             input_partials.append(filepath)
-        elif '_x.txt' in filepath:
+        elif 'Completed_Shape.txt' in filepath:
             output_shapes.append(filepath)
 
     sorted_inputs = sorted(input_partials)
@@ -90,9 +90,9 @@ def eval_completion_without_gt(input_dir):
     print(input_dir)
     print('UCD: ', cd)
     print('UHD: ', uhd)
-"""
 
 ### FUNCTION IMMEDIATELY BELOW FOR MULTIMODAL SHAPE COMPLETION RESULTS ONLY
+"""
 def eval_completion_without_gt(input_dir):
     ### retrieve raw and fake text files
     pathnames = glob.glob(input_dir + '/*')
@@ -136,6 +136,7 @@ def eval_completion_without_gt(input_dir):
     print(input_dir)
     print('UCD: ', cd)
     #print('UHD: ', uhd)
+"""
 
 if __name__ == '__main__':
 

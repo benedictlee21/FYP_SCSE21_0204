@@ -6,7 +6,7 @@ from model.gcn import TreeGCN
 from math import ceil
 
 class Discriminator(nn.Module):
-    def __init__(self, features, num_classes):
+    def __init__(self, features, num_classes, args = None):
     
         # Get the number of layers for the discriminator network.
         self.layer_num = len(features)-1
@@ -32,7 +32,7 @@ class Discriminator(nn.Module):
             
         # Create additional network layers for multiclass.
         self.fully_connected_V1 = nn.Sequential(
-            nn.Linear(features[-1], features[-1],
+            nn.Linear(features[-1], features[-1]),
             nn.LeakyReLU(negative_slope = 0.2)
         )
         

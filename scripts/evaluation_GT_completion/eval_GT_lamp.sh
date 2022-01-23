@@ -1,3 +1,3 @@
 python eval_completion.py \
 --eval_with_GT true \
---saved_results_path saved_results/CRN_lamp/
+--saved_results_path ./saved_results/CRN_lamp/
