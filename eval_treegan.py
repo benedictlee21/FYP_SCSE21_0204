@@ -118,8 +118,24 @@ def script_create_fpd_stats(args, classes_chosen = None, data2stats='CRN'):
         
         # Retrieve the data from the dataset for evaluation.
         dataLoader = torch.utils.data.DataLoader(dataset, batch_size = args.batch_size, shuffle = True, pin_memory = True, num_workers = 8)
+        
+        # Preparation for naming of NPZ statistics file for multiclass.
+        if args.class_choice == 'multiclass':
+            class_list = args.class_range.split(',')
+            
+            # Concatenate all the class names into a string.
+            multiclass_string = ''
+            
+            for index in range(len(class_list)):
+                multiclass_string = multiclass_string + class_list[index]
+                
+                # Continue adding the underscore between classes.
+                if index + 1 < len(class_list):
+                    multiclass_string = multiclass_string + '_'
 
-        pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '.npz'
+            pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '_' + multiclass_string + '.npz'
+        else:
+            pathname_save = './evaluation/pre_statistics_CRN_' + args.class_choice + '.npz'
     else:
         raise NotImplementedError
 
