@@ -54,15 +54,17 @@ class TreeGAN():
         # Combines the dataset with a sampler, providing an iterable over the dataset.
         # Shuffling of shapes by class indexes is performed here.
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size = args.batch_size, shuffle = True, pin_memory = True, num_workers = 2)
+        
         print("Training Dataset : {} prepared.".format(len(self.data)))
 
-        # Instantiate the generator and discriminator models.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = self.total_num_classes, args = self.args).to(args.device)
-        self.D = Discriminator(features = args.D_FEAT, num_classes = self.total_num_classes, args = self.args).to(args.device)
+        # Define the generator and discriminator models.
+        # Pass in the chosen classes if multiclass is specified.
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = len(self.classes_chosen), args = self.args).to(args.device)
+        self.D = Discriminator(features = args.D_FEAT, num_classes = len(self.classes_chosen), args = self.args).to(args.device)
         
         # Define the optimizer and parameters.
-        self.optimizerG = optim.Adam(self.G.parameters(), lr = args.lr, betas = (0, 0.99))
-        self.optimizerD = optim.Adam(self.D.parameters(), lr = args.lr, betas = (0, 0.99))
+        self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
+        self.optimizerD = optim.Adam(self.D.parameters(), lr=args.lr, betas=(0, 0.99))
         
         # Define the calculation of gradient penalty.
         self.GP = GradientPenalty(args.lambdaGP, gamma=1, device=args.device)
@@ -145,16 +147,13 @@ class TreeGAN():
                 #print('Class ID tensor shape:', class_id.shape)
                       
                 # Perform one hot encoding for the discriminator classes chosen.
-                discriminator_class_labels = torch.FloatTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
+                discriminator_class_labels = torch.FloatTensor(class_id.shape[0], len(self.classes_chosen)).to(self.args.device)
                 
                 # Zero all the tensor elements before populating them with the class IDs.
                 discriminator_class_labels.zero_()
                 
-                print('Class ID tensor size:', class_id.size())
+                print(type(discriminator_class_labels))
                 print('Discriminator class tensor size:', discriminator_class_labels.size())
-                class_id = torch.reshape(class_id, (4, 1))
-                class_id = class_id.expand(4, 8)
-                print('After expanding class ID tensor size:', class_id.size())
                 
                 discriminator_class_labels.scatter_(1, class_id, 1)
                 discriminator_class_labels.unsqueeze_(1)
@@ -182,7 +181,6 @@ class TreeGAN():
                     generator_class_labels.zero_()
                     generator_class_labels.scatter_(1, generator_labels, 1)
                     generator_class_labels.unsqueeze_(1)
-                    print('Generator class tensor size:', generator_class_labels.size())
                     
 # --------------------------------------------------------
                     # For multiclass operation, concatenate the latent space tensor with the class ID tensor.
@@ -207,19 +205,18 @@ class TreeGAN():
                     
                     # Pass the latent space representation to the generator.
                     tree = [z]
-                    print('pretrain_treegan.py - shape of tree[0]:', tree[0].size())
 
                     # Reset the gradients and pass the latent space representation to the generator.
                     # 'self.G' leads into the 'forward()' function of the generator in 'treegan_network.py'.
                     with torch.no_grad():
                     
                         # Number of shapes in 'fake_point' is equal to the batch size.
-                        fake_point = self.G(tree, generator_class_labels)
+                        fake_point = self.G(tree)
 
                     # Evaluate both the ground truth and generated shape using the discriminator.
                     # 'self.D' leads into the 'forward()' function of the generator in 'treegan_network.py'.
-                    D_real, _ = self.D(point, discriminator_class_labels)
-                    D_fake, _ = self.D(fake_point, generator_class_labels)
+                    D_real, _ = self.D(point)
+                    D_fake, _ = self.D(fake_point)
                     
                     # Compute the gradient penalty loss.
                     gp_loss = self.GP(self.D, point.data, fake_point.data)
