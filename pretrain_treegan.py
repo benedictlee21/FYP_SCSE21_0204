@@ -26,13 +26,12 @@ class TreeGAN():
         # If multiclass pretraining is specified.
         if self.args.class_choice == 'multiclass' and self.args.class_range is not None:
             
-            # Set the total number of classes to be used.
-            # Chair, Table, Cabinet, Couch, Lamp, Car, Plane, Watercraft.
-            self.total_num_classes = 8
-            
             # Convert the one hot encoding list into an array, representing the classes.
             self.classes_chosen = encode_classes(self.args.class_range)
             print('pretrain_treegan.py: __init__ - index of multiclass classes chosen:', self.classes_chosen)
+            
+            # Set the total number of classes to be used.
+            self.total_num_classes = len(self.classes_chosen)
             
             # Create a lookup table using pytorch embedding to represent the number of classes.
             #self.lookup_table = nn.Embedding(self.total_num_classes, 96)
@@ -59,8 +58,8 @@ class TreeGAN():
 
         # Define the generator and discriminator models.
         # Pass in the chosen classes if multiclass is specified.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = len(self.classes_chosen), args = self.args).to(args.device)
-        self.D = Discriminator(features = args.D_FEAT, num_classes = len(self.classes_chosen), args = self.args).to(args.device)
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = self.total_num_classes, args = self.args).to(args.device)
+        self.D = Discriminator(features = args.D_FEAT, num_classes = self.total_num_classes, args = self.args).to(args.device)
         
         # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
@@ -111,8 +110,8 @@ class TreeGAN():
             print("Checkpoint loaded.")
 
         # Enable data parallelism after loading.
-        self.G = nn.DataParallel(self.G)
-        self.D = nn.DataParallel(self.D)
+        #self.G = nn.DataParallel(self.G)
+        #self.D = nn.DataParallel(self.D)
         
         # Prepare the number of dimensions for the latent space for the network.
         latent_space_dim = 96
@@ -145,16 +144,19 @@ class TreeGAN():
                 #print('Ground truth (point) tensor shape:', point.shape)
                 #print('Class ID tensor:', class_id)
                 #print('Class ID tensor shape:', class_id.shape)
-                      
+                
+                # Reshape the class tensor for accomodating the discriminator labels.
+                print('pretrain_treegan.py - Class ID tensor size:', class_id.size())
+                class_id = torch.reshape(class_id, (4, 1))
+                class_id = class_id.expand(4, 2)
+                print('pretrain_treegan.py - After expanding class ID tensor size:', class_id.size())
+                
                 # Perform one hot encoding for the discriminator classes chosen.
-                discriminator_class_labels = torch.FloatTensor(class_id.shape[0], len(self.classes_chosen)).to(self.args.device)
+                discriminator_class_labels = torch.FloatTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
                 
                 # Zero all the tensor elements before populating them with the class IDs.
                 discriminator_class_labels.zero_()
-                
-                print(type(discriminator_class_labels))
-                print('Discriminator class tensor size:', discriminator_class_labels.size())
-                
+                print('pretrain_treegan.py - Discriminator class tensor size:', discriminator_class_labels.size())
                 discriminator_class_labels.scatter_(1, class_id, 1)
                 discriminator_class_labels.unsqueeze_(1)
                 
@@ -167,20 +169,23 @@ class TreeGAN():
                     # Reset discriminator gradients to zero.
                     self.D.zero_grad()
                     
+                    # CUDA ERROR APPEARS HERE BUT MAY HAVE BEEN CAUSED EARLIER.
+                    
                     # Generate the latent space representation.
                     # First dimension of latent space represents the batch size.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
                     
                     # Perform one hot encoding for the generator classes chosen.
-                    generator_labels = torch.from_numpy(np.random.randint(0, len(self.classes_chosen), class_id.shape[0]).reshape(-1, 1)).to(self.args.device)
+                    generator_labels = torch.from_numpy(np.random.randint(0, self.total_num_classes, class_id.shape[0]).reshape(-1, 1)).to(self.args.device)
                     
                     # Create a float tensor for the class IDs.
-                    generator_class_labels = torch.FloatTensor(class_id.shape[0], len(self.classes_chosen)).to(self.args.device)
+                    generator_class_labels = torch.FloatTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
                     
                     # Zero all the tensor elements before populating them with the class IDs.
                     generator_class_labels.zero_()
                     generator_class_labels.scatter_(1, generator_labels, 1)
                     generator_class_labels.unsqueeze_(1)
+                    print('pretrain_treegan.py - Generator class tensor size:', generator_class_labels.size())
                     
 # --------------------------------------------------------
                     # For multiclass operation, concatenate the latent space tensor with the class ID tensor.
@@ -205,18 +210,19 @@ class TreeGAN():
                     
                     # Pass the latent space representation to the generator.
                     tree = [z]
+                    print('pretrain_treegan.py - tree[0] shape:', tree[0].size())
 
                     # Reset the gradients and pass the latent space representation to the generator.
                     # 'self.G' leads into the 'forward()' function of the generator in 'treegan_network.py'.
                     with torch.no_grad():
                     
                         # Number of shapes in 'fake_point' is equal to the batch size.
-                        fake_point = self.G(tree)
+                        fake_point = self.G(tree, generator_class_labels)
 
                     # Evaluate both the ground truth and generated shape using the discriminator.
                     # 'self.D' leads into the 'forward()' function of the generator in 'treegan_network.py'.
-                    D_real, _ = self.D(point)
-                    D_fake, _ = self.D(fake_point)
+                    D_real, _ = self.D(point, discriminator_class_labels)
+                    D_fake, _ = self.D(fake_point, generator_class_labels)
                     
                     # Compute the gradient penalty loss.
                     gp_loss = self.GP(self.D, point.data, fake_point.data)
@@ -268,9 +274,9 @@ class TreeGAN():
 
                 # Pass the latent space representation to the generator.
                 tree = [z]
-                fake_point = self.G(tree)
+                fake_point = self.G(tree, generator_class_labels)
                 
-                G_fake, _ = self.D(fake_point)
+                G_fake, _ = self.D(fake_point, discriminator_class_labels)
                 G_fakem = G_fake.mean()
                 g_loss = -G_fakem
 

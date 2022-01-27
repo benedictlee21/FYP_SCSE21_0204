@@ -1,4 +1,4 @@
-# 1. Generate multiclass pretrained model file (.pt).
+# 1. Generate multiclass pretrained model file (.pt) using 'pretrain_treegan.py'.
 
 # 2. Generate multiclass FPD statistics file (.npz) using the multiclass model.
 python eval_treegan.py \
@@ -13,7 +13,7 @@ python eval_treegan.py \
 python eval_treegan.py \
 --eval_treegan_mode FPD \
 --class_choice multiclass \
---FPD_path ./evaluation/pre_statistics_CRN_multiclass.npz \
+--FPD_path ./evaluation/pre_statistics_CRN_multiclass_chair_table.npz \
 --save_sample_path ./saved_results/eval_treegan/ \
 --model_pathname ./multiclass_pretrained_models/multiclass_chair_table_1000_epochs.pt \
 --dataset_path ./input_shapes/shapenet_crn_dataset/ \

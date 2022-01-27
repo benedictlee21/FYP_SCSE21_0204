@@ -8,6 +8,7 @@ from math import ceil
 class Discriminator(nn.Module):
     def __init__(self, features, num_classes, args = None):
     
+        self.args = args
         # Get the number of layers for the discriminator network.
         self.layer_num = len(features)-1
         
@@ -55,7 +56,7 @@ class Discriminator(nn.Module):
         )
 
     # Pretraining does not use the forward propagation function.
-    def forward(self, tree, device = None):
+    def forward(self, tree, class_labels, device = None):
 
         feat = tree.transpose(1,2)
         vertex_num = feat.size(2)
@@ -70,7 +71,7 @@ class Discriminator(nn.Module):
         
 # --------------------------------------------------------
         # For multiclass operation, concatenate the discriminator output with the number of classes.
-        if args.class_choice == 'multiclass':
+        if self.args.class_choice == 'multiclass':
             out = torch.cat((out, class_labels.squeeze(1)), -1)
             out = self.fully_connected_V1(out)
 # --------------------------------------------------------
@@ -82,6 +83,7 @@ class Discriminator(nn.Module):
 class Generator(nn.Module):
     def __init__(self, features, degrees, support, num_classes, args = None):
         
+        self.args = args
         # Get the number of layers for the generator network.
         self.layer_num = len(features)-1
         assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
@@ -104,6 +106,7 @@ class Generator(nn.Module):
         if args.class_choice == 'multiclass':
             print('Number of classes chosen:', num_classes)
             features[0] += num_classes
+            print('features[0]:', features[0])
         
         # Create additional network layers for multiclass.
         self.fully_connected_V1 = nn.Sequential(
@@ -138,8 +141,9 @@ class Generator(nn.Module):
 
 # --------------------------------------------------------
         # For multiclass operation, concatenate the latent space with the class labels.
-        if args.class_choice == 'multiclass':
+        if self.args.class_choice == 'multiclass':
             tree[0] = torch.cat((tree[0], class_labels), -1)
+            print('Concatenated latent space size:', tree[0].size())
         
             # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
             #tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
