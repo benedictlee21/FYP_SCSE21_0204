@@ -148,17 +148,35 @@ class TreeGAN():
                 # Reshape the class tensor for accomodating the discriminator labels.
                 print('pretrain_treegan.py - Class ID tensor size:', class_id.size())
                 class_id = torch.reshape(class_id, (4, 1))
-                class_id = class_id.expand(4, 2)
-                print('pretrain_treegan.py - After expanding class ID tensor size:', class_id.size())
+                #class_id = class_id.expand(4, 2)
+                #print('pretrain_treegan.py - After expanding class ID type:', type(class_id))
+                #print('pretrain_treegan.py - After expanding class ID tensor size:', class_id.size())
+                print('\nClass ID tensor:', class_id, '\n')
                 
                 # Perform one hot encoding for the discriminator classes chosen.
-                discriminator_class_labels = torch.FloatTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
+                discriminator_class_labels = torch.IntTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
                 
                 # Zero all the tensor elements before populating them with the class IDs.
                 discriminator_class_labels.zero_()
                 print('pretrain_treegan.py - Discriminator class tensor size:', discriminator_class_labels.size())
+                print('\nDiscriminator class labels tensor:', discriminator_class_labels, '\n')
+                
+                # 'scatter' function is used to perform the assignment of one hot encoding values within
+                # the class tensor. It sends the elements of the class ID tensor into the specified
+                # indices of the 'discriminator_class_labels' tensor.
+                
+                # CUDA ERROR APPEARS TO BE CAUSED BY THIS LINE USING THE SCATTER FUNCTION.
                 discriminator_class_labels.scatter_(1, class_id, 1)
+                print('pretrain_treegan.py - Discriminator class tensor size after scattering:', discriminator_class_labels.size())
+                print('\nDiscriminator class tensor:', discriminator_class_labels, '\n')
+                
+                # Convert the resultant tensor into type float.
+                discriminator_class_labels.type(torch.cuda.FloatTensor)
+                print('\nDResultant discriminator class tensor after converting to float:', discriminator_class_labels, '\n')
+                
+                # Insert a dimension of size 1 at positional index 1 of the class tensor.
                 discriminator_class_labels.unsqueeze_(1)
+                print('pretrain_treegan.py - Discriminator class tensor size after unsqueezing:', discriminator_class_labels.size())
                 
 # -------------------- Discriminator -------------------- #
                 tic = time.time()
@@ -177,15 +195,25 @@ class TreeGAN():
                     
                     # Perform one hot encoding for the generator classes chosen.
                     generator_labels = torch.from_numpy(np.random.randint(0, self.total_num_classes, class_id.shape[0]).reshape(-1, 1)).to(self.args.device)
+                    print('pretrain_treegan.py - Generator random labels type:', type(generator_labels))
+                    print('pretrain_treegan.py - Generator random labels tensor size:', generator_labels.size())
                     
                     # Create a float tensor for the class IDs.
                     generator_class_labels = torch.FloatTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
                     
                     # Zero all the tensor elements before populating them with the class IDs.
                     generator_class_labels.zero_()
-                    generator_class_labels.scatter_(1, generator_labels, 1)
-                    generator_class_labels.unsqueeze_(1)
                     print('pretrain_treegan.py - Generator class tensor size:', generator_class_labels.size())
+                    
+                    # 'scatter' function is used to perform the assignment of one hot encoding values within
+                    # the class tensor. It sends the elements of the class ID tensor into the specified
+                    # indices of the 'generator_class_labels' tensor.
+                    generator_class_labels.scatter_(1, generator_labels, 1)
+                    print('pretrain_treegan.py - Generator class tensor size after scattering:', generator_class_labels.size())
+                    
+                    # Insert a dimension of size 1 at positional index 1 of the class tensor.
+                    generator_class_labels.unsqueeze_(1)
+                    print('pretrain_treegan.py - Generator class tensor size after unsqueezing:', generator_class_labels.size())
                     
 # --------------------------------------------------------
                     # For multiclass operation, concatenate the latent space tensor with the class ID tensor.

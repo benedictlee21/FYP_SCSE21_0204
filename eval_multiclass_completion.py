@@ -1,4 +1,3 @@
-
 import os
 import torch
 import numpy as np
@@ -60,23 +59,31 @@ def compute_uhd(partial_ls, output_ls):
 ### FUNCTION IMMEDIATELY BELOW FOR SHAPEINVERSION DIVERSITY RESULTS ONLY
 
 def eval_completion_without_gt(input_dir):
-    ### retrieve _x and target
+    # Retrive the partial and completed shapes from their directory.
     pathnames = glob.glob(input_dir + "/*")
+    
+    # Get the class name for the shapes being evaluated.
+    class_name = os.path.basename(input_dir)
 
+    # Lists to store the partial and completed shapes.
     input_partials = []
     output_shapes = []
 
+    # For each file in the directory, check if it is a partial or completed shape.
+    # Store the filename of that file into their respective list.
     for filepath in pathnames:
         if 'X_Partial_Shape.txt' in filepath:
             input_partials.append(filepath)
         elif 'Completed_Shape.txt' in filepath:
             output_shapes.append(filepath)
 
+    # Sort the shapes alphabetically.
     sorted_inputs = sorted(input_partials)
     sorted_outputs = sorted(output_shapes)
     ours_input = []
     ours_output = []
 
+    # Read in the point cloud shape coordinates from each file and convert it into a numpy array.
     for i in sorted_inputs:
          input_numpy = np.loadtxt(i, delimiter = ';').astype(np.float32)
          ours_input.append(input_numpy)
@@ -85,11 +92,15 @@ def eval_completion_without_gt(input_dir):
          output_numpy = np.loadtxt(j, delimiter = ';').astype(np.float32)
          ours_output.append(output_numpy)
 
+    # Compute the unidirectional chamfer distance.
     cd, cd_ls = compute_ucd(ours_input, ours_output)
+    
+    # Compute the unidirectional hausdorff distance.
     uhd = compute_uhd(ours_input, ours_output)
-    print(input_dir)
-    print('UCD: ', cd)
-    print('UHD: ', uhd)
+    
+    print('Current directory:', input_dir)
+    print('Class:', class_name, ', UCD: ', cd)
+    print('Class:', class_name, ', UHD: ', uhd)
 
 ### FUNCTION IMMEDIATELY BELOW FOR MULTIMODAL SHAPE COMPLETION RESULTS ONLY
 """

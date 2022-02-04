@@ -537,20 +537,22 @@ class ShapeInversion(object):
                 del mask_dict[voxel]
         return mask_dict
 
-    # Perform masking based on tau distance.
+    # Perform masking based on tau distance that uses the original chamfer distance algorithm.
+    # Corresponding matching points and regions in both input partial and the generated complete
+    # shape are determined based on the distance from their nearest neighbour using a predefined threshold.
     def tau_mask(self, target, x, stage = -1):
 
         # dist_mat shape (B, N_target, N_output), where B = 1
         stage = max(0, stage)
         
-        # Get the tau distance value for the tau mask.
+        # Get the tau distance threshold for the tau mask.
         dist_tau = self.args.tau_mask_dist[stage]
         
         # Compute the chamfer distance between the partial and ground truth.
         # Returns the indexes of the closest point on shape A from the points of shape B.
         dist_mat = distChamfer_raw(target, x)
         
-        # Get the point indexes where the chamfer distances are greater than the tau distances.
+        # Filter and keep only the point indexes where the chamfer distances are greater than the tau distances.
         idx0, idx1, idx2 = torch.where(dist_mat < dist_tau)
         
         # Get the unique index elements from 'idx2' and convert the values to type 'long'.

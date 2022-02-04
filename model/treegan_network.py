@@ -28,7 +28,7 @@ class Discriminator(nn.Module):
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if args.class_choice == 'multiclass':
-            print('Number of classes chosen:', num_classes)
+            print('treegan_network.py - Discriminator number of classes chosen:', num_classes)
             features[-1] += num_classes
             
         # Create additional network layers for multiclass.
@@ -104,7 +104,7 @@ class Generator(nn.Module):
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if args.class_choice == 'multiclass':
-            print('Number of classes chosen:', num_classes)
+            print('treegan_network.py - Generator number of classes chosen:', num_classes)
             features[0] += num_classes
             print('features[0]:', features[0])
         

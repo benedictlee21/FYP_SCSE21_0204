@@ -1,7 +1,7 @@
 python pretrain_treegan.py \
 --split train \
 --class_choice multiclass \
---FPD_path ./evaluation/pre_statistics_CRN_multiclass.npz \
+--FPD_path ./evaluation/pre_statistics_CRN_multiclass_chair_table.npz \
 --ckpt_path ./multiclass_pretrained_models/ \
 --knn_loss True \
 --dataset_path ./input_shapes/shapenet_crn_dataset/ \
