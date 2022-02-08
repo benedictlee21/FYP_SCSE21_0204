@@ -11,3 +11,7 @@ python pretrain_treegan.py \
 --samples_per_class 1000 \
 --eval_every_n_epoch 0 \
 --save_every_n_epoch 50
+
+# For CUDA debugging, add statement:
+# CUDA_LANUCH_BLOCKING="1"
+# Before the command 'python'.

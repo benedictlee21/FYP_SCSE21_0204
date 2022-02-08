@@ -146,33 +146,62 @@ class TreeGAN():
                 #print('Class ID tensor shape:', class_id.shape)
                 
                 # Reshape the class tensor for accomodating the discriminator labels.
-                print('pretrain_treegan.py - Class ID tensor size:', class_id.size())
-                class_id = torch.reshape(class_id, (4, 1))
+                #print('pretrain_treegan.py - Class ID tensor shape:', class_id.shape)
+                #class_id = torch.reshape(class_id, (4, 1))
                 #class_id = class_id.expand(4, 2)
                 #print('pretrain_treegan.py - After expanding class ID type:', type(class_id))
                 #print('pretrain_treegan.py - After expanding class ID tensor size:', class_id.size())
-                print('\nClass ID tensor:', class_id, '\n')
+                #print('Class ID tensor:', class_id)
+                #print('Class ID tensor shape:', class_id.shape)
                 
                 # Perform one hot encoding for the discriminator classes chosen.
-                discriminator_class_labels = torch.IntTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
+                #discriminator_class_labels = torch.IntTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
                 
                 # Zero all the tensor elements before populating them with the class IDs.
-                discriminator_class_labels.zero_()
-                print('pretrain_treegan.py - Discriminator class tensor size:', discriminator_class_labels.size())
-                print('\nDiscriminator class labels tensor:', discriminator_class_labels, '\n')
+                #discriminator_class_labels.zero_()
+                #print('pretrain_treegan.py - Discriminator class tensor size:', discriminator_class_labels.size())
+                #print('Discriminator class labels tensor:', discriminator_class_labels)
                 
                 # 'scatter' function is used to perform the assignment of one hot encoding values within
                 # the class tensor. It sends the elements of the class ID tensor into the specified
                 # indices of the 'discriminator_class_labels' tensor.
                 
-                # CUDA ERROR APPEARS TO BE CAUSED BY THIS LINE USING THE SCATTER FUNCTION.
-                discriminator_class_labels.scatter_(1, class_id, 1)
-                print('pretrain_treegan.py - Discriminator class tensor size after scattering:', discriminator_class_labels.size())
-                print('\nDiscriminator class tensor:', discriminator_class_labels, '\n')
+# ++++++++++++++++++++++++++++++++++++++++++++++++++
+                # REIMPLEMENTATION OF ONE HOT ENCODING OF CLASS TENSOR.
+                
+                # Convert the class ID into data type 'long'.
+                class_id = class_id.long()
+                
+                # Show the number of unique classes.
+                print('Number of unique classes:', class_id.unique())
+                
+                # Reshape the class ID tensor.
+                #class_id = torch.reshape(class_id, (-1,))
+                print('Reshaped class ID:', class_id)
+                print('Reshaped class ID shape:', class_id.shape)
+                
+                # Create the one hot encoding, first and second argument specify the length of the first and second dimension of the one hot tensor.
+                # Since class tensor shape is 4, and number of classes is 2, one hot encoded tensor should have shape 4 by 2.
+                # Allocate this tensor on the GPU.
+                one_hot = torch.zeros(class_id.shape[0], self.total_num_classes).cuda()
+                print('One hot tensor zeroed:', one_hot)
+                print('Shape of one hot tensor zeroed:', one_hot.shape)
+                
+                # Set the respective bits for the class in the one hot encoded tensor row to 1 for each shape in the batch size.
+                # Last argument represents the value to set in the tensor element.
+                discriminator_class_labels = one_hot.scatter_(1, class_id.unsqueeze(1), 1.0)
+                #print('Resultant one hot encoded tensor:', onehot_result)
+                
+# ++++++++++++++++++++++++++++++++++++++++++++++++++
+                
+                # CUDA ERROR PREVIOUSLY APPEARS TO BE CAUSED BY THIS LINE USING THE SCATTER FUNCTION.
+                #discriminator_class_labels.scatter_(1, class_id[0], 1)
+                #print('pretrain_treegan.py - Discriminator class tensor size after scattering:', discriminator_class_labels.size())
+                #print('\nDiscriminator class tensor:', discriminator_class_labels, '\n')
                 
                 # Convert the resultant tensor into type float.
                 discriminator_class_labels.type(torch.cuda.FloatTensor)
-                print('\nDResultant discriminator class tensor after converting to float:', discriminator_class_labels, '\n')
+                print('\nResultant discriminator class tensor after converting to float:', discriminator_class_labels, '\n')
                 
                 # Insert a dimension of size 1 at positional index 1 of the class tensor.
                 discriminator_class_labels.unsqueeze_(1)
