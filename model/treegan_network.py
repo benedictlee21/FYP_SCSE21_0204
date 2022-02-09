@@ -7,7 +7,7 @@ from math import ceil
 
 class Discriminator(nn.Module):
     def __init__(self, features, num_classes, args = None):
-    
+        
         self.args = args
         # Get the number of layers for the discriminator network.
         self.layer_num = len(features)-1
@@ -24,27 +24,46 @@ class Discriminator(nn.Module):
 
         # Define the activation function.
         self.leaky_relu = nn.LeakyReLU(negative_slope=0.2)
-        
-# --------------------------------------------------------
-        # Add the required number of dimensions to the input layer of the network for multiclass.
-        if args.class_choice == 'multiclass':
-            print('treegan_network.py - Discriminator number of classes chosen:', num_classes)
+        # import pdb; pdb.set_trace() # junzhe
+        ### conditional multiclass 
+        if self.args.class_choice == 'multiclass':
+            print('treegan_network.py - Generator number of classes chosen:', num_classes)
             features[-1] += num_classes
+            print('features[-1]', features[-1])
             
-        # Create additional network layers for multiclass.
-        self.fully_connected_V1 = nn.Sequential(
-            nn.Linear(features[-1], features[-1]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
-        
-        self.fully_connected_V2 = nn.Sequential(
-            nn.Linear(features[-1], 1024),
-            nn.LeakyReLU(negative_slope = 0.2),
-            nn.Linear(1024, features[-1]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
-# --------------------------------------------------------
-        
+            if self.args.cgan_version == 3:
+                self.fc = nn.Sequential(
+                    nn.Linear(features[-1], features[-1]),
+                    nn.LeakyReLU(negative_slope=0.2),
+                )
+            if self.args.cgan_version == 4:
+                self.fc = nn.Sequential(
+                    nn.Linear(features[-1], 1024),
+                    nn.LeakyReLU(negative_slope=0.2),
+                    nn.Linear(1024, features[-1]),
+                    nn.LeakyReLU(negative_slope=0.2),
+                )
+            # NOTE: you are creating two sub networks, but not all of them is used. junzhe
+        # # --------------------------------------------------------
+        #         # Add the required number of dimensions to the input layer of the network for multiclass.
+        #         if args.class_choice == 'multiclass':
+        #             print('treegan_network.py - Discriminator number of classes chosen:', num_classes)
+        #             features[-1] += num_classes
+                    
+        #         # Create additional network layers for multiclass.
+        #         self.fully_connected_V1 = nn.Sequential(
+        #             nn.Linear(features[-1], features[-1]),
+        #             nn.LeakyReLU(negative_slope = 0.2)
+        #         )
+                
+        #         self.fully_connected_V2 = nn.Sequential(
+        #             nn.Linear(features[-1], 1024),
+        #             nn.LeakyReLU(negative_slope = 0.2),
+        #             nn.Linear(1024, features[-1]),
+        #             nn.LeakyReLU(negative_slope = 0.2)
+        #         )
+        # # --------------------------------------------------------
+                
         # Define the final layer of the discriminator network.
         self.final_layer = nn.Sequential(
                     nn.Linear(features[-1], 128),
@@ -57,7 +76,6 @@ class Discriminator(nn.Module):
 
     # Pretraining does not use the forward propagation function.
     def forward(self, tree, class_labels, device = None):
-
         feat = tree.transpose(1,2)
         vertex_num = feat.size(2)
 
@@ -69,13 +87,15 @@ class Discriminator(nn.Module):
         # Output pooling layer.
         out = func.max_pool1d(input=feat, kernel_size=vertex_num).squeeze(-1)
         
-# --------------------------------------------------------
+        # --------------------------------------------------------
         # For multiclass operation, concatenate the discriminator output with the number of classes.
-        if self.args.class_choice == 'multiclass':
-            out = torch.cat((out, class_labels.squeeze(1)), -1)
-            out = self.fully_connected_V1(out)
-# --------------------------------------------------------
-        
+        if self.args.class_choice == 'multiclass' and self.args.cgan_version in [3, 4]:
+            out = torch.cat((out, class_labels), -1)
+            out = self.fc(out)
+        else:
+            # version 1 or 2 without additional layers
+            out = torch.cat((out, class_labels), -1)
+        # --------------------------------------------------------
         # Apply the final layer of the network.
         out1 = self.final_layer(out) # (B, 1)
         return out1, out
@@ -101,30 +121,45 @@ class Generator(nn.Module):
         # Create a sequential container to hold submodules for the generator network.
         self.gcn = nn.Sequential()
         
-# --------------------------------------------------------
+        # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if args.class_choice == 'multiclass':
             print('treegan_network.py - Generator number of classes chosen:', num_classes)
             features[0] += num_classes
             print('features[0]:', features[0])
-        
-        # Create additional network layers for multiclass.
-        self.fully_connected_V1 = nn.Sequential(
-            nn.Linear(features[0], features[0]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
-        
-        self.fully_connected_V2 = nn.Sequential(
-            nn.Linear(features[0], 256),
-            nn.LeakyReLU(negative_slope = 0.2),
-            nn.Linear(256, features[0]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
-# --------------------------------------------------------
+            if self.args.cgan_version in [0]:
+                print(f'cgan version: {self.args.cgan_version},no addtional layer in Generator')
+            if self.args.cgan_version in [1, 3]:             
+                self.fc = nn.Sequential(
+                    nn.Linear(features[0], features[0]),
+                    nn.LeakyReLU(negative_slope=0.2),
+                )
+            elif self.args.cgan_version in [2, 4]:
+                self.fc = nn.Sequential(
+                    nn.Linear(features[0], 256),
+                    nn.LeakyReLU(negative_slope=0.2),
+                    nn.Linear(256, features[0]),
+                    nn.LeakyReLU(negative_slope=0.2),
+                )
 
+        
+                # Create additional network layers for multiclass.
+                # self.fully_connected_V1 = nn.Sequential(
+                #     nn.Linear(features[0], features[0]),
+                #     nn.LeakyReLU(negative_slope = 0.2)
+                # )
+                
+                # self.fully_connected_V2 = nn.Sequential(
+                #     nn.Linear(features[0], 256),
+                #     nn.LeakyReLU(negative_slope = 0.2),
+                #     nn.Linear(256, features[0]),
+                #     nn.LeakyReLU(negative_slope = 0.2)
+                # )
+        # --------------------------------------------------------
+                
         # Define each layer of the generator network.
         for inx in range(self.layer_num):
-            
+            print(f'doing inx {inx}') # junzhe
             # The last layer's activation is false.
             if inx == self.layer_num - 1:
                 self.gcn.add_module('TreeGCN_' + str(inx),
@@ -135,19 +170,24 @@ class Generator(nn.Module):
                     TreeGCN(inx, features, degrees,
                     support = support, node = vertex_num, upsample = True, activation = True, args = args))
             vertex_num = int(vertex_num * degrees[inx])
-
+        print(f'G inited') # junzhe
     # Pretraining does not use the forward propagation function.
     def forward(self, tree, class_labels, device = None):
 
-# --------------------------------------------------------
+        # --------------------------------------------------------
         # For multiclass operation, concatenate the latent space with the class labels.
+        # NOTE: v0 without passing fc, other versions passed to a fc. junzhe
         if self.args.class_choice == 'multiclass':
-            tree[0] = torch.cat((tree[0], class_labels), -1)
+            if self.args.cgan_version in [0]:
+                tree[0] = torch.cat((tree[0],class_labels),-1)
+            else:
+                tree[0] = self.fc(torch.cat((tree[0],class_labels),-1))
+                tree[0] = torch.cat((tree[0], class_labels), -1)
             print('Concatenated latent space size:', tree[0].size())
         
             # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
             #tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
-# --------------------------------------------------------
+        # --------------------------------------------------------
         
         # Pass the network features to the graph convolutional network.
         # 'self.gcn' leads to the 'forward' function of the 'TreeGAN' class in 'gcn.py'.
