@@ -25,7 +25,6 @@ class GradientPenalty:
         # randomly mix real and fake data
         interpolates = real_data + alpha * (fake_data - real_data)
         # compute output of D for interpolated input
-        
         if not conditional:
             disc_interpolates, _ = netD(interpolates)
         # compute gradients w.r.t the interpolated outputs
