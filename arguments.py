@@ -99,6 +99,8 @@ class Arguments:
         self._parser.add_argument('--eval_every_n_epoch', type=int, default=1, help='0 means never eval')
         self._parser.add_argument('--save_every_n_epoch', type=int, default=1, help='save models every n epochs')
 
+        self._parser.add_argument('--cgan_version',type=int, default=0,help='conditional gan version') # NOTE added junzhe 
+
     def add_inversion_args(self):
         ### loss related
         self._parser.add_argument('--w_nll', type=float, default=0.001, help='Weight for the negative log-likelihood loss (default: %(default)s)')
