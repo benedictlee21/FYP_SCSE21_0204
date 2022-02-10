@@ -112,8 +112,8 @@ class TreeGAN():
             print("Checkpoint loaded.")
 
         # Enable data parallelism after loading.
-        #self.G = nn.DataParallel(self.G)
-        #self.D = nn.DataParallel(self.D)
+        self.G = nn.DataParallel(self.G)
+        self.D = nn.DataParallel(self.D)
         
         # Prepare the number of dimensions for the latent space for the network.
         latent_space_dim = 96
@@ -244,10 +244,14 @@ class TreeGAN():
                     # allocation of class tensor by junzhe
                     D_real, _ = self.D(point, discriminator_class_labels)
                     D_fake, _ = self.D(fake_point, discriminator_class_labels)
-                   
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++
                     # Compute the gradient penalty loss.
+                    # Add an argument to control whether the multiclass operates with or without conditional GAN.
+                    
                     # NOTE: junzhe conditional=True for conditional gans, if you want to enable unconditional option, pass an argument to control it
                     gp_loss = self.GP(self.D, point.data, fake_point.data, conditional = True, yreal = discriminator_class_labels)
+# ++++++++++++++++++++++++++++++++++++++++++++++++++
 
                     # Compute discriminator losses.
                     D_realm = D_real.mean()
