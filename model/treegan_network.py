@@ -143,7 +143,7 @@ class Generator(nn.Module):
         # For multiclass operation, concatenate the latent space with the class labels.
         if self.args.class_choice == 'multiclass':
             tree[0] = torch.cat((tree[0], class_labels), -1)
-            print('Concatenated latent space size:', tree[0].size())
+            #print('Concatenated latent space size:', tree[0].size())
         
             # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
             #tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))

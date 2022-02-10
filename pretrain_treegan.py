@@ -148,14 +148,61 @@ class TreeGAN():
                 #print('Class ID tensor shape:', class_id.shape)
                 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
+                # Creating zeroed tensor for onehot encoding.
+                # zeroed_tensor = torch.zeros(<tensor_dim0_size>, <tensor_dim1_size>, dtype = <data_type>)
+                
+                # One hot encoding class values using torch.tensor.scatter().
+                # onehot_tensor = zeroed_tensor.scatter(<axis along which to index>, <tensor of element positional indices to assign the one hot encoded values to>, <source tensor whose values are to be assigned>)
+                
                 ### one hot encoding by junzhe
                 # NOTE: see how scatter works: 
                 # https://pytorch.org/docs/stable/generated/torch.Tensor.scatter_.html#torch.Tensor.scatter_
                 # for two classes, class id should be 0, and 1; for 3 classes, should be 0, 1, 2
-                import pdb; pdb.set_trace() # TODO need you action to convert the class id into [0,1], etc.
+                
+                #import pdb; pdb.set_trace()
+                # TODO need you action to convert the class id into [0,1], etc.
                 ### below convert class ids:
-                class_id = torch.LongTensor([1,0,1,0]).cuda() # Comment out this line after you converted.
+                
+                # Convert the tensor of class IDs into a numpy array and get the unique ID values.
+                #print('Class ID tensor:', class_id)
+                #print('Class ID tensor type:', type(class_id))
+                
+                # Convert the tensor into a numpy array by first copying it to the host memory.
+                class_id = class_id.cpu().numpy()
+                #print('Class ID numpy array:', class_id)
+                
+                # Get the unique class IDs for the number of classes used.
+                unique_class_id = np.unique(class_id)
+                #print('Unique class ID numpy array:', unique_class_id)
+                
+                # Convert the class ID from their indexes into integers starting from 0 for use in one hot encoding.
+                index_count = 0
+                
+                for index in range(len(unique_class_id)):
+                
+                    #print('Index:', index)
+                    for sub_index in range(len(class_id)):
+                        
+                        #print('Sub index:', sub_index)
+                        if unique_class_id[index] == class_id[sub_index]:
+                        
+                            #print('Class ID matches unique ID.')
+                            class_id[sub_index] = index_count
+                            
+                    #print('Index count:', index_count)
+                    index_count += 1
+                #print('One hot prepared class ID values:', class_id)
+                
+                # Build a new class tensor of type 'long' using the class IDs as integers starting from 0.
+                # Use '.cuda()' to ensure the created class tensor is allocated to the GPU.
+                class_id = torch.LongTensor(class_id).cuda()
+                #print('One hot prepared class ID tensor:', class_id)
+                #print('One hot prepared class ID tensor type:', type(class_id))
+                
+                # Comment out this line after you converted.
+                #class_id = torch.LongTensor([1,0,1,0]).cuda()
                 # import pdb; pdb.set_trace() # junzhe
+                
                 discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
                 discriminator_class_labels = discriminator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1) # [B, 2]
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -181,7 +228,7 @@ class TreeGAN():
                     
                     # Pass the latent space representation to the generator.
                     tree = [z]
-                    print('pretrain_treegan.py - tree[0] shape:', tree[0].size())
+                    #print('pretrain_treegan.py - tree[0] shape:', tree[0].size())
 
                     # Concatenation of latent space with class tensor is performed in 'treegan_network.py'.
                     # Reset the gradients and pass the latent space representation to the generator.
