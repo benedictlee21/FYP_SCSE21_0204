@@ -59,6 +59,7 @@ class TreeGAN():
         # Define the generator and discriminator models.
         # Pass in the chosen classes if multiclass is specified.
         self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = self.total_num_classes, args = self.args).to(args.device)
+        # import pdb; pdb.set_trace() # junzhe
         self.D = Discriminator(features = args.D_FEAT, num_classes = self.total_num_classes, args = self.args).to(args.device)
         
         # Define the optimizer and parameters.
@@ -87,6 +88,7 @@ class TreeGAN():
             self.w_train_ls = args.w_train_ls * 4
         else:
             self.w_train_ls = args.w_train_ls
+        
 
     def run(self, save_ckpt=None, load_ckpt=None):
 
@@ -145,68 +147,19 @@ class TreeGAN():
                 #print('Class ID tensor:', class_id)
                 #print('Class ID tensor shape:', class_id.shape)
                 
-                # Reshape the class tensor for accomodating the discriminator labels.
-                #print('pretrain_treegan.py - Class ID tensor shape:', class_id.shape)
-                #class_id = torch.reshape(class_id, (4, 1))
-                #class_id = class_id.expand(4, 2)
-                #print('pretrain_treegan.py - After expanding class ID type:', type(class_id))
-                #print('pretrain_treegan.py - After expanding class ID tensor size:', class_id.size())
-                #print('Class ID tensor:', class_id)
-                #print('Class ID tensor shape:', class_id.shape)
-                
-                # Perform one hot encoding for the discriminator classes chosen.
-                #discriminator_class_labels = torch.IntTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
-                
-                # Zero all the tensor elements before populating them with the class IDs.
-                #discriminator_class_labels.zero_()
-                #print('pretrain_treegan.py - Discriminator class tensor size:', discriminator_class_labels.size())
-                #print('Discriminator class labels tensor:', discriminator_class_labels)
-                
-                # 'scatter' function is used to perform the assignment of one hot encoding values within
-                # the class tensor. It sends the elements of the class ID tensor into the specified
-                # indices of the 'discriminator_class_labels' tensor.
-                
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
-                # REIMPLEMENTATION OF ONE HOT ENCODING OF CLASS TENSOR.
-                
-                # Convert the class ID into data type 'long'.
-                class_id = class_id.long()
-                
-                # Show the number of unique classes.
-                print('Number of unique classes:', class_id.unique())
-                
-                # Reshape the class ID tensor.
-                #class_id = torch.reshape(class_id, (-1,))
-                print('Reshaped class ID:', class_id)
-                print('Reshaped class ID shape:', class_id.shape)
-                
-                # Create the one hot encoding, first and second argument specify the length of the first and second dimension of the one hot tensor.
-                # Since class tensor shape is 4, and number of classes is 2, one hot encoded tensor should have shape 4 by 2.
-                # Allocate this tensor on the GPU.
-                one_hot = torch.zeros(class_id.shape[0], self.total_num_classes).cuda()
-                print('One hot tensor zeroed:', one_hot)
-                print('Shape of one hot tensor zeroed:', one_hot.shape)
-                
-                # Set the respective bits for the class in the one hot encoded tensor row to 1 for each shape in the batch size.
-                # Last argument represents the value to set in the tensor element.
-                discriminator_class_labels = one_hot.scatter_(1, class_id.unsqueeze(1), 1.0)
-                #print('Resultant one hot encoded tensor:', onehot_result)
-                
+                ### one hot encoding by junzhe
+                # NOTE: see how scatter works: 
+                # https://pytorch.org/docs/stable/generated/torch.Tensor.scatter_.html#torch.Tensor.scatter_
+                # for two classes, class id should be 0, and 1; for 3 classes, should be 0, 1, 2
+                import pdb; pdb.set_trace() # TODO need you action to convert the class id into [0,1], etc.
+                ### below convert class ids:
+                class_id = torch.LongTensor([1,0,1,0]).cuda() # Comment out this line after you converted.
+                # import pdb; pdb.set_trace() # junzhe
+                discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
+                discriminator_class_labels = discriminator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1) # [B, 2]
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
-                
-                # CUDA ERROR PREVIOUSLY APPEARS TO BE CAUSED BY THIS LINE USING THE SCATTER FUNCTION.
-                #discriminator_class_labels.scatter_(1, class_id[0], 1)
-                #print('pretrain_treegan.py - Discriminator class tensor size after scattering:', discriminator_class_labels.size())
-                #print('\nDiscriminator class tensor:', discriminator_class_labels, '\n')
-                
-                # Convert the resultant tensor into type float.
-                discriminator_class_labels.type(torch.cuda.FloatTensor)
-                print('\nResultant discriminator class tensor after converting to float:', discriminator_class_labels, '\n')
-                
-                # Insert a dimension of size 1 at positional index 1 of the class tensor.
-                discriminator_class_labels.unsqueeze_(1)
-                print('pretrain_treegan.py - Discriminator class tensor size after unsqueezing:', discriminator_class_labels.size())
-                
+
 # -------------------- Discriminator -------------------- #
                 tic = time.time()
                 
@@ -216,73 +169,38 @@ class TreeGAN():
                     # Reset discriminator gradients to zero.
                     self.D.zero_grad()
                     
-                    # CUDA ERROR APPEARS HERE BUT MAY HAVE BEEN CAUSED EARLIER.
-                    
                     # Generate the latent space representation.
                     # First dimension of latent space represents the batch size.
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
-                    
-                    # Perform one hot encoding for the generator classes chosen.
-                    generator_labels = torch.from_numpy(np.random.randint(0, self.total_num_classes, class_id.shape[0]).reshape(-1, 1)).to(self.args.device)
-                    print('pretrain_treegan.py - Generator random labels type:', type(generator_labels))
-                    print('pretrain_treegan.py - Generator random labels tensor size:', generator_labels.size())
-                    
-                    # Create a float tensor for the class IDs.
-                    generator_class_labels = torch.FloatTensor(class_id.shape[0], self.total_num_classes).to(self.args.device)
-                    
-                    # Zero all the tensor elements before populating them with the class IDs.
-                    generator_class_labels.zero_()
-                    print('pretrain_treegan.py - Generator class tensor size:', generator_class_labels.size())
-                    
-                    # 'scatter' function is used to perform the assignment of one hot encoding values within
-                    # the class tensor. It sends the elements of the class ID tensor into the specified
-                    # indices of the 'generator_class_labels' tensor.
-                    generator_class_labels.scatter_(1, generator_labels, 1)
-                    print('pretrain_treegan.py - Generator class tensor size after scattering:', generator_class_labels.size())
-                    
-                    # Insert a dimension of size 1 at positional index 1 of the class tensor.
-                    generator_class_labels.unsqueeze_(1)
-                    print('pretrain_treegan.py - Generator class tensor size after unsqueezing:', generator_class_labels.size())
-                    
-# --------------------------------------------------------
-                    # For multiclass operation, concatenate the latent space tensor with the class ID tensor.
-                    #if self.args.class_choice == 'multiclass' and class_id is not None:
-                        
-                        # Create the embedding layer using the class IDs of the retrieved shapes.
-                        #self.embed_layer = self.lookup_table(class_id).to(self.args.device)
-                        #print('Discriminator embedding layer shape before unsqueeze:', self.embed_layer.shape)
-                        #print('Multiclass discriminator iteration - class embedding layer type:', type(self.embed_layer))
-                        
-                        # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
-                        #self.embed_layer = torch.unsqueeze(self.embed_layer, 1)
-                        #print('Discriminator z shape:', z.shape)
-                        #print('Multiclass discriminator embedding layer output shape:', self.embed_layer.shape)
-                        
-                        # Concatenate the tensor representing the class IDs to the latent space representation.
-                        #z = torch.cat((z, self.embed_layer), dim = 2)
-                        #print('Discriminator - class concatenated with latent space tensor:', z)
-                        #print('Multiclass discriminator concatenated tensor shape:', z.shape)
-                        # Output tensor shape is (1, 1, 192).
-# --------------------------------------------------------
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++
+                    ### one hot encoding by junzhe
+                    generator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
+                    generator_class_labels = generator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1).unsqueeze_(1) # [B, 1, 2]
+# ++++++++++++++++++++++++++++++++++++++++++++++++++
                     
                     # Pass the latent space representation to the generator.
                     tree = [z]
                     print('pretrain_treegan.py - tree[0] shape:', tree[0].size())
 
+                    # Concatenation of latent space with class tensor is performed in 'treegan_network.py'.
                     # Reset the gradients and pass the latent space representation to the generator.
                     # 'self.G' leads into the 'forward()' function of the generator in 'treegan_network.py'.
                     with torch.no_grad():
                     
                         # Number of shapes in 'fake_point' is equal to the batch size.
                         fake_point = self.G(tree, generator_class_labels)
-
+                    
                     # Evaluate both the ground truth and generated shape using the discriminator.
                     # 'self.D' leads into the 'forward()' function of the generator in 'treegan_network.py'.
-                    D_real, _ = self.D(point, discriminator_class_labels)
-                    D_fake, _ = self.D(fake_point, generator_class_labels)
                     
+                    # allocation of class tensor by junzhe
+                    D_real, _ = self.D(point, discriminator_class_labels)
+                    D_fake, _ = self.D(fake_point, discriminator_class_labels)
+                   
                     # Compute the gradient penalty loss.
-                    gp_loss = self.GP(self.D, point.data, fake_point.data)
+                    # NOTE: junzhe conditional=True for conditional gans, if you want to enable unconditional option, pass an argument to control it
+                    gp_loss = self.GP(self.D, point.data, fake_point.data, conditional = True, yreal = discriminator_class_labels)
 
                     # Compute discriminator losses.
                     D_realm = D_real.mean()
