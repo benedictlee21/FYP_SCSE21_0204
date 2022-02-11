@@ -38,8 +38,9 @@ class Arguments:
         # multiclass related
         self._parser.add_argument('--class_range', type=str, default=None, help='Classes for multiclass diversity completion, classes separated by commas only.')
     
-        ### data related
+        ### data and multiclass related
         self._parser.add_argument('--class_choice', type=str, default='chair', help='plane|cabinet|car|chair|lamp|couch|table|watercraft|multiclass')
+        self._parser.add_argument('--conditional_gan', type=bool, default=True, help='use conditional gan for multiclass')
         self._parser.add_argument('--dataset', type=str, default='CRN', help='CRN|MatterPort|ScanNet|KITTI|PartNet|PFNet')
         self._parser.add_argument('--dataset_path', type=str, required=True, help='Dataset path is required')
         self._parser.add_argument('--split', type=str, default='test', help='NOTE: train if pretrain and generate_fpd_stats; test otherwise')

@@ -163,48 +163,56 @@ class TreeGAN():
                 # TODO need you action to convert the class id into [0,1], etc.
                 ### below convert class ids:
                 
-                # Convert the tensor of class IDs into a numpy array and get the unique ID values.
-                #print('Class ID tensor:', class_id)
-                #print('Class ID tensor type:', type(class_id))
+                # Conditional GAN argument is of type boolean.
+                # No class tensor is created or concatenated if the conditional gan option is false.
+                if self.args.conditional_gan:
                 
-                # Convert the tensor into a numpy array by first copying it to the host memory.
-                class_id = class_id.cpu().numpy()
-                #print('Class ID numpy array:', class_id)
-                
-                # Get the unique class IDs for the number of classes used.
-                unique_class_id = np.unique(class_id)
-                #print('Unique class ID numpy array:', unique_class_id)
-                
-                # Convert the class ID from their indexes into integers starting from 0 for use in one hot encoding.
-                index_count = 0
-                
-                for index in range(len(unique_class_id)):
-                
-                    #print('Index:', index)
-                    for sub_index in range(len(class_id)):
-                        
-                        #print('Sub index:', sub_index)
-                        if unique_class_id[index] == class_id[sub_index]:
-                        
-                            #print('Class ID matches unique ID.')
-                            class_id[sub_index] = index_count
+                    # Convert the tensor of class IDs into a numpy array and get the unique ID values.
+                    #print('Class ID tensor:', class_id)
+                    #print('Class ID tensor type:', type(class_id))
+                    
+                    # Convert the tensor into a numpy array by first copying it to the host memory.
+                    class_id = class_id.cpu().numpy()
+                    #print('Class ID numpy array:', class_id)
+                    
+                    # Get the unique class IDs for the number of classes used.
+                    unique_class_id = np.unique(class_id)
+                    #print('Unique class ID numpy array:', unique_class_id)
+                    
+                    # Convert the class ID from their indexes into integers starting from 0 for use in one hot encoding.
+                    index_count = 0
+                    
+                    for index in range(len(unique_class_id)):
+                    
+                        #print('Index:', index)
+                        for sub_index in range(len(class_id)):
                             
-                    #print('Index count:', index_count)
-                    index_count += 1
-                #print('One hot prepared class ID values:', class_id)
-                
-                # Build a new class tensor of type 'long' using the class IDs as integers starting from 0.
-                # Use '.cuda()' to ensure the created class tensor is allocated to the GPU.
-                class_id = torch.LongTensor(class_id).cuda()
-                #print('One hot prepared class ID tensor:', class_id)
-                #print('One hot prepared class ID tensor type:', type(class_id))
-                
-                # Comment out this line after you converted.
-                #class_id = torch.LongTensor([1,0,1,0]).cuda()
-                # import pdb; pdb.set_trace() # junzhe
-                
-                discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
-                discriminator_class_labels = discriminator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1) # [B, 2]
+                            #print('Sub index:', sub_index)
+                            if unique_class_id[index] == class_id[sub_index]:
+                            
+                                #print('Class ID matches unique ID.')
+                                class_id[sub_index] = index_count
+                                
+                        #print('Index count:', index_count)
+                        index_count += 1
+                    #print('One hot prepared class ID values:', class_id)
+                    
+                    # Build a new class tensor of type 'long' using the class IDs as integers starting from 0.
+                    # Use '.cuda()' to ensure the created class tensor is allocated to the GPU.
+                    class_id = torch.LongTensor(class_id).cuda()
+                    #print('One hot prepared class ID tensor:', class_id)
+                    #print('One hot prepared class ID tensor type:', type(class_id))
+                    
+                    # Comment out this line after you converted.
+                    #class_id = torch.LongTensor([1,0,1,0]).cuda()
+                    # import pdb; pdb.set_trace() # junzhe
+                    
+                    discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
+                    discriminator_class_labels = discriminator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1) # [B, 2]
+                    
+                else:
+                    discriminator_class_labels = None
+                    
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
 
 # -------------------- Discriminator -------------------- #
@@ -221,9 +229,14 @@ class TreeGAN():
                     z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
-                    ### one hot encoding by junzhe
-                    generator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
-                    generator_class_labels = generator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1).unsqueeze_(1) # [B, 1, 2]
+                    if self.args.conditional_gan:
+                    
+                        ### one hot encoding by junzhe
+                        generator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
+                        generator_class_labels = generator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1).unsqueeze_(1) # [B, 1, 2]
+                        
+                    else:
+                        generator_class_labels = None
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
                     
                     # Pass the latent space representation to the generator.
@@ -247,10 +260,12 @@ class TreeGAN():
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
                     # Compute the gradient penalty loss.
-                    # Add an argument to control whether the multiclass operates with or without conditional GAN.
-                    
-                    # NOTE: junzhe conditional=True for conditional gans, if you want to enable unconditional option, pass an argument to control it
-                    gp_loss = self.GP(self.D, point.data, fake_point.data, conditional = True, yreal = discriminator_class_labels)
+                    if self.args.conditional_gan:
+                        # NOTE: junzhe conditional=True for conditional gans, if you want to enable unconditional option, pass an argument to control it
+                        gp_loss = self.GP(self.D, point.data, fake_point.data, conditional = True, yreal = discriminator_class_labels)
+                        
+                    else:
+                        gp_loss = self.GP(self.D, point.data, fake_point.data, conditional = False, yreal = discriminator_class_labels)
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
 
                     # Compute discriminator losses.
@@ -276,27 +291,6 @@ class TreeGAN():
                 # Generate the latent space representation.
                 # First dimension of latent space is dependent on batch size.
                 z = torch.randn(point.shape[0], 1, latent_space_dim).to(self.args.device)
-
-# --------------------------------------------------------
-                # For multiclass operation, concatenate the latent space tensor with the class tensor.
-                #if self.args.class_choice == 'multiclass' and class_id is not None:
-                        
-                    # Create the embedding layer.
-                    #self.embed_layer = self.lookup_table(class_id).to(self.args.device)
-                    #print('Generator embedding layer shape before unsqueeze:', self.embed_layer.shape)
-                    #print('Multiclass generator iteration - class embedding layer type:', type(self.embed_layer))
-                    
-                    # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
-                    #self.embed_layer = torch.unsqueeze(self.embed_layer, 1)
-                    #print('Generator z shape:', z.shape)
-                    #print('Multiclass generator embedding layer output shape:', self.embed_layer.shape)
-                    
-                    # Concatenate the tensor representing the classes to the latent space representation.
-                    #z = torch.cat((z, self.embed_layer), dim = 2)
-                    #print('Generator - class concatenated with latent space tensor:', z)
-                    #print('Multiclass generator concatenated tensor shape:', z.shape)
-                    # Output tensor shape is (1, 1, 192).
-# --------------------------------------------------------
 
                 # Pass the latent space representation to the generator.
                 tree = [z]

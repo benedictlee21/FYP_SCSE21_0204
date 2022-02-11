@@ -27,22 +27,22 @@ class Discriminator(nn.Module):
         
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
-        if args.class_choice == 'multiclass':
-            print('treegan_network.py - Discriminator number of classes chosen:', num_classes)
+        if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
+            print('treegan_network.py - Conditional GAN discriminator number of classes chosen:', num_classes)
             features[-1] += num_classes
             
         # Create additional network layers for multiclass.
-        self.fully_connected_V1 = nn.Sequential(
-            nn.Linear(features[-1], features[-1]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
+        #self.fully_connected_V1 = nn.Sequential(
+        #    nn.Linear(features[-1], features[-1]),
+        #    nn.LeakyReLU(negative_slope = 0.2)
+        #)
         
-        self.fully_connected_V2 = nn.Sequential(
-            nn.Linear(features[-1], 1024),
-            nn.LeakyReLU(negative_slope = 0.2),
-            nn.Linear(1024, features[-1]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
+        #self.fully_connected_V2 = nn.Sequential(
+        #    nn.Linear(features[-1], 1024),
+        #    nn.LeakyReLU(negative_slope = 0.2),
+        #    nn.Linear(1024, features[-1]),
+        #    nn.LeakyReLU(negative_slope = 0.2)
+        #)
 # --------------------------------------------------------
         
         # Define the final layer of the discriminator network.
@@ -56,7 +56,7 @@ class Discriminator(nn.Module):
         )
 
     # Pretraining does not use the forward propagation function.
-    def forward(self, tree, class_labels, device = None):
+    def forward(self, tree, class_labels = None, device = None):
 
         feat = tree.transpose(1,2)
         vertex_num = feat.size(2)
@@ -71,9 +71,10 @@ class Discriminator(nn.Module):
         
 # --------------------------------------------------------
         # For multiclass operation, concatenate the discriminator output with the number of classes.
-        if self.args.class_choice == 'multiclass':
+        if self.args.class_choice == 'multiclass' and self.args.conditional_gan and class_labels is not None:
+            #print('treegan_network.py - Concatenating discriminator output with class label.')
             out = torch.cat((out, class_labels.squeeze(1)), -1)
-            out = self.fully_connected_V1(out)
+            #out = self.fully_connected_V1(out)
 # --------------------------------------------------------
         
         # Apply the final layer of the network.
@@ -88,12 +89,6 @@ class Generator(nn.Module):
         self.layer_num = len(features)-1
         assert self.layer_num == len(degrees), "Number of features should be one more than number of degrees."
         
-        # First dimension of 'features' represents the number of input dimensions.
-        # Default value for single class is 96.
-        # For multiclass, need to change it to 192 due to concatenation of class tensor with latent space.
-        #if args.class_choice == 'multiclass':
-        #    features[0] = 192
-        
         # For class instantiation.
         super(Generator, self).__init__()
         vertex_num = 1
@@ -103,23 +98,23 @@ class Generator(nn.Module):
         
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
-        if args.class_choice == 'multiclass':
-            print('treegan_network.py - Generator number of classes chosen:', num_classes)
+        if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
+            print('treegan_network.py - Conditional GAN generator number of classes chosen:', num_classes)
             features[0] += num_classes
             print('features[0]:', features[0])
         
         # Create additional network layers for multiclass.
-        self.fully_connected_V1 = nn.Sequential(
-            nn.Linear(features[0], features[0]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
+        #self.fully_connected_V1 = nn.Sequential(
+        #    nn.Linear(features[0], features[0]),
+        #    nn.LeakyReLU(negative_slope = 0.2)
+        #)
         
-        self.fully_connected_V2 = nn.Sequential(
-            nn.Linear(features[0], 256),
-            nn.LeakyReLU(negative_slope = 0.2),
-            nn.Linear(256, features[0]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
+        #self.fully_connected_V2 = nn.Sequential(
+        #    nn.Linear(features[0], 256),
+        #    nn.LeakyReLU(negative_slope = 0.2),
+        #    nn.Linear(256, features[0]),
+        #    nn.LeakyReLU(negative_slope = 0.2)
+        #)
 # --------------------------------------------------------
 
         # Define each layer of the generator network.
@@ -137,11 +132,12 @@ class Generator(nn.Module):
             vertex_num = int(vertex_num * degrees[inx])
 
     # Pretraining does not use the forward propagation function.
-    def forward(self, tree, class_labels, device = None):
+    def forward(self, tree, class_labels = None, device = None):
 
 # --------------------------------------------------------
         # For multiclass operation, concatenate the latent space with the class labels.
-        if self.args.class_choice == 'multiclass':
+        if self.args.class_choice == 'multiclass' and self.args.conditional_gan and class_labels is not None:
+            #print('treegan_network.py - Concatenating generator output with class label.')
             tree[0] = torch.cat((tree[0], class_labels), -1)
             #print('Concatenated latent space size:', tree[0].size())
         
