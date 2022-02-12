@@ -36,12 +36,9 @@ def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, laten
     """
     generate fake pcs for evaluation
     """
-# --------------------------------------------------------
-    # For multiclass, create a lookup table using pytorch embedding to represent the number of classes.
-    #if classes_chosen is not None:
-    #    lookup_table = nn.Embedding(total_num_classes, 96)
-        #print('eval_treegan.py - multiclass NN embedding lookup table type:', type(lookup_table))
-# --------------------------------------------------------
+    # Add the number of classes to the latent space dimensions fo multiclass operation.
+    if classes_chosen is not None:
+        latent_space_dim += len(classes_chosen)
 
     fake_pcs = torch.Tensor([])
     n_pcs = int(ceil(n_pcs/batch_size) * batch_size)
@@ -51,37 +48,7 @@ def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, laten
     
         # Generate the latent space vector tensor.
         z = torch.randn(batch_size, 1, latent_space_dim).to(device)
-        
-# --------------------------------------------------------
-        # If multiclass operation is specified.
-        #if classes_chosen is not None:
-            #print('generate_pcs function - classes chosen:', classes_chosen)
-            
-            # Create a numpy array to store as many random class IDs as equal to the batch size.
-            # Array elements are all initialized to 0.
-            #class_id_array = np.zeros(batch_size, dtype = np.int64)
-
-            #for j in range(batch_size):
-                # Shapes are not drawn from the training or test datasets for FPD evaluation.
-                # Randomly choose a class index from the list of specified classes, concatenate it to the
-                # latent space and pass it to the generator.
-                #random_class_id = random.choice(classes_chosen)
-                #print('Type of variable: random_class_id:', type(random_class_id))
-                #class_id_array[j] = random_class_id
-            
-            # Convert the array of randomly chosen class IDs into a tensor.
-            #class_id_array = torch.from_numpy(class_id_array)
-            
-            # Create the embedding layer using the randomly chosen class ID.
-            #embed_layer = lookup_table(class_id_array).to(args.device)
-            
-            # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
-            #embed_layer = torch.unsqueeze(embed_layer, 1)
-            
-            # Concatenate the tensor representing the class IDs to the latent space representation.
-            #z = torch.cat((z, embed_layer), dim = 2)
-# --------------------------------------------------------
-        
+                
         # Pass the latent space representation to the generator.
         tree = [z]
         
@@ -185,7 +152,7 @@ def test(args, mode = 'FPD', classes_chosen = None):
     #    generator_features[0] = 192
     
     # Instantiate an instance of the generator.
-    G_net = Generator(features = generator_features, degrees = args.DEGREE, support = args.support, args = args).to(args.device)
+    G_net = Generator(features = generator_features, degrees = args.DEGREE, support = args.support, num_classes = len(classes_chosen), args = args).to(args.device)
 
     # Loading of specified model checkpoint.
     checkpoint = torch.load(args.model_pathname, map_location=args.device)
