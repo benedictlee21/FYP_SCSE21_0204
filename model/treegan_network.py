@@ -30,6 +30,7 @@ class Discriminator(nn.Module):
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
             print('treegan_network.py - Conditional GAN discriminator number of classes chosen:', num_classes)
             features[-1] += num_classes
+            print('Discriminator features[-1]:', features[-1])
             
         # Create additional network layers for multiclass.
         self.fully_connected_V1 = nn.Sequential(
@@ -77,6 +78,7 @@ class Discriminator(nn.Module):
             
             # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
             out = self.fully_connected_V1(out)
+            #out = self.fully_connected_V2(out)
 # --------------------------------------------------------
         
         # Apply the final layer of the network.
@@ -103,7 +105,7 @@ class Generator(nn.Module):
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
             print('treegan_network.py - Conditional GAN generator number of classes chosen:', num_classes)
             features[0] += num_classes
-            print('features[0]:', features[0])
+            print('Generator features[0]:', features[0])
         
         # Create additional network layers for multiclass.
         self.fully_connected_V1 = nn.Sequential(
@@ -140,11 +142,14 @@ class Generator(nn.Module):
         # For multiclass operation, concatenate the latent space with the class labels.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan and class_labels is not None:
             #print('treegan_network.py - Concatenating generator output with class label.')
-            tree[0] = torch.cat((tree[0], class_labels), -1)
+            
+            # Uncomment the line below for running using the original conditional GAN.
+            #tree[0] = torch.cat((tree[0], class_labels), -1)
             #print('Concatenated latent space size:', tree[0].size())
         
             # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
             tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
+            #tree[0] = self.fully_connected_V2(torch.cat((tree[0], class_labels), -1))
 # --------------------------------------------------------
         
         # Pass the network features to the graph convolutional network.
