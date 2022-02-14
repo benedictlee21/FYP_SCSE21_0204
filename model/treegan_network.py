@@ -32,17 +32,17 @@ class Discriminator(nn.Module):
             features[-1] += num_classes
             
         # Create additional network layers for multiclass.
-        #self.fully_connected_V1 = nn.Sequential(
-        #    nn.Linear(features[-1], features[-1]),
-        #    nn.LeakyReLU(negative_slope = 0.2)
-        #)
+        self.fully_connected_V1 = nn.Sequential(
+            nn.Linear(features[-1], features[-1]),
+            nn.LeakyReLU(negative_slope = 0.2)
+        )
         
-        #self.fully_connected_V2 = nn.Sequential(
-        #    nn.Linear(features[-1], 1024),
-        #    nn.LeakyReLU(negative_slope = 0.2),
-        #    nn.Linear(1024, features[-1]),
-        #    nn.LeakyReLU(negative_slope = 0.2)
-        #)
+        self.fully_connected_V2 = nn.Sequential(
+            nn.Linear(features[-1], 1024),
+            nn.LeakyReLU(negative_slope = 0.2),
+            nn.Linear(1024, features[-1]),
+            nn.LeakyReLU(negative_slope = 0.2)
+        )
 # --------------------------------------------------------
         
         # Define the final layer of the discriminator network.
@@ -74,7 +74,9 @@ class Discriminator(nn.Module):
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan and class_labels is not None:
             #print('treegan_network.py - Concatenating discriminator output with class label.')
             out = torch.cat((out, class_labels.squeeze(1)), -1)
-            #out = self.fully_connected_V1(out)
+            
+            # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
+            out = self.fully_connected_V1(out)
 # --------------------------------------------------------
         
         # Apply the final layer of the network.
@@ -104,17 +106,17 @@ class Generator(nn.Module):
             print('features[0]:', features[0])
         
         # Create additional network layers for multiclass.
-        #self.fully_connected_V1 = nn.Sequential(
-        #    nn.Linear(features[0], features[0]),
-        #    nn.LeakyReLU(negative_slope = 0.2)
-        #)
+        self.fully_connected_V1 = nn.Sequential(
+            nn.Linear(features[0], features[0]),
+            nn.LeakyReLU(negative_slope = 0.2)
+        )
         
-        #self.fully_connected_V2 = nn.Sequential(
-        #    nn.Linear(features[0], 256),
-        #    nn.LeakyReLU(negative_slope = 0.2),
-        #    nn.Linear(256, features[0]),
-        #    nn.LeakyReLU(negative_slope = 0.2)
-        #)
+        self.fully_connected_V2 = nn.Sequential(
+            nn.Linear(features[0], 256),
+            nn.LeakyReLU(negative_slope = 0.2),
+            nn.Linear(256, features[0]),
+            nn.LeakyReLU(negative_slope = 0.2)
+        )
 # --------------------------------------------------------
 
         # Define each layer of the generator network.
@@ -142,7 +144,7 @@ class Generator(nn.Module):
             #print('Concatenated latent space size:', tree[0].size())
         
             # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
-            #tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
+            tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
 # --------------------------------------------------------
         
         # Pass the network features to the graph convolutional network.

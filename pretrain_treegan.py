@@ -166,10 +166,6 @@ class TreeGAN():
                 # Conditional GAN argument is of type boolean.
                 # No class tensor is created or concatenated if the conditional gan option is false.
                 if self.args.conditional_gan:
-                
-                    # Convert the tensor of class IDs into a numpy array and get the unique ID values.
-                    #print('Class ID tensor:', class_id)
-                    #print('Class ID tensor type:', type(class_id))
                     
                     # Convert the tensor into a numpy array by first copying it to the host memory.
                     class_id = class_id.cpu().numpy()
@@ -207,9 +203,11 @@ class TreeGAN():
                     #class_id = torch.LongTensor([1,0,1,0]).cuda()
                     # import pdb; pdb.set_trace() # junzhe
                     
+                    # Create a zeroed tensor of shape equal to the batch size based on class ID first dimension and number of classes chosen.
                     discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
                     discriminator_class_labels = discriminator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1) # [B, 2]
                     
+                    #print('One hot encoded discriminator class labels:', discriminator_class_labels)
                 else:
                     discriminator_class_labels = None
                     
@@ -235,6 +233,7 @@ class TreeGAN():
                         generator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
                         generator_class_labels = generator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1).unsqueeze_(1) # [B, 1, 2]
                         
+                        #print('One hot encoded generator class labels:', generator_class_labels)
                     else:
                         generator_class_labels = None
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
