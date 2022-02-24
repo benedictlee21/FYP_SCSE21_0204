@@ -32,18 +32,18 @@ class Discriminator(nn.Module):
             features[-1] += num_classes
             print('Discriminator features[-1]:', features[-1])
             
-        # Create additional network layers for multiclass.
-        self.fully_connected_V1 = nn.Sequential(
-            nn.Linear(features[-1], features[-1]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
-        
-        self.fully_connected_V2 = nn.Sequential(
-            nn.Linear(features[-1], 1024),
-            nn.LeakyReLU(negative_slope = 0.2),
-            nn.Linear(1024, features[-1]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
+            # Create additional network layers for multiclass using conditonal GAN.
+            self.fully_connected_V1 = nn.Sequential(
+                nn.Linear(features[-1], features[-1]),
+                nn.LeakyReLU(negative_slope = 0.2)
+            )
+            
+            self.fully_connected_V2 = nn.Sequential(
+                nn.Linear(features[-1], 1024),
+                nn.LeakyReLU(negative_slope = 0.2),
+                nn.Linear(1024, features[-1]),
+                nn.LeakyReLU(negative_slope = 0.2)
+            )
 # --------------------------------------------------------
         
         # Define the final layer of the discriminator network.
@@ -107,18 +107,18 @@ class Generator(nn.Module):
             features[0] += num_classes
             print('Generator features[0]:', features[0])
         
-        # Create additional network layers for multiclass.
-        self.fully_connected_V1 = nn.Sequential(
-            nn.Linear(features[0], features[0]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
-        
-        self.fully_connected_V2 = nn.Sequential(
-            nn.Linear(features[0], 256),
-            nn.LeakyReLU(negative_slope = 0.2),
-            nn.Linear(256, features[0]),
-            nn.LeakyReLU(negative_slope = 0.2)
-        )
+            # Create additional network layers for multiclass using conditional GAN.
+            self.fully_connected_V1 = nn.Sequential(
+                nn.Linear(features[0], features[0]),
+                nn.LeakyReLU(negative_slope = 0.2)
+            )
+            
+            self.fully_connected_V2 = nn.Sequential(
+                nn.Linear(features[0], 256),
+                nn.LeakyReLU(negative_slope = 0.2),
+                nn.Linear(256, features[0]),
+                nn.LeakyReLU(negative_slope = 0.2)
+            )
 # --------------------------------------------------------
 
         # Define each layer of the generator network.

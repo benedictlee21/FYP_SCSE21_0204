@@ -22,7 +22,13 @@ class ShapeInversion(object):
         print('shape_inversion.py: __init__ - device used:', self.args.device)
         
         self.classes_chosen = classes_chosen
-        print('shape_inversion.py: __init__ classes chosen:', self.classes_chosen)
+        
+        # Check if it is operating in single or multiclass mode based on the class range selected.
+        if classes_chosen is not None:
+            print('shape_inversion.py: __init__ classes chosen:', self.classes_chosen)
+            self.total_num_classes = len(classes_chosen)
+        else:
+            self.total_num_classes = 0
 
         if self.args.dist:
             self.rank = dist.get_rank()
@@ -42,8 +48,8 @@ class ShapeInversion(object):
         self.latent_space_dim = 96
 
         # Create the model including generator and discriminator.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, args = self.args).cuda()
-        self.D = Discriminator(features = args.D_FEAT).cuda()
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = self.total_num_classes, args = self.args).cuda()
+        self.D = Discriminator(features = args.D_FEAT, num_classes = self.total_num_classes, args = self.args).cuda()
 
         # Define the optimizer and its parameters.
         self.G.optim = torch.optim.Adam(
@@ -268,16 +274,12 @@ class ShapeInversion(object):
             self.jitter(self.target)
 
     # Search for latent space gaussian distributions for each completed shape of 'diversity' mode.
-    def diversity_search(self, classes_chosen = None, lookup_table = None, select_y=False):
+    def diversity_search(self):
         """
         produce batch by batch
         search by 2pf and partial
         but constrainted to z dimension are large
         """
-        #print('classes chosen:', classes_chosen)
-        #print('lookup table:', lookup_table)
-        self.classes_chosen = classes_chosen
-        self.lookup_table = lookup_table
         batch_size = 1
 
         num_batch = int(self.select_num/batch_size)
@@ -294,46 +296,8 @@ class ShapeInversion(object):
             
                 # Generate the latent space vector tensor.
                 z = torch.randn(batch_size, 1, self.latent_space_dim).cuda()
-                
-                # If multiclass operation is specified, the lookup table must exist from 'trainer.py'.
-                # Concatenate the latent space tensor with the class ID tensor.
-                
-                if self.args.class_choice == 'multiclass' and self.classes_chosen is not None and self.lookup_table is not None:
-                
-                    # Complete the partial shapes based on which multiclass classes are specified.
-                    for one_class in self.classes_chosen:
-                        #print('shapeinversion.py - current class index:', one_class)
-                        
-                        # Create a numpy array to store as many of the same class IDs as equal to the batch size.
-                        self.class_id_array = np.zeros(batch_size, dtype = np.int64)
-                        
-                        # Set all the elements of the class ID array to one class index
-                        # so as to complete the partial shapes according to that class index only.
-                        for j in range(batch_size):
-                            self.class_id_array[j] = one_class
-                            
-                        # Convert the array of randomly chosen class IDs into a tensor.
-                        self.class_id_array = torch.from_numpy(self.class_id_array)
-                
-                        # Create the embedding layer using the randomly chosen class ID.
-                        self.embed_layer = self.lookup_table(self.class_id_array).to(self.args.device)
-                        
-                        # Use 'unsqueeze' operation to insert a dimension of 1 at the first dimension.
-                        self.embed_layer = torch.unsqueeze(self.embed_layer, 1)
-                        
-                        # Concatenate the tensor representing the class IDs to the latent space representation.
-                        z = torch.cat((z, self.embed_layer), dim = 2)
-                        
-                        # Need to modify the code to complete each partial multiple times according to each user specified class for multiclass.
-                        tree = [z]
-                
-                        # Pass the concatenated latent space vector to the generator.
-                        x = self.G(tree)
-                
-                # For single class shape completion.
-                else:
-                    tree = [z]
-                    x = self.G(tree)
+                tree = [z]
+                x = self.G(tree)
                 
                 # Compute the chamfer distance.
                 dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)
@@ -345,7 +309,6 @@ class ShapeInversion(object):
                 x_ls.append(x)
                 z_ls.append(z)
                 cd_ls.append(cd)
-                        
 
         x_full = torch.cat(x_ls)
         cd_full = torch.cat(cd_ls)
@@ -395,6 +358,7 @@ class ShapeInversion(object):
                 dist1, dist2 , _, _ = distChamfer(x,self.ground_truth)
                 cd_loss = dist1.mean() + dist2.mean()
 
+                # Log the results.
                 with open(self.args.log_pathname, "a") as file_object:
                     msg = str(self.pcd_id) + ',' + 'init' + ',' + 'cd' +',' + '{:6.5f}'.format(cd_loss.item())
                     # print(msg)
@@ -504,6 +468,7 @@ class ShapeInversion(object):
         # 'self.target' represents either the input partial shape or the ground truth degraded into a partial shape.
         # 'pcd' represents the ground truth.
         elif self.mask_type == 'k_mask':
+            
             pcd_map = self.k_mask(self.target, pcd, stage)
             return pcd_map
             
@@ -589,7 +554,6 @@ class ShapeInversion(object):
             # Returns the indexes of the closest point on shape A from the points of shape B.
             # dist_mat shape (B, 2048, 2048), where B = 1
             dist_mat = distChamfer_raw(target, x)
-            print(type(dist_mat))
             
             # Get the 'k' smallest elements from the tensor 'dist_mat' along dimension = 2.
             # indices (B, 2048, k)

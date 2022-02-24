@@ -33,13 +33,10 @@ class TreeGAN():
             # Set the total number of classes to be used.
             self.total_num_classes = len(self.classes_chosen)
             
-            # Create a lookup table using pytorch embedding to represent the number of classes.
-            #self.lookup_table = nn.Embedding(self.total_num_classes, 96)
-            #print('pretrain_treegan.py - multiclass NN embedding lookup table type:', type(self.lookup_table))
-        
         # Otherwise if only using a single class.
         else:
             self.classes_chosen = None
+            self.total_num_classes = 0
             print('pretrain_treegan.py: __init__ - single class pretraining.')
 # --------------------------------------------------------
 
@@ -157,12 +154,7 @@ class TreeGAN():
                 ### one hot encoding by junzhe
                 # NOTE: see how scatter works: 
                 # https://pytorch.org/docs/stable/generated/torch.Tensor.scatter_.html#torch.Tensor.scatter_
-                # for two classes, class id should be 0, and 1; for 3 classes, should be 0, 1, 2
-                
-                #import pdb; pdb.set_trace()
-                # TODO need you action to convert the class id into [0,1], etc.
-                ### below convert class ids:
-                
+                                
                 # Conditional GAN argument is of type boolean.
                 # No class tensor is created or concatenated if the conditional gan option is false.
                 if self.args.conditional_gan:
@@ -199,9 +191,6 @@ class TreeGAN():
                     #print('One hot prepared class ID tensor:', class_id)
                     #print('One hot prepared class ID tensor type:', type(class_id))
                     
-                    # Comment out this line after you converted.
-                    #class_id = torch.LongTensor([1,0,1,0]).cuda()
-                    # import pdb; pdb.set_trace() # junzhe
                     
                     # Create a zeroed tensor of shape equal to the batch size based on class ID first dimension and number of classes chosen.
                     discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()

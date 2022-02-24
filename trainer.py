@@ -35,14 +35,10 @@ class Trainer(object):
             self.classes_chosen = encode_classes(args.class_range)
             print('trainer.py: __init__ index of multiclass classes chosen:', self.classes_chosen)
             
-            # Create a lookup table using pytorch embedding to represent the number of classes.
-            #self.lookup_table = nn.Embedding(self.total_num_classes, 96)
-            #print('pretrain_treegan.py - multiclass NN embedding lookup table:', self.lookup_table)
-            
         # Otherwise if only using a single class.
         else:
             self.classes_chosen = None
-            self.lookup_table = None
+            self.total_num_classes = 0
             print('trainer.py: __init__ - single class pretraining.')
 
         if self.args.dist:
@@ -161,8 +157,6 @@ class Trainer(object):
             self.model.set_target(ground_truth = ground_truth, partial = partial)
 
             # Search for initial value of latent space 'z', passing the class ID to be concatenated to it.
-            # Pass the lookup table created for multiclass for the latent space diversity search.
-            #self.model.diversity_search(classes_chosen = self.classes_chosen, lookup_table = self.lookup_table)
             self.model.diversity_search()
 
             # Perform fine tuning using input partial shape only.
@@ -331,7 +325,7 @@ class Trainer(object):
 
             ### fine tuning
             pcd_ls = [gt.unsqueeze(0), partial.unsqueeze(0)]
-            flag_ls = ['gt', 'input']
+            flag_ls = ['ground truth', 'input']
             for ith, z in enumerate(self.model.zs):
                 self.model.reset_G(pcd_id=index.item())
                 self.model.set_target(gt=gt, partial=partial)
