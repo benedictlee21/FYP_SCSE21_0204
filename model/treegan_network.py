@@ -30,6 +30,13 @@ class Discriminator(nn.Module):
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
             print('treegan_network.py - Conditional GAN discriminator number of classes chosen:', num_classes)
             features[-1] += num_classes
+            
+            # For multiclass shape completion in diversity mode using conditional GAN,
+            # only one class may be completed at a time, hence the number of latent space
+            # dimensions must be manually added to match the original multiclass model's dimensions.
+            if self.args.inversion_mode == 'multiclass' and num_classes == 1:
+                features[-1] += 1
+            
             print('Discriminator features[-1]:', features[-1])
             
             # Create additional network layers for multiclass using conditonal GAN.
@@ -105,6 +112,13 @@ class Generator(nn.Module):
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
             print('treegan_network.py - Conditional GAN generator number of classes chosen:', num_classes)
             features[0] += num_classes
+            
+            # For multiclass shape completion in diversity mode using conditional GAN,
+            # only one class may be completed at a time, hence the number of latent space
+            # dimensions must be manually added to match the original multiclass model's dimensions.
+            if self.args.inversion_mode == 'multiclass' and num_classes == 1:
+                features[0] += 1
+            
             print('Generator features[0]:', features[0])
         
             # Create additional network layers for multiclass using conditional GAN.

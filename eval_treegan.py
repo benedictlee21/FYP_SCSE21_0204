@@ -32,12 +32,12 @@ def save_pcs_to_txt(save_dir, fake_pcs):
         np.savetxt(osp.join(save_dir,str(i)+'.txt'), fake_pcs[i], fmt = "%f;%f;%f")  
 
 # 'model_cuda' represents the instantiated generator network.
-def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, latent_space_dim = 96, total_num_classes = 8, classes_chosen = None):
+def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, latent_space_dim = 96, classes_chosen = None, args = None):
     """
     generate fake pcs for evaluation
     """
     # Add the number of classes to the latent space dimensions fo multiclass operation.
-    if classes_chosen is not None:
+    if args.class_choice == 'multiclass' and args.conditional_gan:
         latent_space_dim += len(classes_chosen)
 
     fake_pcs = torch.Tensor([])
@@ -140,16 +140,8 @@ def test(args, mode = 'FPD', classes_chosen = None):
         n_classes, pcs to generate, ratio of each class, class to id dict???
         model pth, , points to save, save pth, npz for the class, 
     '''
-    # Define the total number of multiclass classes.
-    total_num_classes = 8
-    
     # Extract the generator features first in case it needs to be modified for multiclass.
     generator_features = args.G_FEAT
-    
-    # For multiclass, change the input layer of the generator to accept 192 dimensions instead of 96.
-    #if args.class_choice == 'multiclass' and classes_chosen is not None:
-    #    print('eval_treegan.py: test - classes chosen:', classes_chosen)
-    #    generator_features[0] = 192
     
     # Instantiate an instance of the generator.
     G_net = Generator(features = generator_features, degrees = args.DEGREE, support = args.support, num_classes = len(classes_chosen), args = args).to(args.device)
@@ -163,7 +155,7 @@ def test(args, mode = 'FPD', classes_chosen = None):
     latent_space_dim = 96
     
     # Generate the point cloud shapes using the generator.
-    fake_pcs = generate_pcs(G_net, n_pcs = args.n_samples, batch_size = args.batch_size, device = args.device, latent_space_dim = latent_space_dim, total_num_classes = total_num_classes, classes_chosen = classes_chosen)
+    fake_pcs = generate_pcs(G_net, n_pcs = args.n_samples, batch_size = args.batch_size, device = args.device, latent_space_dim = latent_space_dim, classes_chosen = classes_chosen, args = args)
     
     # Save generated samples.
     if mode == 'save':
