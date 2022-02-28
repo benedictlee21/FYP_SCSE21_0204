@@ -2,6 +2,7 @@ python trainer.py \
 --dataset CRN \
 --class_choice multiclass \
 --inversion_mode multiclass \
+--conditional_gan True \
 --visualize \
 --mask_type k_mask \
 --save_inversion_path ./saved_results/CRN_multiclass/ \

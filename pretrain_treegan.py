@@ -14,6 +14,7 @@ import os
 import os.path as osp
 from eval_treegan import checkpoint_eval
 from encode_classes import encode_classes
+from torch.utils.tensorboard import SummaryWriter
 
 class TreeGAN():
     def __init__(self, args):
@@ -21,6 +22,10 @@ class TreeGAN():
         print('\n\nINSIDE: pretrain_treegan.py, Class: TreeGAN - __init__')
         self.args = args
         self.args.class_choice = self.args.class_choice.lower()
+        
+        # Create a tensorboard summarywriter object for recording training metrics.
+        self.shapeinversion_writer = SummaryWriter()
+        print('SummaryWriter created successfully.')
 
 # --------------------------------------------------------
         # If multiclass pretraining is specified.
@@ -45,8 +50,7 @@ class TreeGAN():
         # 'self.data' returns a 'CRNShapeNet' object.
         self.data = CRNShapeNet(self.args, self.classes_chosen)
         
-        # Append the class index to each shape in the dataset.
-        
+        # Append the class index to each shape in the dataset.        
         # Combines the dataset with a sampler, providing an iterable over the dataset.
         # Shuffling of shapes by class indexes is performed here.
         self.dataLoader = torch.utils.data.DataLoader(self.data, batch_size = args.batch_size, shuffle = True, pin_memory = True, num_workers = 2)
@@ -323,6 +327,10 @@ class TreeGAN():
             # ---------------- Epoch everage loss   --------------- #
             d_loss_mean = np.array(epoch_d_loss).mean()
             g_loss_mean = np.array(epoch_g_loss).mean()
+            
+            # Log each iteration's generator and discriminator losses to the tensorboard summarywriter.
+            self.shapeinversion_writer.add_scalar('G_Loss', g_loss_mean, epoch)
+            self.shapeinversion_writer.add_scalar('D_Loss', d_loss_mean, epoch)
 
             print("[Epoch] ", "{:3}".format(epoch + 1),
                 "[ D_Loss ] ", "{: 7.6f}".format(d_loss_mean),
@@ -347,6 +355,12 @@ class TreeGAN():
                             'G_loss': loss_log['G_loss'],
                             'FPD': metric['FPD']
                     }, save_ckpt + str(epoch + 1) + '_' + self.args.class_choice + '.pt')
+        
+        # Call 'flush()' to write all the recorded tensorboard summarywriter values to disk.
+        self.shapeinversion_writer.flush()
+        
+        # Call 'close()' once the summarywriter is no longer needed.
+        self.shapeinversion_writer.close()
 
 if __name__ == '__main__':
 

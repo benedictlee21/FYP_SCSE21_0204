@@ -34,8 +34,9 @@ class Discriminator(nn.Module):
             # For multiclass shape completion in diversity mode using conditional GAN,
             # only one class may be completed at a time, hence the number of latent space
             # dimensions must be manually added to match the original multiclass model's dimensions.
-            if self.args.inversion_mode == 'multiclass' and num_classes == 1:
-                features[-1] += 1
+            if self.args.split == 'test':
+                if self.args.inversion_mode == 'multiclass' and num_classes == 1:
+                    features[-1] += 1
             
             print('Discriminator features[-1]:', features[-1])
             
@@ -116,8 +117,9 @@ class Generator(nn.Module):
             # For multiclass shape completion in diversity mode using conditional GAN,
             # only one class may be completed at a time, hence the number of latent space
             # dimensions must be manually added to match the original multiclass model's dimensions.
-            if self.args.inversion_mode == 'multiclass' and num_classes == 1:
-                features[0] += 1
+            if self.args.split == 'test':
+                if self.args.inversion_mode == 'multiclass' and num_classes == 1:
+                    features[0] += 1
             
             print('Generator features[0]:', features[0])
         

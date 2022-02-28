@@ -28,9 +28,6 @@ class Trainer(object):
         
         if self.args.class_choice == 'multiclass' and self.args.class_range is not None:
         
-            # Define the total number of multiclass classes.
-            self.total_num_classes = 8
-        
             # Convert the one hot encoding list into an array, representing the classes.
             self.classes_chosen = encode_classes(args.class_range)
             print('trainer.py: __init__ index of multiclass classes chosen:', self.classes_chosen)
@@ -38,7 +35,6 @@ class Trainer(object):
         # Otherwise if only using a single class.
         else:
             self.classes_chosen = None
-            self.total_num_classes = 0
             print('trainer.py: __init__ - single class pretraining.')
 
         if self.args.dist:
