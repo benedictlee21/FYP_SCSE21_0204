@@ -151,13 +151,15 @@ class ShapeInversion(object):
         self.checkpoint_flags.append('Target')
         self.checkpoint_pcd.append(self.target)
 
-    def run(self, ith = -1, classes_chosen = None):
-
-        #print('\nshape_inversion.py: run - classes chosen:', classes_chosen)
+    def run(self, ith = -1, class_id = None):
 
         loss_dict = {}
         curr_step = 0
         count = 0
+        
+        # If multiclass with conditional GAN is used, create the one hot encoded
+        # generator and discriminator class labels.
+        #if self.args.class_choice == 'multiclass' and self.args.conditional_gan and class_id is not None:
 
         # For each shape.
         for stage, iteration in enumerate(self.iterations):
@@ -180,7 +182,7 @@ class ShapeInversion(object):
                 # Store the latent space into a list and pass it to the generator.
                 tree = [self.z]
 
-                # Pass the latent space representation and one hot encoded vector to the generator.
+                # Pass the latent space representation to 'treegan.py' where one hot encoding is performed.
                 x = self.G(tree, self.args.device)
 
                 # Perform degradation of generated shape and masking, where 'x' is the generated shape.

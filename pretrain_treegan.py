@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as functional
 import torch.optim as optim
 from data.CRN_dataset import CRNShapeNet
 from model.treegan_network import Generator, Discriminator
@@ -147,6 +148,11 @@ class TreeGAN():
                 #print('Ground truth (point) tensor shape:', point.shape)
                 #print('Class ID tensor:', class_id)
                 #print('Class ID tensor shape:', class_id.shape)
+                
+                # Perform one hot encoding on tensor.
+                one_hot_temp = functional.one_hot(class_id, num_classes = 8)
+                print('One hot encoded classes:', one_hot_temp)
+                print('One hot encoded classes shape:', one_hot_temp.shape)
                 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
                 # Creating zeroed tensor for onehot encoding.

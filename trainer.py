@@ -136,7 +136,7 @@ class Trainer(object):
             # Get only the input partial shape data for multiclass.
             # 'partial' is the tensor containing the partial shapes.
             # 'index' is the label 'partial' for the shapes, not the class ID.
-            # 'class_id' is the tensor of class IDs.
+            # 'class_id' is the tensor of class IDs, containing only a single value for processing one shape at a time.
             # '_' means to ignore that respective return variable.
             _, partial, index, class_id = data
 
@@ -177,7 +177,7 @@ class Trainer(object):
                 self.model.z.data = z.data
 
                 # Generate a shape from each latent space.
-                self.model.run(ith = ith, classes_chosen = self.classes_chosen)
+                self.model.run(ith = ith, class_id = class_id)
 
                 # Append generated shape to the list of completed shapes.
                 self.model.xs.append(self.model.x)
