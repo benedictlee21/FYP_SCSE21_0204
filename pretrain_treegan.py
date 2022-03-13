@@ -36,8 +36,9 @@ class TreeGAN():
             self.classes_chosen = encode_classes(self.args.class_range)
             print('pretrain_treegan.py: __init__ - index of multiclass classes chosen:', self.classes_chosen)
             
-            # Set the total number of classes to be used.
-            self.total_num_classes = len(self.classes_chosen)
+            # Set the total number of classes used for the whole experiment. Total of 8 possible classes:
+            # chair, table, couch, cabinet, lamp, car, plane, watercraft.
+            self.total_num_classes = 8
             
         # Otherwise if only using a single class.
         else:
@@ -61,7 +62,7 @@ class TreeGAN():
         # Define the generator and discriminator models.
         # Pass in the chosen classes if multiclass is specified.
         self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = self.total_num_classes, args = self.args).to(args.device)
-        # import pdb; pdb.set_trace() # junzhe
+        # import pdb; pdb.set_trace()
         self.D = Discriminator(features = args.D_FEAT, num_classes = self.total_num_classes, args = self.args).to(args.device)
         
         # Define the optimizer and parameters.
@@ -149,11 +150,6 @@ class TreeGAN():
                 #print('Class ID tensor:', class_id)
                 #print('Class ID tensor shape:', class_id.shape)
                 
-                # Perform one hot encoding on tensor.
-                one_hot_temp = functional.one_hot(class_id, num_classes = 8)
-                print('One hot encoded classes:', one_hot_temp)
-                print('One hot encoded classes shape:', one_hot_temp.shape)
-                
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
                 # Creating zeroed tensor for onehot encoding.
                 # zeroed_tensor = torch.zeros(<tensor_dim0_size>, <tensor_dim1_size>, dtype = <data_type>)
@@ -161,7 +157,7 @@ class TreeGAN():
                 # One hot encoding class values using torch.tensor.scatter().
                 # onehot_tensor = zeroed_tensor.scatter(<axis along which to index>, <tensor of element positional indices to assign the one hot encoded values to>, <source tensor whose values are to be assigned>)
                 
-                ### one hot encoding by junzhe
+                # One hot encoding by junzhe.
                 # NOTE: see how scatter works: 
                 # https://pytorch.org/docs/stable/generated/torch.Tensor.scatter_.html#torch.Tensor.scatter_
                                 
@@ -169,42 +165,59 @@ class TreeGAN():
                 # No class tensor is created or concatenated if the conditional gan option is false.
                 if self.args.conditional_gan:
                     
+                    # ----------------------------------------------------------------------------
+                    # Perform one hot encoding on tensor using torch nn functional package.
+                    # This creates a vector of 8 bits, of which only 1 bit has a value of 1,
+                    # corresponding to the class for that shape being retrieved.
+                    one_hot_all_classes = functional.one_hot(class_id, num_classes = 8)
+                    #print('One hot encoded classes:', one_hot_all_classes)
+                    #print('One hot encoded classes shape:', one_hot_all_classes.shape)
+                    
+                    # Move the one hot tensor to the cpu and convert its type to 'long'.
+                    # Then move it back to the GPU.
+                    one_hot_all_classes = one_hot_all_classes.cpu()
+                    discriminator_class_labels = torch.LongTensor(one_hot_all_classes)
+                    discriminator_class_labels.to(self.args.device)
+                    
+                    # Resultant discriminator class labels shape should be: <batch size, <number of classes>.
+                    #print('Shape of discriminator class labels:', discriminator_class_labels.shape)
+                    
+                    # ----------------------------------------------------------------------------
                     # Convert the tensor into a numpy array by first copying it to the host memory.
-                    class_id = class_id.cpu().numpy()
+                    #class_id = class_id.cpu().numpy()
                     #print('Class ID numpy array:', class_id)
                     
                     # Get the unique class IDs for the number of classes used.
-                    unique_class_id = np.unique(class_id)
+                    #unique_class_id = np.unique(class_id)
                     #print('Unique class ID numpy array:', unique_class_id)
                     
                     # Convert the class ID from their indexes into integers starting from 0 for use in one hot encoding.
-                    index_count = 0
+                    #index_count = 0
                     
-                    for index in range(len(unique_class_id)):
+                    #for index in range(len(unique_class_id)):
                     
                         #print('Index:', index)
-                        for sub_index in range(len(class_id)):
+                        #for sub_index in range(len(class_id)):
                             
                             #print('Sub index:', sub_index)
-                            if unique_class_id[index] == class_id[sub_index]:
+                            #if unique_class_id[index] == class_id[sub_index]:
                             
                                 #print('Class ID matches unique ID.')
-                                class_id[sub_index] = index_count
+                                #class_id[sub_index] = index_count
                                 
                         #print('Index count:', index_count)
-                        index_count += 1
+                        #index_count += 1
                     #print('One hot prepared class ID values:', class_id)
                     
                     # Build a new class tensor of type 'long' using the class IDs as integers starting from 0.
-                    # Use '.cuda()' to ensure the created class tensor is allocated to the GPU.
-                    class_id = torch.LongTensor(class_id).cuda()
+                    # Ensure that the created class tensor is allocated to the GPU.
+                    #class_id = torch.LongTensor(class_id).cuda()
                     #print('One hot prepared class ID tensor:', class_id)
                     #print('One hot prepared class ID tensor type:', type(class_id))
                     
-                    
                     # Create a zeroed tensor of shape equal to the batch size based on class ID first dimension and number of classes chosen.
-                    discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
-                    discriminator_class_labels = discriminator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1) # [B, 2]
+                    #discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
+                    #discriminator_class_labels = discriminator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1) # [batch_size, 2]
                     
                     #print('One hot encoded discriminator class labels:', discriminator_class_labels)
                 else:
@@ -228,11 +241,22 @@ class TreeGAN():
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
                     if self.args.conditional_gan:
                     
-                        ### one hot encoding by junzhe
-                        generator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
-                        generator_class_labels = generator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1).unsqueeze_(1) # [B, 1, 2]
-                        
+                        # One hot encoding by junzhe.
+                        # Create a zeroed tensor of shape equal to the batch size based on class ID first
+                        # dimension and number of classes chosen for the generator.
+                        #generator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
+                        #generator_class_labels = generator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1).unsqueeze_(1) # [batch_size, 1, 2]
                         #print('One hot encoded generator class labels:', generator_class_labels)
+                        
+                        # Move the one hot tensor to the cpu and convert its type to 'long'.
+                        # Then move it back to the GPU.
+                        generator_class_labels = torch.LongTensor(one_hot_all_classes)
+                        generator_class_labels.to(self.args.device)
+                        generator_class_labels = torch.unsqueeze(generator_class_labels, 1)
+                        
+                        # Resultant generator class labels shape should be: <batch size, 1, <number of classes>.
+                        #print('Shape of generator class labels:', generator_class_labels.shape)
+                        
                     else:
                         generator_class_labels = None
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -252,16 +276,14 @@ class TreeGAN():
                     # Evaluate both the ground truth and generated shape using the discriminator.
                     # 'self.D' leads into the 'forward()' function of the generator in 'treegan_network.py'.
                     
-                    # allocation of class tensor by junzhe
+                    # Pass the class tensor together with the fake and real shapes to the discriminator.
                     D_real, _ = self.D(point, discriminator_class_labels)
                     D_fake, _ = self.D(fake_point, discriminator_class_labels)
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
                     # Compute the gradient penalty loss.
                     if self.args.conditional_gan:
-                        # NOTE: junzhe conditional=True for conditional gans, if you want to enable unconditional option, pass an argument to control it
                         gp_loss = self.GP(self.D, point.data, fake_point.data, conditional = True, yreal = discriminator_class_labels)
-                        
                     else:
                         gp_loss = self.GP(self.D, point.data, fake_point.data, conditional = False, yreal = discriminator_class_labels)
 # ++++++++++++++++++++++++++++++++++++++++++++++++++

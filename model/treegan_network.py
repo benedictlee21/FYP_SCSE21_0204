@@ -120,7 +120,6 @@ class Generator(nn.Module):
             if self.args.split == 'test':
                 if self.args.inversion_mode == 'multiclass' and num_classes == 1:
                     features[0] += 1
-            
             print('Generator features[0]:', features[0])
         
             # Create additional network layers for multiclass using conditional GAN.
