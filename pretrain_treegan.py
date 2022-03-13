@@ -20,13 +20,11 @@ from torch.utils.tensorboard import SummaryWriter
 class TreeGAN():
     def __init__(self, args):
         
-        print('\n\nINSIDE: pretrain_treegan.py, Class: TreeGAN - __init__')
         self.args = args
         self.args.class_choice = self.args.class_choice.lower()
         
         # Create a tensorboard summarywriter object for recording training metrics.
         self.shapeinversion_writer = SummaryWriter()
-        print('SummaryWriter created successfully.')
 
 # --------------------------------------------------------
         # If multiclass pretraining is specified.
@@ -34,7 +32,6 @@ class TreeGAN():
             
             # Convert the one hot encoding list into an array, representing the classes.
             self.classes_chosen = encode_classes(self.args.class_range)
-            print('pretrain_treegan.py: __init__ - index of multiclass classes chosen:', self.classes_chosen)
             
             # Set the total number of classes used for the whole experiment. Total of 8 possible classes:
             # chair, table, couch, cabinet, lamp, car, plane, watercraft.
@@ -181,45 +178,8 @@ class TreeGAN():
                     
                     # Resultant discriminator class labels shape should be: <batch size, <number of classes>.
                     #print('Shape of discriminator class labels:', discriminator_class_labels.shape)
-                    
-                    # ----------------------------------------------------------------------------
-                    # Convert the tensor into a numpy array by first copying it to the host memory.
-                    #class_id = class_id.cpu().numpy()
-                    #print('Class ID numpy array:', class_id)
-                    
-                    # Get the unique class IDs for the number of classes used.
-                    #unique_class_id = np.unique(class_id)
-                    #print('Unique class ID numpy array:', unique_class_id)
-                    
-                    # Convert the class ID from their indexes into integers starting from 0 for use in one hot encoding.
-                    #index_count = 0
-                    
-                    #for index in range(len(unique_class_id)):
-                    
-                        #print('Index:', index)
-                        #for sub_index in range(len(class_id)):
-                            
-                            #print('Sub index:', sub_index)
-                            #if unique_class_id[index] == class_id[sub_index]:
-                            
-                                #print('Class ID matches unique ID.')
-                                #class_id[sub_index] = index_count
-                                
-                        #print('Index count:', index_count)
-                        #index_count += 1
-                    #print('One hot prepared class ID values:', class_id)
-                    
-                    # Build a new class tensor of type 'long' using the class IDs as integers starting from 0.
-                    # Ensure that the created class tensor is allocated to the GPU.
-                    #class_id = torch.LongTensor(class_id).cuda()
-                    #print('One hot prepared class ID tensor:', class_id)
-                    #print('One hot prepared class ID tensor type:', type(class_id))
-                    
-                    # Create a zeroed tensor of shape equal to the batch size based on class ID first dimension and number of classes chosen.
-                    #discriminator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
-                    #discriminator_class_labels = discriminator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1) # [batch_size, 2]
-                    
                     #print('One hot encoded discriminator class labels:', discriminator_class_labels)
+                    # ----------------------------------------------------------------------------
                 else:
                     discriminator_class_labels = None
                     
@@ -241,13 +201,6 @@ class TreeGAN():
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
                     if self.args.conditional_gan:
                     
-                        # One hot encoding by junzhe.
-                        # Create a zeroed tensor of shape equal to the batch size based on class ID first
-                        # dimension and number of classes chosen for the generator.
-                        #generator_labels_onehot = torch.zeros([class_id.shape[0], self.total_num_classes]).cuda()
-                        #generator_class_labels = generator_labels_onehot.scatter(1, class_id.unsqueeze(1), 1).unsqueeze_(1) # [batch_size, 1, 2]
-                        #print('One hot encoded generator class labels:', generator_class_labels)
-                        
                         # Move the one hot tensor to the cpu and convert its type to 'long'.
                         # Then move it back to the GPU.
                         generator_class_labels = torch.LongTensor(one_hot_all_classes)

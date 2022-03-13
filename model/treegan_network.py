@@ -28,7 +28,6 @@ class Discriminator(nn.Module):
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
-            print('treegan_network.py - Conditional GAN discriminator number of classes chosen:', num_classes)
             features[-1] += num_classes
             
             # For multiclass shape completion in diversity mode using conditional GAN,
@@ -81,7 +80,8 @@ class Discriminator(nn.Module):
 # --------------------------------------------------------
         # For multiclass operation, concatenate the discriminator output with the number of classes.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan and class_labels is not None:
-            #print('treegan_network.py - Concatenating discriminator output with class label.')
+            
+            # Remove dimension 1 of the class labels tensor if its size is 1.
             out = torch.cat((out, class_labels.squeeze(1)), -1)
             
             # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
@@ -111,7 +111,6 @@ class Generator(nn.Module):
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
-            print('treegan_network.py - Conditional GAN generator number of classes chosen:', num_classes)
             features[0] += num_classes
             
             # For multiclass shape completion in diversity mode using conditional GAN,
