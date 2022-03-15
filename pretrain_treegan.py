@@ -58,9 +58,9 @@ class TreeGAN():
 
         # Define the generator and discriminator models.
         # Pass in the chosen classes if multiclass is specified.
-        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, num_classes = self.total_num_classes, args = self.args).to(args.device)
+        self.G = Generator(features = args.G_FEAT, degrees = args.DEGREE, support = args.support, total_num_classes = self.total_num_classes, args = self.args).to(args.device)
         # import pdb; pdb.set_trace()
-        self.D = Discriminator(features = args.D_FEAT, num_classes = self.total_num_classes, args = self.args).to(args.device)
+        self.D = Discriminator(features = args.D_FEAT, total_num_classes = self.total_num_classes, args = self.args).to(args.device)
         
         # Define the optimizer and parameters.
         self.optimizerG = optim.Adam(self.G.parameters(), lr=args.lr, betas=(0, 0.99))
@@ -166,13 +166,11 @@ class TreeGAN():
                     # Perform one hot encoding on tensor using torch nn functional package.
                     # This creates a vector of 8 bits, of which only 1 bit has a value of 1,
                     # corresponding to the class for that shape being retrieved.
-                    one_hot_all_classes = functional.one_hot(class_id, num_classes = 8)
+                    one_hot_all_classes = functional.one_hot(class_id, num_classes = 8).cpu()
                     #print('One hot encoded classes:', one_hot_all_classes)
                     #print('One hot encoded classes shape:', one_hot_all_classes.shape)
                     
-                    # Move the one hot tensor to the cpu and convert its type to 'long'.
-                    # Then move it back to the GPU.
-                    one_hot_all_classes = one_hot_all_classes.cpu()
+                    # Convert the tensor data type to 'long' and move it to the GPU.
                     discriminator_class_labels = torch.LongTensor(one_hot_all_classes)
                     discriminator_class_labels.to(self.args.device)
                     
@@ -201,8 +199,7 @@ class TreeGAN():
 # ++++++++++++++++++++++++++++++++++++++++++++++++++
                     if self.args.conditional_gan:
                     
-                        # Move the one hot tensor to the cpu and convert its type to 'long'.
-                        # Then move it back to the GPU.
+                        # Convert the tensor data type to 'long' and move it to the GPU.
                         generator_class_labels = torch.LongTensor(one_hot_all_classes)
                         generator_class_labels.to(self.args.device)
                         generator_class_labels = torch.unsqueeze(generator_class_labels, 1)

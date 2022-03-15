@@ -35,7 +35,7 @@ class Trainer(object):
         # Otherwise if only using a single class.
         else:
             self.classes_chosen = None
-            print('trainer.py: __init__ - single class pretraining.')
+            #print('trainer.py: __init__ - single class pretraining.')
 
         if self.args.dist:
             self.rank = dist.get_rank()
@@ -138,7 +138,7 @@ class Trainer(object):
             # 'index' is the label 'partial' for the shapes, not the class ID.
             # 'class_id' is the tensor of class IDs, containing only a single value for processing one shape at a time.
             # '_' means to ignore that respective return variable.
-            _, partial, index, class_id = data
+            _, partial, index, _ = data
 
             # Ground truth is not used.
             ground_truth = None
@@ -177,7 +177,10 @@ class Trainer(object):
                 self.model.z.data = z.data
 
                 # Generate a shape from each latent space.
-                self.model.run(ith = ith, class_id = class_id)
+                # Pass only a single class ID for multiclass shape completion to complete the
+                # selected input shapes according to a single class.
+                # If multiple classes are specified, only the first class is used.
+                self.model.run(ith = ith, single_class_id = classes_chosen[0])
 
                 # Append generated shape to the list of completed shapes.
                 self.model.xs.append(self.model.x)

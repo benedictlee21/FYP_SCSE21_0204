@@ -6,7 +6,7 @@ from model.gcn import TreeGCN
 from math import ceil
 
 class Discriminator(nn.Module):
-    def __init__(self, features, num_classes, args = None):
+    def __init__(self, features, total_num_classes, args = None):
     
         self.args = args
         # Get the number of layers for the discriminator network.
@@ -28,15 +28,7 @@ class Discriminator(nn.Module):
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
-            features[-1] += num_classes
-            
-            # For multiclass shape completion in diversity mode using conditional GAN,
-            # only one class may be completed at a time, hence the number of latent space
-            # dimensions must be manually added to match the original multiclass model's dimensions.
-            if self.args.split == 'test':
-                if self.args.inversion_mode == 'multiclass' and num_classes == 1:
-                    features[-1] += 1
-            
+            features[-1] += total_num_classes
             print('Discriminator features[-1]:', features[-1])
             
             # Create additional network layers for multiclass using conditonal GAN.
@@ -94,7 +86,7 @@ class Discriminator(nn.Module):
         return out1, out
 
 class Generator(nn.Module):
-    def __init__(self, features, degrees, support, num_classes, args = None):
+    def __init__(self, features, degrees, support, total_num_classes, args = None):
         
         self.args = args
         # Get the number of layers for the generator network.
@@ -111,14 +103,7 @@ class Generator(nn.Module):
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
-            features[0] += num_classes
-            
-            # For multiclass shape completion in diversity mode using conditional GAN,
-            # only one class may be completed at a time, hence the number of latent space
-            # dimensions must be manually added to match the original multiclass model's dimensions.
-            if self.args.split == 'test':
-                if self.args.inversion_mode == 'multiclass' and num_classes == 1:
-                    features[0] += 1
+            features[0] += total_num_classes
             print('Generator features[0]:', features[0])
         
             # Create additional network layers for multiclass using conditional GAN.
@@ -158,16 +143,18 @@ class Generator(nn.Module):
             #print('treegan_network.py - Concatenating generator output with class label.')
             
             # Uncomment the line below for running using the original conditional GAN.
-            #tree[0] = torch.cat((tree[0], class_labels), -1)
+            print('Class labels shape:', class_labels.shape)
+            tree[0] = torch.cat((tree[0], class_labels), -1)
             #print('Concatenated latent space size:', tree[0].size())
         
             # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
-            tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
+            #tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
             #tree[0] = self.fully_connected_V2(torch.cat((tree[0], class_labels), -1))
 # --------------------------------------------------------
         
         # Pass the network features to the graph convolutional network.
         # 'self.gcn' leads to the 'forward' function of the 'TreeGAN' class in 'gcn.py'.
+        print('Tree[0] shape:', tree[0].shape)
         feat = self.gcn(tree)
 
         # Use only the last shape of the result as the output.

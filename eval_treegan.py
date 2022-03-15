@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as functional
 import torch.optim as optim
 from data.CRN_dataset import CRNShapeNet
 from model.treegan_network import Generator, Discriminator
@@ -32,13 +33,13 @@ def save_pcs_to_txt(save_dir, fake_pcs):
         np.savetxt(osp.join(save_dir,str(i)+'.txt'), fake_pcs[i], fmt = "%f;%f;%f")  
 
 # 'model_cuda' represents the instantiated generator network.
-def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, latent_space_dim = 96, classes_chosen = None, args = None):
+def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, latent_space_dim = 96, total_number_classes = None, classes_chosen = None, args = None):
     """
     generate fake pcs for evaluation
     """
     # Add the number of classes to the latent space dimensions fo multiclass operation.
     if args.class_choice == 'multiclass' and args.conditional_gan:
-        latent_space_dim += len(classes_chosen)
+        latent_space_dim += total_number_classes
 
     fake_pcs = torch.Tensor([])
     n_pcs = int(ceil(n_pcs/batch_size) * batch_size)
@@ -52,11 +53,63 @@ def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, laten
         # Pass the latent space representation to the generator.
         tree = [z]
         
+        # Randomly select class IDs to be used for generating the point clouds as per the 
+        # selected classes, with the number of randomly selected class IDs equal to the batch size.
+        random_class_id_list = []
+        
+        for count in range(batch_size):
+            random_class_id = random.choice(classes_chosen)
+            random_class_id_list.append(random_class_id)
+        print('Randomly generated batch of class IDs for evaluation:', random_class_id_list)
+        
+        # Convert the random class ID list into a tensor and place it on the GPU.
+        random_class_id_list = torch.LongTensor(random_class_id_list)
+        random_class_id_list = random_class_id_list.to(args.device)
+        
+        # Perform the one hot encoding.
+        # Conditional GAN argument is of type boolean.
+        # No class tensor is created or concatenated if the conditional gan option is false.
+        if args.class_choice == 'multiclass' and args.conditional_gan:
+            
+            # ----------------------------------------------------------------------------
+            # Perform one hot encoding on tensor using torch nn functional package.
+            # This creates a vector of 8 bits, of which only 1 bit has a value of 1,
+            # corresponding to the class for that shape being retrieved.
+            
+            one_hot_all_classes = functional.one_hot(random_class_id_list, num_classes = 8)
+            #print('One hot encoded classes:', one_hot_all_classes)
+            #print('One hot encoded classes shape:', one_hot_all_classes.shape)
+            
+            # Move the one hot tensor to the cpu and convert its type to 'long'.
+            # Then move it back to the GPU.
+            one_hot_all_classes = one_hot_all_classes.cpu()
+            discriminator_class_labels = torch.LongTensor(one_hot_all_classes)
+            discriminator_class_labels = discriminator_class_labels.to(args.device)
+                    
+            # Resultant discriminator class labels shape should be: <batch size, <number of classes>.
+            #print('Shape of discriminator class labels:', discriminator_class_labels.shape)
+            #print('One hot encoded discriminator class labels:', discriminator_class_labels)
+            
+            # Move the one hot tensor to the cpu and convert its type to 'long'.
+            # Then move it back to the GPU.
+            generator_class_labels = torch.LongTensor(one_hot_all_classes)
+            generator_class_labels = torch.unsqueeze(generator_class_labels, 1)
+            generator_class_labels = generator_class_labels.to(args.device)
+            
+            # Resultant generator class labels shape should be: <batch size, 1, <number of classes>.
+            #print('Shape of generator class labels:', generator_class_labels.shape)
+            # ----------------------------------------------------------------------------
+        else:
+            generator_class_labels = None
+            discriminator_class_labels = None
+                
         # Reset the gradients and pass the latent space representation to the generator.
         with torch.no_grad():
-            sample = model_cuda(tree).cpu()
+            sample = model_cuda(tree, generator_class_labels).cpu()
             
-        fake_pcs = torch.cat((fake_pcs, sample), dim=0)
+        # Concatenate the completed shapes to the input shape.
+        fake_pcs = torch.cat((fake_pcs, sample), dim = 0)
+        
     return fake_pcs
 
 def create_fpd_stats(pcs, pathname_save, device):
@@ -73,7 +126,7 @@ def create_fpd_stats(pcs, pathname_save, device):
     print('FPD statistics saved to:', pathname_save)
 
 @timeit
-def script_create_fpd_stats(args, classes_chosen = None, data2stats='CRN'):
+def script_create_fpd_stats(args, total_number_classes = None, classes_chosen = None, data2stats = 'CRN'):
     """
     create stats of training data for eval FPD, calling create_fpd_stats()
     """    
@@ -134,7 +187,7 @@ def checkpoint_eval(G_net, device, n_samples = 5000, batch_size = 100,conditiona
     print('----------------------------------------- Frechet Pointcloud Distance <<< {:.2f} >>>'.format(fpd))
 
 @timeit
-def test(args, mode = 'FPD', classes_chosen = None):
+def test(args, mode = 'FPD', total_number_classes = None, classes_chosen = None):
     '''
     args needed: 
         n_classes, pcs to generate, ratio of each class, class to id dict???
@@ -142,9 +195,14 @@ def test(args, mode = 'FPD', classes_chosen = None):
     '''
     # Extract the generator features first in case it needs to be modified for multiclass.
     generator_features = args.G_FEAT
+    discriminator_features = args.D_FEAT
     
     # Instantiate an instance of the generator.
-    G_net = Generator(features = generator_features, degrees = args.DEGREE, support = args.support, num_classes = len(classes_chosen), args = args).to(args.device)
+    G_net = Generator(features = generator_features, degrees = args.DEGREE, support = args.support, total_num_classes = total_number_classes, args = args).to(args.device)
+    
+    # Instantiate an instance of the discriminator only for multiclass to update the latent space dimensions.
+    # Discriminator object is not used for the evaluation process.
+    D_net = Discriminator(features = discriminator_features, total_num_classes = total_number_classes, args = args).to(args.device)
 
     # Loading of specified model checkpoint.
     checkpoint = torch.load(args.model_pathname, map_location=args.device)
@@ -155,7 +213,7 @@ def test(args, mode = 'FPD', classes_chosen = None):
     latent_space_dim = 96
     
     # Generate the point cloud shapes using the generator.
-    fake_pcs = generate_pcs(G_net, n_pcs = args.n_samples, batch_size = args.batch_size, device = args.device, latent_space_dim = latent_space_dim, classes_chosen = classes_chosen, args = args)
+    fake_pcs = generate_pcs(G_net, n_pcs = args.n_samples, batch_size = args.batch_size, device = args.device, latent_space_dim = latent_space_dim, total_number_classes = total_number_classes, classes_chosen = classes_chosen, args = args)
     
     # Save generated samples.
     if mode == 'save':
@@ -196,6 +254,9 @@ if __name__ == '__main__':
     # Ensure that a valid evalutation mode is specified.
     assert args.eval_treegan_mode in ["MMD", "FPD", "save", "generate_fpd_stats"]
     
+    # Convert the range of classes specified by the user as lowercase.
+    args.class_choice = args.class_choice.lower()
+    
     # If multiclass pretraining is specified.
     if args.class_choice == 'multiclass' and args.class_range is not None:
         
@@ -207,10 +268,13 @@ if __name__ == '__main__':
     else:
         classes_chosen = None
     
+    # Specify the total number of possible classes.
+    total_number_classes = 8
+    
     if args.eval_treegan_mode == "generate_fpd_stats":
     
         # Generation of FPD statistics file when running multiclass operation already makes use of multiclass
         # intergration implemented in 'CRN_dataset.py', hence no need to provide argument for classes chosen here.
-        script_create_fpd_stats(args, classes_chosen)
-    else:
-        test(args, mode = args.eval_treegan_mode, classes_chosen = classes_chosen)
+        script_create_fpd_stats(args, total_number_classes)
+    else:   
+        test(args, mode = args.eval_treegan_mode, total_number_classes = total_number_classes, classes_chosen = classes_chosen)
