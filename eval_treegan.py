@@ -37,10 +37,6 @@ def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, laten
     """
     generate fake pcs for evaluation
     """
-    # Add the number of classes to the latent space dimensions fo multiclass operation.
-    if args.class_choice == 'multiclass' and args.conditional_gan:
-        latent_space_dim += total_number_classes
-
     fake_pcs = torch.Tensor([])
     n_pcs = int(ceil(n_pcs/batch_size) * batch_size)
     n_batches = ceil(n_pcs/batch_size)
@@ -60,7 +56,7 @@ def generate_pcs(model_cuda, n_pcs = 5000, batch_size = 50, device = None, laten
         for count in range(batch_size):
             random_class_id = random.choice(classes_chosen)
             random_class_id_list.append(random_class_id)
-        print('Randomly generated batch of class IDs for evaluation:', random_class_id_list)
+        #print('Randomly generated batch of class IDs for evaluation:', random_class_id_list)
         
         # Convert the random class ID list into a tensor and place it on the GPU.
         random_class_id_list = torch.LongTensor(random_class_id_list)

@@ -151,50 +151,11 @@ class ShapeInversion(object):
         self.checkpoint_flags.append('Target')
         self.checkpoint_pcd.append(self.target)
 
-    def run(self, ith = -1, single_class_id = None):
+    def run(self, ith = -1, generator_class_labels = None):
 
         loss_dict = {}
         curr_step = 0
         count = 0
-        
-        # If multiclass with conditional GAN is used, create the one hot encoded
-        # generator and discriminator class labels.
-        if self.args.class_choice == 'multiclass' and self.args.conditional_gan and single_class_id is not None:
-        
-            # Create a list of class IDs containing only a single value for completing the input shapes
-            # according to a specific class. Number of elements in the list should match the batch size.
-            class_id_list = []
-            
-            for count in range(batch_size):
-                class_id_list.append(single_class_id)
-            print('Batch of class IDs for testing:', class_id_list)
-            
-            # Convert the random class ID list into a tensor and place it on the GPU.
-            class_id_list = torch.LongTensor(class_id_list)
-            class_id_list = random_class_id_list.to(args.device)
-        
-            one_hot_all_classes = functional.one_hot(class_id_list, num_classes = 8)
-            #print('One hot encoded classes:', one_hot_all_classes)
-            #print('One hot encoded classes shape:', one_hot_all_classes.shape)
-            
-            # Convert the tensor data type to 'long' and move it to the GPU.
-            discriminator_class_labels = torch.LongTensor(one_hot_all_classes)
-            discriminator_class_labels.to(self.args.device)
-            
-            # Resultant discriminator class labels shape should be: <batch size, <number of classes>.
-            #print('Shape of discriminator class labels:', discriminator_class_labels.shape)
-            #print('One hot encoded discriminator class labels:', discriminator_class_labels)
-            
-            generator_class_labels = torch.LongTensor(one_hot_all_classes)
-            generator_class_labels.to(self.args.device)
-            generator_class_labels = torch.unsqueeze(generator_class_labels, 1)
-            
-            # Resultant generator class labels shape should be: <batch size, 1, <number of classes>.
-            #print('Shape of generator class labels:', generator_class_labels.shape)
-            
-            # Resultant discriminator class labels shape should be: <batch size, <number of classes>.
-            #print('Shape of discriminator class labels:', discriminator_class_labels.shape)
-            #print('One hot encoded discriminator class labels:', discriminator_class_labels)
             
         # For each shape.
         for stage, iteration in enumerate(self.iterations):
@@ -217,8 +178,12 @@ class ShapeInversion(object):
                 # Store the latent space into a list and pass it to the generator.
                 tree = [self.z]
 
+                # If multiclass shape completion using a conditional GAN is specified.
                 # Pass the latent space representation to 'treegan.py' where one hot encoding is performed.
-                x = self.G(tree, generator_class_labels, self.args.device)
+                if self.args.class_choice == 'multiclass' and self.args.conditional_gan and generator_class_labels is not None:
+                    x = self.G(tree, generator_class_labels)
+                else:
+                    x = self.G(tree)
 
                 # Perform degradation of generated shape and masking, where 'x' is the generated shape.
                 x_map = self.pre_process(x, stage = stage)
@@ -311,7 +276,7 @@ class ShapeInversion(object):
             self.jitter(self.target)
 
     # Search for latent space gaussian distributions for each completed shape of 'diversity' mode.
-    def diversity_search(self):
+    def diversity_search(self, generator_class_labels = None):
         """
         produce batch by batch
         search by 2pf and partial
@@ -334,7 +299,13 @@ class ShapeInversion(object):
                 # Generate the latent space vector tensor.
                 z = torch.randn(batch_size, 1, self.latent_space_dim).cuda()
                 tree = [z]
-                x = self.G(tree)
+                
+                # For multiclass shape completion using a conditional GAN, concatenate the class labels
+                # to the latent space vector tensor.
+                if self.args.class_choice == 'multiclass' and self.args.conditional_gan and generator_class_labels is not None:
+                    x = self.G(tree, generator_class_labels)
+                else:
+                    x = self.G(tree)
                 
                 # Compute the chamfer distance.
                 dist1, dist2 , _, _ = distChamfer(self.target.repeat(batch_size,1,1),x)

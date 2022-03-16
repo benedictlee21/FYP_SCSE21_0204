@@ -20,43 +20,30 @@ class Discriminator(nn.Module):
 
         # Append the discriminator features to each layer of the discriminator network.
         for inx in range(self.layer_num):
-            self.fc_layers.append(nn.Conv1d(features[inx], features[inx+1], kernel_size=1, stride=1))
+            self.fc_layers.append(nn.Conv1d(features[inx], features[inx + 1], kernel_size = 1, stride = 1))
 
         # Define the activation function.
-        self.leaky_relu = nn.LeakyReLU(negative_slope=0.2)
+        self.leaky_relu = nn.LeakyReLU(negative_slope = 0.2)
         
 # --------------------------------------------------------
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
             features[-1] += total_num_classes
             print('Discriminator features[-1]:', features[-1])
-            
-            # Create additional network layers for multiclass using conditonal GAN.
-            self.fully_connected_V1 = nn.Sequential(
-                nn.Linear(features[-1], features[-1]),
-                nn.LeakyReLU(negative_slope = 0.2)
-            )
-            
-            self.fully_connected_V2 = nn.Sequential(
-                nn.Linear(features[-1], 1024),
-                nn.LeakyReLU(negative_slope = 0.2),
-                nn.Linear(1024, features[-1]),
-                nn.LeakyReLU(negative_slope = 0.2)
-            )
 # --------------------------------------------------------
         
         # Define the final layer of the discriminator network.
         self.final_layer = nn.Sequential(
                     nn.Linear(features[-1], 128),
-                    nn.LeakyReLU(negative_slope=0.2),
+                    nn.LeakyReLU(negative_slope = 0.2),
                     nn.Linear(128, 64),
-                    nn.LeakyReLU(negative_slope=0.2),
+                    nn.LeakyReLU(negative_slope = 0.2),
                     nn.Linear(64, 1),
                     nn.Sigmoid()
         )
 
     # Pretraining does not use the forward propagation function.
-    def forward(self, tree, class_labels = None, device = None):
+    def forward(self, tree, class_labels = None):
 
         feat = tree.transpose(1,2)
         vertex_num = feat.size(2)
@@ -75,10 +62,6 @@ class Discriminator(nn.Module):
             
             # Remove dimension 1 of the class labels tensor if its size is 1.
             out = torch.cat((out, class_labels.squeeze(1)), -1)
-            
-            # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
-            out = self.fully_connected_V1(out)
-            #out = self.fully_connected_V2(out)
 # --------------------------------------------------------
         
         # Apply the final layer of the network.
@@ -105,19 +88,6 @@ class Generator(nn.Module):
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
             features[0] += total_num_classes
             print('Generator features[0]:', features[0])
-        
-            # Create additional network layers for multiclass using conditional GAN.
-            self.fully_connected_V1 = nn.Sequential(
-                nn.Linear(features[0], features[0]),
-                nn.LeakyReLU(negative_slope = 0.2)
-            )
-            
-            self.fully_connected_V2 = nn.Sequential(
-                nn.Linear(features[0], 256),
-                nn.LeakyReLU(negative_slope = 0.2),
-                nn.Linear(256, features[0]),
-                nn.LeakyReLU(negative_slope = 0.2)
-            )
 # --------------------------------------------------------
 
         # Define each layer of the generator network.
@@ -127,7 +97,7 @@ class Generator(nn.Module):
             if inx == self.layer_num - 1:
                 self.gcn.add_module('TreeGCN_' + str(inx),
                     TreeGCN(inx, features, degrees,
-                    support = support, node = vertex_num,upsample = True, activation = False, args = args))
+                    support = support, node = vertex_num, upsample = True, activation = False, args = args))
             else:
                 self.gcn.add_module('TreeGCN_' + str(inx),
                     TreeGCN(inx, features, degrees,
@@ -135,7 +105,7 @@ class Generator(nn.Module):
             vertex_num = int(vertex_num * degrees[inx])
 
     # Pretraining does not use the forward propagation function.
-    def forward(self, tree, class_labels = None, device = None):
+    def forward(self, tree, class_labels = None):
 
 # --------------------------------------------------------
         # For multiclass operation, concatenate the latent space with the class labels.
@@ -143,18 +113,16 @@ class Generator(nn.Module):
             #print('treegan_network.py - Concatenating generator output with class label.')
             
             # Uncomment the line below for running using the original conditional GAN.
-            print('Class labels shape:', class_labels.shape)
+            # Shape of class labels is (<batch size>, 1, <total number of classes>).
+            #print('Class labels shape:', class_labels.shape)
             tree[0] = torch.cat((tree[0], class_labels), -1)
             #print('Concatenated latent space size:', tree[0].size())
-        
-            # Alternatively, apply the additional fully connected layers from earlier, V1 or V2.
-            #tree[0] = self.fully_connected_V1(torch.cat((tree[0], class_labels), -1))
-            #tree[0] = self.fully_connected_V2(torch.cat((tree[0], class_labels), -1))
 # --------------------------------------------------------
         
         # Pass the network features to the graph convolutional network.
         # 'self.gcn' leads to the 'forward' function of the 'TreeGAN' class in 'gcn.py'.
-        print('Tree[0] shape:', tree[0].shape)
+        # Shape of tree[0] is (<batch size>, 1, <latent space dims + number of classes>).
+        #print('Tree[0] shape:', tree[0].shape)
         feat = self.gcn(tree)
 
         # Use only the last shape of the result as the output.

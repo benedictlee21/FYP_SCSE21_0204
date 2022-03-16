@@ -25,7 +25,10 @@ class TreeGCN(nn.Module):
 
         if self.upsample:
             # shape (node, in_feature, out_feature)
+            #print('In feature:', self.in_feature)
+            #print('Degree:', self.degree)
             self.W_branch = nn.Parameter(torch.FloatTensor(self.node, self.in_feature, self.degree*self.in_feature))
+            #print('Shape of W_branch:', self.W_branch.shape)
 
         if self.args.loop_non_linear:
             self.W_loop = nn.Sequential(nn.Linear(self.in_feature, self.in_feature*support, bias=False),
@@ -64,6 +67,9 @@ class TreeGCN(nn.Module):
         branch = 0
 
         if self.upsample:
+
+            # The '@' symbol in the middle of a line of code represents matrix multiplication.
+            #print('Shape of W_branch in forward:', self.W_branch.shape)
             branch = tree[-1].unsqueeze(2) @ self.W_branch
             branch = self.leaky_relu(branch)
             branch = branch.view(batch_size,self.node*self.degree,self.in_feature)

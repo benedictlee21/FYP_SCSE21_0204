@@ -6,6 +6,7 @@ from collections import OrderedDict
 import torch
 import torch.distributed as dist
 import torch.optim
+import torch.nn.functional as functional
 import torchvision.utils as vutils
 from torch.utils.data import DataLoader
 from data.CRN_dataset import CRNShapeNet
@@ -126,6 +127,49 @@ class Trainer(object):
 
     # Function for multiclass is adapted from the function for diversity.
     def train_multiclass(self):
+    
+        # If multiclass with conditional GAN is used, create the one hot encoded
+        # generator and discriminator class labels.
+        if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
+        
+            # Create a list of class IDs containing only a single value for completing the input shapes
+            # according to a specific class. Number of elements in the list should match the batch size.
+            class_id_list = []
+            
+            # Only the first element of the list is taken as the target class to complete the shapes as.
+            for count in range(1):
+                class_id_list.append(self.classes_chosen[0])
+            print('Batch of class IDs for testing:', class_id_list)
+            
+            # Convert the random class ID list into a tensor and place it on the GPU.
+            class_id_list = torch.LongTensor(class_id_list)
+            #class_id_list = class_id_list.to(self.args.device)
+        
+            one_hot_all_classes = functional.one_hot(class_id_list, num_classes = 8)
+            #print('One hot encoded classes:', one_hot_all_classes)
+            #print('One hot encoded classes shape:', one_hot_all_classes.shape)
+            
+            # Convert the tensor data type to 'long' and move it to the GPU.
+            discriminator_class_labels = torch.LongTensor(one_hot_all_classes)
+            discriminator_class_labels = discriminator_class_labels.to(self.args.device)
+            
+            # Resultant discriminator class labels shape should be: <batch size, <number of classes>.
+            #print('Shape of discriminator class labels:', discriminator_class_labels.shape)
+            #print('One hot encoded discriminator class labels:', discriminator_class_labels)
+            
+            generator_class_labels = torch.LongTensor(one_hot_all_classes)
+            generator_class_labels = generator_class_labels.to(self.args.device)
+            generator_class_labels = torch.unsqueeze(generator_class_labels, 1)
+            
+            # Resultant generator class labels shape should be: <batch size, 1, <number of classes>.
+            #print('Shape of generator class labels:', generator_class_labels.shape)
+            
+            # Resultant discriminator class labels shape should be: <batch size, <number of classes>.
+            #print('Shape of discriminator class labels:', discriminator_class_labels.shape)
+            #print('One hot encoded discriminator class labels:', discriminator_class_labels)
+        else:
+            generator_class_labels = None
+            discriminator_class_labels = None
 
         # For each input shape.
         for i, data in enumerate(self.dataloader):
@@ -153,7 +197,7 @@ class Trainer(object):
             self.model.set_target(ground_truth = ground_truth, partial = partial)
 
             # Search for initial value of latent space 'z', passing the class ID to be concatenated to it.
-            self.model.diversity_search()
+            self.model.diversity_search(generator_class_labels)
 
             # Perform fine tuning using input partial shape only.
             # Append input partial shape to a list of point clouds for that respective shape.
@@ -180,7 +224,7 @@ class Trainer(object):
                 # Pass only a single class ID for multiclass shape completion to complete the
                 # selected input shapes according to a single class.
                 # If multiple classes are specified, only the first class is used.
-                self.model.run(ith = ith, single_class_id = classes_chosen[0])
+                self.model.run(ith = ith, generator_class_labels = generator_class_labels)
 
                 # Append generated shape to the list of completed shapes.
                 self.model.xs.append(self.model.x)
