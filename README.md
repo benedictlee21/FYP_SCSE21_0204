@@ -1,11 +1,166 @@
 # ShapeInversion
 
-## Modified Version of Code (Please see description below.)
+## Modified Version of Code for Multiclass ShapeInversion
 Nanyang Technological University Final Year Project: SCSE21-0204.
-Title (Tentative): Multiclass Integration into ShapeInversion Multimodal Framework.
-Student: Lee Wei Zheng Benedict
+Title: Experimental Investigation of Multiclass 3D Point Cloud Completion.
+Project Duration: August 2021 - April 2022
+Student: Lee Wei Zheng Benedict, contact: benedictlee21@gmail.com
 Supervisor: Associate Professor Chen Change Loy
 Co-supervisor: Mr. Zhang Junzhe
+
+## Example Multiclass Models and Completed Shapes.
+Multiclass models pretrained using 8 different pairs of classes, and the shapes completed using them, can be accessed through the following link:
+
+## Multiclass Using Conditional GAN
+
+### Training of Multiclass Model
+Specify 2 classes to train the multiclass model on. More than 2 classes can be selected but this may lead to instability or failure of the GAN to converge.
+Do note that the training time increases proportionally to the number of classes chosen and the number of samples per class used.
+Batch size may be adjusted to suit the memory or computational capabilities of the GPU being used.
+```
+python pretrain_treegan.py \
+--split train \
+--class_choice multiclass \
+--FPD_path <path to FPD statistics file for class pair A and B> \
+--ckpt_path <path to pretrained multiclass model> \
+--dataset_path <path to dataset> \
+--class_range <class A>,<class B> \
+--knn_loss True \
+--conditional_gan True \
+--epochs 1000 \
+--batch_size 4 \
+--samples_per_class 1000 \
+--eval_every_n_epoch 100 \
+--save_every_n_epoch 100
+```
+
+### Evaluation of Multiclass Model
+Specify the same classes that were used to train the particular multiclass model. No ground truths are used.
+First generate the pre-statistics file for each set of classes used before evaluating the multiclass model using those same classes.
+```
+python eval_treegan.py \
+--split train \
+--eval_treegan_mode generate_fpd_stats \
+--class_choice multiclass \
+--save_sample_path <path to save samples to> \
+--model_pathname <path to pretrained multiclass model> \
+--dataset_path <path to dataset> \
+--class_range <class A>,<class B>
+```
+
+Next compute the FPD metric for the multiclass model.
+```
+python eval_treegan.py \
+--eval_treegan_mode FPD \
+--class_choice multiclass \
+--conditional_gan True \
+--FPD_path <path to FPD statistics file for class pair A and B> \
+--save_sample_path <path to save samples to> \
+--model_pathname <path to pretrained multiclass model> \
+--dataset_path <path to dataset> \
+--class_range <class A>,<class B>
+```
+
+### Testing of Multiclass Model
+Specify only one of the classes that was used to train the multiclass model.
+(I.e. If classes 'A' and 'B' were used to train the multiclass model, specify either class 'A' or 'B' for shape completion, but not both.)
+```
+python trainer.py \
+--dataset CRN \
+--class_choice multiclass \
+--inversion_mode multiclass \
+--conditional_gan True \
+--visualize \
+--mask_type k_mask \
+--save_inversion_path <path to save completed shapes> \
+--ckpt_load <path to pretrained multiclass model> \
+--dataset_path <path to dataset> \
+--class_range <class A>,<class B>
+```
+
+### Evaluation of Completed Shapes
+Evaluation of shapes completed using the multiclass models according to their specified classes is carried out in the same way as that of single class.
+```
+python eval_completion.py \
+--eval_with_GT False \
+--saved_results_path <path to saved results>
+```
+
+## Multiclass Without Conditional GAN (Not Recommended)
+Multiclass without using a conditional GAN is not recommended as the completed shapes are usually fixed to a single class outcome as inferred by the model, even when there are multiple possible class outcomes.
+
+### Training of Multiclass Model
+Specify 2 classes to train the multiclass model on. More than 2 classes can be selected but this may lead to instability or failure of the GAN to converge.
+Do note that the training time increases proportionally to the number of classes chosen and the number of samples per class used.
+Batch size may be adjusted to suit the memory or computational capabilities of the GPU being used.
+```
+python pretrain_treegan.py \
+--split train \
+--class_choice multiclass \
+--FPD_path <path to FPD statistics file for class pair A and B> \
+--ckpt_path <path to pretrained multiclass model> \
+--dataset_path <path to dataset> \
+--class_range <class A>,<class B> \
+--knn_loss True \
+--conditional_gan True \
+--epochs 1000 \
+--batch_size 4 \
+--samples_per_class 1000 \
+--eval_every_n_epoch 100 \
+--save_every_n_epoch 100
+```
+
+### Evaluation of Multiclass Model
+Specify the same classes that were used to train the particular multiclass model. No ground truths are used.
+First generate the pre-statistics file for each set of classes used before evaluating the multiclass model using those same classes.
+```
+python eval_treegan.py \
+--split train \
+--eval_treegan_mode generate_fpd_stats \
+--class_choice multiclass \
+--save_sample_path <path to save samples to> \
+--model_pathname <path to pretrained multiclass model> \
+--dataset_path <path to dataset> \
+--class_range <class A>,<class B>
+```
+
+Next compute the FPD metric for the multiclass model.
+```
+python eval_treegan.py \
+--eval_treegan_mode FPD \
+--class_choice multiclass \
+--conditional_gan False \
+--FPD_path <path to FPD statistics file for class pair A and B> \
+--save_sample_path <path to save samples to> \
+--model_pathname <path to pretrained multiclass model> \
+--dataset_path <path to dataset> \
+--class_range <class A>,<class B>
+```
+
+### Testing of Multiclass Model
+Specify only one of the classes that was used to train the multiclass model.
+(I.e. If classes 'A' and 'B' were used to train the multiclass model, specify either class 'A' or 'B' for shape completion, but not both.)
+```
+python trainer.py \
+--dataset CRN \
+--class_choice multiclass \
+--inversion_mode multiclass \
+--conditional_gan True \
+--visualize \
+--mask_type k_mask \
+--save_inversion_path <path to save completed shapes> \
+--ckpt_load <path to pretrained multiclass model> \
+--dataset_path <path to dataset> \
+--class_range <class A>,<class B>
+```
+
+### Evaluation of Completed Shapes
+Evaluation of shapes completed using the multiclass models according to their specified classes is carried out in the same way as that of single class.
+```
+python eval_completion.py \
+--eval_with_GT False \
+--saved_results_path <path to saved results>
+```
 
 ## Paper
 Junzhe Zhang, Xinyi Chen, Zhongang Cai, Liang Pan, Haiyu Zhao, Shuai Yi, Chai Kiat Yeo, Bo Dai, Chen Change Loy "Unsupervised 3D Shape Completion through GAN Inversion" CVPR 2021
