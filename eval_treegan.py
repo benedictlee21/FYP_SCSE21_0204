@@ -271,6 +271,6 @@ if __name__ == '__main__':
     
         # Generation of FPD statistics file when running multiclass operation already makes use of multiclass
         # intergration implemented in 'CRN_dataset.py', hence no need to provide argument for classes chosen here.
-        script_create_fpd_stats(args, total_number_classes)
+        script_create_fpd_stats(args, total_number_classes, classes_chosen)
     else:   
         test(args, mode = args.eval_treegan_mode, total_number_classes = total_number_classes, classes_chosen = classes_chosen)

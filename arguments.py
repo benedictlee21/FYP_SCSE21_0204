@@ -15,7 +15,7 @@ class Arguments:
         # pretrain_treegan.py   (Train the treeGAN using training dataset.)
         # trainer.py            (Test the treeGAN using test dataset.)
         
-        print('\n\nBEGIN EXECUTION\n')
+        print('\nBEGIN EXECUTION\n')
 
         if stage == 'eval_completion':
             print('Evaluation of results.')

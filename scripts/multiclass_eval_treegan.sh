@@ -6,7 +6,7 @@ python eval_treegan.py \
 --eval_treegan_mode generate_fpd_stats \
 --class_choice multiclass \
 --save_sample_path ./saved_results/eval_treegan/ \
---model_pathname ./multiclass_pretrained_models/multiclass_chair_table_1000_epochs.pt \
+--model_pathname ./multiclass_pretrained_models/multiclass_chair_table_500_epochs.pt \
 --dataset_path ./input_shapes/shapenet_crn_dataset/ \
 --class_range chair,table
 
@@ -17,6 +17,6 @@ python eval_treegan.py \
 --conditional_gan True \
 --FPD_path ./evaluation/pre_statistics_CRN_multiclass_chair_table.npz \
 --save_sample_path ./saved_results/eval_treegan/ \
---model_pathname ./multiclass_pretrained_models/multiclass_chair_table_1000_epochs.pt \
+--model_pathname ./multiclass_pretrained_models/multiclass_chair_table_500_epochs.pt \
 --dataset_path ./input_shapes/shapenet_crn_dataset/ \
 --class_range chair,table

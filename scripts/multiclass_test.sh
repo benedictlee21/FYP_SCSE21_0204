@@ -6,6 +6,6 @@ python trainer.py \
 --visualize \
 --mask_type k_mask \
 --save_inversion_path ./saved_results/CRN_multiclass/ \
---ckpt_load ./multiclass_pretrained_models/multiclass_chair_table_1000_epochs.pt \
+--ckpt_load ./multiclass_pretrained_models_cgan/cgan_multiclass_chair_table_500_epochs.pt \
 --dataset_path ./input_shapes/shapenet_crn_dataset/ \
---class_range chair,table
+--class_range chair

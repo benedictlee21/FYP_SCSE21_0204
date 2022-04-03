@@ -17,6 +17,8 @@ class CRNShapeNet(data.Dataset):
         self.classes_chosen = classes_chosen
         self.dataset_path = self.args.dataset_path
         
+        #print('CRN_dataset.py: __init__ - classes chosen by dataset index:', self.classes_chosen)
+        
         # Value of string 'split' determines which '.h5' dataset file is used, either training or test.
         self.split = self.args.split
         pathname = os.path.join(self.dataset_path, f'{self.split}_data.h5')
@@ -25,6 +27,9 @@ class CRNShapeNet(data.Dataset):
         self.gt = data['complete_pcds'][()]
         self.partial = data['incomplete_pcds'][()]
         self.labels = data['labels'][()]
+        
+        category_ordered_list = ['plane','cabinet','car','chair','lamp','couch','table','watercraft']
+        #print('Category ordered list:', category_ordered_list)
 
         # Import shapes from input dataset for multiclass.
         # 'self.classes_chosen' is a list of class indexes for multiclass created in 'encode_classes.py'
@@ -43,7 +48,7 @@ class CRNShapeNet(data.Dataset):
                 self.one_class_index = np.array([shape for (shape, class_index) in enumerate(self.labels) if class_index == category_index])
                 
                 # View the indexes and shapes for each individual class used in multiclass.
-                print('Category index:', category_index, ', Shape indexes:', self.one_class_index)
+                #print('Category index:', category_index, ', Shape indexes:', self.one_class_index)
                 
                 # Add the class index as key, and numpy array of shape indexes as values to the dictionary.
                 self.classes_dictionary[category_index] = self.one_class_index

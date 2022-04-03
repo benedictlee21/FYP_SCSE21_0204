@@ -29,7 +29,7 @@ class Discriminator(nn.Module):
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
             features[-1] += total_num_classes
-            print('Discriminator features[-1]:', features[-1])
+            #print('Discriminator features[-1]:', features[-1])
 # --------------------------------------------------------
         
         # Define the final layer of the discriminator network.
@@ -87,7 +87,7 @@ class Generator(nn.Module):
         # Add the required number of dimensions to the input layer of the network for multiclass.
         if self.args.class_choice == 'multiclass' and self.args.conditional_gan:
             features[0] += total_num_classes
-            print('Generator features[0]:', features[0])
+            #print('Generator features[0]:', features[0])
 # --------------------------------------------------------
 
         # Define each layer of the generator network.

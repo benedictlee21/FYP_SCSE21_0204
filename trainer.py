@@ -31,7 +31,7 @@ class Trainer(object):
         
             # Convert the one hot encoding list into an array, representing the classes.
             self.classes_chosen = encode_classes(args.class_range)
-            print('trainer.py: __init__ index of multiclass classes chosen:', self.classes_chosen)
+            print('Index of multiclass class chosen for testing:', self.classes_chosen)
             
         # Otherwise if only using a single class.
         else:
@@ -139,7 +139,6 @@ class Trainer(object):
             # Only the first element of the list is taken as the target class to complete the shapes as.
             for count in range(1):
                 class_id_list.append(self.classes_chosen[0])
-            print('Batch of class IDs for testing:', class_id_list)
             
             # Convert the random class ID list into a tensor and place it on the GPU.
             class_id_list = torch.LongTensor(class_id_list)

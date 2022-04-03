@@ -19,13 +19,8 @@ class ShapeInversion(object):
 
     def __init__(self, args, classes_chosen):
         self.args = args
-        print('shape_inversion.py: __init__ - device used:', self.args.device)
-        
+        #print('shape_inversion.py: __init__ - device used:', self.args.device)
         self.classes_chosen = classes_chosen
-        
-        # Check if it is operating in single or multiclass mode based on the class range selected.
-        if classes_chosen is not None:
-            print('shape_inversion.py: __init__ classes chosen:', self.classes_chosen)
             
         # State the total number of possible classes that can be used for multiclass.
         self.total_num_classes = 8
