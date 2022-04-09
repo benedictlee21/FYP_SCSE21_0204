@@ -62,9 +62,6 @@ def compute_uhd(partial_ls, output_ls):
 def eval_completion_without_gt(input_dir):
     # Retrive the partial and completed shapes from their directory.
     pathnames = glob.glob(input_dir + '*')
-    
-    # Get the class name for the shapes being evaluated.
-    class_name = os.path.basename(input_dir)
 
     # Lists to store the partial and completed shapes.
     input_partials = []
@@ -100,8 +97,8 @@ def eval_completion_without_gt(input_dir):
     uhd = compute_uhd(ours_input, ours_output)
     
     print('Current directory:', input_dir)
-    print('Class:', class_name, ', UCD: ', cd)
-    print('Class:', class_name, ', UHD: ', uhd)
+    print('UCD: ', cd)
+    print('UHD: ', uhd)
 
 ### FUNCTION IMMEDIATELY BELOW FOR MULTIMODAL SHAPE COMPLETION RESULTS ONLY
 """

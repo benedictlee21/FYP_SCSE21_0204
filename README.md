@@ -1,23 +1,33 @@
 # ShapeInversion
 
+## Credits for Original ShapeInversion Paper
+Junzhe Zhang, Xinyi Chen, Zhongang Cai, Liang Pan, Haiyu Zhao, Shuai Yi, Chai Kiat Yeo, Bo Dai, Chen Change Loy "Unsupervised 3D Shape Completion through GAN Inversion" CVPR 2021
+* Project page: [link](https://junzhezhang.github.io/projects/ShapeInversion/)
+* Paper: [link](https://arxiv.org/abs/2104.13366)
+
 ## Modified Version of Code for Multiclass ShapeInversion
-Nanyang Technological University Final Year Project: SCSE21-0204.
+Nanyang Technological University Final Year Project: FYP-SCSE21-0204.
 Title: Experimental Investigation of Multiclass 3D Point Cloud Completion.
 Project Duration: August 2021 - April 2022
-Student: Lee Wei Zheng Benedict, contact: benedictlee21@gmail.com
+Student: Lee Wei Zheng Benedict, email: benedictlee21@gmail.com
 Supervisor: Associate Professor Chen Change Loy
 Co-supervisor: Mr. Zhang Junzhe
 
-## Example Multiclass Models and Completed Shapes.
-Multiclass models pretrained using 8 different pairs of classes, and the shapes completed using them, can be accessed through the following link:
+#### Example Multiclass Models and Completed Shapes
+The link: can be used to access:
+1. The CRN datasets required for ShapeInversion.
+2. 8 samples of multiclass models using a conditional GAN, pretrained using 8 different pairs of classes.
+3. 8 samples of multiclass models without using a conditional GAN, pretrained using 8 different pairs of classes.
+4. 8 samples of baseline pre-statistics files of for evaluating the 8 pairs of multiclass models.
+5. Samples of multiclass shapes completed using those multiclass models (with and without conditional GAN).
 
-Iteration 1 directory contains the completed classes for the multiclass model pairs:
+**'Iteration 1'** zip files for both CGAN and no CGAN results contain the follwoing class pairs:
 1. chair + table
 2. couch + cabinet
 3. lamp + car
 4. plane + watercraft
 
-Iteration 2 directory contains the completed classes for the multiclass model pairs:
+**'Iteration 2'** zip files for both CGAN and no CGAN results contain the follwoing class pairs:
 1. table + couch
 2. lamp + cabinet
 3. chair + watercraft
@@ -25,10 +35,11 @@ Iteration 2 directory contains the completed classes for the multiclass model pa
 
 ## Multiclass Using Conditional GAN
 
-### Training of Multiclass Model
-Specify 2 classes to train the multiclass model on. More than 2 classes can be selected but this may lead to instability or failure of the GAN to converge.
+#### Training of Multiclass Model
+**Specify at least 2 classes to train the multiclass model on.**
+More than 2 classes can be selected but this may lead to instability or failure of the GAN to converge.
 Do note that the training time increases proportionally to the number of classes chosen and the number of samples per class used.
-Batch size may be adjusted to suit the memory or computational capabilities of the GPU being used.
+Batch size may be adjusted to suit the memory capabilities of the GPU being used.
 ```
 python pretrain_treegan.py \
 --split train \
@@ -46,8 +57,9 @@ python pretrain_treegan.py \
 --save_every_n_epoch 100
 ```
 
-### Evaluation of Multiclass Model
-Specify the same classes that were used to train the particular multiclass model. No ground truths are used.
+#### Evaluation of Multiclass Model
+**Specify the same classes that were used to train the particular multiclass model.**
+No ground truths are used.
 First generate the pre-statistics file for each set of classes used before evaluating the multiclass model using those same classes.
 ```
 python eval_treegan.py \
@@ -73,8 +85,8 @@ python eval_treegan.py \
 --class_range <class A>,<class B>
 ```
 
-### Testing of Multiclass Model
-Specify only one of the classes that was used to train the multiclass model.
+#### Testing of Multiclass Model
+**Specify only one of the classes that was used to train the multiclass model.**
 (I.e. If classes 'A' and 'B' were used to train the multiclass model, specify either class 'A' or 'B' for shape completion, but not both.)
 ```
 python trainer.py \
@@ -90,19 +102,19 @@ python trainer.py \
 --class_range <class A>,<class B>
 ```
 
-### Evaluation of Completed Shapes
-Evaluation of shapes completed using the multiclass models according to their specified classes is carried out in the same way as that of single class.
+#### Evaluation of Completed Shapes
+Evaluation of shapes completed using the multiclass models according to their specified classes is carried out in the same way as that of single class, but they do not use the ground truths.
 ```
-python eval_completion.py \
---eval_with_GT False \
+python eval_multiclass_completion.py \
 --saved_results_path <path to saved results>
 ```
 
 ## Multiclass Without Conditional GAN (Not Recommended)
 Multiclass without using a conditional GAN is not recommended as the completed shapes are usually fixed to a single class outcome as inferred by the model, even when there are multiple possible class outcomes.
 
-### Training of Multiclass Model
-Specify 2 classes to train the multiclass model on. More than 2 classes can be selected but this may lead to instability or failure of the GAN to converge.
+#### Training of Multiclass Model
+**Specify 2 at least classes to train the multiclass model on.**
+More than 2 classes can be selected but this may lead to instability or failure of the GAN to converge.
 Do note that the training time increases proportionally to the number of classes chosen and the number of samples per class used.
 Batch size may be adjusted to suit the memory or computational capabilities of the GPU being used.
 ```
@@ -122,8 +134,9 @@ python pretrain_treegan.py \
 --save_every_n_epoch 100
 ```
 
-### Evaluation of Multiclass Model
-Specify the same classes that were used to train the particular multiclass model. No ground truths are used.
+#### Evaluation of Multiclass Model
+**Specify the same classes that were used to train the particular multiclass model.**
+No ground truths are used.
 First generate the pre-statistics file for each set of classes used before evaluating the multiclass model using those same classes.
 ```
 python eval_treegan.py \
@@ -149,8 +162,8 @@ python eval_treegan.py \
 --class_range <class A>,<class B>
 ```
 
-### Testing of Multiclass Model
-Specify only one of the classes that was used to train the multiclass model.
+#### Testing of Multiclass Model
+**Specify only one of the classes that was used to train the multiclass model.**
 (I.e. If classes 'A' and 'B' were used to train the multiclass model, specify either class 'A' or 'B' for shape completion, but not both.)
 ```
 python trainer.py \
@@ -166,15 +179,14 @@ python trainer.py \
 --class_range <class A>,<class B>
 ```
 
-### Evaluation of Completed Shapes
-Evaluation of shapes completed using the multiclass models according to their specified classes is carried out in the same way as that of single class.
+#### Evaluation of Completed Shapes
+Evaluation of shapes completed using the multiclass models according to their specified classes is carried out in the same way as that of single class, but they do not use the ground truths.
 ```
-python eval_completion.py \
---eval_with_GT False \
+python eval_multiclass_completion.py \
 --saved_results_path <path to saved results>
 ```
 
-## Paper
+## Credits for Original ShapeInversion Paper
 Junzhe Zhang, Xinyi Chen, Zhongang Cai, Liang Pan, Haiyu Zhao, Shuai Yi, Chai Kiat Yeo, Bo Dai, Chen Change Loy "Unsupervised 3D Shape Completion through GAN Inversion" CVPR 2021
 * Project page: [link](https://junzhezhang.github.io/projects/ShapeInversion/)
 * Paper: [link](https://arxiv.org/abs/2104.13366)
