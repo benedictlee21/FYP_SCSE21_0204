@@ -7,6 +7,7 @@ from metrics import *
 from loss import *
 import h5py
 from utils.common_utils import *
+from arguments import Arguments
 
 def compute_ucd(partial_ls, output_ls):
     """ 
@@ -60,7 +61,7 @@ def compute_uhd(partial_ls, output_ls):
 
 def eval_completion_without_gt(input_dir):
     # Retrive the partial and completed shapes from their directory.
-    pathnames = glob.glob(input_dir + "/*")
+    pathnames = glob.glob(input_dir + '*')
     
     # Get the class name for the shapes being evaluated.
     class_name = os.path.basename(input_dir)
@@ -149,7 +150,12 @@ def eval_completion_without_gt(input_dir):
     #print('UHD: ', uhd)
 """
 
+# This file can run as a standalone program.
 if __name__ == '__main__':
 
-    input_dir = sys.argv[1]
+    # Read in the required arguments.
+    args = Arguments(stage='eval_completion').parser().parse_args()
+    input_dir = args.saved_results_path
+    
+    # No ground truth is used for multiclass evaluations.
     eval_completion_without_gt(input_dir)

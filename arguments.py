@@ -8,17 +8,9 @@ from utils.common_utils import *
 class Arguments:
     def __init__(self, stage='pretrain'):
         self._parser = argparse.ArgumentParser(description='Arguments for pretain|inversion|eval_treegan|eval_completion.')
-        
-        # Executable files:
-        # eval_completion.py    (Evaluate completed shapes.)
-        # eval_treegan.py       (Evaluate treeGAN network.)
-        # pretrain_treegan.py   (Train the treeGAN using training dataset.)
-        # trainer.py            (Test the treeGAN using test dataset.)
-        
-        print('\nBEGIN EXECUTION\n')
 
         if stage == 'eval_completion':
-            print('Evaluation of results.')
+            print('Evaluation of completed shapes.')
             self.add_eval_completion_args()
         else:
             self.add_common_args()

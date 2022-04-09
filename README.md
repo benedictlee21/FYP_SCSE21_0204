@@ -11,6 +11,18 @@ Co-supervisor: Mr. Zhang Junzhe
 ## Example Multiclass Models and Completed Shapes.
 Multiclass models pretrained using 8 different pairs of classes, and the shapes completed using them, can be accessed through the following link:
 
+Iteration 1 directory contains the completed classes for the multiclass model pairs:
+1. chair + table
+2. couch + cabinet
+3. lamp + car
+4. plane + watercraft
+
+Iteration 2 directory contains the completed classes for the multiclass model pairs:
+1. table + couch
+2. lamp + cabinet
+3. chair + watercraft
+4. car + plane
+
 ## Multiclass Using Conditional GAN
 
 ### Training of Multiclass Model

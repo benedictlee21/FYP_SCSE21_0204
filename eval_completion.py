@@ -115,8 +115,8 @@ def compute_uhd(partial_ls, output_ls):
 
 def retrieve_ours_pcs(input_dir, with_input=True, with_gt=True):
     pathnames = sorted(glob.glob(input_dir+"/*"))
-    
     ids = set()
+    
     for pathname in pathnames:
         stem, ext = os.path.splitext(os.path.basename(pathname))
         stem_id = stem.split('_')[0]
@@ -125,18 +125,19 @@ def retrieve_ours_pcs(input_dir, with_input=True, with_gt=True):
     ours_output_ls = []
     ours_gt_ls = []
     ours_target_ls = []
+    
     for idx in index_ls:
-        output_pathname = os.path.join(input_dir, str(idx)+'_x.txt')
+        output_pathname = os.path.join(input_dir, str(idx)+'_X_Partial_Shape.txt')
         np_output = np.loadtxt(output_pathname,delimiter=';').astype(np.float32) 
         ours_output_ls.append(torch.from_numpy(np_output))
         
         if with_gt: 
-            gt_pathname = os.path.join(input_dir, str(idx)+'_gt.txt')
+            gt_pathname = os.path.join(input_dir, str(idx)+'_Ground_Truth.txt')
             np_gt = np.loadtxt(gt_pathname,delimiter=';').astype(np.float32) 
             ours_gt_ls.append(torch.from_numpy(np_gt))
         
         if with_input:
-            target_pathname = os.path.join(input_dir, str(idx)+'_target.txt')
+            target_pathname = os.path.join(input_dir, str(idx)+'_Completed_Shape.txt')
             np_target = np.loadtxt(target_pathname,delimiter=';').astype(np.float32) 
             ours_target_ls.append(torch.from_numpy(np_target))
     ours_output = torch.stack(ours_output_ls).cuda()
@@ -151,28 +152,35 @@ def retrieve_ours_pcs(input_dir, with_input=True, with_gt=True):
     else:
         ours_input = None
     return ours_gt, ours_output, ours_input
- 
+
+# Evaluate completed shapes with reference to the ground truth.
 def eval_completion_with_gt(input_dir, cd_verbose=False):
     
     ours_gt, ours_output, _ = retrieve_ours_pcs(input_dir)
     cd_ls, acc_ls, comp_ls, f1_ls = compute_4_metrics(ours_gt, ours_output)
+    
     if cd_verbose:
         dist1, dist2 , _, _ = distChamfer(ours_gt, ours_output)
         cd_loss = dist1.mean() + dist2.mean()
+        
         if cd_verbose:
             cd_pcds = dist1.mean(1)+ dist2.mean(1)
             cd_pcds*=10000
+            
             for i in range(150):
                 print(i,int(cd_pcds[i].item()))
+                
     print('cd.mean:',np.mean(cd_ls)) 
     print('acc :',np.mean(acc_ls))
     print('comp:',np.mean(comp_ls))
     print('f1  :',np.mean(f1_ls))
-
+    
+# Evaluate completed shapes without reference to the ground truth.
 def eval_completion_without_gt(input_dir):
     ### retrieve _x and target
     pathnames = glob.glob(input_dir+"/*")
     ids = set()
+    
     for pathname in pathnames:
         stem, ext = os.path.splitext(os.path.basename(pathname))
         stem_id = stem.split('_')[0]
@@ -180,18 +188,21 @@ def eval_completion_without_gt(input_dir):
     index_ls = sorted(list(ids))
     ours_output_ls = []
     ours_target_ls = []
+    
     for idx in index_ls:
-        gt_pathname = os.path.join(input_dir, str(idx)+'_target.txt')
-        output_pathname = os.path.join(input_dir, str(idx)+'_x.txt')
+        gt_pathname = os.path.join(input_dir, str(idx)+'_Completed_Shape.txt')
+        output_pathname = os.path.join(input_dir, str(idx)+'_X_Partial_Shape.txt')
         np_gt = np.loadtxt(gt_pathname,delimiter=';').astype(np.float32) 
         np_output = np.loadtxt(output_pathname,delimiter=';').astype(np.float32) 
         ours_target_ls.append(torch.from_numpy(np_gt))
         ours_output_ls.append(torch.from_numpy(np_output))
+        
     cd, cd_ls = compute_ucd(ours_target_ls, ours_output_ls)
     uhd = compute_uhd(ours_target_ls, ours_output_ls)
     print('ucd:',cd)
     print('uhd:',uhd)
 
+# This file can run as a standalone program.
 if __name__ == '__main__':
 
     args = Arguments(stage='eval_completion').parser().parse_args()
