@@ -340,16 +340,14 @@ class TreeGAN():
         # Call 'close()' once the summarywriter is no longer needed.
         self.shapeinversion_writer.close()
 
+# This file can run as a standalone program.
 if __name__ == '__main__':
 
     args = Arguments(stage='pretrain').parser().parse_args()
     args.device = torch.device('cuda:'+str(args.gpu) if torch.cuda.is_available() else 'cpu')
     torch.cuda.set_device(args.device)
 
-    if not osp.isdir('./pretrained_checkpoints'):
-        os.mkdir('./pretrained_checkpoints')
-        print('pretrain_checkpoints parent directory created.')
-
+    # Create the checkpoint path if it does not exist.
     if not osp.isdir(args.ckpt_path):
         os.mkdir(args.ckpt_path)
 

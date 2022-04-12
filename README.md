@@ -14,7 +14,7 @@ Supervisor: Associate Professor Chen Change Loy
 Co-supervisor: Mr. Zhang Junzhe
 
 #### Example Multiclass Models and Completed Shapes
-The link: can be used to access:
+The link: https://1drv.ms/u/s!ArtutqAbB5xljbBk3vf7u-SeKcGWCg?e=G1xJfS can be used to access: 
 1. The CRN datasets required for ShapeInversion.
 2. 8 samples of multiclass models using a conditional GAN, pretrained using 8 different pairs of classes.
 3. 8 samples of multiclass models without using a conditional GAN, pretrained using 8 different pairs of classes.

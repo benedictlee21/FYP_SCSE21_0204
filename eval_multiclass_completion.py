@@ -100,53 +100,6 @@ def eval_completion_without_gt(input_dir):
     print('UCD: ', cd)
     print('UHD: ', uhd)
 
-### FUNCTION IMMEDIATELY BELOW FOR MULTIMODAL SHAPE COMPLETION RESULTS ONLY
-"""
-def eval_completion_without_gt(input_dir):
-    ### retrieve raw and fake text files
-    pathnames = glob.glob(input_dir + '/*')
-
-    input_partials = []
-    output_shapes = []
-    input_count = 0
-    output_count = 0
-
-    for subpath in pathnames:
-        subdirectory = os.path.basename(subpath)
-        one_shape = glob.glob(input_dir + subdirectory + '/*')
-
-        for filepath in one_shape:
-            if 'raw.txt' in filepath:
-                input_partials.append(filepath)
-                input_count += 1
-
-            elif 'fake' in filepath and '.txt' in filepath:
-                output_shapes.append(filepath)
-                output_count += 1
-
-    #print('Input partials: ', input_count)
-    #print('Output shapes: ', output_count)
-
-    sorted_inputs = sorted(input_partials)
-    sorted_outputs = sorted(output_shapes)
-    ours_input = []
-    ours_output = []
-
-    for i in sorted_inputs:
-        input_numpy = np.loadtxt(i, delimiter = ';').astype(np.float32)
-        ours_input.append(input_numpy)
-
-    for j in sorted_outputs:
-        output_numpy = np.loadtxt(j, delimiter = ';').astype(np.float32)
-        ours_output.append(output_numpy)
-
-    cd, cd_ls = compute_ucd(ours_input, ours_output)
-    #uhd = compute_uhd(ours_input, ours_output)
-    print(input_dir)
-    print('UCD: ', cd)
-    #print('UHD: ', uhd)
-"""
-
 # This file can run as a standalone program.
 if __name__ == '__main__':
 
